@@ -63,6 +63,7 @@ class Graph {
         void addEdge(int idFrom, Node* node);
         // void addEdge(int idFrom, int idTo); // Δεν μπορούμε να το φτιάξουμε αυτό διότι έτσι όπως το έχουμε, το node περιέχει ένα list από nodes για edges και όχι ids.
         void removeEdge(int idFrom, int idTo);
+        void printEdges();
 };
 
 #endif

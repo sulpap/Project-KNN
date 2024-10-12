@@ -59,12 +59,15 @@ void Node::setSpecificCoordinate(int dimension, double value) {
 }
 
 void Node::deleteEdge(int id) {
-    for (Node* edge: this->edges) {
-        if (edge->getId() == id) {
-            this->edges.remove(edge);
+    for (auto it = this->edges.begin(); it != this->edges.end(); ) {
+        if ((*it)->getId() == id) {
+            it = this->edges.erase(it); // erase returns the next iterator
+        } else {
+            ++it;
         }
     }
 }
+
 
 
 
@@ -107,6 +110,37 @@ void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
 }
 
+// void Graph::removeEdge(int idFrom, int idTo) {
+//     this->adjList[idFrom]->deleteEdge(idTo);
+// }
+
 void Graph::removeEdge(int idFrom, int idTo) {
-    this->adjList[idFrom]->deleteEdge(idTo);
+    // check if it exists
+    Node* fromNode = getNode(idFrom);
+    Node* toNode = getNode(idTo);
+    if (!fromNode) {
+        cout << "from node doesn't exist." << endl;
+    } else if(!toNode) {
+        cout << "destination node doesn't exist." << endl;
+    } else {
+        fromNode->deleteEdge(idTo);
+    }
+}
+
+void Graph::printEdges() {
+    cout << "Nodes & edges:" << endl;
+
+    for (const auto& nodePair : this->adjList) {
+        Node* node = nodePair.second;
+        cout << "Node " << node->getId() << " has edges directed to: ";
+
+        if (node->getEdges().empty()) {
+            cout << "-";
+        } else {
+            for (Node* edge : node->getEdges()) {
+                cout << edge->getId() << " ";
+            }
+        }
+        cout << endl;
+    }
 }
