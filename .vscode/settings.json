@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "vector": "cpp",
-        "optional": "cpp"
+        "optional": "cpp",
+        "list": "cpp",
+        "set": "cpp"
     }
 }
