@@ -34,7 +34,7 @@ class Graph {
     public:
         void insert(Point a) {
             adj_list.insert(a.get_id(), a);
-            adj_list[a.get_id()]
+            adj_list[a.get_id()];
         }
 
 };
