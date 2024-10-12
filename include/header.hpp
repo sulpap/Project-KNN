@@ -9,34 +9,60 @@
 
 using namespace std;
 
-class Point {
+class Node {
     private:
         int id;
-        vector<double> syntetagmenes;
-        list<Point> edges;
+        vector<double> coordinates;
+        list<Node*> edges;
 
     public:
-        Point(int id, vector<double> syntetagmenes, list<Point> edges) {
-            this->id = id;
-            this->syntetagmenes = syntetagmenes;
-            this->edges = edges;
-        } // constructor
+        // Constructor
+        Node(int id, vector<double> coordinates, list<Node*> edges);
 
-        int get_id() {
-            return id;
-        }
+        // Getters
+        int getId();
+        vector<double> getCoordinates();
+        list<Node*> getEdges();
+
+        // Setters
+        void setId(int id);
+        void setCoordinates(vector<double> coordinates);
+        void setEdges(list<Node*>);
+
+        // Extra Functions
+        void addEdge(Node* to);
+        void addCoordinate(vector<double> coordinates);
+
+        bool edgeExists(int id); // Checks if node has an outgoing edge to the node with that id
+
+        double getSpecificCoordinate(int dimension);
+        void setSpecificCoordinate(int dimension, double value);
+
+        void deleteEdge(int id);
 };
 
 class Graph {
     private:
-        map<int, Point> adj_list;
+        map<int, Node*> adjList;
 
     public:
-        void insert(Point a) {
-            adj_list.insert(a.get_id(), a);
-            adj_list[a.get_id()];
-        }
+        Graph();
+        Graph(map<int, Node*> adj_list);
 
+        // Getters
+        map<int, Node*> getAdjList();
+
+        // Setters
+        void setAdjList(map<int, Node*> adjList);
+
+        // Extra Functions
+        void addNode(Node* node);
+        Node* getNode(int id);
+        void deleteNode(int id);
+
+        void addEdge(int idFrom, Node* node);
+        // void addEdge(int idFrom, int idTo); // Δεν μπορούμε να το φτιάξουμε αυτό διότι έτσι όπως το έχουμε, το node περιέχει ένα list από nodes για edges και όχι ids.
+        void removeEdge(int idFrom, int idTo);
 };
 
 #endif
