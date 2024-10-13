@@ -7,6 +7,14 @@ Node::Node(int id, vector<double> coordinates, list<Node*> edges)
 
 }
 
+// Copy constructor
+Node::Node(const Node& other)
+    : id(other.id)
+    , coordinates(other.coordinates)
+    , edges(other.edges) {
+
+}
+
 int Node::getId() {
     return this->id;
 }
@@ -114,7 +122,8 @@ void Graph::addEdge(int idFrom, Node* node) {
 //     this->adjList[idFrom]->deleteEdge(idTo);
 // }
 
-void Graph::removeEdge(int idFrom, int idTo) {
+void Graph::removeEdge(int idFrom, int idTo) 
+{
     // check if it exists
     Node* fromNode = getNode(idFrom);
     Node* toNode = getNode(idTo);
@@ -127,11 +136,12 @@ void Graph::removeEdge(int idFrom, int idTo) {
     }
 }
 
-void Graph::printEdges() {
+void Graph::printEdges() 
+{
     cout << "Nodes & edges:" << endl;
 
-    for (const auto& nodePair : this->adjList) {
-        Node* node = nodePair.second;
+    for (const auto& it : this->adjList) {
+        Node* node = it.second;
         cout << "Node " << node->getId() << " has edges directed to: ";
 
         if (node->getEdges().empty()) {
@@ -142,5 +152,28 @@ void Graph::printEdges() {
             }
         }
         cout << endl;
+    }
+}
+
+void Graph::graphUnion(Graph& otherGraph)                                   // we basically add another graph to our graph
+{
+    for (auto& it : otherGraph.getAdjList()) {                              // note: & --> working with references to the elements in the container, not copies
+        int nodeId = it.first;
+        Node* otherNode = it.second;
+
+        //check if the node already exists in the current graph
+        if (this->adjList.find(nodeId) == this->adjList.end()) {            // note: an h find epistrepsei to end, tote paei na pei oti DEN vrethike
+            //if it doesn't, add it
+            this->addNode(new Node(*otherNode));                            // copy constructor
+        }
+        
+        //iterate through the edges of the node from otherGraph
+        for (Node* edge : otherNode->getEdges()) {
+            //check if the edge already exists
+            if (!this->getNode(nodeId)->edgeExists(edge->getId())) {
+                //add the edge
+                this->addEdge(nodeId, edge);
+            }
+        }
     }
 }

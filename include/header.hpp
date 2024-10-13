@@ -19,6 +19,9 @@ class Node {
         // Constructor
         Node(int id, vector<double> coordinates, list<Node*> edges);
 
+        // Copy constructor
+        Node(const Node& other);
+
         // Getters
         int getId();
         vector<double> getCoordinates();
@@ -64,6 +67,7 @@ class Graph {
         // void addEdge(int idFrom, int idTo); // Δεν μπορούμε να το φτιάξουμε αυτό διότι έτσι όπως το έχουμε, το node περιέχει ένα list από nodes για edges και όχι ids.
         void removeEdge(int idFrom, int idTo);
         void printEdges();
+        void graphUnion(Graph& otherGraph);
 };
 
 #endif
