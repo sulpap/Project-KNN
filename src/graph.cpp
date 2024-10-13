@@ -158,6 +158,7 @@ void Graph::printEdges()
 void Graph::graphUnion(Graph& otherGraph)                                   // we basically add another graph to our graph
 {
     for (auto& it : otherGraph.getAdjList()) {                              // note: & --> working with references to the elements in the container, not copies
+        
         int nodeId = it.first;
         Node* otherNode = it.second;
 
