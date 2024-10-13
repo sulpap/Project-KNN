@@ -8,7 +8,7 @@ double euclideanDistance(vector<double> coords1, vector<double> coords2)
 {
     double sum = 0.0;
 
-    for (size_t i = 0; i < coords1.size(); ++i) {
+    for (auto i = 0; i < coords1.size(); ++i) {                                 // auto or smth else??
         sum += pow(coords2[i] - coords1[i], 2);
     }
 
