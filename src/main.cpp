@@ -1,7 +1,25 @@
 #include <iostream>
+#include <cmath> 
 #include "../include/header.hpp"
 
 using namespace std;
+
+double euclideanDistance(vector<double> coords1, vector<double> coords2) 
+{
+    double sum = 0.0;
+
+    for (size_t i = 0; i < coords1.size(); ++i) {
+        sum += pow(coords2[i] - coords1[i], 2);
+    }
+
+    return sqrt(sum);
+}
+
+double calculate_eclideanDistance(Node* node1, Node* node2)
+{
+    //take the coords from the two nodes and call euclideanDistance
+    return euclideanDistance(node1->getCoordinates(), node2->getCoordinates());
+}
 
 int main() {
 
@@ -16,6 +34,8 @@ int main() {
     graph1.addNode(node2);
     graph1.addNode(node3);
     graph1.addNode(node4);
+
+    cout << "distance between node1 and node2: " << calculate_eclideanDistance(node1, node2) << endl;
 
     graph1.addEdge(1, node2); // 1 δείχνει στο 2 
     graph1.addEdge(1, node3);
