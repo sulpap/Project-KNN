@@ -46,7 +46,7 @@ void Node::addEdge(Node* to) {
 }
 
 void Node::addCoordinate(vector<double> coordinate) {
-    this->coordinates.insert(this->coordinates.end(), coordinates.begin(), coordinates.end());
+    this->coordinates.insert(this->coordinates.end(), coordinate.begin(), coordinate.end());
 }
 
 bool Node::edgeExists(int id) {
