@@ -1,4 +1,4 @@
-#include <../include/header.hpp>
+#include <../include/graph.hpp>
 
 Node::Node(int id, vector<double> coordinates, list<Node*> edges)
     : id{ id }
