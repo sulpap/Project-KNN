@@ -2,6 +2,7 @@
 
 Node::Node(int id, vector<double> coordinates, list<Node*> edges)
     : id{ id }
+    , graphId{ 0 }
     , coordinates{ coordinates }
     , edges{ edges } {
 
@@ -10,6 +11,7 @@ Node::Node(int id, vector<double> coordinates, list<Node*> edges)
 // Copy constructor
 Node::Node(const Node& other)
     : id(other.id)
+    , graphId(other.graphId)
     , coordinates(other.coordinates)
     , edges(other.edges) {
 
