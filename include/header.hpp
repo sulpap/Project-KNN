@@ -12,6 +12,7 @@ using namespace std;
 class Node {
     private:
         int id;
+        int graphId;
         vector<double> coordinates;
         list<Node*> edges;
 
@@ -24,11 +25,13 @@ class Node {
 
         // Getters
         int getId();
+        int getGraphId();
         vector<double> getCoordinates();
         list<Node*> getEdges();
 
         // Setters
         void setId(int id);
+        void setGraphId(int id);
         void setCoordinates(vector<double> coordinates);
         void setEdges(list<Node*>);
 
@@ -46,6 +49,8 @@ class Node {
 
 class Graph {
     private:
+        int graphId;
+        static int currentGraphId;
         map<int, Node*> adjList;
 
     public:
@@ -53,19 +58,21 @@ class Graph {
         Graph(map<int, Node*> adj_list);
 
         // Getters
+        int getGraphId();
         map<int, Node*> getAdjList();
 
         // Setters
+        void setGraphId(int id);
         void setAdjList(map<int, Node*> adjList);
 
         // Extra Functions
         void addNode(Node* node);
         Node* getNode(int id);
-        void deleteNode(int id);
+        void deleteNode(int id); // Deletes the Node entirely (Καλύτερα να χρησιμοποιείται αν το node ανήκει μόνο σε έναν γράφο)
+        Node* removeNode(int id); // Removes the Node from the graph
 
         void addEdge(int idFrom, Node* node);
         void addEdge(int idFrom, int idTo);  // Αυτήν την χρησιμοποιούμε όταν είναι και τα 2 nodes ήδη μέσα στο graph, αλλιώς κάνει cout error message
-        // void addEdge(int idFrom, int idTo); // Δεν μπορούμε να το φτιάξουμε αυτό διότι έτσι όπως το έχουμε, το node περιέχει ένα list από nodes για edges και όχι ids.
         void removeEdge(int idFrom, int idTo);
         void printEdges();
         void graphUnion(Graph& otherGraph);

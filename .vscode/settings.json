@@ -8,6 +8,10 @@
         "iostream": "cpp",
         "map": "cpp",
         "cmath": "cpp",
-        "stdexcept": "cpp"
+        "stdexcept": "cpp",
+        "*.tcc": "cpp",
+        "deque": "cpp",
+        "string": "cpp",
+        "unordered_map": "cpp"
     }
 }

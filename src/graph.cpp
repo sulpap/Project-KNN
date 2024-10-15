@@ -19,6 +19,10 @@ int Node::getId() {
     return this->id;
 }
 
+int Node::getGraphId() {
+    return this->graphId;
+}
+
 vector<double> Node::getCoordinates() {
     return this->coordinates;
 }
@@ -29,6 +33,10 @@ list<Node*> Node::getEdges() {
 
 void Node::setId(int id) {
     this->id = id;
+}
+
+void Node::setGraphId(int id) {
+    this->graphId = id;
 }
 
 // TODO maybe needs change
@@ -115,19 +123,27 @@ void Node::deleteEdge(int id) {
 
 
 
+int Graph::currentGraphId = 1;
 
-
-Graph::Graph() {
+Graph::Graph() : graphId(currentGraphId++) {
 
 }
 
 // TODO maybe needs change
-Graph::Graph(map<int, Node*> adj_list) {
+Graph::Graph(map<int, Node*> adj_list) : graphId(currentGraphId++) {
     this->adjList = adj_list;
+}
+
+int Graph::getGraphId() {
+    return this->graphId;
 }
 
 map<int, Node*> Graph::getAdjList() {
     return this->adjList;
+}
+
+void Graph::setGraphId(int id) {
+    this->graphId = id;
 }
 
 // TODO maybe needs change
@@ -136,6 +152,7 @@ void Graph::setAdjList(map<int, Node*> adjList) {
 }
 
 void Graph::addNode(Node* node) {
+    node->setGraphId(this->getGraphId());
     this->adjList[node->getId()] = node;
     // Other implementation
     // this->adjList.insert(pair<int, Node*>(node->getId(), node));
@@ -149,11 +166,27 @@ Node* Graph::getNode(int id) {
 }
 
 void Graph::deleteNode(int id) {
-    for (auto& pair : adjList) {
-        pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+    if (this->adjList.find(id) != this->adjList.end()) {
+        for (auto& pair : adjList) {
+            pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+        }
+        delete this->adjList[id];
+        this->adjList.erase(id);
     }
-    delete this->adjList[id];  // Clean up the actual node
-    this->adjList.erase(id);
+}
+
+Node* Graph::removeNode(int id) {
+    if (this->adjList.find(id) != this->adjList.end()) {
+        for (auto& pair : adjList) {
+            pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+        }
+        Node* temp = adjList[id];
+        this->adjList.erase(id);
+        temp->setGraphId(0);
+        return temp;
+    } else {
+        return nullptr;
+    }
 }
 
 void Graph::addEdge(int idFrom, Node* node) {
