@@ -160,9 +160,17 @@ void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
 }
 
-// void Graph::removeEdge(int idFrom, int idTo) {
-//     this->adjList[idFrom]->deleteEdge(idTo);
-// }
+void Graph::addEdge(int idFrom, int idTo) {
+    if (this->adjList.find(idFrom) != this->adjList.end()) {
+        if (this->adjList.find(idTo) != this->adjList.end()) {
+            this->adjList[idFrom]->addEdge(this->adjList[idTo]);
+        } else {
+            cout << "To node doesn't exist in the graph" << endl;
+        }
+    } else {
+            cout << "From node doesn't exist in the graph" << endl;
+    }
+}
 
 void Graph::removeEdge(int idFrom, int idTo) 
 {

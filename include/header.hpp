@@ -64,6 +64,7 @@ class Graph {
         void deleteNode(int id);
 
         void addEdge(int idFrom, Node* node);
+        void addEdge(int idFrom, int idTo);  // Αυτήν την χρησιμοποιούμε όταν είναι και τα 2 nodes ήδη μέσα στο graph, αλλιώς κάνει cout error message
         // void addEdge(int idFrom, int idTo); // Δεν μπορούμε να το φτιάξουμε αυτό διότι έτσι όπως το έχουμε, το node περιέχει ένα list από nodes για edges και όχι ids.
         void removeEdge(int idFrom, int idTo);
         void printEdges();
