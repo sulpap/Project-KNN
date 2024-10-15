@@ -42,7 +42,9 @@ void Node::setEdges(list<Node*> edges) {
 }
 
 void Node::addEdge(Node* to) {
-    this->edges.push_back(to);
+    if (!edgeExists(to->getId())) {
+        this->edges.push_back(to);
+    }
 }
 
 void Node::addCoordinate(vector<double> coordinate) {
@@ -59,7 +61,11 @@ bool Node::edgeExists(int id) {
 }
 
 double Node::getSpecificCoordinate(int dimension) {
-    return this->coordinates.at(dimension);
+    if (dimension < 0 || dimension >= this->coordinates.size()) {
+        throw out_of_range("Invalid dimension");
+    }
+    return this->coordinates[dimension];
+
 }
 
 void Node::setSpecificCoordinate(int dimension, double value) {
@@ -75,6 +81,36 @@ void Node::deleteEdge(int id) {
         }
     }
 }
+
+
+// TODO possible
+
+// // Move constructor
+// Node::Node(Node&& other) noexcept 
+//     : id(other.id), coordinates(std::move(other.coordinates)), edges(std::move(other.edges)) 
+// {
+//     // 'other' is left in a valid, but empty state
+//     other.id = 0;
+// }
+
+
+// // Move assignment operator
+// Node& Node::operator=(Node&& other) noexcept {
+//     if (this != &other) {  // Avoid self-assignment
+//         // Clear the previous data of this
+//         coordinates.clear();
+//         edges.clear();
+
+//         // Transfer ownership of resources from 'other' to 'this'
+//         id = other.id;
+//         coordinates = std::move(other.coordinates);
+//         edges = std::move(other.edges);
+
+//         // Leave 'other' in a valid but empty state
+//         other.id = 0;
+//     }
+//     return *this;
+// }
 
 
 
@@ -106,12 +142,20 @@ void Graph::addNode(Node* node) {
 }
 
 Node* Graph::getNode(int id) {
-    return this->adjList[id];
+    if (this->adjList.find(id) != this->adjList.end()) {
+        return this->adjList[id];
+    }
+    return nullptr;  // Node with the given id doesn't exist
 }
 
 void Graph::deleteNode(int id) {
-    this->adjList.erase(id);
+    // this->adjList.erase(id);
     // Maybe needs to delete the node manually
+    for (auto& pair : adjList) {
+        pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+    }
+    delete this->adjList[id];  // Clean up the actual node
+    this->adjList.erase(id);
 }
 
 void Graph::addEdge(int idFrom, Node* node) {
