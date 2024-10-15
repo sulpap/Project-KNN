@@ -149,8 +149,6 @@ Node* Graph::getNode(int id) {
 }
 
 void Graph::deleteNode(int id) {
-    // this->adjList.erase(id);
-    // Maybe needs to delete the node manually
     for (auto& pair : adjList) {
         pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
     }
@@ -171,9 +169,9 @@ void Graph::removeEdge(int idFrom, int idTo)
     // check if it exists
     Node* fromNode = getNode(idFrom);
     Node* toNode = getNode(idTo);
-    if (!fromNode) {
+    if (fromNode != nullptr) {
         cout << "from node doesn't exist." << endl;
-    } else if(!toNode) {
+    } else if(toNode != nullptr) {
         cout << "destination node doesn't exist." << endl;
     } else {
         fromNode->deleteEdge(idTo);
