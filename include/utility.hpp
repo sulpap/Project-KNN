@@ -6,7 +6,8 @@
 
 using namespace std;
 
-double euclideanDistance(vector<double> coords1, vector<double> coords2);
-double calculate_eclideanDistance(Node* node1, Node* node2);
+double euclidean_distance(vector<double> coords1, vector<double> coords2);
+double euclidean_distance_of_nodes(Node* node1, Node* node2);
+void calculate_distances(int nodeId, Graph& graph, vector<pair<double, int>>& distances);
 
 #endif

@@ -39,7 +39,7 @@ int main()
     graph1.addNode(node3);
     graph1.addNode(node4);
 
-    cout << "distance between node1 and node2: " << calculate_eclideanDistance(node1, node2) << endl;
+    cout << "distance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl;
 
     graph1.addEdge(1, node2); // 1 δείχνει στο 2 
     graph1.addEdge(1, node3);
@@ -75,8 +75,30 @@ int main()
     cout << endl << "new graph after union: " << endl;
 
     graph1.printEdges();
+
+    //  ----------------------  Test calculate_distances  -------------------------
+
+    vector<pair<double, int>> distances; 
+    int targetNodeId = 1;
+
+    calculate_distances(targetNodeId, graph1, distances);
+
+    //print the distances
+    cout << endl << "Distances from Node " << targetNodeId << ":" << endl;
+    for (const auto& pair : distances) {
+        cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
+    }
+
+    // ------------------------------------------------------------------------------
     
-    cout << "end" << endl;
+    cout << endl << "end" << endl;
+
+    delete node1;
+    delete node2;
+    delete node3;
+    delete node4;
+    delete node5;
+    delete node6;
 
     return 0;
 }
