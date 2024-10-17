@@ -11,7 +11,7 @@ double euclidean_distance(vector<double> coords1, vector<double> coords2)
 {
     double sum = 0.0;
 
-    for (auto i = 0.0; i < coords1.size(); ++i) {                                 // auto or smth else??
+    for (auto i = 0.0; i < coords1.size(); ++i) {                           // TODO auto or smth else?     
         sum += pow(coords2[i] - coords1[i], 2);
     }
 
