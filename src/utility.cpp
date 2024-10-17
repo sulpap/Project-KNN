@@ -6,6 +6,7 @@
 #include <cmath>
 #include <fstream>
 #include <cassert>
+#include <algorithm>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2) 
 {
@@ -43,5 +44,25 @@ void calculate_distances(int nodeId, Graph& graph, vector<pair<double, int>>& di
             double dist = euclidean_distance_of_nodes(targetNode, current); 
             distances.push_back({dist, current->getId()});
         }
+    }
+}
+
+// void calculate_knn --> keep the k nearest neighbors
+void calculate_knn(int nodeId, Graph& graph, int k, vector<pair<double, int>>& knn) 
+{
+    vector<pair<double, int>> distances;
+
+    calculate_distances(nodeId, graph, distances);
+
+    //sort the distances to find the k nearest neighbors
+    sort(distances.begin(), distances.end());
+
+    // keep the k nearest neighbors:
+
+    // if k > distances calculated then we iterate as many times as there are distances
+    size_t times = min(k, static_cast<int>(distances.size()));
+
+    for (size_t i = 0; i < times; i++) {
+        knn.push_back(distances[i]);
     }
 }
