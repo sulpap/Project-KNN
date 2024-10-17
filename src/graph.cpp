@@ -212,9 +212,9 @@ void Graph::removeEdge(int idFrom, int idTo)
     // check if it exists
     Node* fromNode = getNode(idFrom);
     Node* toNode = getNode(idTo);
-    if (fromNode != nullptr) {
+    if (fromNode == nullptr) {
         cout << "from node doesn't exist." << endl;
-    } else if(toNode != nullptr) {
+    } else if(toNode == nullptr) {
         cout << "destination node doesn't exist." << endl;
     } else {
         fromNode->deleteEdge(idTo);

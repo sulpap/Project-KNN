@@ -3,11 +3,29 @@
 #include <fstream>
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
+#include "../include/fvecs_read.hpp"
 
 using namespace std;
 
 
-int main() {
+int main() 
+{
+    const char* filename = "../datasets/siftsmall/siftsmall_base.fvecs";  // Adjust this to your file
+
+    // Read all vectors from the fvecs file
+    vector<vector<float>> vectors = fvecs_read(filename);
+
+    //print the first vector to verify
+    if (!vectors.empty()) {
+        cout << "First vector (first " << vectors[0].size() << " dimensions): ";
+        for (const auto& value : vectors[0]) {
+            cout << value << " ";
+        }
+        cout << endl;
+    } else {
+        cout << "No vectors read from the file." << endl;
+    }
+
 
     Node* node1 = new Node(1, vector<double>{1.0, 2.0}, list<Node*>{});
     Node* node2 = new Node(2, vector<double>{2.0, 3.0}, list<Node*>{});
