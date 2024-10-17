@@ -42,7 +42,7 @@ int main()
     cout << "distance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl;
 
     graph1.addEdge(1, node2); // 1 δείχνει στο 2 
-    graph1.addEdge(1, node3);
+    
     graph1.addEdge(2, node3);
     graph1.addEdge(3, node4);
     graph1.addEdge(4, node2);
@@ -62,10 +62,8 @@ int main()
     Graph graph2;
     graph2.addNode(node5);
     graph2.addNode(node6);
-    graph2.addNode(node1);
 
     graph2.addEdge(5, node6);
-    graph2.addEdge(1, node6);
 
     cout << endl << "second graph:" << endl;
     graph2.printEdges();
@@ -89,7 +87,19 @@ int main()
         cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
     }
 
-    // ------------------------------------------------------------------------------
+    // ----------------------  Test calculate_knn  -------------------------
+
+    int k = 2;
+    vector<pair<double, int>> knn;
+
+    calculate_knn(1, graph1, k, knn);
+
+    cout << "\n \n knn for Node " << 1 << ":" << endl;
+    for (const auto& pair : knn) {
+        cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
+    }
+
+    // ----------------------------------------------------------------------
     
     cout << endl << "end" << endl;
 
