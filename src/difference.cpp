@@ -27,32 +27,32 @@ set<Point> my_difference(const set<Point>& set1, const set<Point>& set2) {      
 }
 
 
-int main(void) {
-    struct Point point_1;
-    point_1.id = 5;
-    point_1.coordinates.push_back(1.2);
-    point_1.coordinates.push_back(3.4);
+// int main(void) {
+//     struct Point point_1;
+//     point_1.id = 5;
+//     point_1.coordinates.push_back(1.2);
+//     point_1.coordinates.push_back(3.4);
 
-    struct Point point_2;
-    point_2.id = 8;
-    point_2.coordinates.push_back(4.4);
-    point_2.coordinates.push_back(5.8);
+//     struct Point point_2;
+//     point_2.id = 8;
+//     point_2.coordinates.push_back(4.4);
+//     point_2.coordinates.push_back(5.8);
 
-    set<Point> set1 = { point_1 };
-    set<Point> set2 = { point_2 };
-    // set<Point> set2 = { point_2, point_1 };
+//     set<Point> set1 = { point_1 };
+//     set<Point> set2 = { point_2 };
+//     // set<Point> set2 = { point_2, point_1 };
 
 
-    // Initialize a set to store the difference
-    set<Point> difference;
-    difference = my_difference(set1, set2);
+//     // Initialize a set to store the difference
+//     set<Point> difference;
+//     difference = my_difference(set1, set2);
 
-    for (const auto& elem : difference) {       // auto: allows the compiler to automatically deduce the type of elem based on the type of elements in difference
-        cout << elem.id << endl;
-    }
+//     for (const auto& elem : difference) {       // auto: allows the compiler to automatically deduce the type of elem based on the type of elements in difference
+//         cout << elem.id << endl;
+//     }
 
-    return 0;
-}
+//     return 0;
+// }
 
 
 // TODO: Function that creates a set given a graph
