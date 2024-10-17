@@ -2,6 +2,7 @@
 
 Node::Node(int id, vector<double> coordinates, list<Node*> edges)
     : id{ id }
+    , graphId{ 0 }
     , coordinates{ coordinates }
     , edges{ edges } {
 
@@ -10,6 +11,7 @@ Node::Node(int id, vector<double> coordinates, list<Node*> edges)
 // Copy constructor
 Node::Node(const Node& other)
     : id(other.id)
+    , graphId(other.graphId)
     , coordinates(other.coordinates)
     , edges(other.edges) {
 
@@ -17,6 +19,10 @@ Node::Node(const Node& other)
 
 int Node::getId() {
     return this->id;
+}
+
+int Node::getGraphId() {
+    return this->graphId;
 }
 
 vector<double> Node::getCoordinates() {
@@ -31,6 +37,10 @@ void Node::setId(int id) {
     this->id = id;
 }
 
+void Node::setGraphId(int id) {
+    this->graphId = id;
+}
+
 // TODO maybe needs change
 void Node::setCoordinates(vector<double> coordinates) {
     this->coordinates = coordinates;
@@ -42,7 +52,9 @@ void Node::setEdges(list<Node*> edges) {
 }
 
 void Node::addEdge(Node* to) {
-    this->edges.push_back(to);
+    if (!edgeExists(to->getId())) {
+        this->edges.push_back(to);
+    }
 }
 
 void Node::addCoordinate(vector<double> coordinate) {
@@ -59,7 +71,11 @@ bool Node::edgeExists(int id) {
 }
 
 double Node::getSpecificCoordinate(int dimension) {
-    return this->coordinates.at(dimension);
+    if (dimension < 0 || dimension >= this->coordinates.size()) {
+        throw out_of_range("Invalid dimension");
+    }
+    return this->coordinates[dimension];
+
 }
 
 void Node::setSpecificCoordinate(int dimension, double value) {
@@ -77,21 +93,59 @@ void Node::deleteEdge(int id) {
 }
 
 
+// TODO possible
+
+// // Move constructor
+// Node::Node(Node&& other) noexcept 
+//     : id(other.id), coordinates(std::move(other.coordinates)), edges(std::move(other.edges)) 
+// {
+//     // 'other' is left in a valid, but empty state
+//     other.id = 0;
+// }
+
+
+// // Move assignment operator
+// Node& Node::operator=(Node&& other) noexcept {
+//     if (this != &other) {  // Avoid self-assignment
+//         // Clear the previous data of this
+//         coordinates.clear();
+//         edges.clear();
+
+//         // Transfer ownership of resources from 'other' to 'this'
+//         id = other.id;
+//         coordinates = std::move(other.coordinates);
+//         edges = std::move(other.edges);
+
+//         // Leave 'other' in a valid but empty state
+//         other.id = 0;
+//     }
+//     return *this;
+// }
 
 
 
 
-Graph::Graph() {
+int Graph::currentGraphId = 1;
+
+Graph::Graph() : graphId(currentGraphId++) {
 
 }
 
 // TODO maybe needs change
-Graph::Graph(map<int, Node*> adj_list) {
+Graph::Graph(map<int, Node*> adj_list) : graphId(currentGraphId++) {
     this->adjList = adj_list;
+}
+
+int Graph::getGraphId() {
+    return this->graphId;
 }
 
 map<int, Node*> Graph::getAdjList() {
     return this->adjList;
+}
+
+void Graph::setGraphId(int id) {
+    this->graphId = id;
 }
 
 // TODO maybe needs change
@@ -100,36 +154,67 @@ void Graph::setAdjList(map<int, Node*> adjList) {
 }
 
 void Graph::addNode(Node* node) {
+    node->setGraphId(this->getGraphId());
     this->adjList[node->getId()] = node;
     // Other implementation
     // this->adjList.insert(pair<int, Node*>(node->getId(), node));
 }
 
 Node* Graph::getNode(int id) {
-    return this->adjList[id];
+    if (this->adjList.find(id) != this->adjList.end()) {
+        return this->adjList[id];
+    }
+    return nullptr;  // Node with the given id doesn't exist
 }
 
 void Graph::deleteNode(int id) {
-    this->adjList.erase(id);
-    // Maybe needs to delete the node manually
+    if (this->adjList.find(id) != this->adjList.end()) {
+        for (auto& pair : adjList) {
+            pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+        }
+        delete this->adjList[id];
+        this->adjList.erase(id);
+    }
+}
+
+Node* Graph::removeNode(int id) {
+    if (this->adjList.find(id) != this->adjList.end()) {
+        for (auto& pair : adjList) {
+            pair.second->deleteEdge(id);  // Remove any edge to the node being deleted
+        }
+        Node* temp = adjList[id];
+        this->adjList.erase(id);
+        temp->setGraphId(0);
+        return temp;
+    } else {
+        return nullptr;
+    }
 }
 
 void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
 }
 
-// void Graph::removeEdge(int idFrom, int idTo) {
-//     this->adjList[idFrom]->deleteEdge(idTo);
-// }
+void Graph::addEdge(int idFrom, int idTo) {
+    if (this->adjList.find(idFrom) != this->adjList.end()) {
+        if (this->adjList.find(idTo) != this->adjList.end()) {
+            this->adjList[idFrom]->addEdge(this->adjList[idTo]);
+        } else {
+            cout << "To node doesn't exist in the graph" << endl;
+        }
+    } else {
+            cout << "From node doesn't exist in the graph" << endl;
+    }
+}
 
 void Graph::removeEdge(int idFrom, int idTo) 
 {
     // check if it exists
     Node* fromNode = getNode(idFrom);
     Node* toNode = getNode(idTo);
-    if (!fromNode) {
+    if (fromNode != nullptr) {
         cout << "from node doesn't exist." << endl;
-    } else if(!toNode) {
+    } else if(toNode != nullptr) {
         cout << "destination node doesn't exist." << endl;
     } else {
         fromNode->deleteEdge(idTo);
