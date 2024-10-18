@@ -11,13 +11,17 @@ using namespace std;
 
 int main(int argc, char* argv[]) 
 {
-    if (argc != 2) {
-        cout << "Usage: " << argv[0] << " <fvecs file>" << endl;
+    //TODO we also need query node from arg
+
+    if (argc != 3) {
+        cout << "Usage: " << argv[0] << " <fvecs file> <number of nearest neighbors to find>" << endl;
         return 1;
     }
 
-    //const char* filename = "../datasets/siftsmall/siftsmall_base.fvecs";
+    //"../datasets/siftsmall/siftsmall_base.fvecs";
     const char* filename = argv[1];
+
+    int k = (int)argv[2];
 
     // ----------------------- Read the fvecs file given -------------------------
 
@@ -106,7 +110,6 @@ int main(int argc, char* argv[])
 
     // ----------------------  Test calculate_knn  -------------------------
 
-    int k = 2;
     vector<pair<double, int>> knn;
 
     calculate_knn(1, graph1, k, knn);
