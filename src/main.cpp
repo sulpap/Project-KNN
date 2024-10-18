@@ -4,6 +4,7 @@
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
 #include "../include/fvecs_read.hpp"
+#include "../include/generate_graph.hpp"
 
 using namespace std;
 
