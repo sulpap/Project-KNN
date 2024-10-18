@@ -48,7 +48,7 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
     // reshape the buffer into a 2D vector - ignore thr first column = dimension of the vectors
     vector<vector<float>> vectors(n, vector<float>(d));
     for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j < d; ++j) {
+        for (auto j = 0; j < d; j++) {
             vectors[i][j] = buffer[i * (d + 1) + j + 1];  // first element of each vector --> ignored
         }
     }

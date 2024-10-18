@@ -11,7 +11,7 @@ using namespace std;
 
 class Node {
     private:
-        int id;
+        int id;     // starts from 1
         int graphId;
         vector<double> coordinates;
         list<Node*> edges;
@@ -49,7 +49,7 @@ class Node {
 
 class Graph {
     private:
-        int graphId;
+        int graphId;        // starts from 1. 0 is for when a node doesn't belong to any graph.
         static int currentGraphId;
         map<int, Node*> adjList;
 

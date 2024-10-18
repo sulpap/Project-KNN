@@ -8,9 +8,17 @@
 using namespace std;
 
 
-int main() 
+int main(int argc, char* argv[]) 
 {
-    const char* filename = "../datasets/siftsmall/siftsmall_base.fvecs";  // Adjust this to your file
+    if (argc != 2) {
+        cout << "Usage: " << argv[0] << " <fvecs file>" << endl;
+        return 1;
+    }
+
+    //const char* filename = "../datasets/siftsmall/siftsmall_base.fvecs";
+    const char* filename = argv[1];
+
+    // ----------------------- Read the fvecs file given -------------------------
 
     // Read all vectors from the fvecs file
     vector<vector<float>> vectors = fvecs_read(filename);
@@ -24,8 +32,16 @@ int main()
         cout << endl;
     } else {
         cout << "No vectors read from the file." << endl;
+        return EXIT_FAILURE;
     }
 
+    // float to double to use for nodes
+    vector<vector<double>> coordinates;
+    for (const auto& vec : vectors) {
+        coordinates.push_back(vector<double>(vec.begin(), vec.end()));
+    }
+
+    // --------------------------- graph functions ----------------------------------
 
     Node* node1 = new Node(1, vector<double>{1.0, 2.0}, list<Node*>{});
     Node* node2 = new Node(2, vector<double>{2.0, 3.0}, list<Node*>{});
@@ -39,7 +55,7 @@ int main()
     graph1.addNode(node3);
     graph1.addNode(node4);
 
-    cout << "distance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl;
+    cout << "\ndistance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl << endl;
 
     graph1.addEdge(1, node2); // 1 δείχνει στο 2 
     
@@ -49,7 +65,7 @@ int main()
 
     graph1.printEdges();
 
-    cout << "delete edge from 1 to 2" << endl;
+    cout << "delete edge from 1 to 2" << endl << endl;
     graph1.removeEdge(1, 2);
 
     graph1.printEdges();
@@ -94,14 +110,14 @@ int main()
 
     calculate_knn(1, graph1, k, knn);
 
-    cout << "\n \n knn for Node " << 1 << ":" << endl;
+    cout << "\n \nKNN for Node " << 1 << ":" << endl;
     for (const auto& pair : knn) {
         cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
     }
 
     // ----------------------------------------------------------------------
     
-    cout << endl << "end" << endl;
+    cout << endl << "Cleaning..." << endl;
 
     delete node1;
     delete node2;
@@ -109,6 +125,8 @@ int main()
     delete node4;
     delete node5;
     delete node6;
+
+    cout << endl << "Bye!" << endl;
 
     return 0;
 }

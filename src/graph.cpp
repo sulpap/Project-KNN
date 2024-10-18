@@ -71,7 +71,7 @@ bool Node::edgeExists(int id) {
 }
 
 double Node::getSpecificCoordinate(int dimension) {
-    if (dimension < 0 || dimension >= this->coordinates.size()) {
+    if (dimension < 0 || static_cast<size_t>(dimension) >= this->coordinates.size()) {
         throw out_of_range("Invalid dimension");
     }
     return this->coordinates[dimension];
@@ -212,9 +212,9 @@ void Graph::removeEdge(int idFrom, int idTo)
     // check if it exists
     Node* fromNode = getNode(idFrom);
     Node* toNode = getNode(idTo);
-    if (fromNode == nullptr) {
+    if (fromNode != nullptr) {
         cout << "from node doesn't exist." << endl;
-    } else if(toNode == nullptr) {
+    } else if(toNode != nullptr) {
         cout << "destination node doesn't exist." << endl;
     } else {
         fromNode->deleteEdge(idTo);
