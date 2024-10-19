@@ -70,6 +70,7 @@ class Graph {
         Node* getNode(int id);
         void deleteNode(int id); // Deletes the Node entirely (Καλύτερα να χρησιμοποιείται αν το node ανήκει μόνο σε έναν γράφο)
         Node* removeNode(int id); // Removes the Node from the graph
+        int getNodeCount();
 
         void addEdge(int idFrom, Node* node);
         void addEdge(int idFrom, int idTo);  // Αυτήν την χρησιμοποιούμε όταν είναι και τα 2 nodes ήδη μέσα στο graph, αλλιώς κάνει cout error message
