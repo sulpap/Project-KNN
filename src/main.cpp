@@ -21,7 +21,7 @@ int main(int argc, char* argv[])
     //"../datasets/siftsmall/siftsmall_base.fvecs";
     const char* filename = argv[1];
 
-    int k = (int)argv[2];
+    int k = stoi(argv[2]);
 
     // ----------------------- Read the fvecs file given -------------------------
 
