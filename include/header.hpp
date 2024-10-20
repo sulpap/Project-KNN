@@ -68,6 +68,7 @@ class Graph {
         void removeEdge(int idFrom, int idTo);
         void printEdges();
         void graphUnion(Graph& otherGraph);
+        Graph graphDifference(Graph& otherGraph);
 };
 
 #endif
