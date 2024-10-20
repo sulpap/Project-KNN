@@ -263,3 +263,21 @@ void Graph::graphUnion(Graph& otherGraph)                                   // w
         }
     }
 }
+
+
+Graph Graph::graphDifference(Graph& otherGraph) {
+    Graph result(*this);  // Create a copy of the current graph (copy constructor should be defined)
+
+    // Iterate through the nodes in the current Graph
+    for (auto& it : this->getAdjList()) {
+        int nodeId = it.first;
+        Node* otherNode = it.second;
+
+        // Check if the node exists in the other Graph
+        if (otherGraph.adjList.find(nodeId) != otherGraph.adjList.end()) {  // Was found in other Graph
+            result.removeNode(nodeId);      // removes also edges pointing to that node
+        }
+    }
+
+    return result;  // Return the modified graph
+}
