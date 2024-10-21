@@ -263,3 +263,36 @@ void Graph::graphUnion(Graph& otherGraph)                                   // w
         }
     }
 }
+
+void Graph::graphIntersection(Graph& otherGraph) {
+    // Create a temporary adjacency list to store the intersection result
+    map<int, Node*> intersectAdjList;
+
+    // Iterate through the adjacency list of the current graph
+    for (auto& [nodeId, currentNode] : this->adjList) {
+        // Check if the node exists in the other graph
+        if (otherGraph.getAdjList().find(nodeId) != otherGraph.getAdjList().end()) {
+            Node* otherNode = otherGraph.getNode(nodeId);
+
+            // Create a new node based on the current node (or copy either graph's node)
+            Node* intersectNode = new Node(*currentNode);
+
+            // Retain only the common edges
+            list<Node*> intersectEdges;
+            for (Node* edge : currentNode->getEdges()) {
+                if (otherNode->edgeExists(edge->getId())) {
+                    intersectEdges.push_back(edge); // Common edge found
+                }
+            }
+
+            // Set the edges to be the intersection of the edges from both graphs
+            intersectNode->setEdges(intersectEdges);
+
+            // Add the node with the intersected edges to the intersection graph
+            intersectAdjList[nodeId] = intersectNode;
+        }
+    }
+
+    // Replace the current graph's adjacency list with the intersection result
+    this->adjList = intersectAdjList;
+}
