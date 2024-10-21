@@ -45,6 +45,8 @@ class Node {
         void setSpecificCoordinate(int dimension, double value);
 
         void deleteEdge(int id);
+
+        vector<int> getNeighbors();
 };
 
 class Graph {
