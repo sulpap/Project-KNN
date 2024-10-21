@@ -191,6 +191,11 @@ Node* Graph::removeNode(int id) {
     }
 }
 
+int Graph::getNodeCount() {
+    return this->adjList.size();
+}
+
+
 void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
 }
