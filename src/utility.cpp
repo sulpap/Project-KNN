@@ -1,5 +1,6 @@
 #include <../include/utility.hpp>
 #include "../include/graph.hpp"
+#include "../include/greedysearch.hpp"
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
@@ -25,44 +26,72 @@ double euclidean_distance_of_nodes(Node* node1, Node* node2)
     return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
 }
 
+// POSSIBLY NOT NECESSARY
 // function to calculate distances from a specific node to all other nodes in the graph
-void calculate_distances(int nodeId, Graph& graph, vector<pair<double, int>>& distances) 
-{
-    //get the specific node from the graph
-    Node* targetNode = graph.getNode(nodeId);
+// void calculate_distances(int nodeId, Graph& graph, vector<pair<double, int>>& distances) 
+// {
+//     //get the specific node from the graph
+//     Node* targetNode = graph.getNode(nodeId);
     
-    // check if it exists
-    if (!targetNode) {
-        cout << "Node with ID " << nodeId << " does not exist in the graph." << endl;
-        return; // TODO return or exit failure????????????????
-    }
+//     // check if it exists
+//     if (!targetNode) {
+//         cout << "Node with ID " << nodeId << " does not exist in the graph." << endl;
+//         return; // TODO return or exit failure????????????????
+//     }
 
-    //iterate through all nodes in the graph
-    for (auto& pair : graph.getAdjList()) {
-        Node* current = pair.second;
-        if (current->getId() != nodeId) { //skip the target node itself
-            double dist = euclidean_distance_of_nodes(targetNode, current); 
-            distances.push_back({dist, current->getId()});
-        }
-    }
-}
+//     //iterate through all nodes in the graph
+//     for (auto& pair : graph.getAdjList()) {
+//         Node* current = pair.second;
+//         if (current->getId() != nodeId) { //skip the target node itself
+//             double dist = euclidean_distance_of_nodes(targetNode, current); 
+//             distances.push_back({dist, current->getId()});
+//         }
+//     }
+// }
+
+
+
 
 // void calculate_knn --> keep the k nearest neighbors
+// void calculate_knn(int nodeId, Graph& graph, int k, vector<pair<double, int>>& knn) 
+// {
+//     vector<pair<double, int>> distances;
+
+//     calculate_distances(nodeId, graph, distances);
+
+//     //sort the distances to find the k nearest neighbors
+//     sort(distances.begin(), distances.end());
+
+//     // keep the k nearest neighbors:
+
+//     // if k > distances calculated then we iterate as many times as there are distances
+//     size_t times = min(k, static_cast<int>(distances.size()));
+
+//     for (size_t i = 0; i < times; i++) {
+//         knn.push_back(distances[i]);
+//     }
+// }
+
 void calculate_knn(int nodeId, Graph& graph, int k, vector<pair<double, int>>& knn) 
 {
-    vector<pair<double, int>> distances;
+    cout << "Initiating calculate_knn..." << endl; //debugging
 
-    calculate_distances(nodeId, graph, distances);
+    Node* startNode = graph.getNode(nodeId);
 
-    //sort the distances to find the k nearest neighbors
-    sort(distances.begin(), distances.end());
-
-    // keep the k nearest neighbors:
-
-    // if k > distances calculated then we iterate as many times as there are distances
-    size_t times = min(k, static_cast<int>(distances.size()));
-
-    for (size_t i = 0; i < times; i++) {
-        knn.push_back(distances[i]);
+    if (!startNode) {
+        cout << "Node with ID " << nodeId << " does not exist in the graph." << endl;
+        return;
     }
+
+    vector<double> startCoords = startNode->getCoordinates();
+    vector<int> closestNodes = GreedySearch(graph, nodeId, startCoords, k);
+
+    for (int neighborId : closestNodes) {
+        if (neighborId != nodeId) {
+            double dist = euclidean_distance_of_nodes(startNode, graph.getNode(neighborId));
+            knn.push_back({dist, neighborId});
+        }
+    }
+
+    sort(knn.begin(), knn.end());
 }

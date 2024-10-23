@@ -5,6 +5,8 @@
 #include "../include/utility.hpp"
 #include "../include/fvecs_read.hpp"
 #include "../include/generate_graph.hpp"
+#include "../include/greedysearch.hpp"
+
 
 using namespace std;
 
@@ -94,19 +96,6 @@ int main(int argc, char* argv[])
     cout << endl << "new graph after union: " << endl;
 
     graph1.printEdges();
-
-    //  ----------------------  Test calculate_distances  -------------------------
-
-    vector<pair<double, int>> distances; 
-    int targetNodeId = 1;
-
-    calculate_distances(targetNodeId, graph1, distances);
-
-    //print the distances
-    cout << endl << "Distances from Node " << targetNodeId << ":" << endl;
-    for (const auto& pair : distances) {
-        cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
-    }
 
     // ----------------------  Test calculate_knn  -------------------------
 

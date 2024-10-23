@@ -92,6 +92,15 @@ void Node::deleteEdge(int id) {
     }
 }
 
+vector<int> Node::getNeighbors() 
+{
+    vector<int> neighbors;
+    for (Node* neighbor : this->edges) {
+        neighbors.push_back(neighbor->getId());
+    }
+    return neighbors;
+}
+
 
 // TODO possible
 
@@ -190,6 +199,11 @@ Node* Graph::removeNode(int id) {
         return nullptr;
     }
 }
+
+int Graph::getNodeCount() {
+    return this->adjList.size();
+}
+
 
 void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
