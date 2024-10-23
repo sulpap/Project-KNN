@@ -48,6 +48,14 @@ int main(int argc, char* argv[])
         coordinates.push_back(vector<double>(vec.begin(), vec.end()));
     }
 
+    // --------------------------- generate_graph ----------------------------------
+    Graph graph;
+    generate_graph(graph, coordinates, 1);
+
+    // cout << "\n\n testing generate_graph \n" ;
+    // graph.printEdges();
+    cout << endl <<"node count:" << graph.getNodeCount() <<endl;
+
     // --------------------------- graph functions ----------------------------------
 
     Node* node1 = new Node(1, vector<double>{1.0, 2.0}, list<Node*>{});

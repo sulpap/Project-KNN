@@ -1,5 +1,3 @@
-// g++ -std=c++17 -Iinclude -o test_generate_graph tests/test_generate_graph.cpp src/generate_graph.cpp src/graph.cpp
-
 //#define CATCH_CONFIG_MAIN
 
 

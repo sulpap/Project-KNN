@@ -72,6 +72,9 @@ double euclidean_distance_of_nodes(Node* node1, Node* node2)
 //     }
 // }
 
+
+// POSSIBLY NOT NECESSARY
+// uses greedysearch to take all the knn and stores their sitances
 void calculate_knn(int nodeId, Graph& graph, int k, vector<pair<double, int>>& knn) 
 {
     cout << "Initiating calculate_knn..." << endl; //debugging
