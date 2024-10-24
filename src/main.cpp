@@ -107,14 +107,14 @@ int main(int argc, char* argv[])
 
     // ----------------------  Test calculate_knn  -------------------------
 
-    vector<pair<double, int>> knn;
+    // vector<pair<double, int>> knn;
 
-    calculate_knn(1, graph1, k, knn);
+    // calculate_knn(1, graph1, k, knn);
 
-    cout << "\n \nKNN for Node " << 1 << ":" << endl;
-    for (const auto& pair : knn) {
-        cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
-    }
+    // cout << "\n \nKNN for Node " << 1 << ":" << endl;
+    // for (const auto& pair : knn) {
+    //     cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
+    // }
 
     // ----------------------------------------------------------------------
     

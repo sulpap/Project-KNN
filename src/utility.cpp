@@ -26,6 +26,39 @@ double euclidean_distance_of_nodes(Node* node1, Node* node2)
     return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
 }
 
+// TODO should the index start from 1?
+int findMedoid(const vector<vector<double>> &coords) 
+{
+    int medoidIndex = -1;
+    double minTotalDistance = 10000000000000; // TODO maybe change this
+
+    // for each point in each coord
+    for (size_t i = 0; i < coords.size(); ++i) 
+    {
+        double totalDistance = 0.0;
+
+        // calculate the sum of distances from the point to every other point
+        for (size_t j = 0; j < coords.size(); ++j) {
+            if (i != j) {
+                totalDistance += euclidean_distance(coords[i], coords[j]);
+            }
+        }
+
+        // Print the total distance for debugging
+        cout << "Total distance for point " << i << ": " << totalDistance << endl;
+
+        // update medoid only if the sum is less than the minimum (until now)
+        if (totalDistance < minTotalDistance) {
+            minTotalDistance = totalDistance;
+            medoidIndex = i;
+        }
+    }
+
+    return medoidIndex;
+}
+
+
+
 // POSSIBLY NOT NECESSARY
 // function to calculate distances from a specific node to all other nodes in the graph
 // void calculate_distances(int nodeId, Graph& graph, vector<pair<double, int>>& distances) 
