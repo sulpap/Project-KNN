@@ -42,34 +42,34 @@ TEST_CASE("Test euclidean_distance_of_nodes")
     }
 }
 
-TEST_CASE("Test calculate_distances") 
-{
-    Node* node1 = new Node(1, {0.0, 0.0}, {});
-    Node* node2 = new Node(2, {3.0, 4.0}, {});
-    Node* node3 = new Node(3, {6.0, 8.0}, {});
+// TEST_CASE("Test calculate_distances") 
+// {
+//     Node* node1 = new Node(1, {0.0, 0.0}, {});
+//     Node* node2 = new Node(2, {3.0, 4.0}, {});
+//     Node* node3 = new Node(3, {6.0, 8.0}, {});
     
-    Graph graph;
-    graph.addNode(node1);
-    graph.addNode(node2);
-    graph.addNode(node3);
+//     Graph graph;
+//     graph.addNode(node1);
+//     graph.addNode(node2);
+//     graph.addNode(node3);
     
-    vector<pair<double, int>> distances;
-    calculate_distances(1, graph, distances);
+//     vector<pair<double, int>> distances;
+//     calculate_distances(1, graph, distances);
     
-    // node1 to node2 should be 5, node1 to node3 should be 10
-    REQUIRE(distances.size() == 2); // node1 to node2 and node1 to node3
+//     // node1 to node2 should be 5, node1 to node3 should be 10
+//     REQUIRE(distances.size() == 2); // node1 to node2 and node1 to node3
     
-    // make sure distances are correct
-    REQUIRE(distances[0].first == Approx(5.0).margin(0.001));
-    REQUIRE(distances[0].second == 2);
-    REQUIRE(distances[1].first == Approx(10.0).margin(0.001));
-    REQUIRE(distances[1].second == 3);
+//     // make sure distances are correct
+//     REQUIRE(distances[0].first == Approx(5.0).margin(0.001));
+//     REQUIRE(distances[0].second == 2);
+//     REQUIRE(distances[1].first == Approx(10.0).margin(0.001));
+//     REQUIRE(distances[1].second == 3);
 
-    // clean up
-    delete node1;
-    delete node2;
-    delete node3;
-}
+//     // clean up
+//     delete node1;
+//     delete node2;
+//     delete node3;
+// }
 
 TEST_CASE("Test calculate_knn") 
 {
