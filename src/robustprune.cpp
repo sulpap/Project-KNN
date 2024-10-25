@@ -2,8 +2,9 @@
 #include <limits>
 #include <cmath>
 #include "../include/graph.hpp"
+#include "../include/utility.hpp"
 
-void RobustPrune(Node* p, set<Node*> V, double a, int R, Graph& G) {
+void RobustPrune(Graph& G, Node* p, set<Node*> V, double a, int R) {
     // Step 1: V <- (V ∪ N_out(p)) \ {p}
     list<Node*> currentOutNeighbors = p->getEdges();
     V.insert(currentOutNeighbors.begin(), currentOutNeighbors.end());
@@ -19,7 +20,7 @@ void RobustPrune(Node* p, set<Node*> V, double a, int R, Graph& G) {
         double minDistance = std::numeric_limits<double>::max();
 
         for (Node* pPrime : V) {
-            double dist = distance(p, pPrime); // Assuming you have a distance function
+            double dist = euclidean_distance_of_nodes(p, pPrime); // Assuming you have a distance function
             if (dist < minDistance) {
                 minDistance = dist;
                 pStar = pPrime;
@@ -38,7 +39,7 @@ void RobustPrune(Node* p, set<Node*> V, double a, int R, Graph& G) {
         auto it = V.begin();
         while (it != V.end()) {
             Node* pPrime = *it;
-            if (a * distance(pStar, pPrime) <= distance(p, pPrime)) {
+            if (a * euclidean_distance_of_nodes(pStar, pPrime) <= euclidean_distance_of_nodes(p, pPrime)) {
                 // Step 8: remove p' from V
                 it = V.erase(it);
             } else {
@@ -46,21 +47,4 @@ void RobustPrune(Node* p, set<Node*> V, double a, int R, Graph& G) {
             }
         }
     }
-}
-
-// Distance function assuming Euclidean distance
-double distance(Node* p1, Node* p2) {
-    const vector<double>& coord1 = p1->getCoordinates();
-    const vector<double>& coord2 = p2->getCoordinates();
-    
-    if (coord1.size() != coord2.size()) {
-        throw runtime_error("Dimension mismatch in distance calculation.");
-    }
-
-    double sum = 0.0;
-    for (size_t i = 0; i < coord1.size(); ++i) {
-        sum += pow(coord1[i] - coord2[i], 2);
-    }
-
-    return sqrt(sum);
 }
