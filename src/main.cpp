@@ -50,7 +50,7 @@ int main(int argc, char* argv[])
 
     // --------------------------- generate_graph ----------------------------------
     Graph graph;
-    generate_graph(graph, coordinates, 1);
+    generate_graph(graph, coordinates);
 
     // cout << "\n\n testing generate_graph \n" ;
     // graph.printEdges();
@@ -104,17 +104,6 @@ int main(int argc, char* argv[])
     cout << endl << "new graph after union: " << endl;
 
     graph1.printEdges();
-
-    // ----------------------  Test calculate_knn  -------------------------
-
-    // vector<pair<double, int>> knn;
-
-    // calculate_knn(1, graph1, k, knn);
-
-    // cout << "\n \nKNN for Node " << 1 << ":" << endl;
-    // for (const auto& pair : knn) {
-    //     cout << "Distance to Node " << pair.second << ": " << pair.first << endl;
-    // }
 
     // ----------------------------------------------------------------------
     

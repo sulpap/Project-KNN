@@ -3,9 +3,11 @@
 #include <cstdlib>
 #include <ctime>
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodeEdges)
+void generate_graph(Graph &graph, vector<vector<double>> &coords)
 {
     srand(time(0));
+
+    int maxNodeEdges = graph.getNodeCount();
 
     // nodeIds start from 1
     for (size_t i = 1; i <= coords.size(); i++) 

@@ -11,12 +11,13 @@ using namespace std;
 // coords = P
 // k
 // maxNodesEdges = R
+// randomPermutation = σ
 
 // L is the set of closest neighbors returned from Greedy
 // V is the set of visited nodes returned from Greedy
+// Nout are the possible candidates, so the union of L and V.
 
-// neighborSet = Nout
-// neighborId = j
+// neighbor = j
 // queryNode = σ(i)             to node me id i?
 
 // Medoids are representative objects of a data set 
@@ -26,44 +27,45 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
     Graph graph;
 
-    generate_graph(graph, coords, maxNodesEdges);
-
-    int num_nodes = graph.getNodeCount();
+    generate_graph(graph, coords);
 
     int s = findMedoid(coords);
 
-    // vector<Node*> visited;
+    // make a random permutation of 1..n, to traverse the nodes in a random order
+    int num_nodes = graph.getNodeCount();
+    set<int> randomPermutation;
 
-    // should we do a random shuffle from 1 to n?? and traverse randomly????
+    for (int i = 1; i <= num_nodes; i++)
+    {
+        randomPermutation.insert(i);
+    }
 
-    for (auto i = 1; i <= num_nodes; i++)
+    random_shuffle(randomPermutation.begin(), randomPermutation.end());
+
+    for (int i : randomPermutation)
     {
         Node* queryNode = graph.getNode(i);
 
-        vector<Node*> V;
+        set<Node*> V; // int or node* ????
+        set<Node*> L;
 
-        vector<double> queryCoords = queryNode->getCoordinates(); // is this correct???????????? thelei &query coords????       
-        vector<int> L = GreedySearch(graph, s, queryCoords, k); // greedy returns closest and visited
+        vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords    
+        GreedySearch(graph, s, queryCoords, k, num_nodes, L, V);
 
-        // Convert V to a set for RobustPrune  ------ given that robust needs a SET as input
-        set<Node*> neighborSet(V.begin(), V.end());
+        set<Node*> Nout;
+        set_union(V.begin(), V.end(), L.begin(), L.end(), inserter(Nout, Nout.begin())); // using inserter to avoid overwriting
 
-        RobustPrune(graph, queryNode, neighborSet, a, maxNodesEdges);
-        // RobustPrune(graph, queryNode->getId(), neighborSet, a, maxNodesEdges);
+        RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
 
-        // add the pruned neigbors as edges
-        for (int neighborId : L) {  // this is stated sthn ekfwnisi alla oxi sto psevdokwdika?????
-            graph.addEdge(i, neighborId);
-        }
-
-        // check degree of the node. If it exceeds R, apply RobustPrune again.
-        if (graph.getNode(i)->getEdges().size() > maxNodesEdges) {
-            //re-apply RobustPrune to ensure degree <= R
-            RobustPrune(graph, queryNode, neighborSet, a, maxNodesEdges);
-        } else {
-            // add neighbors since the degree constraint is not violated
-            for (Node* neighbor : neighborSet) {
-                graph.addEdge(i, neighbor->getId());
+        for (Node* neighbor : Nout) 
+        {
+            // check degree of the node. If it exceeds R, apply RobustPrune again.
+            if (graph.getNode(i)->getEdges().size() > maxNodesEdges) {
+                //re-apply RobustPrune to ensure degree <= R
+                RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
+            } else {
+                // update set since the degree constraint is not violated
+                Nout.insert(graph.getNode(neighbor->getId())); // AN EINAI NODE SET. AN EINAI INT SKETO NEIGHBOR GET ID               
             }
         }
     
