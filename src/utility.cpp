@@ -6,7 +6,6 @@
 #include <cstdlib>
 #include <cmath>
 #include <fstream>
-#include <cassert>
 #include <algorithm>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2) 
@@ -43,9 +42,6 @@ int findMedoid(const vector<vector<double>> &coords)
                 totalDistance += euclidean_distance(coords[i], coords[j]);
             }
         }
-
-        // Print the total distance for debugging
-        cout << "Total distance for point " << i << ": " << totalDistance << endl;
 
         // update medoid only if the sum is less than the minimum (until now)
         if (totalDistance < minTotalDistance) {
