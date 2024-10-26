@@ -1,4 +1,4 @@
-#include "../include/vamanaIndexingAlgorithm.hpp"
+#include "../include/vamana.hpp"
 #include "../include/greedysearch.hpp"
 #include "../include/robustprune.hpp"
 #include "../include/generate_graph.hpp"
