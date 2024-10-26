@@ -157,3 +157,151 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
         delete pair.second;
     }
 }
+
+
+// Experimenting
+
+TEST_CASE("Graph Union Test - Basic") {
+    // Create graph1 with some nodes and edges
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    Node* node2 = new Node(2, {1.0, 1.0}, {});
+    graph1.addNode(node1);
+    graph1.addNode(node2);
+    graph1.addEdge(1, 2);
+
+    // Create graph2 with a new node and an overlapping node
+    Graph graph2;
+    Node* node2_copy = new Node(2, {1.0, 1.0}, {}); // Same ID as in graph1
+    Node* node3 = new Node(3, {2.0, 2.0}, {});
+    graph2.addNode(node2_copy);
+    graph2.addNode(node3);
+    graph2.addEdge(2, 3);
+
+    // Perform the union
+    graph1.graphUnion(graph2);
+
+    SECTION("Union adds new nodes correctly") {
+        REQUIRE(graph1.getNode(3) != nullptr);  // Node 3 should now exist
+    }
+
+    SECTION("Union doesn't duplicate existing nodes") {
+        REQUIRE(graph1.getNode(2)->getCoordinates() == std::vector<double>({1.0, 1.0}));
+    }
+
+    SECTION("Union adds edges correctly") {
+        Node* node2_after_union = graph1.getNode(2);
+        REQUIRE(node2_after_union->edgeExists(3)); // Edge 2 -> 3 should be added
+    }
+}
+
+TEST_CASE("Graph Union Test - Empty Graph") {
+    // Create two graphs, one empty and one with nodes
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    graph1.addNode(node1);
+
+    Graph emptyGraph;
+
+    // Perform union with an empty graph
+    graph1.graphUnion(emptyGraph);
+
+    SECTION("Union with empty graph doesn't alter the original graph") {
+        REQUIRE(graph1.getNode(1) != nullptr); // Node 1 should still exist
+        REQUIRE(graph1.getNode(2) == nullptr); // No new nodes should be added
+    }
+}
+
+TEST_CASE("Graph Union Test - Self-loops Handling") {
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    node1->addEdge(node1); // Self-loop
+    graph1.addNode(node1);
+
+    Graph graph2;
+    Node* node2 = new Node(2, {1.0, 1.0}, {});
+    graph2.addNode(node2);
+
+    // Perform the union
+    graph1.graphUnion(graph2);
+
+    SECTION("Union doesn't duplicate self-loops") {
+        Node* node1_after_union = graph1.getNode(1);
+        REQUIRE(node1_after_union->edgeExists(1)); // Ensure self-loop exists
+    }
+}
+
+
+TEST_CASE("Graph Intersection Test - Basic") {
+    // Create graph1 with some nodes and edges
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    Node* node2 = new Node(2, {1.0, 1.0}, {});
+    graph1.addNode(node1);
+    graph1.addNode(node2);
+    graph1.addEdge(1, 2);
+
+    // Create graph2 with an overlapping node and an edge
+    Graph graph2;
+    Node* node2_copy = new Node(2, {1.0, 1.0}, {});
+    graph2.addNode(node2_copy);
+    Node* node3 = new Node(3, {2.0, 2.0}, {});
+    graph2.addNode(node3);
+    graph2.addEdge(2, 3);
+
+    // Perform the intersection
+    graph1.graphIntersection(graph2);
+
+    SECTION("Intersection retains common nodes") {
+        REQUIRE(graph1.getNode(2) != nullptr);  // Node 2 should still exist
+    }
+
+    SECTION("Intersection removes non-common nodes") {
+        REQUIRE(graph1.getNode(1) == nullptr);  // Node 1 should be removed
+        REQUIRE(graph1.getNode(3) == nullptr);  // Node 3 shouldn't exist in graph1
+    }
+
+    SECTION("Intersection retains common edges") {
+        REQUIRE(graph1.getNode(2)->getEdges().empty());  // No common edges should remain
+    }
+}
+
+TEST_CASE("Graph Intersection Test - Empty Intersection") {
+    // Create two graphs with no overlapping nodes or edges
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    graph1.addNode(node1);
+
+    Graph graph2;
+    Node* node2 = new Node(2, {1.0, 1.0}, {});
+    graph2.addNode(node2);
+
+    // Perform intersection
+    graph1.graphIntersection(graph2);
+
+    SECTION("Intersection of disjoint graphs results in empty graph") {
+        REQUIRE(graph1.getAdjList().empty()); // graph1 should now be empty
+    }
+}
+
+TEST_CASE("Graph Intersection Test - Self-loops Handling") {
+    Graph graph1;
+    Node* node1 = new Node(1, {0.0, 1.0}, {});
+    node1->addEdge(node1); // Self-loop
+    graph1.addNode(node1);
+
+    Graph graph2;
+    Node* node1_copy = new Node(1, {0.0, 1.0}, {});
+    node1_copy->addEdge(node1_copy);
+    graph2.addNode(node1_copy);
+
+    // Perform the intersection
+    graph1.graphIntersection(graph2);
+
+    SECTION("Intersection retains self-loops if they are present in both graphs") {
+        REQUIRE(graph1.getNode(1) != nullptr);     // Node 1 should still exist
+        REQUIRE(graph1.getNode(1)->edgeExists(1)); // Self-loop should be retained
+    }
+}
+
+

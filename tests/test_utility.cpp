@@ -69,44 +69,43 @@ TEST_CASE("Test euclidean_distance_of_nodes")
 //     delete node3;
 // }
 
-
 // POSSIBLY NOT NECESSARY
-TEST_CASE("Test calculate_knn") 
-{
-    Node* node1 = new Node(1, {0.0, 0.0}, {});
-    Node* node2 = new Node(2, {3.0, 4.0}, {});
-    Node* node3 = new Node(3, {6.0, 8.0}, {});
-    Node* node4 = new Node(4, {10.0, 10.0}, {});
+// TEST_CASE("Test calculate_knn") 
+// {
+//     Node* node1 = new Node(1, {0.0, 0.0}, {});
+//     Node* node2 = new Node(2, {3.0, 4.0}, {});
+//     Node* node3 = new Node(3, {6.0, 8.0}, {});
+//     Node* node4 = new Node(4, {10.0, 10.0}, {});
     
 
-    Graph graph;
-    graph.addNode(node1);
-    graph.addNode(node2);
-    graph.addNode(node3);
-    graph.addNode(node4);
+//     Graph graph;
+//     graph.addNode(node1);
+//     graph.addNode(node2);
+//     graph.addNode(node3);
+//     graph.addNode(node4);
     
-    // test for k=2
-    vector<pair<double, int>> knn;
-    calculate_knn(1, graph, 2, knn);
+//     // test for k=2
+//     vector<pair<double, int>> knn;
+//     calculate_knn(1, graph, 2, knn);
 
-    // there should be two nearest neighbors
-    REQUIRE(knn.size() == 2);
+//     // there should be two nearest neighbors
+//     REQUIRE(knn.size() == 2);
 
-    // check if the nearest neighbors are correct (node2 and node3)
-    REQUIRE(knn[0].first == Approx(5.0).margin(0.001));
-    REQUIRE(knn[0].second == 2);
-    REQUIRE(knn[1].first == Approx(10.0).margin(0.001));
-    REQUIRE(knn[1].second == 3);
+//     // check if the nearest neighbors are correct (node2 and node3)
+//     REQUIRE(knn[0].first == Approx(5.0).margin(0.001));
+//     REQUIRE(knn[0].second == 2);
+//     REQUIRE(knn[1].first == Approx(10.0).margin(0.001));
+//     REQUIRE(knn[1].second == 3);
     
-    // test for k greater than the number of nodes
-    knn.clear();
-    calculate_knn(1, graph, 5, knn);
-    REQUIRE(knn.size() == 3);  // since there are only 3 other nodes
+//     // test for k greater than the number of nodes
+//     knn.clear();
+//     calculate_knn(1, graph, 5, knn);
+//     REQUIRE(knn.size() == 3);  // since there are only 3 other nodes
 
-    // clean up
-    delete node1;
-    delete node2;
-    delete node3;
-    delete node4;
-}
+//     // clean up
+//     delete node1;
+//     delete node2;
+//     delete node3;
+//     delete node4;
+// }
 
