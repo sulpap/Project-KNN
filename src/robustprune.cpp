@@ -20,7 +20,7 @@ void RobustPrune(Graph& G, Node* p, set<Node*> V, double a, int R) {
         double minDistance = std::numeric_limits<double>::max();
 
         for (Node* pPrime : V) {
-            double dist = euclidean_distance_of_nodes(p, pPrime); // Assuming you have a distance function
+            double dist = euclidean_distance_of_nodes(p, pPrime);
             if (dist < minDistance) {
                 minDistance = dist;
                 pStar = pPrime;

@@ -161,7 +161,7 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
 
 // Experimenting
 
-TEST_CASE("Graph Union Test - Basic") {
+TEST_CASE("Graph Union Test - Basic", "[UnionBasic]") {
     // Create graph1 with some nodes and edges
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
@@ -195,7 +195,7 @@ TEST_CASE("Graph Union Test - Basic") {
     }
 }
 
-TEST_CASE("Graph Union Test - Empty Graph") {
+TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]") {
     // Create two graphs, one empty and one with nodes
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
@@ -212,7 +212,7 @@ TEST_CASE("Graph Union Test - Empty Graph") {
     }
 }
 
-TEST_CASE("Graph Union Test - Self-loops Handling") {
+TEST_CASE("Graph Union Test - Self-loops Handling", "[UnionSelfLoops]") {
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
     node1->addEdge(node1); // Self-loop
@@ -232,7 +232,7 @@ TEST_CASE("Graph Union Test - Self-loops Handling") {
 }
 
 
-TEST_CASE("Graph Intersection Test - Basic") {
+TEST_CASE("Graph Intersection Test - Basic", "[IntersectionBasic]") {
     // Create graph1 with some nodes and edges
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
@@ -266,7 +266,7 @@ TEST_CASE("Graph Intersection Test - Basic") {
     }
 }
 
-TEST_CASE("Graph Intersection Test - Empty Intersection") {
+TEST_CASE("Graph Intersection Test - Empty Intersection", "[IntersectionEmpty]") {
     // Create two graphs with no overlapping nodes or edges
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
@@ -284,7 +284,7 @@ TEST_CASE("Graph Intersection Test - Empty Intersection") {
     }
 }
 
-TEST_CASE("Graph Intersection Test - Self-loops Handling") {
+TEST_CASE("Graph Intersection Test - Self-loops Handling", "[IntersectionSelfLoops]") {
     Graph graph1;
     Node* node1 = new Node(1, {0.0, 1.0}, {});
     node1->addEdge(node1); // Self-loop
