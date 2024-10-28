@@ -20,10 +20,8 @@ using namespace std;
 
 // neighbor = j
 
-void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
+void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
-    Graph graph;
-
     generate_graph(graph, coords);
 
     // s is the medoid of P and the start node
@@ -68,5 +66,4 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
         }
     
     }
-
 }
