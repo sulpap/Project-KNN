@@ -18,31 +18,22 @@ TEST_CASE("Test generate_graph basic functionality")
         {7.0, 8.0, 9.0}
     };
 
-    int maxNodeEdges = 2;
-
     Graph graph;
-    
-    generate_graph(graph, coords, maxNodeEdges);
+    generate_graph(graph, coords);
 
     // check that 3 nodes have been added
     REQUIRE(graph.getNodeCount() == 3);
 
     // verify that nodes have the correct coordinates
-    Node* node1 = graph.getNode(1);
-    REQUIRE(node1->getCoordinates() == coords[0]);
-
-    Node* node2 = graph.getNode(2);
-    REQUIRE(node2->getCoordinates() == coords[1]);
-
-    Node* node3 = graph.getNode(3);
-    REQUIRE(node3->getCoordinates() == coords[2]);
+    REQUIRE(graph.getNode(1)->getCoordinates() == coords[0]);
+    REQUIRE(graph.getNode(2)->getCoordinates() == coords[1]);
+    REQUIRE(graph.getNode(3)->getCoordinates() == coords[2]);
 
     // ensure that each node has between 1 and maxNodeEdges edges
     for (int i = 1; i <= 3; ++i) {
         Node* node = graph.getNode(i);
         int edgeCount = node->getEdges().size();
         REQUIRE(edgeCount >= 1);
-        REQUIRE(edgeCount <= maxNodeEdges);
     }
 }
 
@@ -56,11 +47,8 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         {4.0, 4.0, 4.0}
     };
 
-    int maxNodeEdges = 3;
-
     Graph graph;
-
-    generate_graph(graph, coords, maxNodeEdges);
+    generate_graph(graph, coords);
 
     // verify that there are no self-loops
     for (int i = 1; i <= 4; ++i) {
@@ -80,8 +68,13 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
             edges.push_back(edge->getId());
         }
 
-        // check if there are duplicate neighbors
+        // sort in order for duplicates to appear next to each other
         sort(edges.begin(), edges.end());
+        // find the first occurrence of two consecutive identical elements in a range *
         REQUIRE(adjacent_find(edges.begin(), edges.end()) == edges.end());
     }
 }
+
+// * if adjacent_find returns edges.end(), it means no consecutive duplicate elements were found, 
+// so there are no duplicates in the sorted edges vector.
+// if it returns an iterator other than edges.end(), there are duplicate elements.

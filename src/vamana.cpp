@@ -8,7 +8,7 @@
 
 using namespace std;
 
-// coords = P
+// coords = coords of all vectors in P
 // k
 // maxNodesEdges = R
 // randomPermutation = σ
@@ -46,7 +46,7 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
     {
         Node* queryNode = graph.getNode(i);
 
-        set<Node*> V; // int or node* ????
+        set<Node*> V;
         set<Node*> L;
 
         vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords    
@@ -65,7 +65,7 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
                 RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
             } else {
                 // update set since the degree constraint is not violated
-                Nout.insert(graph.getNode(neighbor->getId())); // AN EINAI NODE SET. AN EINAI INT SKETO NEIGHBOR GET ID               
+                Nout.insert(graph.getNode(neighbor->getId()));           
             }
         }
     
