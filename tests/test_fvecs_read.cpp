@@ -33,7 +33,17 @@ TEST_CASE("Test fvecs_read with small file")
 
 
         // check the contents of the vectors.
-        // TODO
+
+        // first vector:
+        REQUIRE(vectors[0][0] == Approx(1.0).margin(0.001));
+        REQUIRE(vectors[0][1] == Approx(2.0).margin(0.001));
+        REQUIRE(vectors[0][2] == Approx(3.0).margin(0.001));
+
+        // second vector:
+        REQUIRE(vectors[1][0] == Approx(4.0).margin(0.001));
+        REQUIRE(vectors[1][1] == Approx(5.0).margin(0.001));
+        REQUIRE(vectors[1][2] == Approx(6.0).margin(0.001));
+
     }
 
     SECTION("Read all vectors with specific parameters")
@@ -52,7 +62,13 @@ TEST_CASE("Test fvecs_read with small file")
 
 
         // check the contents of the vectors.
-        // TODO
+        REQUIRE(vectors[0][0] == Approx(1.0).margin(0.001));
+        REQUIRE(vectors[0][1] == Approx(2.0).margin(0.001));
+        REQUIRE(vectors[0][2] == Approx(3.0).margin(0.001));
+
+        REQUIRE(vectors[1][0] == Approx(4.0).margin(0.001));
+        REQUIRE(vectors[1][1] == Approx(5.0).margin(0.001));
+        REQUIRE(vectors[1][2] == Approx(6.0).margin(0.001));
 
     }
     
