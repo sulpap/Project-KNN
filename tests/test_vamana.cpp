@@ -44,6 +44,7 @@ using  namespace std;
 
 // }
 
+// result of vamana should be a graph whose nodes have edges pointing to their k closest neighbors.
 TEST_CASE("Vamana function test") 
 {
     // set up a sample graph with nodes
