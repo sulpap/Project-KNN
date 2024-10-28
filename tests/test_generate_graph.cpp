@@ -1,6 +1,3 @@
-//#define CATCH_CONFIG_MAIN
-
-
 #include "catch.hpp"
 #include "../include/graph.hpp"
 #include "../include/generate_graph.hpp"
