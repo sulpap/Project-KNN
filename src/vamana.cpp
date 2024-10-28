@@ -8,20 +8,17 @@
 
 using namespace std;
 
-// coords = coords of all vectors in P
-// k
+// coords = coords of all vectors in P dataset
+// k = number of closest neighbors we need
 // maxNodesEdges = R
 // randomPermutation = σ
+// queryNode = σ(i), node with id
 
 // L is the set of closest neighbors returned from Greedy
 // V is the set of visited nodes returned from Greedy
 // Nout are the possible candidates, so the union of L and V.
 
 // neighbor = j
-// queryNode = σ(i)             to node me id i?
-
-// Medoids are representative objects of a data set 
-// whose sum of dissimilarities = distances to all the objects in the data set is minimal. 
 
 void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
@@ -29,7 +26,8 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 
     generate_graph(graph, coords);
 
-    Node* s = graph.getNode(findMedoid(coords));
+    // s is the medoid of P and the start node
+    Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to macth the graph's 1-based ids
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     int num_nodes = graph.getNodeCount();

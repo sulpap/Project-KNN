@@ -26,7 +26,8 @@ double euclidean_distance_of_nodes(Node* node1, Node* node2)
     return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
 }
 
-// TODO should the index start from 1?
+// Medoids are representative objects of a data set 
+// dissimilarities = distances to all the objects in the data set is minimal. 
 int findMedoid(const vector<vector<double>> &coords) 
 {
     int medoidIndex = -1;
