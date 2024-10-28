@@ -5,6 +5,7 @@
 #include "../include/utility.hpp"
 #include <algorithm>
 #include <iostream>
+#include <random>
 
 using namespace std;
 
@@ -25,16 +26,13 @@ void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int 
     generate_graph(graph, coords);
 
     // s is the medoid of P and the start node
-    Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to macth the graph's 1-based ids
+    Node* s = graph.getNode(findMedoid(coords)); // Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to match the graph's 1-based ids
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     int num_nodes = graph.getNodeCount();
-    set<int> randomPermutation;
+    vector<int> randomPermutation(num_nodes);
 
-    for (int i = 1; i <= num_nodes; i++)
-    {
-        randomPermutation.insert(i);
-    }
+    iota(randomPermutation.begin(), randomPermutation.end(), 1); // fill with 1 to num_nodes
 
     random_shuffle(randomPermutation.begin(), randomPermutation.end());
 

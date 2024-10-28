@@ -84,7 +84,7 @@ TEST_CASE("Test fvecs_read with small file")
         REQUIRE(vectors.empty());
     }
 
-    // cleanup
+    // cleaning
     remove(test_file);
 } 
 

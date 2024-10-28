@@ -1,6 +1,5 @@
 #include <../include/utility.hpp>
 #include "../include/graph.hpp"
-#include "../include/greedysearch.hpp"
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>
