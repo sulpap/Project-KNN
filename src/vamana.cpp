@@ -29,7 +29,7 @@ void Vamana(vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 
     generate_graph(graph, coords);
 
-    int s = findMedoid(coords);
+    Node* s = graph.getNode(findMedoid(coords));
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     int num_nodes = graph.getNodeCount();
