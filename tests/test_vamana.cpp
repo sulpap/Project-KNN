@@ -7,43 +7,6 @@
 
 using  namespace std; 
 
-// TEST_CASE("Test Vamana") 
-// {
-//     SECTION("Basic case with small input") 
-//     {
-//         // sample input
-//         int numNodes = 5;
-//         vector<vector<double>> coords = {
-//             {0.0, 0.0},
-//             {1.0, 1.0},
-//             {2.0, 2.0},
-//             {3.0, 3.0},
-//             {4.0, 4.0}
-//         };
-//         int maxNodesEdges = 2;
-//         int k = 2;
-//         int a = 1;
-        
-//         Graph graph;
-//         Vamana(graph, coords, maxNodesEdges, k, a);
-        
-//         // check if graph is not empty
-//         REQUIRE(graph.getNodeCount() > 0);
-
-//         for (int i = 1; i <= graph.getNodeCount(); ++i) {
-//             Node* node = graph.getNode(i);
-//             REQUIRE(node->getEdges().size() <= maxNodesEdges); 
-//         }   
-
-//         // follow vamana manually for another graph and see if the results are the same.
-//         Graph graph2;
-//         Node* s = graph.getNode(2); // i = 2 is the medoid in this case.
-
-
-//     }
-
-// }
-
 // result of vamana should be a graph whose nodes have edges pointing to their k closest neighbors.
 TEST_CASE("Vamana function test") 
 {
