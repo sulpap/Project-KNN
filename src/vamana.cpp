@@ -17,13 +17,13 @@ using namespace std;
 
 // L is the set of closest neighbors returned from Greedy
 // V is the set of visited nodes returned from Greedy
-// Nout are the possible candidates, so the union of L and V.
+// Nout are the possible candidates, out-neighbors.
 
 // neighbor = j
 
 void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
-    generate_graph(graph, coords);
+    generate_graph(graph, coords, maxNodesEdges);
 
     // s is the medoid of P and the start node
     Node* s = graph.getNode(findMedoid(coords)); // Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to match the graph's 1-based ids
@@ -46,8 +46,8 @@ void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int 
         vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords    
         GreedySearch(graph, s, queryCoords, k, num_nodes, L, V);
 
-        set<Node*> Nout;
-        set_union(V.begin(), V.end(), L.begin(), L.end(), inserter(Nout, Nout.begin())); // using inserter to avoid overwriting
+        // initialize Nout with the current out-neighbors of queryNode
+        set<Node*> Nout(queryNode->getEdges().begin(), queryNode->getEdges().end());       
 
         RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
 

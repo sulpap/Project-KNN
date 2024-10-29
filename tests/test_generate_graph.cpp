@@ -14,9 +14,10 @@ TEST_CASE("Test generate_graph basic functionality")
         {4.0, 5.0, 6.0},
         {7.0, 8.0, 9.0}
     };
+    int maxNodesEdges = 3;
 
     Graph graph;
-    generate_graph(graph, coords);
+    generate_graph(graph, coords, maxNodesEdges);
 
     // check that 3 nodes have been added
     REQUIRE(graph.getNodeCount() == 3);
@@ -43,9 +44,10 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         {3.0, 3.0, 3.0},
         {4.0, 4.0, 4.0}
     };
+    int maxNodesEdges = 3;
 
     Graph graph;
-    generate_graph(graph, coords);
+    generate_graph(graph, coords, maxNodesEdges);
 
     // verify that there are no self-loops
     for (int i = 1; i <= 4; ++i) {

@@ -3,11 +3,9 @@
 #include <cstdlib>
 #include <ctime>
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords)
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges)
 {
     srand(time(0));
-
-    int maxNodeEdges = graph.getNodeCount();
 
     // nodeIds start from 1
     for (size_t i = 1; i <= coords.size(); i++) 
@@ -22,7 +20,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords)
         Node* current = graph.getNode(i);
 
         // random number of edges. at least 1 per node.
-        int edgesToAdd = rand() % maxNodeEdges + 1;
+        int edgesToAdd = rand() % maxNodesEdges + 1;
 
         for (int j = 0; j < edgesToAdd; ++j) 
         {

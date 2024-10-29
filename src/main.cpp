@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
 
     //"../datasets/siftsmall/siftsmall_base.fvecs";
     const char* filename = argv[1];
-
     int k = stoi(argv[2]);
 
     // ----------------------- Read the fvecs file given -------------------------
@@ -30,9 +29,17 @@ int main(int argc, char* argv[])
     // Read all vectors from the fvecs file
     vector<vector<float>> vectors = fvecs_read(filename);
 
+    // verify the number of vectors read
+    if (!vectors.empty()) {
+        cout << "Total vectors read: " << vectors.size() << endl;
+    } else {
+        cout << "No vectors read from the file." << endl;
+        return EXIT_FAILURE;
+    }
+
     //print the first vector to verify
     if (!vectors.empty()) {
-        cout << "First vector (first " << vectors[0].size() << " dimensions): ";
+        cout << "First vector (" << vectors[0].size() << " dimensions): ";
         for (const auto& value : vectors[0]) {
             cout << value << " ";
         }
@@ -48,13 +55,26 @@ int main(int argc, char* argv[])
         coordinates.push_back(vector<double>(vec.begin(), vec.end()));
     }
 
+    cout << "All vectors processed successfully." << endl;
+
     // --------------------------- generate_graph ----------------------------------
     Graph graph;
-    generate_graph(graph, coordinates);
+    int maxNodesEdges = 3; // R
+    generate_graph(graph, coordinates, maxNodesEdges);
 
     // cout << "\n\n testing generate_graph \n" ;
     // graph.printEdges();
-    cout << endl <<"node count:" << graph.getNodeCount() <<endl;
+    // cout << endl <<"node count:" << graph.getNodeCount() <<endl;
+
+    // --------------------------- findMedoid ----------------------------------
+
+    int imedoid = findMedoid(coordinates);
+    cout << "medoid is:" << imedoid << endl;
+
+    for (const auto& value : coordinates[imedoid]) {
+        cout << value << " ";
+    }
+    cout << endl;
 
     // --------------------------- graph functions ----------------------------------
 
