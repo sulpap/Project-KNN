@@ -140,7 +140,7 @@ TEST_CASE("RobustPrune with high R and large candidate set V", "[RobustPruneLarg
         V.insert(ni);
     }
 
-    double a = 2.0;
+    double a = 4.0;
     int R = 5;  // Request up to 5 neighbors
 
     RobustPrune(G, p, V, a, R);

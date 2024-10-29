@@ -54,7 +54,7 @@ Graph BuildDirectedGraph(Graph& P, int L, int R, double a) {
         std::set<int> L_set, V_set;
 
         // GreedySearch to get L_set and V_set
-        GreedySearch(P, medoid->getId(), node->getCoordinates(), 1, L, L_set, V_set);
+        // GreedySearch(P, medoid->getId(), node->getCoordinates(), 1, L, L_set, V_set);
 
         // Transform V_set into a set of Node* for RobustPrune
         std::set<Node*> V;
