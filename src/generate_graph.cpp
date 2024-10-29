@@ -8,14 +8,14 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodesEd
     srand(time(0));
 
     // nodeIds start from 1
-    for (size_t i = 1; i <= coords.size(); i++) 
+    for (size_t i = 0; i < coords.size(); i++) 
     {
-        Node* newNode = new Node(i, coords[i - 1], {}); // vector coords start from 0
+        Node* newNode = new Node(i, coords[i], {});
         graph.addNode(newNode);
     }
 
     //add random edges between the nodes
-    for (size_t i = 1; i <= coords.size(); ++i) 
+    for (size_t i = 0; i < coords.size(); ++i) 
     {
         Node* current = graph.getNode(i);
 
@@ -25,7 +25,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodesEd
         for (int j = 0; j < edgesToAdd; ++j) 
         {
             // random destination node
-            size_t randomNeighborId = rand() % coords.size() + 1;
+            size_t randomNeighborId = rand() % coords.size();
 
             //we don't add an edge to the same node or if the edge already exists
             if (randomNeighborId != i && !current->edgeExists(randomNeighborId)) {

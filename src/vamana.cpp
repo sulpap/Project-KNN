@@ -29,7 +29,7 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
     graph.printEdges();
 
     // s is the medoid of P and the start node
-    Node* s = graph.getNode(findMedoid(coords)); // Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to match the graph's 1-based ids
+    Node* s = graph.getNode(findMedoid(coords));
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     int num_nodes = graph.getNodeCount();
