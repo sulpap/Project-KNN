@@ -5,7 +5,7 @@
 #include "../include/utility.hpp"
 #include "../include/fvecs_read.hpp"
 #include "../include/generate_graph.hpp"
-#include "../include/greedysearch.hpp"
+#include "../include/vamana.hpp"
 
 
 using namespace std;
@@ -57,84 +57,43 @@ int main(int argc, char* argv[])
 
     cout << "All vectors processed successfully." << endl;
 
-    // --------------------------- generate_graph ----------------------------------
-    Graph graph;
-    int maxNodesEdges = 3; // R
-    generate_graph(graph, coordinates, maxNodesEdges);
+    // ----------------------------- findMedoid ------------------------------------
 
-    // cout << "\n\n testing generate_graph \n" ;
-    // graph.printEdges();
-    // cout << endl <<"node count:" << graph.getNodeCount() <<endl;
+    // int imedoid = findMedoid(coordinates);
+    // cout << "medoid is:" << imedoid << endl;
 
-    // --------------------------- findMedoid ----------------------------------
+    // for (const auto& value : coordinates[imedoid]) {
+    //     cout << value << " ";
+    // }
+    // cout << endl;
 
-    int imedoid = findMedoid(coordinates);
-    cout << "medoid is:" << imedoid << endl;
+   // ------------------------------- vamana ----------------------------------
 
-    for (const auto& value : coordinates[imedoid]) {
-        cout << value << " ";
-    }
-    cout << endl;
+   Graph graph;
 
-    // --------------------------- graph functions ----------------------------------
+    vector<vector<double>> coords = {
+        {1.0, 2.0},
+        {2.0, 3.0},
+        {3.0, 4.0},
+        {4.0, 5.0},
+        {2.0, 1.0}
+    };
 
-    Node* node1 = new Node(1, vector<double>{1.0, 2.0}, list<Node*>{});
-    Node* node2 = new Node(2, vector<double>{2.0, 3.0}, list<Node*>{});
-    Node* node3 = new Node(3, vector<double>{3.0, 4.0}, list<Node*>{});
-    Node* node4 = new Node(4, vector<double>{4.0, 5.0}, list<Node*>{});
+    int maxNodesEdges = 3;
+    int k = 2;
+    int a = 1; 
 
-    Graph graph1;
-
-    graph1.addNode(node1);
-    graph1.addNode(node2);
-    graph1.addNode(node3);
-    graph1.addNode(node4);
-
-    cout << "\ndistance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl << endl;
-
-    graph1.addEdge(1, node2); // 1 δείχνει στο 2 
+    cout << "running vamana...\n\n";
+    Vamana(graph, coords, maxNodesEdges, k, a);
     
-    graph1.addEdge(2, node3);
-    graph1.addEdge(3, node4);
-    graph1.addEdge(4, node2);
+    // cout << endl << "Cleaning..." << endl;
 
-    graph1.printEdges();
-
-    cout << "delete edge from 1 to 2" << endl << endl;
-    graph1.removeEdge(1, 2);
-
-    graph1.printEdges();
-
-    // ---------- second graph ------------
-
-    Node* node5 = new Node(5, vector<double>{2.0, 1.0}, list<Node*>{});
-    Node* node6 = new Node(6, vector<double>{4.0, 6.0}, list<Node*>{});
-
-    Graph graph2;
-    graph2.addNode(node5);
-    graph2.addNode(node6);
-
-    graph2.addEdge(5, node6);
-
-    cout << endl << "second graph:" << endl;
-    graph2.printEdges();
-
-    graph1.graphUnion(graph2);
-
-    cout << endl << "new graph after union: " << endl;
-
-    graph1.printEdges();
-
-    // ----------------------------------------------------------------------
-    
-    cout << endl << "Cleaning..." << endl;
-
-    delete node1;
-    delete node2;
-    delete node3;
-    delete node4;
-    delete node5;
-    delete node6;
+    // delete node1;
+    // delete node2;
+    // delete node3;
+    // delete node4;
+    // delete node5;
+    // delete node6;
 
     cout << endl << "Bye!" << endl;
 

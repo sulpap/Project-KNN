@@ -21,9 +21,12 @@ using namespace std;
 
 // neighbor = j
 
-void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
+void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
     generate_graph(graph, coords, maxNodesEdges);
+
+    cout<<"initial graph:"<< endl;
+    graph.printEdges();
 
     // s is the medoid of P and the start node
     Node* s = graph.getNode(findMedoid(coords)); // Node* s = graph.getNode(findMedoid(coords) + 1); // +1 is to match the graph's 1-based ids
@@ -40,14 +43,20 @@ void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int 
     {
         Node* queryNode = graph.getNode(i);
 
+        if (!queryNode) {
+            cerr << "Invalid queryNode for index: " << i << endl;
+            continue; // Skip to the next iteration
+        }
+
         set<Node*> V;
         set<Node*> L;
 
-        vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords    
+        vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords   
         GreedySearch(graph, s, queryCoords, k, num_nodes, L, V);
-
+        
         // initialize Nout with the current out-neighbors of queryNode
-        set<Node*> Nout(queryNode->getEdges().begin(), queryNode->getEdges().end());       
+        list<Node*> edges = queryNode->getEdges();
+        set<Node*> Nout(edges.begin(), edges.end());       
 
         RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
 
@@ -64,4 +73,8 @@ void Vamana(Graph graph, vector<vector<double>> &coords, int maxNodesEdges, int 
         }
     
     }
+    cout << "final graph:"<< endl;
+    graph.printEdges();
 }
+
+// * where do we deleet nodes and do we need to do that 
