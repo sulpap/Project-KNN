@@ -5,7 +5,7 @@
 #include "../include/utility.hpp"
 #include "../include/fvecs_read.hpp"
 #include "../include/generate_graph.hpp"
-#include "../include/greedysearch.hpp"
+#include "../include/vamana.hpp"
 
 
 using namespace std;
@@ -22,7 +22,6 @@ int main(int argc, char* argv[])
 
     //"../datasets/siftsmall/siftsmall_base.fvecs";
     const char* filename = argv[1];
-
     int k = stoi(argv[2]);
 
     // ----------------------- Read the fvecs file given -------------------------
@@ -30,9 +29,17 @@ int main(int argc, char* argv[])
     // Read all vectors from the fvecs file
     vector<vector<float>> vectors = fvecs_read(filename);
 
+    // verify the number of vectors read
+    if (!vectors.empty()) {
+        cout << "Total vectors read: " << vectors.size() << endl;
+    } else {
+        cout << "No vectors read from the file." << endl;
+        return EXIT_FAILURE;
+    }
+
     //print the first vector to verify
     if (!vectors.empty()) {
-        cout << "First vector (first " << vectors[0].size() << " dimensions): ";
+        cout << "First vector (" << vectors[0].size() << " dimensions): ";
         for (const auto& value : vectors[0]) {
             cout << value << " ";
         }
@@ -48,73 +55,45 @@ int main(int argc, char* argv[])
         coordinates.push_back(vector<double>(vec.begin(), vec.end()));
     }
 
-    // --------------------------- generate_graph ----------------------------------
-    Graph graph;
-    generate_graph(graph, coordinates);
+    cout << "All vectors processed successfully." << endl;
 
-    // cout << "\n\n testing generate_graph \n" ;
-    // graph.printEdges();
-    cout << endl <<"node count:" << graph.getNodeCount() <<endl;
+    // ----------------------------- findMedoid ------------------------------------
 
-    // --------------------------- graph functions ----------------------------------
+    // int imedoid = findMedoid(coordinates);
+    // cout << "medoid is:" << imedoid << endl;
 
-    Node* node1 = new Node(1, vector<double>{1.0, 2.0}, list<Node*>{});
-    Node* node2 = new Node(2, vector<double>{2.0, 3.0}, list<Node*>{});
-    Node* node3 = new Node(3, vector<double>{3.0, 4.0}, list<Node*>{});
-    Node* node4 = new Node(4, vector<double>{4.0, 5.0}, list<Node*>{});
+    // for (const auto& value : coordinates[imedoid]) {
+    //     cout << value << " ";
+    // }
+    // cout << endl;
 
-    Graph graph1;
+   // ------------------------------- vamana ----------------------------------
 
-    graph1.addNode(node1);
-    graph1.addNode(node2);
-    graph1.addNode(node3);
-    graph1.addNode(node4);
+   Graph graph;
 
-    cout << "\ndistance between node1 and node2: " << euclidean_distance_of_nodes(node1, node2) << endl << endl;
+    vector<vector<double>> coords = {
+        {1.0, 2.0},
+        {2.0, 3.0},
+        {3.0, 4.0},
+        {4.0, 5.0},
+        {2.0, 1.0}
+    };
 
-    graph1.addEdge(1, node2); // 1 δείχνει στο 2 
+    int maxNodesEdges = 3;
+    int k = 2;
+    int a = 1; 
+
+    cout << "running vamana...\n\n";
+    Vamana(graph, coords, maxNodesEdges, k, a);
     
-    graph1.addEdge(2, node3);
-    graph1.addEdge(3, node4);
-    graph1.addEdge(4, node2);
+    // cout << endl << "Cleaning..." << endl;
 
-    graph1.printEdges();
-
-    cout << "delete edge from 1 to 2" << endl << endl;
-    graph1.removeEdge(1, 2);
-
-    graph1.printEdges();
-
-    // ---------- second graph ------------
-
-    Node* node5 = new Node(5, vector<double>{2.0, 1.0}, list<Node*>{});
-    Node* node6 = new Node(6, vector<double>{4.0, 6.0}, list<Node*>{});
-
-    Graph graph2;
-    graph2.addNode(node5);
-    graph2.addNode(node6);
-
-    graph2.addEdge(5, node6);
-
-    cout << endl << "second graph:" << endl;
-    graph2.printEdges();
-
-    graph1.graphUnion(graph2);
-
-    cout << endl << "new graph after union: " << endl;
-
-    graph1.printEdges();
-
-    // ----------------------------------------------------------------------
-    
-    cout << endl << "Cleaning..." << endl;
-
-    delete node1;
-    delete node2;
-    delete node3;
-    delete node4;
-    delete node5;
-    delete node6;
+    // delete node1;
+    // delete node2;
+    // delete node3;
+    // delete node4;
+    // delete node5;
+    // delete node6;
 
     cout << endl << "Bye!" << endl;
 
