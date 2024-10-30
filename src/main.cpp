@@ -7,6 +7,7 @@
 #include "../include/generate_graph.hpp"
 #include "../include/vamana.hpp"
 
+#include <chrono>   // temp --- for time in findMedoid
 
 using namespace std;
 
@@ -59,13 +60,21 @@ int main(int argc, char* argv[])
 
     // ----------------------------- findMedoid ------------------------------------
 
-    // int imedoid = findMedoid(coordinates);
-    // cout << "medoid is:" << imedoid << endl;
+    auto start = chrono::high_resolution_clock::now();
 
-    // for (const auto& value : coordinates[imedoid]) {
-    //     cout << value << " ";
-    // }
-    // cout << endl;
+    int imedoid = findMedoid(coordinates);
+
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "findMedoid took: " << duration.count() << " seconds" << endl;
+
+    cout << "medoid index is:" << imedoid << endl;
+
+    cout << "medoid coordinates: ";
+    for (const auto& value : coordinates[imedoid]) {
+        cout << value << " ";
+    }
+    cout << endl;
 
    // ------------------------------- vamana ----------------------------------
 
