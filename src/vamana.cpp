@@ -35,7 +35,7 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
     int num_nodes = graph.getNodeCount();
     vector<int> randomPermutation(num_nodes);
 
-    iota(randomPermutation.begin(), randomPermutation.end(), 1); // fill with 1 to num_nodes
+    iota(randomPermutation.begin(), randomPermutation.end(), 0); // fill with 0 to num_nodes
 
     random_shuffle(randomPermutation.begin(), randomPermutation.end());
 

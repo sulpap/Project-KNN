@@ -69,7 +69,7 @@ int main(int argc, char* argv[])
 
    // ------------------------------- vamana ----------------------------------
 
-   Graph graph;
+    Graph graph;
 
     vector<vector<double>> coords = {
         {1.0, 2.0},
@@ -80,10 +80,10 @@ int main(int argc, char* argv[])
     };
 
     int maxNodesEdges = 3;
-    int k = 2;
+    // k = 2;
     int a = 1; 
 
-    cout << "running vamana...\n\n";
+    cout << "running vamana..." << endl;
     Vamana(graph, coords, maxNodesEdges, k, a);
     
     // cout << endl << "Cleaning..." << endl;
