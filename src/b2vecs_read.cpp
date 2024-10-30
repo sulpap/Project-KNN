@@ -1,11 +1,13 @@
-#include "../include/fvecs_read.hpp"
+#include "../include/b2vecs_read.hpp"
 #include <iostream>
 #include <fstream>
 #include <cassert>
 
-vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b) 
+using namespace std;
+
+vector<vector<float>> b2fvecs_read(const char* filename, size_t a, size_t b) 
 {
-    // Open the file and count the number of descriptors
+    // Open the file and check for errors
     FILE* fid = fopen(filename, "rb");
     if (!fid) {
         cerr << "I/O error: Unable to open the file " << filename << endl;
@@ -22,7 +24,7 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
     size_t vecsizeof = sizeof(int) + d * sizeof(float);
 
     // Determine the total number of vectors by checking file size
-    fseek(fid, 0, SEEK_END);  // go to end of file
+    fseek(fid, 0, SEEK_END);  // Go to end of file
     size_t file_size = ftell(fid);
     size_t bmax = file_size / vecsizeof;
 
@@ -47,18 +49,18 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
     fseek(fid, (a - 1) * vecsizeof, SEEK_SET);
 
     // Read n vectors into a buffer (each vector includes its dimension as the first element)
-    vector<float> buffer((d + 1) * n);
-    if (fread(buffer.data(), sizeof(float), (d + 1) * n, fid) != (d + 1) * n) {
+    vector<float> buffer((d + 4) * n);
+    if (fread(buffer.data(), sizeof(float), (d + 4) * n, fid) != (d + 4) * n) {
         cerr << "Error reading vector data" << endl;
         fclose(fid);
         throw runtime_error("File read error");
     }
 
-    // Reshape the buffer into a 2D vector, ignoring the first element (dimension) of each vector
+    // Reshape the buffer into a 2D vector, ignoring the first 4 floats (dimension) of each vector
     vector<vector<float>> vectors(n, vector<float>(d));
     for (size_t i = 0; i < n; ++i) {
-        for (auto j = 0; j < d; ++j) {
-            vectors[i][j] = buffer[i * (d + 1) + j + 1];  // Skip the first element (dimension)
+        for (size_t j = 0; j < d; ++j) {
+            vectors[i][j] = buffer[i * (d + 4) + j + 4];  // Skip the first 4 floats (dimension)
         }
     }
 
