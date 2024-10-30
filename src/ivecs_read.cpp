@@ -1,9 +1,9 @@
-#include "../include/fvecs_read.hpp"
+#include "../include/ivecs_read.hpp"
 #include <iostream>
 #include <fstream>
 #include <cassert>
 
-vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b) 
+vector<vector<int>> ivecs_read(const char* filename, size_t a = 1, size_t b = 0) 
 {
     // Open the file and count the number of descriptors
     FILE* fid = fopen(filename, "rb");
@@ -19,10 +19,10 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
         fclose(fid);
         throw runtime_error("File read error");
     }
-    size_t vecsizeof = sizeof(int) + d * sizeof(float);
+    size_t vecsizeof = sizeof(int) * (d + 1);  // size of each vector in bytes
 
     // Determine the total number of vectors by checking file size
-    fseek(fid, 0, SEEK_END);  // go to end of file
+    fseek(fid, 0, SEEK_END);
     size_t file_size = ftell(fid);
     size_t bmax = file_size / vecsizeof;
 
@@ -47,15 +47,15 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
     fseek(fid, (a - 1) * vecsizeof, SEEK_SET);
 
     // Read n vectors into a buffer (each vector includes its dimension as the first element)
-    vector<float> buffer((d + 1) * n);
-    if (fread(buffer.data(), sizeof(float), (d + 1) * n, fid) != (d + 1) * n) {
+    vector<int> buffer((d + 1) * n);
+    if (fread(buffer.data(), sizeof(int), (d + 1) * n, fid) != (d + 1) * n) {
         cerr << "Error reading vector data" << endl;
         fclose(fid);
         throw runtime_error("File read error");
     }
 
     // Reshape the buffer into a 2D vector, ignoring the first element (dimension) of each vector
-    vector<vector<float>> vectors(n, vector<float>(d));
+    vector<vector<int>> vectors(n, vector<int>(d));
     for (size_t i = 0; i < n; ++i) {
         for (auto j = 0; j < d; ++j) {
             vectors[i][j] = buffer[i * (d + 1) + j + 1];  // Skip the first element (dimension)

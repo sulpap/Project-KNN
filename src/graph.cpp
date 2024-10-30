@@ -297,34 +297,38 @@ Graph Graph::graphDifference(Graph& otherGraph) {
 }
 
 void Graph::graphIntersection(Graph& otherGraph) {
-    // Create a temporary adjacency list to store the intersection result
+    // Temporary map to store nodes for the intersection graph
     map<int, Node*> intersectAdjList;
 
-    // Iterate through the adjacency list of the current graph
+    // Iterate over nodes in the current graph
     for (auto& [nodeId, currentNode] : this->adjList) {
-        // Check if the node exists in the other graph
-        if (otherGraph.getAdjList().find(nodeId) != otherGraph.getAdjList().end()) {
+        // Check if this node exists in the other graph
+        if (otherGraph.getAdjList().count(nodeId) > 0) {
             Node* otherNode = otherGraph.getNode(nodeId);
 
-            // Create a new node based on the current node (or copy either graph's node)
+            // Create a new node (copy of currentNode) for the intersection
             Node* intersectNode = new Node(*currentNode);
+            intersectAdjList[nodeId] = intersectNode;
 
             // Retain only the common edges
             list<Node*> intersectEdges;
             for (Node* edge : currentNode->getEdges()) {
                 if (otherNode->edgeExists(edge->getId())) {
-                    intersectEdges.push_back(edge); // Common edge found
+                    // Add a copy of the edge node if it exists in both graphs
+                    int edgeId = edge->getId();
+                    if (intersectAdjList.count(edgeId) == 0) {
+                        intersectAdjList[edgeId] = new Node(*otherGraph.getNode(edgeId));
+                    }
+                    intersectEdges.push_back(intersectAdjList[edgeId]);
                 }
             }
 
-            // Set the edges to be the intersection of the edges from both graphs
+            // Set the intersected edges for the intersectNode
             intersectNode->setEdges(intersectEdges);
-
-            // Add the node with the intersected edges to the intersection graph
-            intersectAdjList[nodeId] = intersectNode;
         }
     }
 
     // Replace the current graph's adjacency list with the intersection result
     this->adjList = intersectAdjList;
 }
+

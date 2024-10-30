@@ -1,9 +1,8 @@
-#include "../include/fvecs_read.hpp"
-#include <iostream>
+#include "../include/bvecs_read.hpp"
 #include <fstream>
 #include <cassert>
 
-vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b) 
+vector<vector<uint8_t>> bvecs_read(const char* filename, size_t a, size_t b) 
 {
     // Open the file and count the number of descriptors
     FILE* fid = fopen(filename, "rb");
@@ -19,16 +18,16 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
         fclose(fid);
         throw runtime_error("File read error");
     }
-    size_t vecsizeof = sizeof(int) + d * sizeof(float);
+    size_t vecsizeof = sizeof(int) + d * sizeof(uint8_t);
 
-    // Determine the total number of vectors by checking file size
-    fseek(fid, 0, SEEK_END);  // go to end of file
+    // Determine the total number of vectors by checking the file size
+    fseek(fid, 0, SEEK_END);  // Go to end of file
     size_t file_size = ftell(fid);
     size_t bmax = file_size / vecsizeof;
 
     // Adjust bounds if needed
     if (b == 0) {
-        b = bmax;  // If no upper bound is provided, read to end of file
+        b = bmax;  // If no upper bound is provided, read to the end of file
     }
 
     assert(a >= 1 && "Starting index must be >= 1");
@@ -47,18 +46,18 @@ vector<vector<float>> fvecs_read(const char* filename, size_t a, size_t b)
     fseek(fid, (a - 1) * vecsizeof, SEEK_SET);
 
     // Read n vectors into a buffer (each vector includes its dimension as the first element)
-    vector<float> buffer((d + 1) * n);
-    if (fread(buffer.data(), sizeof(float), (d + 1) * n, fid) != (d + 1) * n) {
+    vector<uint8_t> buffer((d + 4) * n);
+    if (fread(buffer.data(), sizeof(uint8_t), (d + 4) * n, fid) != (d + 4) * n) {
         cerr << "Error reading vector data" << endl;
         fclose(fid);
         throw runtime_error("File read error");
     }
 
-    // Reshape the buffer into a 2D vector, ignoring the first element (dimension) of each vector
-    vector<vector<float>> vectors(n, vector<float>(d));
+    // Reshape the buffer into a 2D vector, ignoring the first 4 bytes (dimension) of each vector
+    vector<vector<uint8_t>> vectors(n, vector<uint8_t>(d));
     for (size_t i = 0; i < n; ++i) {
-        for (auto j = 0; j < d; ++j) {
-            vectors[i][j] = buffer[i * (d + 1) + j + 1];  // Skip the first element (dimension)
+        for (size_t j = 0; j < d; ++j) {
+            vectors[i][j] = buffer[i * (d + 4) + j + 4];  // Skip the first 4 bytes (dimension)
         }
     }
 
