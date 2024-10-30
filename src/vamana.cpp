@@ -77,4 +77,4 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
     graph.printEdges();
 }
 
-// * where do we deleet nodes and do we need to do that 
+// * delete nodes in main and do we need to do that 
