@@ -149,6 +149,10 @@ int Graph::getGraphId() {
     return this->graphId;
 }
 
+int Graph::getCurrentGraphId() {
+    return currentGraphId;
+}
+
 map<int, Node*> Graph::getAdjList() {
     return this->adjList;
 }

@@ -60,10 +60,6 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "unordered_map": "cpp",
-        "array": "cpp",
-        "string_view": "cpp",
-        "initializer_list": "cpp",
-        "regex": "cpp"
+        "something": "cpp"
     }
 }

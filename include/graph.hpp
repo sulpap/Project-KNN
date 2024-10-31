@@ -61,6 +61,7 @@ class Graph {
 
         // Getters
         int getGraphId();
+        static int getCurrentGraphId();
         map<int, Node*> getAdjList();
 
         // Setters

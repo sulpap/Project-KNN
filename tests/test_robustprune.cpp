@@ -30,13 +30,27 @@ TEST_CASE("RobustPrune function test", "[RobustPruneBasic]") {
     // Check that the number of out-neighbors is at most R
     REQUIRE(p->getEdges().size() <= static_cast<size_t>(R));
 
+    // Convert p->getEdges() to a set for faster lookup.
+    set<int> neighborsId;
+
+    for (Node* neighbor : p->getEdges()) {
+        neighborsId.insert(neighbor->getId());
+    }
+
+    Node* pStar;
+    auto neighbors = p->getEdges();
+    if (!neighbors.empty()) {
+        pStar = neighbors.back();  // Approximate pStar as the last-added neighbor
+    }
+
     // Additional checks:
     // 1. Each selected out-neighbor should meet the distance threshold
     for (Node* neighbor : p->getEdges()) {
         for (Node* v : V) {
-            if (find(p->getEdges().begin(), p->getEdges().end(), v) == p->getEdges().end()) {
+            // Check if `v` is not in `p`'s edges by looking it up in `neighborsId`
+            if (neighborsId.find(v->getId()) == neighborsId.end()) {
                 // Neighbor `v` should have been removed if it didn't meet the threshold
-                REQUIRE(a * euclidean_distance_of_nodes(p, neighbor) > euclidean_distance_of_nodes(p, v));
+                REQUIRE(a * euclidean_distance_of_nodes(p, neighbor) > euclidean_distance_of_nodes(pStar, v));
             }
         }
     }
@@ -145,7 +159,7 @@ TEST_CASE("RobustPrune with high R and large candidate set V", "[RobustPruneLarg
 
     RobustPrune(G, p, V, a, R);
 
-    REQUIRE(p->getEdges().size() == R);  // Should have exactly `R` out-neighbors
+    REQUIRE(p->getEdges().size() == static_cast<size_t>(R));  // Should have exactly `R` out-neighbors
 
     for (Node* ni : V) {
         delete ni;
