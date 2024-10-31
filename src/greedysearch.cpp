@@ -80,6 +80,32 @@ void GreedySearch(Graph &graph, Node* start_node, vector<double> &queryCoords, i
         set_difference(L_set.begin(), L_set.end(), V_set.begin(), V_set.end(), inserter(temp, temp.begin()));
         LminusV = temp;
     }
+
+    // Update L to retain closests k points to query
+    vector<struct info> vector_info;
+    // We traverse L and save it to vector
+    for (auto node : L_set) {
+        struct info item;
+        item.node = node;
+        item.distance = euclidean_distance(node->getCoordinates(), queryCoords);
+        vector_info.push_back(item);
+    }
+
+    // We sort the vector in ascending order
+    sort(vector_info.begin(), vector_info.end(), info_compare);
+   
+    // We update L to retain top k elements of vector
+    int my_k = k;
+    if(L_set.size() < static_cast<set<Node*>::size_type>(k)) {
+        my_k = L_set.size();
+    }
+    set<Node*> temp;
+    for(int i = 0; i < my_k; i++) {
+        struct info item = vector_info[i];
+        temp.insert(item.node);
+    }
+    L_set = temp;
+
     return;
 }
 
