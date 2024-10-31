@@ -3,7 +3,7 @@
 #include <fstream>
 #include <cassert>
 
-vector<vector<int>> ivecs_read(const char* filename, size_t a = 1, size_t b = 0) 
+vector<vector<int>> ivecs_read(const char* filename, size_t a, size_t b) 
 {
     // Open the file and count the number of descriptors
     FILE* fid = fopen(filename, "rb");
