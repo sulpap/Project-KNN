@@ -285,7 +285,6 @@ Graph Graph::graphDifference(Graph& otherGraph) {
     // Iterate through the nodes in the current Graph
     for (auto& it : this->getAdjList()) {
         int nodeId = it.first;
-        Node* otherNode = it.second;
 
         // Check if the node exists in the other Graph
         if (otherGraph.adjList.find(nodeId) != otherGraph.adjList.end()) {  // Was found in other Graph
