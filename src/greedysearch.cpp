@@ -53,7 +53,8 @@ void GreedySearch(Graph &graph, Node* start_node, vector<double> &queryCoords, i
         list<Node*> p_star_out = p_star->getEdges();            // Οι εξερχόμενοι γείτονες του p*
         L_set.insert(p_star_out.begin(), p_star_out.end());
 
-        if(L_set.size() > L) {                  // Update L to retain closests L points to query
+        // We cast L to long unsigned int, since that's what set.size returns
+        if(L_set.size() > static_cast<set<Node*>::size_type>(L)) {                  // Update L to retain closests L points to query
             vector<struct info> vector_info;
             // We traverse L and save it to vector
             for (auto node : L_set) {
