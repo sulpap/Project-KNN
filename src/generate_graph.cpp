@@ -7,7 +7,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodesEd
 {
     srand(time(0));
 
-    // nodeIds start from 1
+    // nodeIds start from 0
     for (size_t i = 0; i < coords.size(); i++) 
     {
         Node* newNode = new Node(i, coords[i], {});
