@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "../include/vamana.hpp"
+#include "../include/utility.hpp"
 
 using  namespace std; 
 
@@ -17,36 +18,20 @@ TEST_CASE("Vamana function test")
         {4.0, 5.0},
         {2.0, 1.0}
     };
-    int k = 2;              // number of closest neighbors needed
-    int maxNodesEdges;  // max out-degree (R)
-    double a = 1;           // distance threshold
+    int k = 2;           // number of closest neighbors needed
+    int R = 3;           // max out-degree (R)
+    double a = 1;        // distance threshold
+    int int_L = 5;
 
-    SECTION("R is a normal number")
+    int med = Vamana(graph, coords, R, k, a, int_L);
+    int med_check = findMedoid(coords);
+
+    REQUIRE(med == med_check);
+
+    for (int i = 0; i < graph.getNodeCount(); ++i) 
     {
-        maxNodesEdges = 3;
-        Vamana(graph, coords, maxNodesEdges, k, a);
-
-        for (int i = 0; i < graph.getNodeCount(); ++i) 
-        {
-            Node* node = graph.getNode(i);
-            // check degree does not exceed maxNodesEdges
-            REQUIRE(node->getEdges().size() <= maxNodesEdges);
-        
-        }
+        Node* node = graph.getNode(i);
+        // check degree does not exceed R
+        REQUIRE(node->getEdges().size() <= R);    
     }
-
-    SECTION("R is 0")
-    {
-        maxNodesEdges = 0;
-        Vamana(graph, coords, maxNodesEdges, k, a);
-
-        for (int i = 0; i < graph.getNodeCount(); ++i) 
-        {
-            Node* node = graph.getNode(i);
-            // check that the graph remains unchanged - no edges should be added
-            REQUIRE(node->getEdges().empty());
-        }
-        
-    }
-
 }

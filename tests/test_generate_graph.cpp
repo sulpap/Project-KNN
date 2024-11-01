@@ -14,10 +14,10 @@ TEST_CASE("Test generate_graph basic functionality")
         {4.0, 5.0, 6.0},
         {7.0, 8.0, 9.0}
     };
-    int maxNodesEdges = 3;
+    int R = 2;
 
     Graph graph;
-    generate_graph(graph, coords, maxNodesEdges);
+    generate_graph(graph, coords, R);
 
     // check that 3 nodes have been added
     REQUIRE(graph.getNodeCount() == 3);
@@ -31,7 +31,7 @@ TEST_CASE("Test generate_graph basic functionality")
     for (int i = 0; i < 3; ++i) {
         Node* node = graph.getNode(i);
         int edgeCount = node->getEdges().size();
-        REQUIRE(edgeCount >= 1);
+        REQUIRE(edgeCount == R);
     }
 }
 
@@ -44,10 +44,10 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         {3.0, 3.0, 3.0},
         {4.0, 4.0, 4.0}
     };
-    int maxNodesEdges = 3;
+    int R = 3;
 
     Graph graph;
-    generate_graph(graph, coords, maxNodesEdges);
+    generate_graph(graph, coords, R);
 
     // verify that there are no self-loops
     for (int i = 0; i < 4; ++i) {
@@ -77,3 +77,4 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
 // * if adjacent_find returns edges.end(), it means no consecutive duplicate elements were found, 
 // so there are no duplicates in the sorted edges vector.
 // if it returns an iterator other than edges.end(), there are duplicate elements.
+

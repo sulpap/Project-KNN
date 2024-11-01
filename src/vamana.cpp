@@ -11,7 +11,7 @@ using namespace std;
 
 // coords = coords of all vectors in P dataset
 // k = number of closest neighbors we need
-// maxNodesEdges = R
+// R = max edges
 // randomPermutation = σ
 // queryNode = σ(i), node with id
 
@@ -21,27 +21,20 @@ using namespace std;
 
 // neighbor = j
 
-void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int k, int a, int int_L)
 {
-    if (maxNodesEdges < 1) {
-        cerr << "Error: maxNodesEdges (R) must be at least 1." << endl;
-        return;
-    }
-    
-    generate_graph(graph, coords, maxNodesEdges);
+    generate_graph(graph, coords, R);
 
     cout<<"initial graph:"<< endl;
     graph.printEdges();
 
     // s is the medoid of P and the start node
-    Node* s = graph.getNode(findMedoid(coords));
+    int medoidIndex = findMedoid(coords);
+    Node* s = graph.getNode(medoidIndex);
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
-    int num_nodes = graph.getNodeCount();
-    vector<int> randomPermutation(num_nodes);
-
-    iota(randomPermutation.begin(), randomPermutation.end(), 0); // fill with 0 to num_nodes
-
+    vector<int> randomPermutation(int_L);
+    iota(randomPermutation.begin(), randomPermutation.end(), 0); // fill with 0 to int_L
     random_shuffle(randomPermutation.begin(), randomPermutation.end());
 
     for (int i : randomPermutation)
@@ -56,21 +49,20 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
         set<Node*> V;
         set<Node*> L;
 
-        vector<double> queryCoords = queryNode->getCoordinates(); // is this correct?? thelei &query coords   
-        GreedySearch(graph, s, queryCoords, k, num_nodes, L, V);
+        vector<double> queryCoords = queryNode->getCoordinates();
+        GreedySearch(graph, s, queryCoords, k, int_L, L, V);
         
         // initialize Nout with the current out-neighbors of queryNode
         list<Node*> edges = queryNode->getEdges();
         set<Node*> Nout(edges.begin(), edges.end());       
 
-        RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
-
+        RobustPrune(graph, queryNode, Nout, a, R);
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
-            if (graph.getNode(i)->getEdges().size() > static_cast<size_t>(maxNodesEdges)) {
+            if (graph.getNode(i)->getEdges().size() > R) {
                 //re-apply RobustPrune to ensure degree <= R
-                RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
+                RobustPrune(graph, queryNode, Nout, a, R);
             } else {
                 // update set since the degree constraint is not violated
                 Nout.insert(graph.getNode(neighbor->getId()));           
@@ -80,6 +72,8 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
     }
     cout << "final graph:"<< endl;
     graph.printEdges();
+
+    return medoidIndex;
 }
 
 // * delete nodes in main and do we need to do that 
