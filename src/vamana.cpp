@@ -23,6 +23,11 @@ using namespace std;
 
 void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int k, int a)
 {
+    if (maxNodesEdges < 1) {
+        cerr << "Error: maxNodesEdges (R) must be at least 1." << endl;
+        return;
+    }
+    
     generate_graph(graph, coords, maxNodesEdges);
 
     cout<<"initial graph:"<< endl;

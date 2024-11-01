@@ -23,12 +23,12 @@ TEST_CASE("Test generate_graph basic functionality")
     REQUIRE(graph.getNodeCount() == 3);
 
     // verify that nodes have the correct coordinates
-    REQUIRE(graph.getNode(1)->getCoordinates() == coords[0]);
-    REQUIRE(graph.getNode(2)->getCoordinates() == coords[1]);
-    REQUIRE(graph.getNode(3)->getCoordinates() == coords[2]);
+    REQUIRE(graph.getNode(0)->getCoordinates() == coords[0]);
+    REQUIRE(graph.getNode(1)->getCoordinates() == coords[1]);
+    REQUIRE(graph.getNode(2)->getCoordinates() == coords[2]);
 
     // ensure that each node has between 1 and maxNodeEdges edges
-    for (int i = 1; i <= 3; ++i) {
+    for (int i = 0; i < 3; ++i) {
         Node* node = graph.getNode(i);
         int edgeCount = node->getEdges().size();
         REQUIRE(edgeCount >= 1);
@@ -50,7 +50,7 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
     generate_graph(graph, coords, maxNodesEdges);
 
     // verify that there are no self-loops
-    for (int i = 1; i <= 4; ++i) {
+    for (int i = 0; i < 4; ++i) {
         Node* node = graph.getNode(i);
         for (auto edge : node->getEdges()) {
             REQUIRE(edge->getId() != i);  // Node should not have an edge to itself
@@ -58,7 +58,7 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
     }
 
     // verify that no duplicate edges exist
-    for (int i = 1; i <= 4; ++i) {
+    for (int i = 0; i < 4; ++i) {
         Node* node = graph.getNode(i);
         vector<int> edges;
         

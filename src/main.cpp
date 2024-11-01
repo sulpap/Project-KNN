@@ -60,21 +60,21 @@ int main(int argc, char* argv[])
 
     // ----------------------------- findMedoid ------------------------------------
 
-    auto start = chrono::high_resolution_clock::now();
+    // auto start = chrono::high_resolution_clock::now();
 
-    int imedoid = findMedoid(coordinates);
+    // int imedoid = findMedoid(coordinates);
 
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    cout << "findMedoid took: " << duration.count() << " seconds" << endl;
+    // auto end = chrono::high_resolution_clock::now();
+    // chrono::duration<double> duration = end - start;
+    // cout << "findMedoid took: " << duration.count() << " seconds" << endl;
 
-    cout << "medoid index is:" << imedoid << endl;
+    // cout << "medoid index is:" << imedoid << endl;
 
-    cout << "medoid coordinates: ";
-    for (const auto& value : coordinates[imedoid]) {
-        cout << value << " ";
-    }
-    cout << endl;
+    // cout << "medoid coordinates: ";
+    // for (const auto& value : coordinates[imedoid]) {
+    //     cout << value << " ";
+    // }
+    // cout << endl;
 
    // ------------------------------- vamana ----------------------------------
 
@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         {2.0, 1.0}
     };
 
-    int maxNodesEdges = 3;
+    int maxNodesEdges = 0;
     // k = 2;
     int a = 1; 
 

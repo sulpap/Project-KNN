@@ -18,18 +18,35 @@ TEST_CASE("Vamana function test")
         {2.0, 1.0}
     };
     int k = 2;              // number of closest neighbors needed
-    int maxNodesEdges = 3;  // max out-degree (R)
+    int maxNodesEdges;  // max out-degree (R)
     double a = 1;           // distance threshold
 
-    Vamana(graph, coords, maxNodesEdges, k, a);
+    SECTION("R is a normal number")
+    {
+        maxNodesEdges = 3;
+        Vamana(graph, coords, maxNodesEdges, k, a);
 
-    for (int i = 0; i < graph.getNodeCount(); ++i) {
-        Node* node = graph.getNode(i);
-
-        // check degree does not exceed maxNodesEdges
-        REQUIRE(node->getEdges().size() <= maxNodesEdges);
-
-        //check if neighbors are actually the closest ??? we cant !!!
-     
+        for (int i = 0; i < graph.getNodeCount(); ++i) 
+        {
+            Node* node = graph.getNode(i);
+            // check degree does not exceed maxNodesEdges
+            REQUIRE(node->getEdges().size() <= maxNodesEdges);
+        
+        }
     }
+
+    SECTION("R is 0")
+    {
+        maxNodesEdges = 0;
+        Vamana(graph, coords, maxNodesEdges, k, a);
+
+        for (int i = 0; i < graph.getNodeCount(); ++i) 
+        {
+            Node* node = graph.getNode(i);
+            // check that the graph remains unchanged - no edges should be added
+            REQUIRE(node->getEdges().empty());
+        }
+        
+    }
+
 }
