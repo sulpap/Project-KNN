@@ -68,7 +68,7 @@ void Vamana(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges, int
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
-            if (graph.getNode(i)->getEdges().size() > maxNodesEdges) {
+            if (graph.getNode(i)->getEdges().size() > static_cast<size_t>(maxNodesEdges)) {
                 //re-apply RobustPrune to ensure degree <= R
                 RobustPrune(graph, queryNode, Nout, a, maxNodesEdges);
             } else {

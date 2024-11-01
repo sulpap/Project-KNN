@@ -56,7 +56,7 @@ vector<vector<uint8_t>> bvecs_read(const char* filename, size_t a, size_t b)
     // Reshape the buffer into a 2D vector, ignoring the first 4 bytes (dimension) of each vector
     vector<vector<uint8_t>> vectors(n, vector<uint8_t>(d));
     for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j < d; ++j) {
+        for (size_t j = 0; j < static_cast<size_t>(d); ++j) {
             vectors[i][j] = buffer[i * (d + 4) + j + 4];  // Skip the first 4 bytes (dimension)
         }
     }

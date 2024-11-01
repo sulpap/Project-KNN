@@ -6,6 +6,7 @@
 #include "../include/fvecs_read.hpp"
 #include "../include/generate_graph.hpp"
 #include "../include/vamana.hpp"
+#include "../include/greedysearch.hpp"
 
 #include <chrono>   // temp --- for time in findMedoid
 
@@ -14,21 +15,21 @@ using namespace std;
 
 int main(int argc, char* argv[]) 
 {
-    //TODO we also need query node from arg
+    //TODO query,ground truth
 
-    if (argc != 3) {
+    if (argc != 4) {
         cout << "Usage: " << argv[0] << " <fvecs file> <number of nearest neighbors to find>" << endl;
         return 1;
     }
 
-    //"../datasets/siftsmall/siftsmall_base.fvecs";
-    const char* filename = argv[1];
-    int k = stoi(argv[2]);
+    const char* base_filename = argv[1]; //"../datasets/siftsmall/siftsmall_base.fvecs";
+    const char* query_filename = argv[2]; //"../datasets/siftsmall/siftsmall_query.fvecs";
+    int k = stoi(argv[3]);
 
-    // ----------------------- Read the fvecs file given -------------------------
+    // ----------------------- Read the base fvecs file given -------------------------
 
     // Read all vectors from the fvecs file
-    vector<vector<float>> vectors = fvecs_read(filename);
+    vector<vector<float>> vectors = fvecs_read(base_filename);
 
     // verify the number of vectors read
     if (!vectors.empty()) {
@@ -56,25 +57,31 @@ int main(int argc, char* argv[])
         coordinates.push_back(vector<double>(vec.begin(), vec.end()));
     }
 
-    cout << "All vectors processed successfully." << endl;
+    cout << "Base vectors processed successfully." << endl;
+
+    // ----------------------- Read the query fvecs file given -------------------------
+
+    // same process
+
+    cout << "Query vectors processed successfully." << endl;
 
     // ----------------------------- findMedoid ------------------------------------
 
-    // auto start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
 
-    // int imedoid = findMedoid(coordinates);
+    int imedoid = findMedoid(coordinates);
 
-    // auto end = chrono::high_resolution_clock::now();
-    // chrono::duration<double> duration = end - start;
-    // cout << "findMedoid took: " << duration.count() << " seconds" << endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "findMedoid took: " << duration.count() << " seconds" << endl;
 
-    // cout << "medoid index is:" << imedoid << endl;
+    cout << "medoid index is:" << imedoid << endl;
 
-    // cout << "medoid coordinates: ";
-    // for (const auto& value : coordinates[imedoid]) {
-    //     cout << value << " ";
-    // }
-    // cout << endl;
+    cout << "medoid coordinates: ";
+    for (const auto& value : coordinates[imedoid]) {
+        cout << value << " ";
+    }
+    cout << endl;
 
    // ------------------------------- vamana ----------------------------------
 
@@ -85,12 +92,16 @@ int main(int argc, char* argv[])
         {2.0, 3.0},
         {3.0, 4.0},
         {4.0, 5.0},
-        {2.0, 1.0}
+        {2.0, 1.0},
+        {1.0, 2.0},
+        {2.0, 3.0},
+        {3.0, 4.0},
+        {4.0, 5.0},
     };
 
-    int maxNodesEdges = 3;
+    int maxNodesEdges = 7;
     // k = 2;
-    int a = 1; 
+    int a = 1; // a should be float -> 1.2 
 
     cout << "running vamana..." << endl;
     Vamana(graph, coords, maxNodesEdges, k, a);
