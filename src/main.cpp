@@ -88,7 +88,7 @@ int main(int argc, char* argv[])
         {2.0, 1.0}
     };
 
-    int maxNodesEdges = 0;
+    int maxNodesEdges = 3;
     // k = 2;
     int a = 1; 
 
