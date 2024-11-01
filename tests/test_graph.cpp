@@ -52,10 +52,11 @@ TEST_CASE("Node Class Tests", "[Node]") {
 }
 
 TEST_CASE("Graph Class Tests", "[Graph]") {
+    int temp_currentGraphId = Graph::getCurrentGraphId();
     Graph graph;
 
     SECTION("Graph Initialization") {
-        REQUIRE(graph.getGraphId() == 1); // Check initial graph ID
+        REQUIRE(graph.getGraphId() == temp_currentGraphId); // Check initial graph ID
         REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
     }
 

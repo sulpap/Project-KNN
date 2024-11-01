@@ -1,0 +1,57 @@
+#include "../include/graph.hpp"
+#include <vector>
+
+#include "../include/graph.hpp"
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cmath>
+#include <fstream>
+#include <algorithm>
+#include <limits>
+
+using namespace std;
+
+double euclidean_distance(vector<double> coords1, vector<double> coords2) 
+{
+    double sum = 0.0;
+
+    for (auto i = 0.0; i < coords1.size(); ++i) {    
+        sum += pow(coords2[i] - coords1[i], 2);
+    }
+
+    return sqrt(sum);
+}
+
+double euclidean_distance_of_nodes(Node* node1, Node* node2)
+{
+    //take the coords from the two nodes and call euclidean_distance
+    return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
+}
+
+int findMedoid(const vector<vector<double>>& coords) {
+    int medoidIndex = -1;
+    double minTotalDistance = numeric_limits<double>::max();
+    size_t n = coords.size();
+
+    for (size_t i = 0; i < n; ++i) {
+        double totalDistance = 0.0;
+        
+        for (size_t j = 0; j < n; ++j) {
+            if (i != j) {
+                totalDistance += euclidean_distance(coords[i], coords[j]);
+
+                if (totalDistance >= minTotalDistance) {
+                    break;
+                }
+            }
+        }
+
+        if (totalDistance < minTotalDistance) {
+            minTotalDistance = totalDistance;
+            medoidIndex = i;
+        }
+    }
+
+    return medoidIndex;
+}
