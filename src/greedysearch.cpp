@@ -14,7 +14,7 @@ static bool info_compare(const struct info &item_1, const struct info &item_2) {
     return item_1.distance < item_2.distance;
 }
 
-void GreedySearch(Graph &graph, Node* start_node, vector<double> &queryCoords, int k, int L, set<Node*> &L_set, set<Node*> &V_set) {
+void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, set<Node*> &L_set, set<Node*> &V_set) {
 
     // All the elements in a set have unique values
     // by default set is sorted in ascending order
