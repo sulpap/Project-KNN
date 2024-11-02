@@ -100,3 +100,16 @@ TEST_CASE("Test findMedoid")
         REQUIRE(medoidIndex == 0); // any index is valid, but 0 is expected
     }
 }
+
+TEST_CASE("Test convert_to_double") {
+    vector<vector<float>> float_vector;
+    vector<float> one_f;
+    one_f.push_back(1.4);
+    float_vector.push_back(one_f);
+
+    vector<vector<double>> double_vector = convert_to_double(float_vector);
+    REQUIRE(double_vector.size() == float_vector.size());
+    vector<double> one_d = double_vector[0];
+    REQUIRE(one_d.size() == one_f.size());
+    REQUIRE(one_d[0] == one_f[0]);
+}
