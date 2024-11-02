@@ -50,7 +50,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         set<Node*> L;
 
         vector<double> queryCoords = queryNode->getCoordinates();
-        GreedySearch(graph, s, queryCoords, 1, int_L, L, V);
+        GreedySearch(s, queryCoords, 1, int_L, L, V);
         
         // initialize Nout with the current out-neighbors of queryNode
         list<Node*> edges = queryNode->getEdges();
