@@ -7,6 +7,7 @@
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -39,8 +40,11 @@ int main(int argc, char* argv[]) {
 
     Graph graph;
     cout << "Start of Vamana call from main" << endl;
+    auto start = chrono::high_resolution_clock::now();
     int medoid_id = Vamana(graph, base, r, a, l);
-    cout << "End of Vamana call from main" << endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "Vamana took " << duration.count() << " seconds" << endl;
 
     Node* medoid = graph.getNode(medoid_id);
 
@@ -81,7 +85,12 @@ int main(int argc, char* argv[]) {
         set<Node*> V_set;
 
         cout << "Greedy call for " << i << "th query" << endl;
+        auto start = chrono::high_resolution_clock::now();
         GreedySearch(medoid, query, k, l, L_set, V_set);
+        auto end = chrono::high_resolution_clock::now();
+        chrono::duration<double> duration = end - start;
+        cout << "Greedy took " << duration.count() << " seconds" << endl;
+        
 
 // 6. Σύγκριση greedy με ground truth
         vector<int> gt_sol = ground_truth[i];
