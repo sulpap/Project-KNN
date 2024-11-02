@@ -155,7 +155,7 @@ void Graph::clear() {
 }
 
 Graph::~Graph() {
-    clear();
+    // clear();
 }
 
 int Graph::getGraphId() {
