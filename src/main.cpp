@@ -105,7 +105,7 @@ int main(int argc, char* argv[])
     int int_L = 10000;
 
     cout << "running vamana..." << endl;
-    int med = Vamana(graph, coordinates, R, k, a, int_L);
+    int med = Vamana(graph, coordinates, R, a, int_L);
     
     // cout << endl << "Cleaning..." << endl;
 
