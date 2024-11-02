@@ -105,40 +105,36 @@ int main(int argc, char* argv[]) {
 
     graph.clear();      // once done
 
-<<<<<<< HEAD
-    // vector<vector<double>> coords = {
-    //     {1.0, 2.0},
-    //     {2.0, 3.0},
-    //     {3.0, 4.0},
-    //     {4.0, 5.0},
-    //     {2.0, 1.0}
-    // };
+    // // vector<vector<double>> coords = {
+    // //     {1.0, 2.0},
+    // //     {2.0, 3.0},
+    // //     {3.0, 4.0},
+    // //     {4.0, 5.0},
+    // //     {2.0, 1.0}
+    // // };
 
-    int R = 3;
-    int a = 1; // a should be float -> 1.2
-    int int_L = 10000;
+    // int R = 3;
+    // int a = 1; // a should be float -> 1.2
+    // int int_L = 10000;
 
-    cout << "running vamana..." << endl;
+    // cout << "running vamana..." << endl;
 
-    auto start = chrono::high_resolution_clock::now();
+    // auto start = chrono::high_resolution_clock::now();
 
-    int med = Vamana(graph, coordinates, R, a, int_L);
+    // int med = Vamana(graph, coordinates, R, a, int_L);
     
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
-    cout << "Vamana took: " << duration.count() << " seconds" << endl;
+    // auto end = chrono::high_resolution_clock::now();
+    // chrono::duration<double> duration = end - start;
+    // cout << "Vamana took: " << duration.count() << " seconds" << endl;
 
-    cout << "medoid is:" << med << endl;
+    // cout << "medoid is:" << med << endl;
     
-    cout << endl << "Cleaning..." << endl;
+    // cout << endl << "Cleaning..." << endl;
 
-    graph.clear();
-=======
     cout << "Bye from main" << endl;
 
     return 0;
 }
->>>>>>> origin/main
 
 /*
 [0] Example of execution:
