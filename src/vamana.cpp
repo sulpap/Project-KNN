@@ -9,7 +9,7 @@
 
 using namespace std;
 
-// coords = coords of all vectors in P dataset
+// coords = coords of all vectors in P dataset (Graph)
 // k = number of closest neighbors we need
 // R = max edges
 // randomPermutation = σ
@@ -57,6 +57,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int k, int a, in
         set<Node*> Nout(edges.begin(), edges.end());       
 
         RobustPrune(graph, queryNode, Nout, a, R);
+        
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
@@ -70,6 +71,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int k, int a, in
         }
     
     }
+
     cout << "final graph:"<< endl;
     graph.printEdges();
 

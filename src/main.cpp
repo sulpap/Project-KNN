@@ -14,37 +14,26 @@ using namespace std;
 
 int main(int argc, char* argv[]) 
 {
-    //TODO we also need query node from arg
+    //TODO query,ground truth
 
-    if (argc != 3) {
-        cout << "Usage: " << argv[0] << " <fvecs file> <number of nearest neighbors to find>" << endl;
+    if (argc != 5) {
+        cout << "Usage: " << argv[0] << " <fvecs base file> <fvecs query file> <ground truth file> <number of nearest neighbors to find>" << endl;
         return 1;
     }
 
-    //"../datasets/siftsmall/siftsmall_base.fvecs";
-    const char* filename = argv[1];
-    int k = stoi(argv[2]);
+    const char* base_filename = argv[1]; //"../datasets/siftsmall/siftsmall_base.fvecs";
+    const char* query_filename = argv[2]; //"../datasets/siftsmall/siftsmall_query.fvecs";
+    const char* groudtruth_filename = argv[3]; //"../datasets/siftsmall/siftsmall_groundtruth.fvecs";
+    int k = stoi(argv[4]);
 
-    // ----------------------- Read the fvecs file given -------------------------
+    // ----------------------- Read the base fvecs file given -------------------------
 
     // Read all vectors from the fvecs file
-    vector<vector<float>> vectors = fvecs_read(filename);
+    vector<vector<float>> vectors = fvecs_read(base_filename);
 
     // verify the number of vectors read
     if (!vectors.empty()) {
         cout << "Total vectors read: " << vectors.size() << endl;
-    } else {
-        cout << "No vectors read from the file." << endl;
-        return EXIT_FAILURE;
-    }
-
-    //print the first vector to verify
-    if (!vectors.empty()) {
-        cout << "First vector (" << vectors[0].size() << " dimensions): ";
-        for (const auto& value : vectors[0]) {
-            cout << value << " ";
-        }
-        cout << endl;
     } else {
         cout << "No vectors read from the file." << endl;
         return EXIT_FAILURE;
@@ -56,7 +45,29 @@ int main(int argc, char* argv[])
         coordinates.push_back(vector<double>(vec.begin(), vec.end()));
     }
 
-    cout << "All vectors processed successfully." << endl;
+    cout << "Base vectors processed successfully." << endl;
+
+    // ----------------------- Read the query fvecs file given -------------------------
+
+    // same process
+
+    vector<vector<float>> temp_queries = fvecs_read(query_filename);
+
+    // verify the number of vectors read
+    if (!temp_queries.empty()) {
+        cout << "Total queries read: " << temp_queries.size() << endl;
+    } else {
+        cout << "No queries read from the file." << endl;
+        return EXIT_FAILURE;
+    }
+
+    // float to double to use for nodes
+    vector<vector<double>> queries;
+    for (const auto& query : temp_queries) {
+        queries.push_back(vector<double>(query.begin(), query.end()));
+    }
+
+    cout << "Query vectors processed successfully." << endl;
 
     // ----------------------------- findMedoid ------------------------------------
 
@@ -80,21 +91,21 @@ int main(int argc, char* argv[])
 
     Graph graph;
 
-    vector<vector<double>> coords = {
-        {1.0, 2.0},
-        {2.0, 3.0},
-        {3.0, 4.0},
-        {4.0, 5.0},
-        {2.0, 1.0}
-    };
+    // vector<vector<double>> coords = {
+    //     {1.0, 2.0},
+    //     {2.0, 3.0},
+    //     {3.0, 4.0},
+    //     {4.0, 5.0},
+    //     {2.0, 1.0}
+    // };
 
     int R = 3;
     // k = 2;
     int a = 1; 
-    int int_L = 5;
+    int int_L = 10000;
 
     cout << "running vamana..." << endl;
-    int med = Vamana(graph, coords, R, k, a, int_L);
+    int med = Vamana(graph, coordinates, R, k, a, int_L);
     
     // cout << endl << "Cleaning..." << endl;
 
