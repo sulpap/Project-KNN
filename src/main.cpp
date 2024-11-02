@@ -17,7 +17,7 @@ int main(int argc, char* argv[])
     //TODO query,ground truth
 
     if (argc != 5) {
-        cout << "Usage: " << argv[0] << " <fvecs base file> <fvecs query file> <ground truth file> <number of nearest neighbors to find>" << endl;
+        cout << "Usage: " << argv[0] << " <fvecs base file> <fvecs query file> <ground truth file> <number of nearest neighbors to find (k)>" << endl;
         return 1;
     }
 

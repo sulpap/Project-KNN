@@ -21,7 +21,7 @@ using namespace std;
 
 // neighbor = j
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int k, int a, int int_L)
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L)
 {
     generate_graph(graph, coords, R);
 
@@ -50,7 +50,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int k, int a, in
         set<Node*> L;
 
         vector<double> queryCoords = queryNode->getCoordinates();
-        GreedySearch(graph, s, queryCoords, k, int_L, L, V);
+        GreedySearch(graph, s, queryCoords, 1, int_L, L, V);
         
         // initialize Nout with the current out-neighbors of queryNode
         list<Node*> edges = queryNode->getEdges();

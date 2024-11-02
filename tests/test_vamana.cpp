@@ -18,12 +18,11 @@ TEST_CASE("Vamana function test")
         {4.0, 5.0},
         {2.0, 1.0}
     };
-    int k = 2;           // number of closest neighbors needed
     int R = 3;           // max out-degree (R)
     double a = 1;        // distance threshold
     int int_L = 5;
 
-    int med = Vamana(graph, coords, R, k, a, int_L);
+    int med = Vamana(graph, coords, R, a, int_L);
     int med_check = findMedoid(coords);
 
     REQUIRE(med == med_check);
