@@ -33,7 +33,7 @@ TEST_CASE("GreedySearch in small connected graph") {
     set_test.insert(&n2);
 
 // 1st run k = 1, L = 3 (L = number of nodes in graph):
-    GreedySearch(graph, &n0, query, 1, 3, L_set, V_set);
+    GreedySearch(&n0, query, 1, 3, L_set, V_set);
     REQUIRE(L_set.size() == 1);
     
     auto it = L_set.begin();        // iterator points to a Node*
@@ -43,7 +43,7 @@ TEST_CASE("GreedySearch in small connected graph") {
 // 2nd run k = L = 3 (L = number of nodes in graph):
     L_set.clear();                  // L_set, V_set should be empty before new call of greedy
     V_set.clear();
-    GreedySearch(graph, &n0, query, 3, 3, L_set, V_set);
+    GreedySearch(&n0, query, 3, 3, L_set, V_set);
     REQUIRE(L_set.size() == 3);
     REQUIRE(L_set == set_test);
     REQUIRE(V_set == set_test);
@@ -51,7 +51,7 @@ TEST_CASE("GreedySearch in small connected graph") {
 // 3d run k = 1, L = 2 (L < number of nodes in graph):
     L_set.clear();
     V_set.clear();
-    GreedySearch(graph, &n0, query, 1, 2, L_set, V_set);
+    GreedySearch(&n0, query, 1, 2, L_set, V_set);
     REQUIRE(L_set.size() == 1);
 
     it = L_set.begin();        // iterator points to a Node*
@@ -62,7 +62,7 @@ TEST_CASE("GreedySearch in small connected graph") {
 // 4th run k = 1, L = 5 (L > number of nodes in graph):
     L_set.clear();
     V_set.clear();
-    GreedySearch(graph, &n0, query, 1, 5, L_set, V_set);
+    GreedySearch(&n0, query, 1, 5, L_set, V_set);
     REQUIRE(L_set.size() == 1);
 
     it = L_set.begin();        // iterator points to a Node*
@@ -87,7 +87,7 @@ TEST_CASE("GreedySearch in fully disconnected small graph") {
     vector<double> query = {2.0, 2.1};
 
 // 1st run k = 1, L = 3
-    GreedySearch(graph, &n0, query, 1, 3, L_set, V_set);
+    GreedySearch(&n0, query, 1, 3, L_set, V_set);
     REQUIRE(L_set.size() == 1);
 
     auto it = L_set.begin();        // iterator points to a Node*
@@ -100,7 +100,7 @@ TEST_CASE("GreedySearch in fully disconnected small graph") {
     L_set.clear();
     V_set.clear();
 
-    GreedySearch(graph, &n0, query, 2, 3, L_set, V_set);
+    GreedySearch(&n0, query, 2, 3, L_set, V_set);
     REQUIRE(L_set.size() == 1);     // one neighbor! not 2!
 
     it = L_set.begin();        // iterator points to a Node*
