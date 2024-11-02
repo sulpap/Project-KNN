@@ -101,7 +101,7 @@ int main(int argc, char* argv[])
 
     int R = 3;
     // k = 2;
-    int a = 1; 
+    int a = 1; // a should be float -> 1.2
     int int_L = 10000;
 
     cout << "running vamana..." << endl;
