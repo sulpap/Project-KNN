@@ -21,12 +21,12 @@ using namespace std;
 
 // neighbor = j
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L)
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L)
 {
     generate_graph(graph, coords, R);
 
     cout<<"initial graph:"<< endl;
-    graph.printEdges();
+    //graph.printEdges();
 
     // s is the medoid of P and the start node
     int medoidIndex = findMedoid(coords);
@@ -61,7 +61,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
-            if (graph.getNode(i)->getEdges().size() > R) {
+            if (static_cast<int>(graph.getNode(i)->getEdges().size()) > R) {
                 //re-apply RobustPrune to ensure degree <= R
                 RobustPrune(graph, queryNode, Nout, a, R);
             } else {
@@ -73,7 +73,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
     }
 
     cout << "final graph:"<< endl;
-    graph.printEdges();
+    //graph.printEdges();
 
     return medoidIndex;
 }

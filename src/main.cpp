@@ -100,21 +100,24 @@ int main(int argc, char* argv[])
     // };
 
     int R = 3;
-    // k = 2;
     int a = 1; // a should be float -> 1.2
     int int_L = 10000;
 
     cout << "running vamana..." << endl;
+
+    auto start = chrono::high_resolution_clock::now();
+
     int med = Vamana(graph, coordinates, R, a, int_L);
     
-    // cout << endl << "Cleaning..." << endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "Vamana took: " << duration.count() << " seconds" << endl;
 
-    // delete node1;
-    // delete node2;
-    // delete node3;
-    // delete node4;
-    // delete node5;
-    // delete node6;
+    cout << "medoid is:" << med << endl;
+    
+    cout << endl << "Cleaning..." << endl;
+
+    graph.clear();
 
     cout << endl << "Bye!" << endl;
 
