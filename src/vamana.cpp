@@ -77,5 +77,3 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
 
     return medoidIndex;
 }
-
-// * delete nodes in main and do we need to do that 
