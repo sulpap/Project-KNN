@@ -23,6 +23,9 @@ class Node {
         // Copy constructor
         Node(const Node& other);
 
+        // Destructor
+        ~Node();
+
         // Getters
         int getId();
         int getGraphId();
@@ -58,6 +61,9 @@ class Graph {
     public:
         Graph();
         Graph(map<int, Node*> adj_list);
+
+        void clear();
+        ~Graph();
 
         // Getters
         int getGraphId();
