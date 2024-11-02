@@ -154,9 +154,7 @@ void Graph::clear() {
     adjList.clear();     
 }
 
-Graph::~Graph() {
-    clear();
-}
+Graph::~Graph() {}
 
 int Graph::getGraphId() {
     return this->graphId;
