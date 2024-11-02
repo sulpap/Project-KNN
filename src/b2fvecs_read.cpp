@@ -1,4 +1,4 @@
-#include "../include/b2vecs_read.hpp"
+#include "../include/b2fvecs_read.hpp"
 #include <iostream>
 #include <fstream>
 #include <cassert>
@@ -19,7 +19,7 @@ vector<vector<float>> b2fvecs_read(const char* filename, size_t a, size_t b)
     if (fread(&d, sizeof(int), 1, fid) != 1) {
         cerr << "Error reading vector dimension" << endl;
         fclose(fid);
-        throw runtime_error("File read error");
+        throw runtime_error("File read error1");
     }
     size_t vecsizeof = sizeof(int) + d * sizeof(float);
 
@@ -48,20 +48,16 @@ vector<vector<float>> b2fvecs_read(const char* filename, size_t a, size_t b)
     // Move to the position of the first vector to read
     fseek(fid, (a - 1) * vecsizeof, SEEK_SET);
 
-    // Read n vectors into a buffer (each vector includes its dimension as the first element)
-    vector<float> buffer((d + 4) * n);
-    if (fread(buffer.data(), sizeof(float), (d + 4) * n, fid) != (d + 4) * n) {
-        cerr << "Error reading vector data" << endl;
-        fclose(fid);
-        throw runtime_error("File read error");
-    }
-
-    // Reshape the buffer into a 2D vector, ignoring the first 4 floats (dimension) of each vector
-    vector<vector<float>> vectors(n, vector<float>(d));
-    for (size_t i = 0; i < n; ++i) {
-        for (size_t j = 0; j < static_cast<size_t>(d); ++j) {
-            vectors[i][j] = buffer[i * (d + 4) + j + 4];  // Skip the first 4 floats (dimension)
+    vector<vector<float>> vectors(n, vector<float>(d)); // Directly create the 2D vector
+    for(size_t i = 0; i < n; ++i) {
+        int dim_read;
+        fread(&dim_read, sizeof(int), 1, fid);
+        if (dim_read != d) {
+            cerr << "Dimension mismatch!" << endl;
+            fclose(fid);
+            throw runtime_error("Dimension error");
         }
+        fread(vectors[i].data(), sizeof(float), d, fid);
     }
 
     fclose(fid);
