@@ -1,5 +1,6 @@
 #include "../include/vamana.hpp"
-#include "../include/greedysearch.hpp"
+// #include "../include/greedysearch.hpp"
+#include "../include/experimentalgreedysearh.hpp"
 #include "../include/robustprune.hpp"
 #include "../include/generate_graph.hpp"
 #include "../include/utility.hpp"
@@ -25,11 +26,13 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
 {
     generate_graph(graph, coords, R);
 
-    cout<<"initial graph:"<< endl;
-    graph.printEdges();
+    // cout<<"initial graph:"<< endl;
+    // graph.printEdges();
 
     // s is the medoid of P and the start node
+    cout << "Starting Medoid" << endl;
     int medoidIndex = findMedoid(coords);
+    cout << "Medoid Found" << endl;
     Node* s = graph.getNode(medoidIndex);
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
@@ -39,6 +42,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
 
     for (int i : randomPermutation)
     {
+        cout << "iteration: " << i << endl;
         Node* queryNode = graph.getNode(i);
 
         if (!queryNode) {
@@ -50,20 +54,27 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
         set<Node*> L;
 
         vector<double> queryCoords = queryNode->getCoordinates();
-        GreedySearch(s, queryCoords, 1, int_L, L, V);
-        
+        cout << "Starting Greedy: " << i << endl;
+        // GreedySearch(s, queryCoords, 1, int_L, L, V);
+        GreedySearch(graph, s, queryCoords, 1, int_L, L, V);
+        cout << "Greedy Ended: " << i << endl;
+
         // initialize Nout with the current out-neighbors of queryNode
         list<Node*> edges = queryNode->getEdges();
         set<Node*> Nout(edges.begin(), edges.end());       
 
+        cout << "Starting Robust: " << i << endl;
         RobustPrune(graph, queryNode, Nout, a, R);
+        cout << "Robust Ended: " << i << endl;
         
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
             if (graph.getNode(i)->getEdges().size() > R) {
                 //re-apply RobustPrune to ensure degree <= R
+                cout << "Starting Robust2: " << i << endl;
                 RobustPrune(graph, queryNode, Nout, a, R);
+                cout << "Robust2 Ended: " << i << endl;
             } else {
                 // update set since the degree constraint is not violated
                 Nout.insert(graph.getNode(neighbor->getId()));           
@@ -72,8 +83,8 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, int a, int int_L
     
     }
 
-    cout << "final graph:"<< endl;
-    graph.printEdges();
+    // cout << "final graph:"<< endl;
+    // graph.printEdges();
 
     return medoidIndex;
 }

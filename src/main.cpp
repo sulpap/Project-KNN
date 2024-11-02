@@ -3,7 +3,8 @@
 #include "../include/fvecs_read.hpp"
 #include "../include/ivecs_read.hpp"
 #include "../include/vamana.hpp"
-#include "../include/greedysearch.hpp"
+// #include "../include/greedysearch.hpp"
+#include "../include/experimentalgreedysearh.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
@@ -81,7 +82,7 @@ int main(int argc, char* argv[]) {
         set<Node*> V_set;
 
         cout << "Greedy call for " << i << "th query" << endl;
-        GreedySearch(medoid, query, k, l, L_set, V_set);
+        GreedySearch(graph, medoid, query, k, l, L_set, V_set);
 
 // 6. Σύγκριση greedy με ground truth
         vector<int> gt_sol = ground_truth[i];
