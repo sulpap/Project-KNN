@@ -8,6 +8,7 @@
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
+#include <chrono>
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -40,8 +41,11 @@ int main(int argc, char* argv[]) {
 
     Graph graph;
     cout << "Start of Vamana call from main" << endl;
+    auto start = chrono::high_resolution_clock::now();
     int medoid_id = Vamana(graph, base, r, a, l);
-    cout << "End of Vamana call from main" << endl;
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
+    cout << "Vamana took " << duration.count() << " seconds" << endl;
 
     Node* medoid = graph.getNode(medoid_id);
 
@@ -82,7 +86,12 @@ int main(int argc, char* argv[]) {
         set<Node*> V_set;
 
         cout << "Greedy call for " << i << "th query" << endl;
+        auto start = chrono::high_resolution_clock::now();
         GreedySearch(graph, medoid, query, k, l, L_set, V_set);
+        auto end = chrono::high_resolution_clock::now();
+        chrono::duration<double> duration = end - start;
+        cout << "Greedy took " << duration.count() << " seconds" << endl;
+        
 
 // 6. Σύγκριση greedy με ground truth
         vector<int> gt_sol = ground_truth[i];
@@ -105,6 +114,32 @@ int main(int argc, char* argv[]) {
     }
 
     graph.clear();      // once done
+
+    // // vector<vector<double>> coords = {
+    // //     {1.0, 2.0},
+    // //     {2.0, 3.0},
+    // //     {3.0, 4.0},
+    // //     {4.0, 5.0},
+    // //     {2.0, 1.0}
+    // // };
+
+    // int R = 3;
+    // int a = 1; // a should be float -> 1.2
+    // int int_L = 10000;
+
+    // cout << "running vamana..." << endl;
+
+    // auto start = chrono::high_resolution_clock::now();
+
+    // int med = Vamana(graph, coordinates, R, a, int_L);
+    
+    // auto end = chrono::high_resolution_clock::now();
+    // chrono::duration<double> duration = end - start;
+    // cout << "Vamana took: " << duration.count() << " seconds" << endl;
+
+    // cout << "medoid is:" << med << endl;
+    
+    // cout << endl << "Cleaning..." << endl;
 
     cout << "Bye from main" << endl;
 
