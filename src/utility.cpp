@@ -98,3 +98,11 @@ int findMedoid(const vector<vector<double>>& coords)
 
     return medoidIndex;
 }
+
+vector<vector<double>> convert_to_double(const vector<vector<float>>& float_vector) {
+    vector<vector<double>> double_vector(float_vector.size());
+    for (size_t i = 0; i < float_vector.size(); i++) {
+        double_vector[i] = vector<double>(float_vector[i].begin(), float_vector[i].end());
+    }
+    return double_vector;
+}
