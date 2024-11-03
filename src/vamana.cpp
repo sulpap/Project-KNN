@@ -1,6 +1,6 @@
 #include "../include/vamana.hpp"
-// #include "../include/greedysearch.hpp"
-#include "../include/experimentalgreedysearh.hpp"
+#include "../include/greedysearch.hpp"
+// #include "../include/experimentalgreedysearh.hpp"
 #include "../include/robustprune.hpp"
 #include "../include/generate_graph.hpp"
 #include "../include/utility.hpp"
@@ -55,8 +55,8 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
 
         vector<double> queryCoords = queryNode->getCoordinates();
         cout << "Starting Greedy: " << i << endl;
-        // GreedySearch(s, queryCoords, 1, int_L, L, V);
-        GreedySearch(graph, s, queryCoords, 1, int_L, L, V);
+        GreedySearch(s, queryCoords, 1, int_L, L, V);
+        // GreedySearch(graph, s, queryCoords, 1, int_L, L, V);
         cout << "Greedy Ended: " << i << endl;
 
         // initialize Nout with the current out-neighbors of queryNode

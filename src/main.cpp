@@ -3,8 +3,8 @@
 #include "../include/fvecs_read.hpp"
 #include "../include/ivecs_read.hpp"
 #include "../include/vamana.hpp"
-// #include "../include/greedysearch.hpp"
-#include "../include/experimentalgreedysearh.hpp"
+#include "../include/greedysearch.hpp"
+// #include "../include/experimentalgreedysearh.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
@@ -87,7 +87,7 @@ int main(int argc, char* argv[]) {
 
         cout << "Greedy call for " << i << "th query" << endl;
         auto start = chrono::high_resolution_clock::now();
-        GreedySearch(graph, medoid, query, k, l, L_set, V_set);
+        GreedySearch(medoid, query, k, l, L_set, V_set);
         auto end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         cout << "Greedy took " << duration.count() << " seconds" << endl;
@@ -148,7 +148,7 @@ int main(int argc, char* argv[]) {
 
 /*
 [0] Example of execution:
-./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 1.2 10000 12 1
+./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 2 200 60 100
 
 [1] Μέχρι να απαντήσει ο Πασκαλής στο @40 θεωρούμε ότι το a δίνεται από τη γραμμή εντολών
 */
