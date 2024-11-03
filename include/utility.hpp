@@ -9,7 +9,9 @@ using namespace std;
 double euclidean_distance(vector<double> coords1, vector<double> coords2);
 double euclidean_distance_of_nodes(Node* node1, Node* node2);
 int findMedoid(const vector<vector<double>>& coords);
-
 vector<vector<double>> convert_to_double(const vector<vector<float>>& float_vector);
+
+double distance(vector<double> coords1, vector<double> coords2);
+double squared_euclidean_distance(const vector<double>& coords1, const vector<double>& coords2);
 
 #endif

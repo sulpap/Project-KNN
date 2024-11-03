@@ -25,11 +25,9 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
 {
     generate_graph(graph, coords, R);
 
-    cout<<"initial graph:"<< endl;
-    //graph.printEdges();
-
     // s is the medoid of P and the start node
     int medoidIndex = findMedoid(coords);
+    cout << "Vamana writing, just found medoid!" << endl;
     Node* s = graph.getNode(medoidIndex);
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
@@ -71,9 +69,5 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         }
     
     }
-
-    cout << "final graph:"<< endl;
-    //graph.printEdges();
-
     return medoidIndex;
 }

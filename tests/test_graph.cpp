@@ -60,6 +60,18 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
         REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
     }
 
+    SECTION("Clear Graph") {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        graph.addNode(node1);
+        graph.addNode(node2);
+
+        REQUIRE(graph.getAdjList().size() == 2); // Ensure nodes are added
+        graph.clear(); // Clear the graph
+
+        REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
+    }
+
     SECTION("Add Node") {
         Node* node = new Node(1, {1.0, 2.0}, {});
         graph.addNode(node);
