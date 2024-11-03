@@ -48,6 +48,7 @@ TEST_CASE("Node Class Tests", "[Node]") {
     SECTION("Set Specific Coordinate") {
         node.setSpecificCoordinate(0, 10.0);
         REQUIRE(node.getSpecificCoordinate(0) == 10.0);
+        REQUIRE_THROWS_AS(node.setSpecificCoordinate(2, 1.0), std::out_of_range);
     }
 }
 
@@ -57,6 +58,18 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
 
     SECTION("Graph Initialization") {
         REQUIRE(graph.getGraphId() == temp_currentGraphId); // Check initial graph ID
+        REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
+    }
+
+    SECTION("Clear Graph") {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        graph.addNode(node1);
+        graph.addNode(node2);
+
+        REQUIRE(graph.getAdjList().size() == 2); // Ensure nodes are added
+        graph.clear(); // Clear the graph
+
         REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
     }
 

@@ -81,6 +81,9 @@ double Node::getSpecificCoordinate(int dimension) {
 }
 
 void Node::setSpecificCoordinate(int dimension, double value) {
+    if (dimension < 0 || static_cast<size_t>(dimension) >= this->coordinates.size()) {
+        throw out_of_range("Invalid dimension");
+    }
     this->coordinates[dimension] = value;
 }
 

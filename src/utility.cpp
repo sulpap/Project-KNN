@@ -25,6 +25,26 @@ double euclidean_distance_of_nodes(Node* node1, Node* node2)
     return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
 }
 
+double distance(vector<double> coords1, vector<double> coords2) 
+{
+    double sum = 0.0;
+
+    for (auto i = 0.0; i < coords1.size(); ++i) {    
+        sum += coords2[i] - coords1[i];
+    }
+
+    return sum;
+}
+
+double squared_euclidean_distance(const vector<double>& coords1, const vector<double>& coords2) 
+{
+    double sum = 0.0;
+    for (size_t i = 0; i < coords1.size(); ++i) {
+        sum += pow(coords2[i] - coords1[i], 2);
+    }
+    return sum;
+}
+
 // Medoid is a representative object of a data set whose sum of distances to all the objects in the data set is minimal. 
 
 // vrs. 1: classic method - takes 10 minutes for just the small base (10000 vectors)
@@ -71,6 +91,8 @@ int findMedoid(const vector<vector<double>>& coords)
         for (size_t j = i + 1; j < n; ++j) 
         {
             double dist = euclidean_distance(coords[i], coords[j]);
+            // double dist = distance(coords[i], coords[j]);
+            // double dist = squared_euclidean_distance(coords[i], coords[j]);
             distance_matrix[i][j] = dist;
             distance_matrix[j][i] = dist;
         }

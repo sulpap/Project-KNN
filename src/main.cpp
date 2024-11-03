@@ -7,16 +7,19 @@
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
+
 #include <chrono>
+
 using namespace std;
 
-int main(int argc, char* argv[]) {
+int main(int argc, char* argv[]) 
+{
     if (argc != 8) {
         cout << "Usage: " << argv[0] << " <base file> <queries file> <ground truth file> <a> <L> <R> <k>" << endl;
         return 1;
     }
 
-// 1. Διάβασμα base file
+    // 1. Read the base file.
     const char* base_filename = argv[1];
     vector<vector<float>> base_f = fvecs_read(base_filename);
     
@@ -30,7 +33,7 @@ int main(int argc, char* argv[]) {
 
     vector<vector<double>> base = convert_to_double(base_f); 
 
-// 2. Κλήση Vamana
+    // 2. Call Vamana.
     double a = stod(argv[4]); 
     cout << "a = " << a << endl;
     int l = stoi(argv[5]);
@@ -48,7 +51,7 @@ int main(int argc, char* argv[]) {
 
     Node* medoid = graph.getNode(medoid_id);
 
-// 3. Διάβασμα queries file
+    // 3. Read queries file.
     const char* query_filename = argv[2];
     vector<vector<float>> query_f = fvecs_read(query_filename);
     
@@ -62,7 +65,7 @@ int main(int argc, char* argv[]) {
 
     vector<vector<double>> queries = convert_to_double(query_f); 
 
-// 4. Διάβασμα ground truth για κάθε query
+    // 4. Read ground truth for every query.
     const char* groudtruth_filename = argv[3];
     vector<vector<int>> ground_truth = ivecs_read(groudtruth_filename);
 
@@ -75,11 +78,12 @@ int main(int argc, char* argv[]) {
     }
 
 
-// 5. Κλήση greedy για κάθε query
+    // 5. Call greedy for every query.
     int k = stoi(argv[7]);
     cout << "k = " << k << endl;
 
-    for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    for(int i = 0; i < static_cast<int>(queries.size()); i++) 
+    {
         vector<double> query = queries[i];
         set<Node*> L_set;
         set<Node*> V_set;
@@ -87,58 +91,33 @@ int main(int argc, char* argv[]) {
         cout << "Greedy call for " << i << "th query" << endl;
         auto start = chrono::high_resolution_clock::now();
         GreedySearch(medoid, query, k, l, L_set, V_set);
-        auto end = chrono::high_resolution_clock::now();
-        chrono::duration<double> duration = end - start;
-        cout << "Greedy took " << duration.count() << " seconds" << endl;
-        
 
-// 6. Σύγκριση greedy με ground truth
+        // 6. Compare greedy with ground truth
         vector<int> gt_sol = ground_truth[i];
-        if(k > static_cast<int>(gt_sol.size())) {
+        if (k > static_cast<int>(gt_sol.size())) {
             cout << "For query (zero based) #"<< i << " can't compare greedy vs ground truth. Could compare with k up to " << gt_sol.size() << endl;
             return EXIT_FAILURE;
         }
-        vector<int> gt(gt_sol.begin(), gt_sol.begin() + k);     // Μάς ενδιαφέρουν για σύγκριση μόνο τα top k αποτελέσματα του ground truth
+        // we only need the top k results of ground truth to compare
+        vector<int> gt(gt_sol.begin(), gt_sol.begin() + k);
 
         // We traverse L_set
         int found = 0;
-        for (auto node : L_set) {
+        for (auto node : L_set) 
+        {
             int id_L = node->getId();
-            if(find(gt.begin(), gt.end(), id_L) != gt.end()) {
+            if (find(gt.begin(), gt.end(), id_L) != gt.end()) {
                 found++;
             }
         }
+
         float percent = (100 * found) / (float)k;
         cout << "Query (zero based) #" << i << " had " << percent << "% success running greedy after vamana" << endl;
     }
 
+    cout << "Cleaning..." << endl;
+    
     graph.clear();      // once done
-
-    // // vector<vector<double>> coords = {
-    // //     {1.0, 2.0},
-    // //     {2.0, 3.0},
-    // //     {3.0, 4.0},
-    // //     {4.0, 5.0},
-    // //     {2.0, 1.0}
-    // // };
-
-    // int R = 3;
-    // int a = 1; // a should be float -> 1.2
-    // int int_L = 10000;
-
-    // cout << "running vamana..." << endl;
-
-    // auto start = chrono::high_resolution_clock::now();
-
-    // int med = Vamana(graph, coordinates, R, a, int_L);
-    
-    // auto end = chrono::high_resolution_clock::now();
-    // chrono::duration<double> duration = end - start;
-    // cout << "Vamana took: " << duration.count() << " seconds" << endl;
-
-    // cout << "medoid is:" << med << endl;
-    
-    // cout << endl << "Cleaning..." << endl;
 
     cout << "Bye from main" << endl;
 
@@ -147,7 +126,20 @@ int main(int argc, char* argv[]) {
 
 /*
 [0] Example of execution:
-./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 1.2 10000 12 1
+./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 1.2 200 12 1
 
 [1] Μέχρι να απαντήσει ο Πασκαλής στο @40 θεωρούμε ότι το a δίνεται από τη γραμμή εντολών
 */
+
+
+
+
+
+// auto start = chrono::high_resolution_clock::now();
+
+// int medoidid = findMedoid(base);
+// cout << "medoid is:" << endl;
+
+// auto end = chrono::high_resolution_clock::now();
+// chrono::duration<double> duration = end - start;
+// cout << "meodid took: " << duration.count() << " seconds" << endl;
