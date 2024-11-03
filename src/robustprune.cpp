@@ -4,7 +4,7 @@
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
 
-void RobustPrune(Graph& G, Node* p, set<Node*> V, double a, int R) {
+void RobustPrune(Node* p, set<Node*> V, double a, int R) {
     // Step 1: V <- (V ∪ N_out(p)) \ {p}
     list<Node*> currentOutNeighbors = p->getEdges();
     V.insert(currentOutNeighbors.begin(), currentOutNeighbors.end());

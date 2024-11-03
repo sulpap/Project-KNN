@@ -33,4 +33,6 @@ TEST_CASE("Vamana function test")
         // check degree does not exceed R
         REQUIRE(node->getEdges().size() <= R);    
     }
+
+    graph.clear();
 }

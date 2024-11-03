@@ -54,14 +54,14 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         list<Node*> edges = queryNode->getEdges();
         set<Node*> Nout(edges.begin(), edges.end());       
 
-        RobustPrune(graph, queryNode, Nout, a, R);
+        RobustPrune(queryNode, Nout, a, R);
         
         for (Node* neighbor : Nout) 
         {
             // check degree of the node. If it exceeds R, apply RobustPrune again.
             if (static_cast<int>(graph.getNode(i)->getEdges().size()) > R) {
                 //re-apply RobustPrune to ensure degree <= R
-                RobustPrune(graph, queryNode, Nout, a, R);
+                RobustPrune(queryNode, Nout, a, R);
             } else {
                 // update set since the degree constraint is not violated
                 Nout.insert(graph.getNode(neighbor->getId()));           
