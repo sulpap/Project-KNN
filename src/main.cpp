@@ -91,6 +91,9 @@ int main(int argc, char* argv[])
         cout << "Greedy call for " << i << "th query" << endl;
         auto start = chrono::high_resolution_clock::now();
         GreedySearch(medoid, query, k, l, L_set, V_set);
+        auto end = chrono::high_resolution_clock::now();
+        chrono::duration<double> duration = end - start;
+        cout << "Greedy took " << duration.count() << " seconds" << endl;
 
         // 6. Compare greedy with ground truth
         vector<int> gt_sol = ground_truth[i];
@@ -130,16 +133,3 @@ int main(int argc, char* argv[])
 
 [1] Μέχρι να απαντήσει ο Πασκαλής στο @40 θεωρούμε ότι το a δίνεται από τη γραμμή εντολών
 */
-
-
-
-
-
-// auto start = chrono::high_resolution_clock::now();
-
-// int medoidid = findMedoid(base);
-// cout << "medoid is:" << endl;
-
-// auto end = chrono::high_resolution_clock::now();
-// chrono::duration<double> duration = end - start;
-// cout << "meodid took: " << duration.count() << " seconds" << endl;
