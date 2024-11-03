@@ -48,6 +48,7 @@ TEST_CASE("Node Class Tests", "[Node]") {
     SECTION("Set Specific Coordinate") {
         node.setSpecificCoordinate(0, 10.0);
         REQUIRE(node.getSpecificCoordinate(0) == 10.0);
+        REQUIRE_THROWS_AS(node.setSpecificCoordinate(2, 1.0), std::out_of_range);
     }
 }
 

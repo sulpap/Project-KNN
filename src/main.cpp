@@ -7,6 +7,7 @@
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
+// #include <chrono>
 
 using namespace std;
 
@@ -120,7 +121,7 @@ int main(int argc, char* argv[])
 
 /*
 [0] Example of execution:
-./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 1.2 10000 12 1
+./bin/main datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs 1.2 200 12 1
 
 [1] Μέχρι να απαντήσει ο Πασκαλής στο @40 θεωρούμε ότι το a δίνεται από τη γραμμή εντολών
 */
