@@ -12,9 +12,9 @@
 * Εκτελείτε την εντολή: make
 * Εκτελείτε την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
 
-π.χ. 1: ./bin/main 20 40 80 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+π.χ. 1: ./bin/main 20 40 80 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
-π.χ. 2: ./bin/main 100 200 60 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+π.χ. 2: ./bin/main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 Για να τρέξετε τα test:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
@@ -71,7 +71,7 @@
   * k = 100, L: 200, R = 60, a = 1.2:
  
 * Linux Σχολής (linux14.di.uoa.gr):
-  * k = 20, L = 40, R = 80, a = 2.0:
-  * k = 100, L = 200, R = 60, a = 2.0:
+  * k = 20, L = 40, R = 80, a = 1.2:
+  * k = 100, L = 200, R = 60, a = 1.2:
 
 Δεν υπάρχουν διαρροές μνήμης.
