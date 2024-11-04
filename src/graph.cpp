@@ -43,12 +43,10 @@ void Node::setGraphId(int id) {
     this->graphId = id;
 }
 
-// TODO maybe needs change
 void Node::setCoordinates(vector<double> coordinates) {
     this->coordinates = coordinates;
 }
 
-// TODO maybe needs change
 void Node::setEdges(list<Node*> edges) {
     this->edges = edges;
 }
@@ -107,8 +105,6 @@ vector<int> Node::getNeighbors()
 }
 
 
-// TODO possible
-
 // // Move constructor
 // Node::Node(Node&& other) noexcept 
 //     : id(other.id), coordinates(std::move(other.coordinates)), edges(std::move(other.edges)) 
@@ -137,15 +133,10 @@ vector<int> Node::getNeighbors()
 // }
 
 
-
-
 int Graph::currentGraphId = 1;
 
-Graph::Graph() : graphId(currentGraphId++) {
+Graph::Graph() : graphId(currentGraphId++) {}
 
-}
-
-// TODO maybe needs change
 Graph::Graph(map<int, Node*> adj_list) : graphId(currentGraphId++) {
     this->adjList = adj_list;
 }
@@ -157,9 +148,7 @@ void Graph::clear() {
     adjList.clear();     
 }
 
-Graph::~Graph() {
-    //clear();
-}
+Graph::~Graph() {}
 
 int Graph::getGraphId() {
     return this->graphId;
@@ -177,7 +166,6 @@ void Graph::setGraphId(int id) {
     this->graphId = id;
 }
 
-// TODO maybe needs change
 void Graph::setAdjList(map<int, Node*> adjList) {
     this->adjList = adjList;
 }
@@ -185,8 +173,6 @@ void Graph::setAdjList(map<int, Node*> adjList) {
 void Graph::addNode(Node* node) {
     node->setGraphId(this->getGraphId());
     this->adjList[node->getId()] = node;
-    // Other implementation
-    // this->adjList.insert(pair<int, Node*>(node->getId(), node));
 }
 
 Node* Graph::getNode(int id) {

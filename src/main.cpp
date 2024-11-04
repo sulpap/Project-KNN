@@ -4,7 +4,6 @@
 #include "../include/ivecs_read.hpp"
 #include "../include/vamana.hpp"
 #include "../include/greedysearch.hpp"
-// #include "../include/experimentalgreedysearh.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>

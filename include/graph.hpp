@@ -82,7 +82,7 @@ class Graph {
         int getNodeCount();
 
         void addEdge(int idFrom, Node* node);
-        void addEdge(int idFrom, int idTo);  // Αυτήν την χρησιμοποιούμε όταν είναι και τα 2 nodes ήδη μέσα στο graph, αλλιώς κάνει cout error message
+        void addEdge(int idFrom, int idTo);  // use this when 2 nodes are already in the graph, else: cout error message
         void removeEdge(int idFrom, int idTo);
         void printEdges();
         void graphUnion(Graph& otherGraph);
