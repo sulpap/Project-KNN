@@ -54,24 +54,26 @@
 
 Δίνοντας την siftsmall βάση και τις παρακάτω τιμές σε δύο διαφορετικούς υπολογιστές και στα linux της σχολής έχουμε τους εξής χρόνους:
 
-* PC 1:
+* PC 1 (Native Linux. CPU: 11th Gen Intel® Core™ i7-1165G7 @ 2.80GHz × 8):
   * k = 20, L = 40, R = 80, a = 2.0: 964.066 seconds or 16.0678 minutes με accuracy 99.6%
-  * k = 100, L = 200, R = 60, a = 2.0: 640.234 seconds  10.6706 minutes με accuracy 97.89%
+  * k = 100, L = 200, R = 60, a = 2.0: 640.234 seconds or 10.6706 minutes με accuracy 97.89%
 
-* PC 2:
+* PC 2 (Linux με Virtual Machine. CPU: Intel(R) Core(TM) i5-6500 CPU @ 3.20GHz):
   * k = 20, L = 40, R = 80, a = 2.0: 1428.65 seconds or 23.8109 minutes με accuracy 99.9%
   * k = 100, L = 200, R = 60, a = 2.0: 1085.12 seconds or 18.0853 minutes με accuracy 98.84%
   * k = 100, L = 100, R = 40, a = 1.2:  212.743 seconds or 3.54571 minutes με accuracy 96.56%
-  * k = 100, L: 200, R = 60, a = 1.2: 649.905 seconds or 10.8318 minutes με accuracy 99.05%
+  * k = 100, L = 200, R = 60, a = 1.2: 649.905 seconds or 10.8318 minutes με accuracy 99.05%
+  * k = 20, L = 40, R = 80, a = 1.2:
 
-* PC 3:
-  * k = 20, L = 40, R = 80, a = 2.0:
-  * k = 100, L = 200, R = 60, a = 2.0:
-  * k = 100, L = 100, R = 40, a = 1.2:
-  * k = 100, L: 200, R = 60, a = 1.2:
+* PC 3 (Native Linux. CPU: 13th Gen Intel Core i5-13500 @ 20x 4,8GHz):
+  * k = 20, L = 40, R = 80, a = 2.0: 345.027 seconds or 5.75044 minutes με accuracy 99.9%
+  * k = 100, L = 200, R = 60, a = 2.0: 265.741 seconds or 4.42901 minutes με accuracy 98.86%
+  * k = 100, L = 100, R = 40, a = 1.2: 56.4917 seconds or 0.941529 minutes με accuracy 96.48%
+  * k = 100, L: 200, R = 60, a = 1.2: 181.499 seconds or 3.02498 minutes με auracy 99.32%
+  * k = 20, L = 40, R = 80, a = 2.0: 16.0143 seconds or 0.266904 minutes με accuracy 80.25%
  
 * Linux Σχολής (linux15.di.uoa.gr):
-  * k = 20, L = 40, R = 80, a = 1.2: 41.8011 seconds or 0.696685 minutes με accuracy 79.15%
   * k = 100, L = 200, R = 60, a = 1.2: 443.161 seconds or 7.38602 minutes με accuracy 99.25%
+  * k = 20, L = 40, R = 80, a = 1.2: 42.3835 seconds or 0.706392 minutes με accuracy 79.85%
 
 Δεν υπάρχουν διαρροές μνήμης.
