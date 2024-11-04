@@ -8,21 +8,21 @@
 
 ### Οδηγίες εκτέλεσης
 Για να τρέξετε την main:
-    -Πηγαίντε στο directory που βρίσκεται το Makefile.
-    -Εκτελείτε την εντολή: make
-    -Εκτελείτε την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
+* Μεταφέρεστε στο directory που βρίσκεται το Makefile.
+* Εκτελείτε την εντολή: make
+* Εκτελείτε την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
 
-πχ: ./bin/main 20 40 80 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
-    ./bin/main 100 200 60 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+πχ 1: ./bin/main 20 40 80 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+
+πχ 2: ./bin/main 100 200 60 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 Για να τρέξετε τα test:
-    -Πηγαίντε στο directory που βρίσκεται το Makefile.
-    -Εκτελείτε την εντολή: make test
-    -Εκτελείτε την εντολή: ./bin/test
+* Μεταφέρεστε στο directory που βρίσκεται το Makefile.
+* Εκτελείτε την εντολή: make test
+* Εκτελείτε την εντολή: ./bin/test
 
-Για να καθαρίσετε τα αντικειμένικα και εκτελέσιμα αρχεία:
-    -Πηγαίντε στο directory που βρίσκεται το Makefile.
-    -Εκτελείτε την εντολή: make clean
+Για να καθαρίσετε τα αντικείμενα και εκτελέσιμα αρχεία:
+* Στο directory που βρίσκεται το Makefile, εκτελείτε την εντολή: make clean
 
 ### Διαχωρισμός εργασιών
 
@@ -47,14 +47,14 @@
 Δίνοντας την siftsmall βάση και τις παρακάτω τιμές σε δύο διαφορετικούς υπολογιστές και στα linux της σχολής έχουμε τους εξής χρόνους:
 
 * PC 1:
-  * k = 20, L = 40, R = 80, a = 2.0: 
+  * k = 20, L = 40, R = 80, a = 2.0: 964.066 seconds or 16.0678 minutes με accuracy 99.6%
   * k = 100, L = 200, R = 60, a = 2.0: 640.234 seconds  10.6706 minutes με accuracy 97.89%
 
 * PC 2:
   * k = 20, L = 40, R = 80, a = 2.0: 1428.65 seconds or 23.8109 minutes με accuracy 99.9%
-  * k = 100, L = 200, R = 60, a = 2.0:
+  * k = 100, L = 200, R = 60, a = 2.0: 1085.12 seconds or 18.0853 minutes με accuracy 98.84%
  
-* Linux (Σχολής: linux14.di.uoa.gr):
+* Linux Σχολής (linux14.di.uoa.gr):
   * k = 20, L = 40, R = 80, a = 2.0:
   * k = 100, L = 200, R = 60, a = 2.0:
 
