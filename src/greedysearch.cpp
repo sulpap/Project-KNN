@@ -110,10 +110,6 @@ void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, s
 }
 
 
-// [1] Is there a possibility for an endless while?
-// [2] Θεωρούμε ότι το query ταυτίζεται με κάποιο σημείο του γράφου?
-
-
 
 
 // #include <set>
