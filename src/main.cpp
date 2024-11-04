@@ -16,7 +16,11 @@ int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
 
     if (argc != 8) {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <base file> <queries file> <ground truth file> " << endl;
+        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Note: k must be an int\n";
+        cout << "      L must be an int\n";
+        cout << "      R must be an int\n";
+        cout << "      a must be a double" << endl;
         return 1;
     }
 
