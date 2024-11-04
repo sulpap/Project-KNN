@@ -54,7 +54,7 @@ void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, s
         L_set.insert(p_star_out.begin(), p_star_out.end());
 
         // We cast L to long unsigned int, since that's what set.size returns
-        if(L_set.size() > static_cast<set<Node*>::size_type>(L)) {                  // Update L to retain closests L points to query
+        if(static_cast<int>(L_set.size()) > L) {                  // Update L to retain closests L points to query
             vector<struct info> vector_info;
             // We traverse L and save it to vector
             for (auto node : L_set) {
@@ -96,7 +96,7 @@ void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, s
    
     // We update L to retain top k elements of vector
     int my_k = k;
-    if(L_set.size() < static_cast<set<Node*>::size_type>(k)) {
+    if(static_cast<int>(L_set.size()) < k) {
         my_k = L_set.size();
     }
     set<Node*> temp;
