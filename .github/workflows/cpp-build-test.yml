@@ -1,0 +1,44 @@
+name: C++ Build and Test
+
+on:
+  push:
+    branches:
+      - main
+      # - 'branch-*'  # Customize if you want to target specific branch patterns.
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Checkout the code
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # Set up g++ compiler
+      - name: Install Dependencies
+        run: sudo apt-get update && sudo apt-get install -y build-essential g++
+
+      # Build main executable
+      - name: Build main executable
+        run: make all
+
+      # Build and run tests
+      - name: Build test executable
+        run: make test
+
+      - name: Run tests
+        run: |
+          if [[ -f bin/test ]]; then
+            ./bin/test
+          else
+            echo "Test executable not found."
+            exit 1
+          fi
+
+      # Clean up after build
+      - name: Clean up
+        run: make clean
