@@ -6,6 +6,24 @@
 
 Βασιλική Τσαντήλα 1115201800199
 
+### Οδηγίες εκτέλεσης
+Για να τρέξετε την main:
+    -Πηγαίντε στο directory που βρίσκεται το Makefile.
+    -Εκτελείτε την εντολή: make
+    -Εκτελείτε την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
+
+πχ: ./bin/main 20 40 80 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+    ./bin/main 100 200 60 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+
+Για να τρέξετε τα test:
+    -Πηγαίντε στο directory που βρίσκεται το Makefile.
+    -Εκτελείτε την εντολή: make test
+    -Εκτελείτε την εντολή: ./bin/test
+
+Για να καθαρίσετε τα αντικειμένικα και εκτελέσιμα αρχεία:
+    -Πηγαίντε στο directory που βρίσκεται το Makefile.
+    -Εκτελείτε την εντολή: make clean
+
 ### Διαχωρισμός εργασιών
 
 Το κάθε μέλος ανέλαβε από έναν βασικό αλγόριθμο, καθώς και από έναν αριθμό επιμέρους βοηθητικών συναρτήσεων. Ο καθένας υλοποίησε τα unit tests που αντιστοιχούν στις υλοποιήσεις του.
@@ -33,14 +51,3 @@
 * k = 100, L = 200, R = 60, a = 2:
 
 Δεν υπάρχουν διαρροές μνήμης.
-
-### Οδηγίες εκτέλεσης
-Πηγαίντε στο directory που βρίσκεται το Makefile.
-Εκτελείται την εντολή: make
-Εκτελείται την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
-
-πχ: ./bin/main 20 40 80 2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
-
-(make clean για καθαρισμό)
-
-Υποσημείωση: make στο directory του makefile.
