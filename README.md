@@ -63,17 +63,20 @@
   * k = 100, L = 200, R = 60, a = 2.0: 1085.12 seconds or 18.0853 minutes με accuracy 98.84%
   * k = 100, L = 100, R = 40, a = 1.2:  212.743 seconds or 3.54571 minutes με accuracy 96.56%
   * k = 100, L = 200, R = 60, a = 1.2: 649.905 seconds or 10.8318 minutes με accuracy 99.05%
-  * k = 20, L = 40, R = 80, a = 1.2:
+  * k = 20, L = 40, R = 80, a = 1.2: 73.2621 seconds or 1.22104 minutes με accuracy 80.15%
 
 * PC 3 (Native Linux. CPU: 13th Gen Intel Core i5-13500 @ 20x 4,8GHz):
   * k = 20, L = 40, R = 80, a = 2.0: 345.027 seconds or 5.75044 minutes με accuracy 99.9%
   * k = 100, L = 200, R = 60, a = 2.0: 265.741 seconds or 4.42901 minutes με accuracy 98.86%
   * k = 100, L = 100, R = 40, a = 1.2: 56.4917 seconds or 0.941529 minutes με accuracy 96.48%
   * k = 100, L: 200, R = 60, a = 1.2: 181.499 seconds or 3.02498 minutes με auracy 99.32%
-  * k = 20, L = 40, R = 80, a = 2.0: 16.0143 seconds or 0.266904 minutes με accuracy 80.25%
+  * k = 20, L = 40, R = 80, a = 1.2: 16.0143 seconds or 0.266904 minutes με accuracy 80.25%
  
 * Linux Σχολής (linux15.di.uoa.gr):
-  * k = 100, L = 200, R = 60, a = 1.2: 443.161 seconds or 7.38602 minutes με accuracy 99.25%
-  * k = 20, L = 40, R = 80, a = 1.2: 42.3835 seconds or 0.706392 minutes με accuracy 79.85%
+  * k = 20, L = 40, R = 80, a = 2.0: 871.887 seconds or 14.5314 minutes με accuracy 99.9%
+  * k = 100, L = 200, R = 60, a = 2.0: 646.799 seconds or 10.78 minutes με accuracy 98.88%
+  * k = 100, L = 100, R = 40, a = 1.2: 139.628 seconds or 2.32714 minutes με accuracy 96.96%
+  * k = 100, L: 200, R = 60, a = 1.2: 447.556 seconds or 7.45926 minutes με accuracy 99.27%
+  * k = 20, L = 40, R = 80, a = 1.2: 41.6668 seconds or 0.694446 minutes με accuracy 81.3%
 
 Δεν υπάρχουν διαρροές μνήμης.
