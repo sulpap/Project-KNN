@@ -3,6 +3,6 @@
 
 #include "../include/graph.hpp"
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int maxNodesEdges);
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R);
 
 #endif

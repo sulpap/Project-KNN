@@ -27,7 +27,7 @@ TEST_CASE("Test generate_graph basic functionality")
     REQUIRE(graph.getNode(1)->getCoordinates() == coords[1]);
     REQUIRE(graph.getNode(2)->getCoordinates() == coords[2]);
 
-    // ensure that each node has between 1 and maxNodeEdges edges
+    // ensure that each node has R edges
     for (int i = 0; i < 3; ++i) {
         Node* node = graph.getNode(i);
         int edgeCount = node->getEdges().size();

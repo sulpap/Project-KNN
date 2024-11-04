@@ -50,14 +50,14 @@
 
 //         vector<double> queryCoords = queryNode->getCoordinates();
 //         GreedySearch(s, queryCoords, 1, int_L, L, V);
-        
+
 //         // initialize Nout with the current out-neighbors of queryNode
 //         list<Node*> edges = queryNode->getEdges();
-//         set<Node*> Nout(edges.begin(), edges.end());       
+//         set<Node*> Nout(edges.begin(), edges.end());
 
 //         RobustPrune(queryNode, Nout, a, R);
-        
-//         for (Node* neighbor : Nout) 
+
+//         for (Node* neighbor : Nout)
 //         {
 //             // check degree of the node. If it exceeds R, apply RobustPrune again.
 //             if (static_cast<int>(graph.getNode(i)->getEdges().size()) > R) {
@@ -65,33 +65,32 @@
 //                 RobustPrune(queryNode, Nout, a, R);
 //             } else {
 //                 // update set since the degree constraint is not violated
-//                 Nout.insert(graph.getNode(neighbor->getId()));           
+//                 Nout.insert(graph.getNode(neighbor->getId()));
 //             }
 //         }
-    
+
 //     }
 //     return medoidIndex;
 // }
 
-
 #include <chrono>
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L) 
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L)
 {
     generate_graph(graph, coords, R);
 
     cout << "Start of medoid calculation..." << endl;
 
     auto start = chrono::high_resolution_clock::now();
-    
+
     int medoidIndex = findMedoid(coords);
-    
+
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> duration = end - start;
 
     cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
 
-    Node* medoid = graph.getNode(medoidIndex);
+    Node *medoid = graph.getNode(medoidIndex);
     // cout << "Medoid Node: \n";
     // cout << "\t- Id: " << medoid->getId() << "\n";
     // cout << "\t- GraphId: " << medoid->getGraphId() << "\n";
@@ -101,39 +100,43 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
     // }
     // cout << endl;
 
+    // make a random permutation of 1..n, to traverse the nodes in a random order
+    vector<int> randomPermutation(coords.size());                // Size of vector randomPermutation = number of points in dataset = number of vectors in coords
+    iota(randomPermutation.begin(), randomPermutation.end(), 0); // fills with numbers from 0 to coords.size() - 1
 
-    // Make a random permutation of 1..n, to traverse the nodes in a random order
-    vector<int> randomPermutation(coords.size());                       // Size of vector randomPermutation = number of points in dataset = number of vectors in coords
-    iota(randomPermutation.begin(), randomPermutation.end(), 0);        // Completes successively numbers from 0 to coords.size() - 1
-    random_shuffle(randomPermutation.begin(), randomPermutation.end());
+    // obtain a time-based seed:
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
     // int counter = 0;
 
-    for (int point_id : randomPermutation) 
+    for (int point_id : randomPermutation)
     {
         // cout << counter++ << "th: " << point_id << endl;
-        set<Node*> V_set;
-        set<Node*> L_set;
+        set<Node *> V_set;
+        set<Node *> L_set;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
 
-        Node* sigma_i = graph.getNode(point_id);
+        Node *sigma_i = graph.getNode(point_id);
         RobustPrune(sigma_i, V_set, a, R);
 
-        list<Node*> sigma_i_out = sigma_i->getEdges();
-        for (auto node_j : sigma_i_out) 
+        list<Node *> sigma_i_out = sigma_i->getEdges();
+        for (auto node_j : sigma_i_out)
         {
-            list<Node*> j_out = node_j->getEdges();
+            list<Node *> j_out = node_j->getEdges();
 
-            set<Node*> j_out_sigma_i(j_out.begin(), j_out.end());
+            set<Node *> j_out_sigma_i(j_out.begin(), j_out.end());
             j_out_sigma_i.insert(sigma_i);
 
-            if(static_cast<int>(j_out_sigma_i.size()) > R) 
+            if (static_cast<int>(j_out_sigma_i.size()) > R)
             {
                 RobustPrune(node_j, j_out_sigma_i, a, R);
-            } else 
+            }
+            else
             {
                 auto it = find(j_out.begin(), j_out.end(), sigma_i);
-                if(it != j_out.end()) {         // sigma_i doesn't exist in j_out
+                if (it != j_out.end())
+                { // sigma_i doesn't exist in j_out
                     node_j->addEdge(sigma_i);
                 }
             }
