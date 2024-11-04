@@ -37,7 +37,7 @@ TEST_CASE("RobustPrune function test", "[RobustPruneBasic]") {
         neighborsId.insert(neighbor->getId());
     }
 
-    Node* pStar;
+    Node* pStar = NULL;
     auto neighbors = p->getEdges();
     if (!neighbors.empty()) {
         pStar = neighbors.back();  // Approximate pStar as the last-added neighbor
