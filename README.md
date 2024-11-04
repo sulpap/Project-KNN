@@ -35,12 +35,11 @@
 Δεν υπάρχουν διαρροές μνήμης.
 
 ### Οδηγίες εκτέλεσης
-Πηγαίντε στο directory που βρίσκεται το Makefile.
-Εκτελείται την εντολή: make
-Εκτελείται την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
+
+Στο directory που βρίσκεται το Makefile, εκτελούμε:
+make
+./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
 
 πχ: ./bin/main 20 40 80 2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 (make clean για καθαρισμό)
-
-Υποσημείωση: make στο directory του makefile.
