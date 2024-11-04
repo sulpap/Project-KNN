@@ -72,6 +72,6 @@
  
 * Linux Σχολής (linux15.di.uoa.gr):
   * k = 20, L = 40, R = 80, a = 1.2: 41.8011 seconds or 0.696685 minutes με accuracy 79.15%
-  * k = 100, L = 200, R = 60, a = 2.0:
+  * k = 100, L = 200, R = 60, a = 1.2: 443.161 seconds or 7.38602 minutes με accuracy 99.25%
 
 Δεν υπάρχουν διαρροές μνήμης.
