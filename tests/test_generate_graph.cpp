@@ -33,6 +33,8 @@ TEST_CASE("Test generate_graph basic functionality")
         int edgeCount = node->getEdges().size();
         REQUIRE(edgeCount == R);
     }
+
+    graph.clear();
 }
 
 TEST_CASE("Test generate_graph no self-loops or duplicate edges") 
@@ -72,6 +74,8 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         // find the first occurrence of two consecutive identical elements in a range *
         REQUIRE(adjacent_find(edges.begin(), edges.end()) == edges.end());
     }
+
+    graph.clear();
 }
 
 // * if adjacent_find returns edges.end(), it means no consecutive duplicate elements were found, 

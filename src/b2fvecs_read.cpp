@@ -19,7 +19,7 @@ vector<vector<float>> b2fvecs_read(const char* filename, size_t a, size_t b)
     if (fread(&d, sizeof(int), 1, fid) != 1) {
         cerr << "Error reading vector dimension" << endl;
         fclose(fid);
-        throw runtime_error("File read error1");
+        throw runtime_error("File read error");
     }
     size_t vecsizeof = sizeof(int) + d * sizeof(float);
 
@@ -51,13 +51,21 @@ vector<vector<float>> b2fvecs_read(const char* filename, size_t a, size_t b)
     vector<vector<float>> vectors(n, vector<float>(d)); // Directly create the 2D vector
     for(size_t i = 0; i < n; ++i) {
         int dim_read;
-        fread(&dim_read, sizeof(int), 1, fid);
+        if (fread(&dim_read, sizeof(int), 1, fid) != 1) {
+            cerr << "Error reading vector dimension" << endl;
+            fclose(fid);
+            throw runtime_error("File read error");
+        }
         if (dim_read != d) {
             cerr << "Dimension mismatch!" << endl;
             fclose(fid);
             throw runtime_error("Dimension error");
         }
-        fread(vectors[i].data(), sizeof(float), d, fid);
+        if (fread(vectors[i].data(), sizeof(float), d, fid) != 1) {
+            cerr << "Error reading data" << endl;
+            fclose(fid);
+            throw runtime_error("File read error");
+        }
     }
 
     fclose(fid);

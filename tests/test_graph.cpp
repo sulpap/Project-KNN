@@ -48,6 +48,7 @@ TEST_CASE("Node Class Tests", "[Node]") {
     SECTION("Set Specific Coordinate") {
         node.setSpecificCoordinate(0, 10.0);
         REQUIRE(node.getSpecificCoordinate(0) == 10.0);
+        REQUIRE_THROWS_AS(node.setSpecificCoordinate(2, 1.0), std::out_of_range);
     }
 }
 
@@ -57,6 +58,18 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
 
     SECTION("Graph Initialization") {
         REQUIRE(graph.getGraphId() == temp_currentGraphId); // Check initial graph ID
+        REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
+    }
+
+    SECTION("Clear Graph") {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        graph.addNode(node1);
+        graph.addNode(node2);
+
+        REQUIRE(graph.getAdjList().size() == 2); // Ensure nodes are added
+        graph.clear(); // Clear the graph
+
         REQUIRE(graph.getAdjList().empty()); // Ensure adjacency list is empty
     }
 
@@ -137,6 +150,8 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
         REQUIRE(graph.getNode(2)->getCoordinates().at(0) == 3.0);
         REQUIRE(graph.getNode(2)->getCoordinates().at(1) == 4.0);
         REQUIRE(graph.getNode(2)->getEdges().empty() == true);
+
+        otherGraph.clear();
     }
 
     // SECTION("Union of Graphs with same Nodes") {
@@ -154,9 +169,7 @@ TEST_CASE("Graph Class Tests", "[Graph]") {
     // }
 
     // Clean up dynamically allocated nodes
-    for (auto& pair : graph.getAdjList()) {
-        delete pair.second;
-    }
+    graph.clear();
 }
 
 
@@ -194,6 +207,9 @@ TEST_CASE("Graph Union Test - Basic", "[UnionBasic]") {
         Node* node2_after_union = graph1.getNode(2);
         REQUIRE(node2_after_union->edgeExists(3)); // Edge 2 -> 3 should be added
     }
+
+    graph1.clear();
+    graph2.clear();
 }
 
 TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]") {
@@ -211,6 +227,8 @@ TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]") {
         REQUIRE(graph1.getNode(1) != nullptr); // Node 1 should still exist
         REQUIRE(graph1.getNode(2) == nullptr); // No new nodes should be added
     }
+
+    graph1.clear();
 }
 
 TEST_CASE("Graph Union Test - Self-loops Handling", "[UnionSelfLoops]") {
@@ -230,6 +248,9 @@ TEST_CASE("Graph Union Test - Self-loops Handling", "[UnionSelfLoops]") {
         Node* node1_after_union = graph1.getNode(1);
         REQUIRE(node1_after_union->edgeExists(1)); // Ensure self-loop exists
     }
+
+    graph1.clear();
+    graph2.clear();
 }
 
 
@@ -265,6 +286,9 @@ TEST_CASE("Graph Intersection Test - Basic", "[IntersectionBasic]") {
     SECTION("Intersection retains common edges") {
         REQUIRE(graph1.getNode(2)->getEdges().empty());  // No common edges should remain
     }
+
+    graph1.clear();
+    graph2.clear();
 }
 
 TEST_CASE("Graph Intersection Test - Empty Intersection", "[IntersectionEmpty]") {
@@ -283,6 +307,9 @@ TEST_CASE("Graph Intersection Test - Empty Intersection", "[IntersectionEmpty]")
     SECTION("Intersection of disjoint graphs results in empty graph") {
         REQUIRE(graph1.getAdjList().empty()); // graph1 should now be empty
     }
+
+    graph1.clear();
+    graph2.clear();
 }
 
 TEST_CASE("Graph Intersection Test - Self-loops Handling", "[IntersectionSelfLoops]") {
@@ -303,6 +330,9 @@ TEST_CASE("Graph Intersection Test - Self-loops Handling", "[IntersectionSelfLoo
         REQUIRE(graph1.getNode(1) != nullptr);     // Node 1 should still exist
         REQUIRE(graph1.getNode(1)->edgeExists(1)); // Self-loop should be retained
     }
+
+    graph1.clear();
+    graph2.clear();
 }
 
 

@@ -53,8 +53,44 @@ TEST_CASE("Test euclidean_distance_of_nodes") {
     }
 }
 
-TEST_CASE("Test findMedoid") {
-    SECTION("Basic input") {
+// TEST_CASE("Test distance") 
+// {
+//     vector<double> coords1 = {0.0, 0.0, 0.0};
+//     vector<double> coords2 = {3.0, 4.0, 0.0};
+
+//     SECTION("Test distance between (0,0,0) and (3,4,0)") 
+//     {
+//         double expected_distance = 7.0; // (3 - 0) + (4 - 0) + (0 - 0)
+//         REQUIRE(distance(coords1, coords2) == Approx(expected_distance).epsilon(0.01));
+//     }
+
+//     SECTION("Test distance between identical points") 
+//     {
+//         REQUIRE(distance(coords1, coords1) == Approx(0.0).epsilon(0.01));
+//     }
+
+//     SECTION("Test distance with negative coordinates") 
+//     {
+//         vector<double> coords3 = {-1.0, -1.0, -1.0};
+//         vector<double> coords4 = {2.0, 3.0, -1.0};
+//         double expected_distance = 7.0; // 2+1 + 3+1 -1+1
+//         REQUIRE(distance(coords3, coords4) == Approx(expected_distance).epsilon(0.01));
+//     }
+
+//     SECTION("Test distance with large values") 
+//     {
+//         vector<double> coords7 = {1e6, 1e6, 1e6};
+//         vector<double> coords8 = {2e6, 2e6, 2e6};
+//         double expected_distance = (coords8[0] - coords7[0]) + (coords8[1] - coords7[1]) + (coords8[2] - coords7[2]);
+//         REQUIRE(distance(coords7, coords8) == Approx(expected_distance).epsilon(0.01));
+//     }
+
+// }
+
+TEST_CASE("Test findMedoid") 
+{
+    SECTION("Basic input")
+    {
         vector<vector<double>> coords = {
         {1.0, 1.0}, 
         {2.0, 2.0}, 

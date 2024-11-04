@@ -25,7 +25,7 @@ TEST_CASE("RobustPrune function test", "[RobustPruneBasic]") {
     int R = 2;       // Degree bound (max out-neighbors for p)
 
     // Run RobustPrune on node `p`
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     // Check that the number of out-neighbors is at most R
     REQUIRE(p->getEdges().size() <= static_cast<size_t>(R));
@@ -72,7 +72,7 @@ TEST_CASE("RobustPrune with empty candidate set V", "[RobustPruneEmptyV]") {
     double a = 1.5;
     int R = 3;
 
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     REQUIRE(p->getEdges().empty());  // No neighbors should be added
 
@@ -88,7 +88,7 @@ TEST_CASE("RobustPrune with V containing only p itself", "[RobustPruneVOnlyp]") 
     double a = 1.5;
     int R = 3;
 
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     REQUIRE(p->getEdges().empty());  // `p` should not add itself as a neighbor
 
@@ -108,7 +108,7 @@ TEST_CASE("RobustPrune with R larger than V size", "[RobustPruneRLargerThanV]") 
     double a = 2.0;
     int R = 5;  // Larger than `V` size
 
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     REQUIRE(p->getEdges().size() <= V.size());
     REQUIRE((p->edgeExists(n1->getId()) || p->edgeExists(n2->getId())));
@@ -131,7 +131,7 @@ TEST_CASE("RobustPrune with a tight distance threshold (a = 1)", "[RobustPruneaE
     double a = 1.0;  // Tight distance threshold
     int R = 2;
 
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     REQUIRE(p->edgeExists(n1->getId()));     // `n1` should be added
     REQUIRE_FALSE(p->edgeExists(n2->getId()));  // `n2` should be excluded due to distance
@@ -157,7 +157,7 @@ TEST_CASE("RobustPrune with high R and large candidate set V", "[RobustPruneLarg
     double a = 4.0;
     int R = 5;  // Request up to 5 neighbors
 
-    RobustPrune(G, p, V, a, R);
+    RobustPrune(p, V, a, R);
 
     REQUIRE(p->getEdges().size() == static_cast<size_t>(R));  // Should have exactly `R` out-neighbors
 

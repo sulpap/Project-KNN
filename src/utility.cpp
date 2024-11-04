@@ -13,7 +13,7 @@ double euclidean_distance(vector<double> coords1, vector<double> coords2)
     double sum = 0.0;
     double dist = 0.0;
 
-    for (int i = 0; i < coords1.size(); ++i) {    
+    for (size_t i = 0; i < coords1.size(); ++i) {    
         dist = coords2[i] - coords1[i];    
         sum += dist * dist;
     }

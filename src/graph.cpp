@@ -81,6 +81,9 @@ double Node::getSpecificCoordinate(int dimension) {
 }
 
 void Node::setSpecificCoordinate(int dimension, double value) {
+    if (dimension < 0 || static_cast<size_t>(dimension) >= this->coordinates.size()) {
+        throw out_of_range("Invalid dimension");
+    }
     this->coordinates[dimension] = value;
 }
 
@@ -343,6 +346,9 @@ void Graph::graphIntersection(Graph& otherGraph) {
     }
 
     // Replace the current graph's adjacency list with the intersection result
+    for (auto& [id, node] : this->adjList) {
+        delete node;
+    }
     this->adjList = intersectAdjList;
 }
 
