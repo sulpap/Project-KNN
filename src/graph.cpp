@@ -348,6 +348,9 @@ void Graph::graphIntersection(Graph& otherGraph) {
     }
 
     // Replace the current graph's adjacency list with the intersection result
+    for (auto& [id, node] : this->adjList) {
+        delete node;
+    }
     this->adjList = intersectAdjList;
 }
 

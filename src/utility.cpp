@@ -11,9 +11,11 @@
 double euclidean_distance(vector<double> coords1, vector<double> coords2) 
 {
     double sum = 0.0;
+    double dist = 0.0;
 
-    for (auto i = 0.0; i < coords1.size(); ++i) {    
-        sum += pow(coords2[i] - coords1[i], 2);
+    for (size_t i = 0; i < coords1.size(); ++i) {    
+        dist = coords2[i] - coords1[i];    
+        sum += dist * dist;
     }
 
     return sqrt(sum);
@@ -71,8 +73,6 @@ int findMedoid(const vector<vector<double>>& coords)
         for (size_t j = i + 1; j < n; ++j) 
         {
             double dist = euclidean_distance(coords[i], coords[j]);
-            // double dist = distance(coords[i], coords[j]);
-            // double dist = squared_euclidean_distance(coords[i], coords[j]);
             distance_matrix[i][j] = dist;
             distance_matrix[j][i] = dist;
         }
