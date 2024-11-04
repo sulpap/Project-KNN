@@ -17,7 +17,7 @@ int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
 
     if (argc != 8) {
-        cout << "Usage: " << argv[0] << " <base file> <queries file> <ground truth file> <a> <L> <R> <k>" << endl;
+        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <base file> <queries file> <ground truth file> " << endl;
         return 1;
     }
 
@@ -189,12 +189,11 @@ int main(int argc, char* argv[]) {
 }
 
 /*
-[0] Example of execution (Must be in the directory that Makefile is):
+[0] Examples of execution (Must be in the directory that Makefile is):
 ./bin/main 20 40 80 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 ./bin/main 100 200 60 2.0 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
-[1] Μέχρι να απαντήσει ο Πασκαλής στο @40 θεωρούμε ότι το a δίνεται από τη γραμμή εντολών
 */
 
 

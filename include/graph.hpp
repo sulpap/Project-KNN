@@ -11,7 +11,7 @@ using namespace std;
 
 class Node {
     private:
-        int id;     // starts from 1
+        int id;     // starts from 0
         int graphId;
         vector<double> coordinates;
         list<Node*> edges;

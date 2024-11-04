@@ -57,7 +57,7 @@ TEST_CASE("GreedySearch in small connected graph") {
     GreedySearch(&n0, query, 1, 2, L_set, V_set);
     REQUIRE(L_set.size() == 1);
 
-    it = L_set.begin();        // iterator points to a Node*
+    it = L_set.begin();             // iterator points to a Node*
     REQUIRE((*it)->getId() == 2);   // node 2 should be closest neighbor
     
     REQUIRE(V_set == set_test);
@@ -68,7 +68,7 @@ TEST_CASE("GreedySearch in small connected graph") {
     GreedySearch(&n0, query, 1, 5, L_set, V_set);
     REQUIRE(L_set.size() == 1);
 
-    it = L_set.begin();        // iterator points to a Node*
+    it = L_set.begin();             // iterator points to a Node*
     REQUIRE((*it)->getId() == 2);   // node 2 should be closest neighbor
     
     REQUIRE(V_set == set_test);
@@ -106,7 +106,7 @@ TEST_CASE("GreedySearch in fully disconnected small graph") {
     GreedySearch(&n0, query, 2, 3, L_set, V_set);
     REQUIRE(L_set.size() == 1);     // one neighbor! not 2!
 
-    it = L_set.begin();        // iterator points to a Node*
+    it = L_set.begin();             // iterator points to a Node*
     REQUIRE((*it)->getId() == 0);   // node 0 should be closest neighbor
 
     it = V_set.begin();
@@ -160,7 +160,7 @@ TEST_CASE("GreedySearch in fully disconnected big graph") {
 
 
 #define UPPER_BOUND 10000
-// *!DON'T DELETE!* It's commented, because it takes a long time to finish
+// *!DON'T DELETE!* It's commented, because it takes a long time to finish due contruction of graph (not due to greedy!)
 
 // TEST_CASE("GreedySearch in fully connected big graph") {
 // // 1. Read all vectors from the fvecs file
