@@ -31,7 +31,7 @@ TEST_CASE("Vamana function test")
     {
         Node* node = graph.getNode(i);
         // check degree does not exceed R
-        REQUIRE(node->getEdges().size() <= R);    
+        REQUIRE(node->getEdges().size() <= static_cast<size_t>(R));    
     }
 
     graph.clear();
