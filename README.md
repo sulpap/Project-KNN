@@ -44,21 +44,30 @@
 
 ### Αποτελέσματα & Χρόνοι (Παραδείγματα)
 
-Δίνοντας την siftsmall βάση και τις παρακάτω τιμές έχουμε τους εξής χρόνους:
+Δίνοντας την siftsmall βάση και τις παρακάτω τιμές σε δύο διαφορετικούς υπολογιστές και στα linux της σχολής έχουμε τους εξής χρόνους:
 
-* k = 20, L = 40, R = 80, a = 2:
+* PC 1:
+  * k = 20, L = 40, R = 80, a = 2: 
+  * k = 100, L = 200, R = 60, a = 2: 640.234 seconds  10.6706 minutes με accuracy 97.89%
 
-* k = 100, L = 200, R = 60, a = 2:
+* PC 2:
+  * k = 20, L = 40, R = 80, a = 2: 1428.65 seconds or 23.8109 minutes με accuracy 99.9%
+  * k = 100, L = 200, R = 60, a = 2:
+ 
+* Linux:
+  * k = 20, L = 40, R = 80, a = 2:
+  * k = 100, L = 200, R = 60, a = 2:
 
 Δεν υπάρχουν διαρροές μνήμης.
 
 ### Οδηγίες εκτέλεσης
-Πηγαίντε στο directory που βρίσκεται το Makefile.
-Εκτελείται την εντολή: make
-Εκτελείται την εντολή: ./bin/main <k> <L> <R> <a> <base_file_path> <queries_file_path> <groundtruth_file_path>
+
+Στο directory που βρίσκεται το Makefile, εκτελούμε:
+
+make
+
+./bin/main < k > < L > < R > < a > <base_file_path> <queries_file_path> <groundtruth_file_path>
 
 πχ: ./bin/main 20 40 80 2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 (make clean για καθαρισμό)
-
-Υποσημείωση: make στο directory του makefile.
