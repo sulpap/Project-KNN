@@ -75,7 +75,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
             else
             {
                 auto it = find(j_out.begin(), j_out.end(), sigma_i);
-                if (it != j_out.end())
+                if (it == j_out.end())
                 { // sigma_i doesn't exist in j_out
                     node_j->addEdge(sigma_i);
                 }
