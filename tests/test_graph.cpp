@@ -5,7 +5,7 @@ TEST_CASE("Node Class Tests", "[Node]")
 {
     // Test Node creation
     std::vector<double> coordinates = {1.0, 2.0};
-    Node node(1, coordinates, {});
+    Node node(1, coordinates, {}, {});
 
     SECTION("Node Initialization")
     {
@@ -13,6 +13,7 @@ TEST_CASE("Node Class Tests", "[Node]")
         REQUIRE(node.getGraphId() == 0);
         REQUIRE(node.getCoordinates() == coordinates);
         REQUIRE(node.getEdges().empty());
+        REQUIRE(node.getLabels().empty());
     }
 
     SECTION("Setters and Getters")
@@ -21,24 +22,36 @@ TEST_CASE("Node Class Tests", "[Node]")
         node.setGraphId(3);
         std::vector<double> newCoordinates = {4.0, 5.0};
         node.setCoordinates(newCoordinates);
+        const std::set<string> newLabels = {"A", "B"};
+        node.setLabels(newLabels);
 
         REQUIRE(node.getId() == 2);
         REQUIRE(node.getGraphId() == 3);
         REQUIRE(node.getCoordinates() == newCoordinates);
+        REQUIRE(node.getLabels() == newLabels); // TODO strcmp??
     }
 
     SECTION("Add Edge and Check Existence")
     {
-        Node otherNode(2, {3.0, 4.0}, {});
+        Node otherNode(2, {3.0, 4.0}, {}, {});
         node.addEdge(&otherNode);
         REQUIRE(node.getEdges().size() == 1);
         REQUIRE(node.edgeExists(2) == true);
         REQUIRE(node.edgeExists(3) == false);
     }
 
+    SECTION("Add Label and Check Existence")
+    {
+        Node otherNode(2, {3.0, 4.0}, {}, {});
+        node.addLabel("label1");
+        REQUIRE(node.getLabels().size() == 1);
+        REQUIRE(node.labelExist("label1") == true);
+        REQUIRE(node.labelExist("label2") == false);
+    }
+
     SECTION("Delete Edge")
     {
-        Node otherNode(2, {3.0, 4.0}, {});
+        Node otherNode(2, {3.0, 4.0}, {}, {});
         node.addEdge(&otherNode);
         node.deleteEdge(2);
         REQUIRE(node.getEdges().empty());
@@ -72,8 +85,8 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Clear Graph")
     {
-        Node *node1 = new Node(1, {1.0, 2.0}, {});
-        Node *node2 = new Node(2, {3.0, 4.0}, {});
+        Node *node1 = new Node(1, {1.0, 2.0}, {}, {});
+        Node *node2 = new Node(2, {3.0, 4.0}, {}, {});
         graph.addNode(node1);
         graph.addNode(node2);
 
@@ -85,7 +98,7 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Add Node")
     {
-        Node *node = new Node(1, {1.0, 2.0}, {});
+        Node *node = new Node(1, {1.0, 2.0}, {}, {});
         graph.addNode(node);
         REQUIRE(graph.getAdjList().size() == 1);
         REQUIRE(graph.getNode(1) == node);
@@ -94,7 +107,7 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Delete Node")
     {
-        Node *node = new Node(1, {1.0, 2.0}, {});
+        Node *node = new Node(1, {1.0, 2.0}, {}, {});
         graph.addNode(node);
         graph.deleteNode(1);
         REQUIRE(graph.getAdjList().size() == 0);
@@ -103,8 +116,8 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Add Edge")
     {
-        Node *node1 = new Node(1, {1.0, 2.0}, {});
-        Node *node2 = new Node(2, {3.0, 4.0}, {});
+        Node *node1 = new Node(1, {1.0, 2.0}, {}, {});
+        Node *node2 = new Node(2, {3.0, 4.0}, {}, {});
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addEdge(1, node2);
@@ -115,8 +128,8 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Remove Edge")
     {
-        Node *node1 = new Node(1, {1.0, 2.0}, {});
-        Node *node2 = new Node(2, {3.0, 4.0}, {});
+        Node *node1 = new Node(1, {1.0, 2.0}, {}, {});
+        Node *node2 = new Node(2, {3.0, 4.0}, {}, {});
         graph.addNode(node1);
         graph.addNode(node2);
         graph.addEdge(1, node2);
@@ -126,7 +139,7 @@ TEST_CASE("Graph Class Tests", "[Graph]")
 
     SECTION("Get Node")
     {
-        Node *node = new Node(1, {1.0, 2.0}, {});
+        Node *node = new Node(1, {1.0, 2.0}, {}, {});
         graph.addNode(node);
         REQUIRE(graph.getNode(1) == node);
         REQUIRE(graph.getNode(2) == nullptr);
@@ -135,8 +148,8 @@ TEST_CASE("Graph Class Tests", "[Graph]")
     SECTION("Union of Graphs")
     {
         Graph otherGraph;
-        Node *node1 = new Node(1, {1.0, 2.0}, {});
-        Node *node2 = new Node(2, {3.0, 4.0}, {});
+        Node *node1 = new Node(1, {1.0, 2.0}, {}, {});
+        Node *node2 = new Node(2, {3.0, 4.0}, {}, {});
         otherGraph.addNode(node1);
         otherGraph.addNode(node2);
 
@@ -192,16 +205,16 @@ TEST_CASE("Graph Union Test - Basic", "[UnionBasic]")
 {
     // Create graph1 with some nodes and edges
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
+    Node *node2 = new Node(2, {1.0, 1.0}, {}, {});
     graph1.addNode(node1);
     graph1.addNode(node2);
     graph1.addEdge(1, 2);
 
     // Create graph2 with a new node and an overlapping node
     Graph graph2;
-    Node *node2_copy = new Node(2, {1.0, 1.0}, {}); // Same ID as in graph1
-    Node *node3 = new Node(3, {2.0, 2.0}, {});
+    Node *node2_copy = new Node(2, {1.0, 1.0}, {}, {}); // Same ID as in graph1
+    Node *node3 = new Node(3, {2.0, 2.0}, {}, {});
     graph2.addNode(node2_copy);
     graph2.addNode(node3);
     graph2.addEdge(2, 3);
@@ -233,7 +246,7 @@ TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]")
 {
     // Create two graphs, one empty and one with nodes
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
     graph1.addNode(node1);
 
     Graph emptyGraph;
@@ -253,12 +266,12 @@ TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]")
 TEST_CASE("Graph Union Test - Self-loops Handling", "[UnionSelfLoops]")
 {
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
     node1->addEdge(node1); // Self-loop
     graph1.addNode(node1);
 
     Graph graph2;
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
+    Node *node2 = new Node(2, {1.0, 1.0}, {}, {});
     graph2.addNode(node2);
 
     // Perform the union
@@ -278,17 +291,17 @@ TEST_CASE("Graph Intersection Test - Basic", "[IntersectionBasic]")
 {
     // Create graph1 with some nodes and edges
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
+    Node *node2 = new Node(2, {1.0, 1.0}, {}, {});
     graph1.addNode(node1);
     graph1.addNode(node2);
     graph1.addEdge(1, 2);
 
     // Create graph2 with an overlapping node and an edge
     Graph graph2;
-    Node *node2_copy = new Node(2, {1.0, 1.0}, {});
+    Node *node2_copy = new Node(2, {1.0, 1.0}, {}, {});
     graph2.addNode(node2_copy);
-    Node *node3 = new Node(3, {2.0, 2.0}, {});
+    Node *node3 = new Node(3, {2.0, 2.0}, {}, {});
     graph2.addNode(node3);
     graph2.addEdge(2, 3);
 
@@ -319,11 +332,11 @@ TEST_CASE("Graph Intersection Test - Empty Intersection", "[IntersectionEmpty]")
 {
     // Create two graphs with no overlapping nodes or edges
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
     graph1.addNode(node1);
 
     Graph graph2;
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
+    Node *node2 = new Node(2, {1.0, 1.0}, {}, {});
     graph2.addNode(node2);
 
     // Perform intersection
@@ -341,12 +354,12 @@ TEST_CASE("Graph Intersection Test - Empty Intersection", "[IntersectionEmpty]")
 TEST_CASE("Graph Intersection Test - Self-loops Handling", "[IntersectionSelfLoops]")
 {
     Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
+    Node *node1 = new Node(1, {0.0, 1.0}, {}, {});
     node1->addEdge(node1); // Self-loop
     graph1.addNode(node1);
 
     Graph graph2;
-    Node *node1_copy = new Node(1, {0.0, 1.0}, {});
+    Node *node1_copy = new Node(1, {0.0, 1.0}, {}, {});
     node1_copy->addEdge(node1_copy);
     graph2.addNode(node1_copy);
 

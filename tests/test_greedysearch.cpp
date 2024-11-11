@@ -11,9 +11,9 @@ TEST_CASE("GreedySearch in small connected graph") {
     // list initialization syntax available for C++11 and newer
     // {1.0, 1.0} initializes the std::vector<double> with two elements.
     // {} creates an empty std::list<Node*>
-    Node n0 = Node(0, {1.0, 1.0}, {});
-    Node n1 = Node(1, {1.0, 3.0}, {});
-    Node n2 = Node(2, {2.0, 2.0}, {});
+    Node n0 = Node(0, {1.0, 1.0}, {}, {});
+    Node n1 = Node(1, {1.0, 3.0}, {}, {});
+    Node n2 = Node(2, {2.0, 2.0}, {}, {});
 
     graph.addNode(&n0);
     graph.addNode(&n1);
@@ -77,9 +77,9 @@ TEST_CASE("GreedySearch in small connected graph") {
 TEST_CASE("GreedySearch in fully disconnected small graph") {
     Graph graph;
 
-    Node n0 = Node(0, {1.0, 1.0}, {});
-    Node n1 = Node(1, {1.0, 3.0}, {});
-    Node n2 = Node(2, {2.0, 2.0}, {});
+    Node n0 = Node(0, {1.0, 1.0}, {}, {});
+    Node n1 = Node(1, {1.0, 3.0}, {}, {});
+    Node n2 = Node(2, {2.0, 2.0}, {}, {});
 
     graph.addNode(&n0);
     graph.addNode(&n1);
@@ -128,7 +128,7 @@ TEST_CASE("GreedySearch in fully disconnected big graph") {
     vector<Node*> nodes(fvecs_d_base_size);
 
     for(int i = 0; i < fvecs_d_base_size; i++) {
-        Node* node_ptr = new Node(i, fvecs_d_base[i], {});
+        Node* node_ptr = new Node(i, fvecs_d_base[i], {}, {});
         nodes[i] = node_ptr;
         graph.addNode(node_ptr);
     }
