@@ -1,10 +1,11 @@
 #include <../include/graph.hpp>
 
-Node::Node(int id, vector<double> coordinates, list<Node*> edges)
+Node::Node(int id, vector<double> coordinates, list<Node*> edges, set<string> labels = {})
     : id{ id }
     , graphId{ 0 }
     , coordinates{ coordinates }
-    , edges{ edges } {
+    , edges{ edges } 
+    , labels{ labels } {
 
 }
 
@@ -35,6 +36,10 @@ list<Node*> Node::getEdges() {
     return this->edges;
 }
 
+set<string> Node::getLabels() {
+    return this->labels;
+}
+
 void Node::setId(int id) {
     this->id = id;
 }
@@ -51,6 +56,10 @@ void Node::setEdges(list<Node*> edges) {
     this->edges = edges;
 }
 
+void Node::setLabels(const set<string>& newLabels) {
+    this->labels = newLabels;
+}
+
 void Node::addEdge(Node* to) {
     if (!edgeExists(to->getId())) {
         this->edges.push_back(to);
@@ -61,6 +70,10 @@ void Node::addCoordinate(vector<double> coordinate) {
     this->coordinates.insert(this->coordinates.end(), coordinate.begin(), coordinate.end());
 }
 
+void Node::addLabel(const string& label) {
+    this->labels.insert(label);
+}
+
 bool Node::edgeExists(int id) {
     for (Node* edge: this->edges) {
         if (edge->getId() == id) {
@@ -68,6 +81,10 @@ bool Node::edgeExists(int id) {
         }
     }
     return false;
+}
+
+bool Node::labelExist(const string& label) const {
+    return this->labels.find(label) != this->labels.end();
 }
 
 double Node::getSpecificCoordinate(int dimension) {
@@ -258,6 +275,16 @@ void Graph::printEdges()
         }
         cout << endl;
     }
+}
+
+vector<int> Graph::findNodesWithLabel(const string& label) {
+    vector<int> nodesWithLabel;
+    for (const auto& [id, node] : this->adjList) {
+        if (node->labelExist(label)) {
+            nodesWithLabel.push_back(id);
+        }
+    }
+    return nodesWithLabel;
 }
 
 void Graph::graphUnion(Graph& otherGraph)                                   // we basically add another graph to our graph
