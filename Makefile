@@ -9,7 +9,6 @@ BINDIR = bin
 INCLUDEDIR = include
 TESTDIR = tests
 
-# Modify this line to include both the source and test directories
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 ALL_TESTFILES = $(SRCFILES) $(TESTFILES)
@@ -36,6 +35,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
+
+valgrind: $(BINDIR)/test
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BINDIR)/test
 
 # Create directories
 $(OBJDIR):

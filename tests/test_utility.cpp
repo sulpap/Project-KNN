@@ -45,8 +45,8 @@ TEST_CASE("Test euclidean_distance_of_nodes")
     // empty edge lists
     list<Node *> empty_edges;
 
-    Node node1(1, {0.0, 0.0, 0.0}, empty_edges);
-    Node node2(2, {3.0, 4.0, 0.0}, empty_edges);
+    Node node1(1, {0.0, 0.0, 0.0}, empty_edges, {});
+    Node node2(2, {3.0, 4.0, 0.0}, empty_edges, {});
 
     SECTION("Test distance between two nodes (0,0,0) and (3,4,0)")
     {

@@ -5,11 +5,11 @@
 
 TEST_CASE("RobustPrune function test", "[RobustPruneBasic]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});  // Node `p` at origin
-    Node* n1 = new Node(2, {1.0, 1.0}, {});
-    Node* n2 = new Node(3, {2.0, 2.0}, {});
-    Node* n3 = new Node(4, {3.0, 3.0}, {});
-    Node* n4 = new Node(5, {4.0, 4.0}, {});
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});  // Node `p` at origin
+    Node* n1 = new Node(2, {1.0, 1.0}, {}, {});
+    Node* n2 = new Node(3, {2.0, 2.0}, {}, {});
+    Node* n3 = new Node(4, {3.0, 3.0}, {}, {});
+    Node* n4 = new Node(5, {4.0, 4.0}, {}, {});
 
     G.addNode(p);
     G.addNode(n1);
@@ -65,7 +65,7 @@ TEST_CASE("RobustPrune function test", "[RobustPruneBasic]") {
 
 TEST_CASE("RobustPrune with empty candidate set V", "[RobustPruneEmptyV]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});
     G.addNode(p);
 
     set<Node*> V = {};  // Empty candidate set
@@ -81,7 +81,7 @@ TEST_CASE("RobustPrune with empty candidate set V", "[RobustPruneEmptyV]") {
 
 TEST_CASE("RobustPrune with V containing only p itself", "[RobustPruneVOnlyp]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});
     G.addNode(p);
 
     set<Node*> V = {p};  // `V` contains only `p` itself
@@ -97,9 +97,9 @@ TEST_CASE("RobustPrune with V containing only p itself", "[RobustPruneVOnlyp]") 
 
 TEST_CASE("RobustPrune with R larger than V size", "[RobustPruneRLargerThanV]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});
-    Node* n1 = new Node(2, {1.0, 1.0}, {});
-    Node* n2 = new Node(3, {2.0, 2.0}, {});
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});
+    Node* n1 = new Node(2, {1.0, 1.0}, {}, {});
+    Node* n2 = new Node(3, {2.0, 2.0}, {}, {});
     G.addNode(p);
     G.addNode(n1);
     G.addNode(n2);
@@ -120,9 +120,9 @@ TEST_CASE("RobustPrune with R larger than V size", "[RobustPruneRLargerThanV]") 
 
 TEST_CASE("RobustPrune with a tight distance threshold (a = 1)", "[RobustPruneaEquals1]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});
-    Node* n1 = new Node(2, {1.0, 1.0}, {});  // Close to p
-    Node* n2 = new Node(3, {5.0, 5.0}, {});  // Farther from p
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});
+    Node* n1 = new Node(2, {1.0, 1.0}, {}, {});  // Close to p
+    Node* n2 = new Node(3, {5.0, 5.0}, {}, {});  // Farther from p
     G.addNode(p);
     G.addNode(n1);
     G.addNode(n2);
@@ -143,13 +143,13 @@ TEST_CASE("RobustPrune with a tight distance threshold (a = 1)", "[RobustPruneaE
 
 TEST_CASE("RobustPrune with high R and large candidate set V", "[RobustPruneLargeRandV]") {
     Graph G;
-    Node* p = new Node(1, {0.0, 0.0}, {});
+    Node* p = new Node(1, {0.0, 0.0}, {}, {});
     G.addNode(p);
 
     // Add 10 nodes around `p`
     set<Node*> V;
     for (int i = 2; i <= 11; i++) {
-        Node* ni = new Node(i, {static_cast<double>(i), static_cast<double>(i)}, {});
+        Node* ni = new Node(i, {static_cast<double>(i), static_cast<double>(i)}, {}, {});
         G.addNode(ni);
         V.insert(ni);
     }
