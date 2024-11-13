@@ -9,7 +9,6 @@ BINDIR = bin
 INCLUDEDIR = include
 TESTDIR = tests
 
-# Modify this line to include both the source and test directories
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 ALL_TESTFILES = $(SRCFILES) $(TESTFILES)
