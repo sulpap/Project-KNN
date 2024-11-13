@@ -37,6 +37,9 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
 
+valgrind: $(BINDIR)/test
+	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BINDIR)/test
+
 # Create directories
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
