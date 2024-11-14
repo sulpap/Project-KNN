@@ -68,7 +68,7 @@ map<int, Node*> findMedoid(Graph &graph, int taph, set<int> F)
 
         // Update M[f] <- p* and T[p*] <- T[p*] + 1
         M[f] = graph.getNode(p_star);
-        T[p_star] += 1;
+        T[p_star] += 1; // T[p_star]++;
     }
     return M;
 }
