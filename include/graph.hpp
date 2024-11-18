@@ -15,11 +15,12 @@ class Node {
         int graphId;
         vector<double> coordinates;
         list<Node*> edges;
-        set<string> labels;
+        // set<string> labels;
+        int label;
 
     public:
         // Constructor
-        Node(int id, vector<double> coordinates, list<Node*> edges, set<string> labels);
+        Node(int id, vector<double> coordinates, list<Node*> edges, int label = -1);
 
         // Copy constructor
         Node(const Node& other);
@@ -32,22 +33,22 @@ class Node {
         int getGraphId();
         vector<double> getCoordinates();
         list<Node*> getEdges();
-        set<string> getLabels();
+        int getLabel();
 
         // Setters
         void setId(int id);
         void setGraphId(int id);
         void setCoordinates(vector<double> coordinates);
         void setEdges(list<Node*>);
-        void setLabels(const set<string>& newLabels);
+        void setLabel(int newLabel);
 
         // Extra Functions
         void addEdge(Node* to);
         void addCoordinate(vector<double> coordinates);
-        void addLabel(const string& label);
+        // void addLabel(const string& label);
 
         bool edgeExists(int id); // Checks if node has an outgoing edge to the node with that id
-        bool labelExist(const string& label) const;
+        // bool labelExist(const string& label) const;
 
         double getSpecificCoordinate(int dimension);
         void setSpecificCoordinate(int dimension, double value);
@@ -90,7 +91,7 @@ class Graph {
         void addEdge(int idFrom, int idTo);  // use this when 2 nodes are already in the graph, else: cout error message
         void removeEdge(int idFrom, int idTo);
         void printEdges();
-        vector<int> findNodesWithLabel(const string& label);
+        vector<int> findNodesWithLabel(int label);
         void graphUnion(Graph& otherGraph);
         Graph graphDifference(Graph& otherGraph);
         void graphIntersection(Graph& otherGraph);

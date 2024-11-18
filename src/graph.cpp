@@ -1,11 +1,11 @@
 #include <../include/graph.hpp>
 
-Node::Node(int id, vector<double> coordinates, list<Node*> edges, set<string> labels = {})
+Node::Node(int id, vector<double> coordinates, list<Node*> edges, int label)
     : id{ id }
     , graphId{ 0 }
     , coordinates{ coordinates }
     , edges{ edges } 
-    , labels{ labels } {
+    , label{ label } {
 
 }
 
@@ -14,7 +14,8 @@ Node::Node(const Node& other)
     : id(other.id)
     , graphId(other.graphId)
     , coordinates(other.coordinates)
-    , edges(other.edges) {
+    , edges(other.edges)
+    , label(other.label) {
 
 }
 
@@ -36,8 +37,8 @@ list<Node*> Node::getEdges() {
     return this->edges;
 }
 
-set<string> Node::getLabels() {
-    return this->labels;
+int Node::getLabel() {
+    return this->label;
 }
 
 void Node::setId(int id) {
@@ -56,8 +57,8 @@ void Node::setEdges(list<Node*> edges) {
     this->edges = edges;
 }
 
-void Node::setLabels(const set<string>& newLabels) {
-    this->labels = newLabels;
+void Node::setLabel(int newLabel) {
+    this->label = newLabel;
 }
 
 void Node::addEdge(Node* to) {
@@ -70,9 +71,9 @@ void Node::addCoordinate(vector<double> coordinate) {
     this->coordinates.insert(this->coordinates.end(), coordinate.begin(), coordinate.end());
 }
 
-void Node::addLabel(const string& label) {
-    this->labels.insert(label);
-}
+// void Node::addLabel(const string& label) {
+//     this->label.insert(label);
+// }
 
 bool Node::edgeExists(int id) {
     for (Node* edge: this->edges) {
@@ -83,9 +84,9 @@ bool Node::edgeExists(int id) {
     return false;
 }
 
-bool Node::labelExist(const string& label) const {
-    return this->labels.find(label) != this->labels.end();
-}
+// bool Node::labelExist(const string& label) const {
+//     return this->labels.find(label) != this->labels.end();
+// }
 
 double Node::getSpecificCoordinate(int dimension) {
     if (dimension < 0 || static_cast<size_t>(dimension) >= this->coordinates.size()) {
@@ -277,10 +278,10 @@ void Graph::printEdges()
     }
 }
 
-vector<int> Graph::findNodesWithLabel(const string& label) {
+vector<int> Graph::findNodesWithLabel(int label) {
     vector<int> nodesWithLabel;
     for (const auto& [id, node] : this->adjList) {
-        if (node->labelExist(label)) {
+        if (node->getLabel() == label) {
             nodesWithLabel.push_back(id);
         }
     }
@@ -366,4 +367,3 @@ void Graph::graphIntersection(Graph& otherGraph) {
     }
     this->adjList = intersectAdjList;
 }
-
