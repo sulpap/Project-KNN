@@ -43,7 +43,7 @@ int findMinInT(const vector<int>& Rf, const map<int, int>& T)
     return p_star;
 }
 
-map<int, Node*> findMedoid(Graph &graph, int taph, set<int> F)
+map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 {
     map<int, Node *> M;
     map<int, int> T;
