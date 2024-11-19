@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <limits>
+#include <cassert>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2)
 {
@@ -21,6 +22,21 @@ double euclidean_distance(vector<double> coords1, vector<double> coords2)
 
     return sqrt(sum);
 }
+
+// Οι παράμετροι της συνάρτησης έχουν μόνο τις διαστάσεις. Όχι τις ετικέτες ή query_type.
+double euclidean_distance_floats(vector<float> &coords1, vector<float> &coords2) {
+    assert(coords1.size() == coords2.size());
+    double sum = 0.0;
+    double dist = 0.0;
+
+    for (size_t i = 0; i < coords1.size(); i++) {
+        dist = coords2[i] - coords1[i];
+        sum += dist * dist;
+    }
+
+    return sqrt(sum);
+}
+
 
 double euclidean_distance_of_nodes(Node *node1, Node *node2)
 {
