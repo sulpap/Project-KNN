@@ -21,4 +21,12 @@ vector<vector<float>> queriesbin_read(const char* filename);
 // then we return -1 as dist
 double eucl_dist_point_query(vector<float> &point, vector<float> &query);
 
+/* Συνάρτηση που παίρνει ως παράμετρο ένα vector<vector<float>> queries
+με queries που έχουν query_type 0 ή 1 και επιστρέφει το ground truth
+για κάθε ένα από αυτά 
+
+The groundtruth files contain, for each query, the identifiers (vector number, starting at 0) 
+of its k nearest neighbors, ordered by *increasing* (squared euclidean) distance. */
+vector<vector<int>> ground_truth(vector<vector<float>> &points, vector<vector<float>> &queries, int k);
+
 #endif
