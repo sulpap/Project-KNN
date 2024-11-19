@@ -10,7 +10,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R)
     // nodeIds start from 0
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        Node* newNode = new Node(i, coords[i], {}, {});
+        Node* newNode = new Node(i, coords[i], {}, 0);
         graph.addNode(newNode);
     }
 
