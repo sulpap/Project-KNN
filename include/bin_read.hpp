@@ -16,4 +16,9 @@ vector<vector<float>> databin_read(const char* filename);
 ενώ από το 2ο στοιχείο μέχρι και το 102 στοιχείο είναι οι συντεταγμένες του query */
 vector<vector<float>> queriesbin_read(const char* filename);
 
+// * Following function will be used only for brute force ground truth
+// If query_type == 1, and point doesn't match the filter of the query,
+// then we return -1 as dist
+double eucl_dist_point_query(vector<float> &point, vector<float> &query);
+
 #endif

@@ -1,5 +1,5 @@
 #include "../include/bin_read.hpp"
-
+#include "../include/utility.hpp"
 #include <fstream>
 #include <iostream>
 #include <numeric>
@@ -81,4 +81,21 @@ vector<vector<float>> queriesbin_read(const char* filename) {
         }
     }
     return queries_better;
+}
+
+
+// * Following function will be used only for brute force ground truth
+// If query_type == 1, and point doesn't match the filter of the query,
+// then we return -1 as dist
+double eucl_dist_point_query(vector<float> &point, vector<float> &query) {
+    if(query[0] == 1 && query[1] != point[0]) {
+        return -1;
+    }
+
+    vector<float> point_coord(point.begin() + 1, point.end());      // We take from point only its dimensions
+    vector<float> query_coord(query.begin() + 2, query.end());      // We take from query only its dimensions
+
+    assert(point_coord.size() == query_coord.size());   // number of actual dimensions to compare should be the same
+
+    return euclidean_distance_floats(point_coord, query_coord);        // return dist
 }
