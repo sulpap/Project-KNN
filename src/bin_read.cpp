@@ -1,10 +1,11 @@
 #include "../include/bin_read.hpp"
-
+#include "../include/utility.hpp"
 #include <fstream>
 #include <iostream>
 #include <numeric>
 #include <string>
 #include <vector>
+#include <algorithm>                // sort
 
 #include "assert.h"
 using namespace std;
@@ -81,4 +82,68 @@ vector<vector<float>> queriesbin_read(const char* filename) {
         }
     }
     return queries_better;
+}
+
+
+// * Following function will be used only for brute force ground truth
+// If query_type == 1, and point doesn't match the filter of the query,
+// then we return -1 as dist
+double eucl_dist_point_query(vector<float> &point, vector<float> &query) {
+    if(query[0] == 1 && query[1] != point[0]) {
+        return -1;
+    }
+
+    vector<float> point_coord(point.begin() + 1, point.end());      // We take from point only its dimensions
+    vector<float> query_coord(query.begin() + 2, query.end());      // We take from query only its dimensions
+
+    assert(point_coord.size() == query_coord.size());   // number of actual dimensions to compare should be the same
+
+    return euclidean_distance_floats(point_coord, query_coord);        // return dist
+}
+
+
+/* Συνάρτηση που παίρνει ως παράμετρο ένα vector<vector<float>> queries
+με queries που έχουν query_type 0 ή 1 και επιστρέφει το ground truth
+για κάθε ένα από αυτά 
+
+The groundtruth files contain, for each query, the identifiers (vector number, starting at 0) 
+of its k nearest neighbors, ordered by *increasing* (squared euclidean) distance. */
+vector<vector<int>> ground_truth(vector<vector<float>> &points, vector<vector<float>> &queries, int k) {
+    vector<vector<int>> knn_results;
+
+    for(u_int i = 0; i < queries.size(); i++) {       // Για κάθε query
+        int query_type = queries[i][0];
+        assert(query_type == 0 || query_type == 1); // Handling 2 types of queries only
+
+        vector<double> dists;
+        dists.resize(points.size());
+        for(u_int j = 0; j < points.size(); j++) {
+            dists[j] = eucl_dist_point_query(points[j], queries[i]);
+            // if query_type == 1, and point doesn't match the filter of the query,
+            // then above function will return -1 as dist
+        }
+
+        vector<int> ids;
+        ids.resize(points.size());
+        iota(ids.begin(), ids.end(), 0);
+
+        // Sort ids based on dists
+        sort(ids.begin(), ids.end(), [&](int a, int b){
+            return dists[a] < dists[b];
+        });
+
+        vector<int> knn_sorted;
+        // About to fill up knn_sorted:
+        for(u_int j = 0; j < points.size(); j++) {
+            if(dists[ids[j]] == -1) {           // We have a query with query_type = 1, and current point doesn't match filter of query
+                continue;                       // Therefore, we skip the distance between the two
+            }
+            knn_sorted.push_back(ids[j]);
+            if(static_cast<int>(knn_sorted.size()) >= k) 
+                break;
+        }
+        // Save ground truth of current query
+        knn_results.push_back(knn_sorted);
+    }
+    return knn_results;
 }
