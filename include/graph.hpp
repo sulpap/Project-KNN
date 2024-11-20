@@ -29,11 +29,11 @@ class Node {
         ~Node();
 
         // Getters
-        int getId();
-        int getGraphId();
-        vector<double> getCoordinates();
-        list<Node*> getEdges();
-        int getLabel();
+        int getId() const;
+        int getGraphId() const;
+        vector<double> getCoordinates() const;
+        list<Node*> getEdges() const;
+        int getLabel() const;
 
         // Setters
         void setId(int id);
@@ -74,7 +74,7 @@ class Graph {
         // Getters
         int getGraphId();
         static int getCurrentGraphId();
-        map<int, Node*> getAdjList();
+        map<int, Node*> getAdjList() const;
 
         // Setters
         void setGraphId(int id);
