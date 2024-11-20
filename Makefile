@@ -11,24 +11,33 @@ TESTDIR = tests
 
 SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
-ALL_TESTFILES = $(SRCFILES) $(TESTFILES)
 
-OBJFILES = $(patsubst $(SRCDIR)/%.cpp,$(OBJDIR)/%.o,$(SRCFILES))
-TESTOBJFILES = $(patsubst $(TESTDIR)/%.cpp,$(OBJDIR)/%.o,$(TESTFILES))
+# Specific source files for each executable
+MAIN_SRC = $(SRCDIR)/main.cpp
+CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
+COMMON_SRC = $(filter-out $(MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
-OBJFILES_NO_MAIN = $(filter-out $(OBJDIR)/main.o, $(OBJFILES))
+MAIN_OBJ = $(OBJDIR)/main.o
+CALC_GT_OBJ = $(OBJDIR)/calculate_groundtruth.o
+COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
-all: $(BINDIR) $(BINDIR)/main
+TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-# Build main target
-$(BINDIR)/main: $(OBJFILES) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $(OBJFILES)
+all: $(BINDIR)/main $(BINDIR)/calculate_groundtruth test
 
-# Compile test executable
+# Build main executable
+$(BINDIR)/main: $(MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Build calculate_groundtruth executable
+$(BINDIR)/calculate_groundtruth: $(CALC_GT_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+# Build test executable
 test: $(BINDIR)/test
 
-$(BINDIR)/test: $(TESTOBJFILES) $(OBJFILES_NO_MAIN) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $(TESTOBJFILES) $(OBJFILES_NO_MAIN)
+$(BINDIR)/test: $(TEST_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
 
 $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
@@ -36,10 +45,14 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
 
+# Run calculate_groundtruth after building it
+groundtruth: $(BINDIR)/calculate_groundtruth
+	@echo "Running calculate_groundtruth..."
+	@./$(BINDIR)/calculate_groundtruth
+
 valgrind: $(BINDIR)/test
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BINDIR)/test
 
-# Create directories
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
 
@@ -49,4 +62,4 @@ $(BINDIR):
 clean:
 	rm -fr $(OBJDIR) $(BINDIR)
 
-.PHONY: all clean test
+.PHONY: all clean test valgrind run_calculate_groundtruth
