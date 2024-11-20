@@ -72,7 +72,7 @@ class Graph {
         ~Graph();
 
         // Getters
-        int getGraphId();
+        int getGraphId() const;
         static int getCurrentGraphId();
         map<int, Node*> getAdjList() const;
 
@@ -85,7 +85,7 @@ class Graph {
         Node* getNode(int id);
         void deleteNode(int id); // Deletes the Node entirely (Καλύτερα να χρησιμοποιείται αν το node ανήκει μόνο σε έναν γράφο)
         Node* removeNode(int id); // Removes the Node from the graph
-        int getNodeCount();
+        int getNodeCount() const;
 
         void addEdge(int idFrom, Node* node);
         void addEdge(int idFrom, int idTo);  // use this when 2 nodes are already in the graph, else: cout error message

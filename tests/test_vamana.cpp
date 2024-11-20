@@ -26,7 +26,9 @@ TEST_CASE("Vamana function test")
 
     REQUIRE(med == med_check);
 
-    for (int i = 0; i < graph.getNodeCount(); ++i)
+    int nodecount = graph.getNodeCount();
+
+    for (int i = 0; i < nodecount; ++i)
     {
         Node *node = graph.getNode(i);
         // check degree does not exceed R
