@@ -16,8 +16,12 @@ static void ReadBin(const string &file_path, const int num_dimensions, vector<ve
     ifs.open(file_path, ios::binary);
     assert(ifs.is_open());
 
+    /* !ΣΗΜΑΝΤΙΚΟ! Θυμίζουμε ότι η δομή ενός *data.bin ή *queries.bin αρχείου *πάντα* ξεκινά
+    with a 4-byte integer num_vectors/num_queries (uint32_t) indicating 
+    the number of vectors/queries, respectively. */
+
     uint32_t N; // num of points
-    ifs.read((char *)&N, sizeof(uint32_t));
+    ifs.read((char *)&N, sizeof(uint32_t));         // N is an int
     data.resize(N);
 
     vector<float> buff(num_dimensions);
@@ -34,9 +38,10 @@ static void ReadBin(const string &file_path, const int num_dimensions, vector<ve
     ifs.close();
 }
 
-/* Συνάρτηση που διαβάζει ένα data.bin αρχείο και επιστρέφει 
+/* Συνάρτηση που διαβάζει ένα data.bin αρχείο (με τη δομή που περιγράφεται 
+στο https://transactional.blog/sigmod-contest/2024) και επιστρέφει
 vector <vector<float>> points, όπου το κάθε vector στο 0-στο στοιχείο έχει
-την τιμή του C (>=0), ενώ από το 1ο στοιχείο μέχρι και το 101 στοιχείο είναι 
+την τιμή του C (>=0), ενώ από το 1ο στοιχείο μέχρι και το 101 στοιχείο είναι
 οι συντεταγμένες του σημείου */
 vector<vector<float>> databin_read(const char* filename) {
     vector<vector<float>> points;
@@ -57,9 +62,11 @@ vector<vector<float>> databin_read(const char* filename) {
     return points_better;
 }
 
-/* Συνάρτηση που διαβάζει ένα queries.bin αρχείο και επιστρέφει vector <vector<float>> queries, 
-όπου το κάθε vector στο 0-στο στοιχείο έχει τιμή 0 ή 1 (query type), 
-στο 1ο στοιχείο έχει τιμή του C (>=0 αν έχει φίλτρο ή -1 αν δεν έχει φίλτρο), 
+/* Συνάρτηση που διαβάζει ένα queries.bin αρχείο (με τη δομή που περιγράφεται 
+στο https://transactional.blog/sigmod-contest/2024)
+και επιστρέφει vector <vector<float>> queries,
+όπου το κάθε vector στο 0-στο στοιχείο έχει τιμή 0 ή 1 (query type),
+στο 1ο στοιχείο έχει τιμή του C (>=0 αν έχει φίλτρο ή -1 αν δεν έχει φίλτρο),
 ενώ από το 2ο στοιχείο μέχρι και το 102 στοιχείο είναι οι συντεταγμένες του query */
 vector<vector<float>> queriesbin_read(const char* filename) {
     vector<vector<float>> queries;
@@ -103,8 +110,8 @@ double eucl_dist_point_query(vector<float> &point, vector<float> &query) {
 
 
 /* Συνάρτηση που παίρνει ως παράμετρο ένα vector<vector<float>> queries
-με queries που έχουν query_type 0 ή 1 και επιστρέφει το ground truth
-για κάθε ένα από αυτά 
+με queries που έχουν query_type 0 ή 1 (+ τιμή του C + dimensions query) και επιστρέφει το ground truth
+για κάθε ένα από αυτά. Τα points που δίνονται ως παράμετρο *δεν* περιέχουν timestamp.
 
 The groundtruth files contain, for each query, the identifiers (vector number, starting at 0) 
 of its k nearest neighbors, ordered by *increasing* (squared euclidean) distance. */

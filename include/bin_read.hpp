@@ -4,13 +4,16 @@
 #include <vector>
 using  namespace std;
 
-/* Συνάρτηση που διαβάζει ένα data.bin αρχείο και επιστρέφει
+/* Συνάρτηση που διαβάζει ένα data.bin αρχείο (με τη δομή που περιγράφεται 
+στο https://transactional.blog/sigmod-contest/2024) και επιστρέφει
 vector <vector<float>> points, όπου το κάθε vector στο 0-στο στοιχείο έχει
 την τιμή του C (>=0), ενώ από το 1ο στοιχείο μέχρι και το 101 στοιχείο είναι
 οι συντεταγμένες του σημείου */
 vector<vector<float>> databin_read(const char* filename);
 
-/* Συνάρτηση που διαβάζει ένα queries.bin αρχείο και επιστρέφει vector <vector<float>> queries,
+/* Συνάρτηση που διαβάζει ένα queries.bin αρχείο (με τη δομή που περιγράφεται 
+στο https://transactional.blog/sigmod-contest/2024)
+και επιστρέφει vector <vector<float>> queries,
 όπου το κάθε vector στο 0-στο στοιχείο έχει τιμή 0 ή 1 (query type),
 στο 1ο στοιχείο έχει τιμή του C (>=0 αν έχει φίλτρο ή -1 αν δεν έχει φίλτρο),
 ενώ από το 2ο στοιχείο μέχρι και το 102 στοιχείο είναι οι συντεταγμένες του query */
@@ -22,8 +25,8 @@ vector<vector<float>> queriesbin_read(const char* filename);
 double eucl_dist_point_query(vector<float> &point, vector<float> &query);
 
 /* Συνάρτηση που παίρνει ως παράμετρο ένα vector<vector<float>> queries
-με queries που έχουν query_type 0 ή 1 και επιστρέφει το ground truth
-για κάθε ένα από αυτά 
+με queries που έχουν query_type 0 ή 1 (+ τιμή του C + dimensions query) και επιστρέφει το ground truth
+για κάθε ένα από αυτά. Τα points που δίνονται ως παράμετρο *δεν* περιέχουν timestamp.
 
 The groundtruth files contain, for each query, the identifiers (vector number, starting at 0) 
 of its k nearest neighbors, ordered by *increasing* (squared euclidean) distance. */
