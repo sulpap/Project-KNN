@@ -19,7 +19,8 @@ TEST_CASE("Test generate_graph basic functionality")
     generate_graph(graph, coords, R);
 
     // check that 3 nodes have been added
-    REQUIRE(graph.getNodeCount() == 3);
+    int nodecount = graph.getNodeCount();
+    REQUIRE(nodecount == 3);
 
     // verify that nodes have the correct coordinates
     REQUIRE(graph.getNode(0)->getCoordinates() == coords[0]);

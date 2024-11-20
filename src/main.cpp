@@ -198,3 +198,32 @@ int main(int argc, char* argv[]) {
 ./bin/main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 */
+
+
+
+// #include <iostream>
+// #include <cassert>
+// #include "../include/graph.hpp"
+// #include "../include/bin_read.hpp" 
+// #include "../include/generate_graph.hpp" 
+// #include "../include/save_graph_to_binary.hpp"
+// #include "../include/load_graph_from_binary.hpp"
+
+// int main() {
+//     Graph graph;
+
+//     Node* node1 = new Node(0, {1.0, 2.0, 3.0}, {}, 5);
+//     Node* node2 = new Node(1, {4.0, 5.0, 6.0}, {}, 10);
+//     graph.addNode(node1);
+//     graph.addNode(node2);
+//     graph.addEdge(0, 1);
+
+//     graph.printEdges();
+
+//     save_graph_to_binary(graph, "graph.bin");
+
+//     Graph loadedGraph = load_graph_from_binary("graph.bin");
+//     loadedGraph.printEdges();
+
+//     return 0;
+// }

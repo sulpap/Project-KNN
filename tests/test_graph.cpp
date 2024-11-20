@@ -92,7 +92,8 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         graph.addNode(node);
         REQUIRE(graph.getAdjList().size() == 1);
         REQUIRE(graph.getNode(1) == node);
-        REQUIRE(node->getGraphId() == graph.getGraphId());
+        int gid = node->getGraphId();
+        REQUIRE(gid == graph.getGraphId());
     }
 
     SECTION("Delete Node")

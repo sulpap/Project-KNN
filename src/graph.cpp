@@ -168,7 +168,7 @@ void Graph::clear() {
 
 Graph::~Graph() {}
 
-int Graph::getGraphId() {
+int Graph::getGraphId() const {
     return this->graphId;
 }
 
@@ -224,7 +224,7 @@ Node* Graph::removeNode(int id) {
     }
 }
 
-int Graph::getNodeCount() {
+int Graph::getNodeCount() const {
     return this->adjList.size();
 }
 
