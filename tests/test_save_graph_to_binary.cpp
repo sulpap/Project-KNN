@@ -37,4 +37,5 @@ TEST_CASE("save_graph_to_binary function test")
 
     // clean up the file (???)
     remove(file_path.c_str());
+    graph.clear();
 }

@@ -211,19 +211,11 @@ int main(int argc, char* argv[]) {
 
 // int main() {
 //     Graph graph;
+//     vector<vector<double>> coords = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}, {7.0, 8.0}};
+//     set<int> labels = {0, 1};
 
-//     Node* node1 = new Node(0, {1.0, 2.0, 3.0}, {}, 5);
-//     Node* node2 = new Node(1, {4.0, 5.0, 6.0}, {}, 10);
-//     graph.addNode(node1);
-//     graph.addNode(node2);
-//     graph.addEdge(0, 1);
-
+//     generate_label_based_graph(graph, coords, labels);
 //     graph.printEdges();
-
-//     save_graph_to_binary(graph, "graph.bin");
-
-//     Graph loadedGraph = load_graph_from_binary("graph.bin");
-//     loadedGraph.printEdges();
 
 //     return 0;
 // }
