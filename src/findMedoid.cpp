@@ -61,7 +61,7 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
         vector<int> Pf = graph.findNodesWithLabel(f);
 
         // Get taph randomly sampled data point ids from Pf
-        vector<int> Rf = getRandomSample(Pf, taph);
+        vector<int> Rf = getRandomSample(Pf, taph); // taph is a threshold = an upper bound
 
         // p* <- arg min_{p in Rf} T[p]
         int p_star = findMinInT(Rf, T);
