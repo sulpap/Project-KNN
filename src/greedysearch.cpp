@@ -108,3 +108,37 @@ void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, s
 
     return;
 }
+
+// L_set, V_set should be empty when calling the function
+// L_set, V_set will be full once function call terminated
+void FilteredGreedySearch(set<Node*> &S_set, vector<double> &queryCoords, int k, int L, set<Node*> &L_set, set<Node*> &V_set, set<int> &F_q_set);
+    /*
+    set<Node*> &S_set;
+    Όταν ο fgs (filtered greedy seach) καλείται από τον vamana, τότε το S_set περιέχει μόνο έναν κόμβο.
+    Όταν o fgs καλείται από τη main για query με φίλτρο, τότε το S_set περιέχει μόνο έναν κόμβο.
+    Όταν o fgs καλείται από τη main για query χωρίς φίλτρο, τότε το S_set περιέχει έναν starting κόμβο για κάθε φίλτρο.
+    Από τα παραπάνω καταλαβαίνουμε ότι το S χρειάζεται να είναι ένα set, καθώς υπάρχει περίπτωση να είναι > 1 στοιχείο.
+    
+    vector<double> &queryCoords;
+    Όταν ο fgs καλείται από τον vamana, τότε το queryCoords περιέχει τις συντεταγμένες του εκάστοτε σημείου που εξετάζουμε 
+    (μόνο τις συντεταγμένες! όχι το φίλτρο)
+    Όταν ο fgs καλείται από τη main, τότε το queryCoords περιέχει τις συντεταγμένες του query 
+    (μόνο τις συντεταγμένες! όχι το φίλτρο)
+
+    int k;
+    Όταν ο fgs καλείται από τον vamana, τότε k = 0
+    Όταν ο fgs καλείται από τη main, τότε k = 100
+
+    int L;
+
+    set<Node*> &L_set;
+    Όταν ο fgs καλείται από τον vamana, τότε το L_set που επιστρέφουμε θα είναι κενό.
+    Όταν ο fgs καλείται από τη main, τότε από το L_set θα χρειαστούμε μόνο τα node ids. Οπότε μπορεί να οριστεί και ως: set<int> &L_set
+
+    set<Node*> &V_set;
+
+    set<int> &F_q_set;
+    Όταν ο fgs καλείται από τον vamana, τότε το F_q_set περιέχει το φίλτρο του εκάστοτε σημείου που εξετάζουμε. 
+    Όταν o fgs καλείται από τη main για query με φίλτρο, το F_q_set περιέχει το φίλτρο του query.
+    Όταν o fgs καλείται από τη main για query χωρίς φίλτρο, τότε το F_q_set περιέχει κάθε φίλτρο.
+    */

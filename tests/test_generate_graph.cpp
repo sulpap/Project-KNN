@@ -19,7 +19,8 @@ TEST_CASE("Test generate_graph basic functionality")
     generate_graph(graph, coords, R);
 
     // check that 3 nodes have been added
-    REQUIRE(graph.getNodeCount() == 3);
+    int nodecount = graph.getNodeCount();
+    REQUIRE(nodecount == 3);
 
     // verify that nodes have the correct coordinates
     REQUIRE(graph.getNode(0)->getCoordinates() == coords[0]);
@@ -84,3 +85,8 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
 // * if adjacent_find returns edges.end(), it means no consecutive duplicate elements were found,
 // so there are no duplicates in the sorted edges vector.
 // if it returns an iterator other than edges.end(), there are duplicate elements.
+
+TEST_CASE("Test generate_label_based_graph basic functionality")
+{
+    //TODO
+}

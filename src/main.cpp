@@ -198,3 +198,24 @@ int main(int argc, char* argv[]) {
 ./bin/main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 */
+
+
+
+// #include <iostream>
+// #include <cassert>
+// #include "../include/graph.hpp"
+// #include "../include/bin_read.hpp" 
+// #include "../include/generate_graph.hpp" 
+// #include "../include/save_graph_to_binary.hpp"
+// #include "../include/load_graph_from_binary.hpp"
+
+// int main() {
+//     Graph graph;
+//     vector<vector<double>> coords = {{1.0, 2.0}, {3.0, 4.0}, {5.0, 6.0}, {7.0, 8.0}};
+//     set<int> labels = {0, 1};
+
+//     generate_label_based_graph(graph, coords, labels);
+//     graph.printEdges();
+
+//     return 0;
+// }

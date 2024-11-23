@@ -21,23 +21,23 @@ Node::Node(const Node& other)
 
 Node::~Node() {}
 
-int Node::getId() {
+int Node::getId() const {
     return this->id;
 }
 
-int Node::getGraphId() {
+int Node::getGraphId() const {
     return this->graphId;
 }
 
-vector<double> Node::getCoordinates() {
+vector<double> Node::getCoordinates() const {
     return this->coordinates;
 }
 
-list<Node*> Node::getEdges() {
+list<Node*> Node::getEdges() const {
     return this->edges;
 }
 
-int Node::getLabel() {
+int Node::getLabel() const {
     return this->label;
 }
 
@@ -168,7 +168,7 @@ void Graph::clear() {
 
 Graph::~Graph() {}
 
-int Graph::getGraphId() {
+int Graph::getGraphId() const {
     return this->graphId;
 }
 
@@ -176,7 +176,7 @@ int Graph::getCurrentGraphId() {
     return currentGraphId;
 }
 
-map<int, Node*> Graph::getAdjList() {
+map<int, Node*> Graph::getAdjList() const {
     return this->adjList;
 }
 
@@ -224,7 +224,7 @@ Node* Graph::removeNode(int id) {
     }
 }
 
-int Graph::getNodeCount() {
+int Graph::getNodeCount() const {
     return this->adjList.size();
 }
 

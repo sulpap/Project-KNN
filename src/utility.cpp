@@ -7,6 +7,7 @@
 #include <fstream>
 #include <algorithm>
 #include <limits>
+#include <cassert>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2)
 {
@@ -22,41 +23,26 @@ double euclidean_distance(vector<double> coords1, vector<double> coords2)
     return sqrt(sum);
 }
 
+// Οι παράμετροι της συνάρτησης έχουν μόνο τις διαστάσεις. Όχι τις ετικέτες ή query_type.
+double euclidean_distance_floats(vector<float> &coords1, vector<float> &coords2) {
+    assert(coords1.size() == coords2.size());
+    double sum = 0.0;
+    double dist = 0.0;
+
+    for (size_t i = 0; i < coords1.size(); i++) {
+        dist = coords2[i] - coords1[i];
+        sum += dist * dist;
+    }
+
+    return sqrt(sum);
+}
+
+
 double euclidean_distance_of_nodes(Node *node1, Node *node2)
 {
     // take the coords from the two nodes and call euclidean_distance
     return euclidean_distance(node1->getCoordinates(), node2->getCoordinates());
 }
-
-// Medoid is a representative object of a data set whose sum of distances to all the objects in the data set is minimal.
-
-// vrs. 1: classic method - takes 10 minutes for just the small base (10000 vectors)
-// int findMedoid(const vector<vector<double>> &coords)
-// {
-//     int medoidIndex = -1;
-//     double minTotalDistance = numeric_limits<double>::max();
-
-//     // for each point in each coord
-//     for (size_t i = 0; i < coords.size(); ++i)
-//     {
-//         double totalDistance = 0.0;
-
-//         // calculate the sum of distances from the point to every other point
-//         for (size_t j = 0; j < coords.size(); ++j) {
-//             if (i != j) {
-//                 totalDistance += euclidean_distance(coords[i], coords[j]);
-//             }
-//         }
-
-//         // update medoid only if the sum is less than the minimum (until now)
-//         if (totalDistance < minTotalDistance) {
-//             minTotalDistance = totalDistance;
-//             medoidIndex = i;
-//         }
-//     }
-
-//     return medoidIndex;
-// }
 
 // vrs. 2 - better -> does half the computations - distance i->j and j->i is the same, so it's computed only once.
 //                                                 also, we don't compute distances we have already computed. ex. for i = 2, j doesn't start from 0,
