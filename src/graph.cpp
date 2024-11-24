@@ -229,6 +229,10 @@ int Graph::getNodeCount() const {
 }
 
 
+bool Graph::isEmpty() const {
+    return adjList.empty();
+}
+
 void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);
 }

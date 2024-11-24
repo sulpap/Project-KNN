@@ -85,8 +85,3 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
 // * if adjacent_find returns edges.end(), it means no consecutive duplicate elements were found,
 // so there are no duplicates in the sorted edges vector.
 // if it returns an iterator other than edges.end(), there are duplicate elements.
-
-TEST_CASE("Test generate_label_based_graph basic functionality")
-{
-    //TODO
-}

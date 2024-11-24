@@ -45,6 +45,11 @@ int findMinInT(const vector<int>& Rf, const map<int, int>& T)
 
 map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 {
+    // if (graph.isEmpty())
+    // {
+    //     // not specified. check tho
+    // }
+
     map<int, Node *> M;
     map<int, int> T;
 

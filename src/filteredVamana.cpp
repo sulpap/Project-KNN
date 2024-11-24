@@ -1,5 +1,5 @@
 #include "../include/filteredVamana.hpp"
-// #include "../include/filteredGreedySearch.hpp"
+#include "../include/greedysearch.hpp"
 // #include "../include/filteredRobustPrune.hpp"
 #include "../include/generate_graph.hpp"
 #include "../include/FindMedoid.hpp"
@@ -12,16 +12,23 @@
 // database P is basically the graph
 
 unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F);
-unordered_map<int, set<int>> computeLabelSets(Graph &graph);
+unordered_map<int, int> computeLabels(Graph &graph);
+// unordered_map<int, set<int>> computeLabelSets(Graph &graph);
 
-void filteredVamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, set<int> F, int taph)
+
+
+void FilteredRobustPrune(Node* sigma_i, const set<Node*>& V_Fx_sigma_i, double a, int R);
+
+
+
+
+Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L, set<int> F, int taph)
 {
-    // 1. Initialize the graph to a sparse graph with neighbors of the same label
-    generate_label_based_graph(graph, coords, F);
+    // 1. Initialize an empty graph
+    Graph graph;
 
     // 2. Let s denote the medoid of P (graph)
     cout << "Start of medoid calculation..." << endl;
-
     auto start = chrono::high_resolution_clock::now();
 
     map<int, Node *> s = FindMedoid(graph, taph, F);
@@ -47,21 +54,84 @@ void filteredVamana(Graph &graph, vector<vector<double>> &coords, int R, double 
     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
     // 5. Let Fx be the label-set for every x ∈ P
-    unordered_map<int, set<int>> Fx = computeLabelSets(graph);
+    unordered_map<int, int> Fx = computeLabels(graph); // but nodes have only 1 label now, so it's an int
 
-// cout << "Label sets for each node:" << endl;
-// for (const auto& [nodeId, Fx] : Fx_all) {
-//     cout << "Node " << nodeId << ": { ";
-//     for (int label : Fx) {
-//         cout << label << " ";
-//     }
-//     cout << "}" << endl;
-// }
+    set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
 
+    // foreach i ∈ [n] do
     for (int point_id : randomPermutation)
     {
         // 6. Let S_{F_{x_{σ(i)}}} = {st(f): f ∈ F_{x_{σ(i)}} }
+
+        // Get the label of the current node x_sigma(i)
+        int Fx_sigma_i = graph.getNode(point_id)->getLabel(); //TODO is this a set of a single element or an int?
+
+        // Initialize S_{F_{x_{σ(i)}}} as the set of start nodes for the label
+        set<Node*> S_Fx_sigma_i;
+
+        if (st_f.find(Fx_sigma_i) != st_f.end()) 
+        {
+            // Add the start node corresponding to this label to the set
+            Node* startNode = graph.getNode(st_f[Fx_sigma_i]);
+            if (startNode != nullptr) 
+            {
+                S_Fx_sigma_i.insert(startNode);
+            }
+        } else 
+        {
+            cout << "Warning: Start node for label " << Fx_sigma_i << " not found!" << endl;
+        }
+
+// cout << "Node " << point_id << ": Start node for label " << Fx_sigma_i << ", Start node count: " << S_Fx_sigma_i.size() << endl;
+
+        // 7. Let [∅;V_{F_{x_{σ(i)}}}] ← FilteredGreedySearch(S_{F_{x_{σ(i)}}}, x_{σ(i)}, 0, L, F_{x_{σ(i)}})
+        set<Node *> V_Fx_sigma_i;
+        set<Node *> L_set;
+        vector<double> queryCoords = coords[point_id];
+
+        // Convert Fx_sigma_i to a set<int> for compatibility with fgs
+        set<int> F_q_set = {Fx_sigma_i}; // it contains a single label
+
+        FilteredGreedySearch(S_Fx_sigma_i, queryCoords, 0, int_L, L_set, V_Fx_sigma_i, F_q_set);
+
+// cout << "After FGS" << endl;
+
+        // 8. V ← V ∪ V_{F_{x_{σ(i)}}}
+        V.insert(V_Fx_sigma_i.begin(), V_Fx_sigma_i.end());
+
+        // 9. Run FilteredRobustPrune(σ(i), V_{F_{x_{σ(i)}}}, α, R) to update out-neighbors of σ(i)
+        Node *sigma_i = graph.getNode(point_id);
+        if (!sigma_i) 
+        {
+            cout << "Warning: Node " << point_id << " is null, skipping..." << endl;
+            continue;
+        }
+        FilteredRobustPrune(sigma_i, V_Fx_sigma_i, a, R);
+
+        // foreach j ∈ N_out(σ(i)) do
+        list<Node *> sigma_i_out = sigma_i->getEdges();
+        for (auto node_j : sigma_i_out)
+        {
+            // 10. Update N_out(j) ← N_out(j) ∪ {σ(i)}
+            list<Node *> j_out = node_j->getEdges();
+            auto it = find(j_out.begin(), j_out.end(), sigma_i);
+            if (it == j_out.end())
+            { // sigma_i doesn't exist in j_out
+                node_j->addEdge(sigma_i);
+            }
+
+            // if |N_out(j)| > R then
+            j_out = node_j->getEdges();
+            if (static_cast<int>(j_out.size()) > R)
+            {
+                // 11. Run FilteredRobustPrune(j, N_out(j), α, R) to update out-neighbors of j
+                set<Node *> j_out_set(j_out.begin(), j_out.end());
+                FilteredRobustPrune(node_j, j_out_set, a, R);
+                
+            }
+        }
     }
+    return graph;
 }
 
 unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F)
@@ -74,7 +144,7 @@ unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F)
         // find the first node in the graph with label f
         vector<int> nodesWithLabel = graph.findNodesWithLabel(f);
         if (!nodesWithLabel.empty())
-        { // we assume that the first occurrence is the start node ???????????
+        { // we assume that the first occurrence is the start node ??????????? TODO
             start_nodes[f] = nodesWithLabel[0];
         }
         else
@@ -86,27 +156,42 @@ unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F)
     return start_nodes;
 }
 
-// for each node in the graph, iterate through its neighbors and collect the labels
-unordered_map<int, set<int>> computeLabelSets(Graph &graph)
+// find each node's label
+unordered_map<int, int> computeLabels(Graph &graph) 
 {
-    unordered_map<int, set<int>> labelSets;
+    unordered_map<int, int> labels;
 
-    for (const auto &[nodeId, nodePtr] : graph.getAdjList())
+    // iterate through all nodes in the graph
+    for (const auto &[nodeId, nodePtr] : graph.getAdjList()) 
     {
-        set<int> Fx;                    // label set for node x
-        Fx.insert(nodePtr->getLabel()); // include the node's label itself
-
-        for (Node *neighbor : nodePtr->getEdges())
-        {
-            Fx.insert(neighbor->getLabel()); // store labels of neighbors
-        }
-
-        labelSets[nodeId] = Fx; // store the label set for this node
+        // get and store the label for this node
+        labels[nodeId] = nodePtr->getLabel();
     }
 
-    return labelSets;
+    return labels;
 }
 
+// for each node in the graph, iterate through its neighbors and collect the labels --> will possibly need if the labels are a set = many labels
+// unordered_map<int, set<int>> computeLabelSets(Graph &graph)
+// {
+//     unordered_map<int, set<int>> labelSets;
+//     for (const auto &[nodeId, nodePtr] : graph.getAdjList())
+//     {
+//         set<int> Fx;                    // label set for node x
+//         Fx.insert(nodePtr->getLabel()); // include the node's label itself
+//         for (Node *neighbor : nodePtr->getEdges())
+//         {
+//             Fx.insert(neighbor->getLabel()); // store labels of neighbors
+//         }
+//         labelSets[nodeId] = Fx; // store the label set for this node
+//     }
+//     return labelSets;
+// }
+
+
+
+
+// old:
 //     set<Node *> V_set;
 //     set<Node *> L_set;
 //     GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);

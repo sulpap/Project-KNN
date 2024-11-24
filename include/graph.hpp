@@ -87,6 +87,7 @@ class Graph {
         Node* removeNode(int id); // Removes the Node from the graph
         int getNodeCount() const;
 
+        bool isEmpty() const;
         void addEdge(int idFrom, Node* node);
         void addEdge(int idFrom, int idTo);  // use this when 2 nodes are already in the graph, else: cout error message
         void removeEdge(int idFrom, int idTo);
