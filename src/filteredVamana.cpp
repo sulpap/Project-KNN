@@ -12,15 +12,11 @@
 // database P is basically the graph
 
 unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F);
-unordered_map<int, int> computeLabels(Graph &graph);
-// unordered_map<int, set<int>> computeLabelSets(Graph &graph);
-
-
+unordered_map<int, set<int>> computeLabels(Graph &graph);
 
 void FilteredRobustPrune(Node* sigma_i, const set<Node*>& V_Fx_sigma_i, double a, int R);
 
-
-
+// we declare label set f for each node, but the nodes have either one label, or none at all.
 
 Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L, set<int> F, int taph)
 {
@@ -54,7 +50,7 @@ Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L,
     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
     // 5. Let Fx be the label-set for every x ∈ P
-    unordered_map<int, int> Fx = computeLabels(graph); // but nodes have only 1 label now, so it's an int
+    unordered_map<int, set<int>> Fx = computeLabels(graph); // set, but nodes have either one label or none at all (=all)
 
     set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
 
@@ -64,23 +60,26 @@ Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L,
         // 6. Let S_{F_{x_{σ(i)}}} = {st(f): f ∈ F_{x_{σ(i)}} }
 
         // Get the label of the current node x_sigma(i)
-        int Fx_sigma_i = graph.getNode(point_id)->getLabel(); //TODO is this a set of a single element or an int?
+        set<int> Fx_sigma_i = Fx[point_id];
 
         // Initialize S_{F_{x_{σ(i)}}} as the set of start nodes for the label
         set<Node*> S_Fx_sigma_i;
 
-        if (st_f.find(Fx_sigma_i) != st_f.end()) 
+        for (int label : Fx_sigma_i) 
         {
-            // Add the start node corresponding to this label to the set
-            Node* startNode = graph.getNode(st_f[Fx_sigma_i]);
+        if (st_f.find(label) != st_f.end()) 
+        {
+            Node* startNode = graph.getNode(st_f[label]);
             if (startNode != nullptr) 
-            {
+            { // Add the start node corresponding to this label to the set
                 S_Fx_sigma_i.insert(startNode);
             }
-        } else 
+        } 
+        else 
         {
-            cout << "Warning: Start node for label " << Fx_sigma_i << " not found!" << endl;
+            cout << "Warning: Start node for label " << label << " not found!" << endl;
         }
+    }
 
 // cout << "Node " << point_id << ": Start node for label " << Fx_sigma_i << ", Start node count: " << S_Fx_sigma_i.size() << endl;
 
@@ -89,10 +88,7 @@ Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L,
         set<Node *> L_set;
         vector<double> queryCoords = coords[point_id];
 
-        // Convert Fx_sigma_i to a set<int> for compatibility with fgs
-        set<int> F_q_set = {Fx_sigma_i}; // it contains a single label
-
-        FilteredGreedySearch(S_Fx_sigma_i, queryCoords, 0, int_L, L_set, V_Fx_sigma_i, F_q_set);
+        FilteredGreedySearch(S_Fx_sigma_i, queryCoords, 0, int_L, L_set, V_Fx_sigma_i, Fx_sigma_i);
 
 // cout << "After FGS" << endl;
 
@@ -136,7 +132,7 @@ Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L,
 
 unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F)
 {
-    unordered_map<int, int> start_nodes; // st_f / st(f)
+    unordered_map<int, int> start_nodes; // st(f) for every f ∈ F
 
     // traverse through the labels in F
     for (int f : F)
@@ -157,15 +153,15 @@ unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F)
 }
 
 // find each node's label
-unordered_map<int, int> computeLabels(Graph &graph) 
+unordered_map<int, set<int>> computeLabels(Graph &graph) 
 {
-    unordered_map<int, int> labels;
+    unordered_map<int, set<int>> labels;
 
     // iterate through all nodes in the graph
     for (const auto &[nodeId, nodePtr] : graph.getAdjList()) 
     {
         // get and store the label for this node
-        labels[nodeId] = nodePtr->getLabel();
+        labels[nodeId] = {nodePtr->getLabel()};
     }
 
     return labels;
