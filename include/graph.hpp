@@ -82,7 +82,7 @@ class Graph {
 
         // Extra Functions
         void addNode(Node* node);
-        Node* getNode(int id);
+        Node* getNode(int id) const;
         void deleteNode(int id); // Deletes the Node entirely (Καλύτερα να χρησιμοποιείται αν το node ανήκει μόνο σε έναν γράφο)
         Node* removeNode(int id); // Removes the Node from the graph
         int getNodeCount() const;

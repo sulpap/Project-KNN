@@ -193,9 +193,10 @@ void Graph::addNode(Node* node) {
     this->adjList[node->getId()] = node;
 }
 
-Node* Graph::getNode(int id) {
-    if (this->adjList.find(id) != this->adjList.end()) {
-        return this->adjList[id];
+Node* Graph::getNode(int id) const {
+    auto it = this->adjList.find(id);
+    if (it != this->adjList.end()) {
+        return it->second;
     }
     return nullptr;  // Node with the given id doesn't exist
 }

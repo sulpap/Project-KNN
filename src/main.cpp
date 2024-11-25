@@ -206,8 +206,7 @@
 #include "../include/graph.hpp"
 #include "../include/bin_read.hpp" 
 #include "../include/generate_graph.hpp" 
-#include "../include/save_graph_to_binary.hpp"
-#include "../include/load_graph_from_binary.hpp"
+#include "../include/graph_binary_io.hpp"
 #include "../include/FindMedoid.hpp" 
 
 
