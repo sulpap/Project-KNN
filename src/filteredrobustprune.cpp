@@ -39,13 +39,17 @@ void FilteredRobustPrune(Node* p, set<Node*> V, double a, int R) {
         auto it = V.begin();
         while (it != V.end()) {
             Node* pPrime = *it;
-
             // Step 8: Check label compatibility
-            if (pPrime->getLabel() != -1 && p->getLabel() != -1) {
-                if (pPrime->getLabel() != p->getLabel() && pPrime->getLabel() != pStar->getLabel()) {
-                    ++it;
-                    continue;
-                }
+            // if (pPrime->getLabel() != -1 && p->getLabel() != -1) {
+                // if ((p->getLabel() == pPrime->getLabel()) && (p->getLabel() != pStar->getLabel())) {
+                //     ++it;
+                //     cout << "inside continue if" << endl;
+                //     continue;
+                // }
+            // }
+            if ((p->getLabel() == pPrime->getLabel()) && (p->getLabel() != pStar->getLabel())) {
+                ++it;
+                continue;
             }
 
             // Step 9: Check distance-based filtering
