@@ -1,7 +1,6 @@
 // #include "../include/filteredVamana.hpp"
 // #include "../include/greedysearch.hpp"
-// // #include "../include/filteredRobustPrune.hpp"
-// #include "../include/generate_graph.hpp"
+// #include "../include/filteredrobustprune.hpp"
 // #include "../include/FindMedoid.hpp"
 // #include <algorithm>
 // #include <iostream>
@@ -9,16 +8,14 @@
 // #include <chrono>
 // #include <unordered_map>
 
-// // database P is basically the graph
+// // database P is basically coords
 
 // unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F);
 // unordered_map<int, set<int>> computeLabels(Graph &graph);
 
-// void FilteredRobustPrune(Node* sigma_i, const set<Node*>& V_Fx_sigma_i, double a, int R);
-
 // // we declare label set f for each node, but the nodes have either one label, or none at all.
 
-// Graph filteredVamana(vector<vector<double>> &coords, int R, double a, int int_L, set<int> F, int taph)
+// Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph)
 // {
 //     // 1. Initialize an empty graph
 //     Graph graph;
