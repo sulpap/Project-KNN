@@ -54,7 +54,7 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
     map<int, Node *> M;
     map<int, int> T; // T is intended as a counter
 
-    // TODO is this needed? or is it automatically initialized to 0???
+    // TODO is this needed? it's automatically initialized to 0???
     for (int i = 0; i < 10; i++)
     {
         T[i] = 0;
@@ -83,8 +83,12 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
         int p_star = findMinInT(Rf, T);
 
         // Update M[f] <- p* and T[p*] <- T[p*] + 1
-        M[f] = graph.getNode(p_star);
-        T[p_star] += 1; // or T[p_star]++;
+        Node* p_star_node = graph.getNode(p_star);
+        if (p_star_node)
+        {
+            M[f] = p_star_node;
+            T[p_star] += 1; // or T[p_star]++;
+        }
     }
     return M;
 }

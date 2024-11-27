@@ -11,7 +11,7 @@
 // // database P is basically coords
 
 // unordered_map<int, int> defineStartNodes(Graph &graph, const set<int> &F);
-// unordered_map<int, set<int>> computeLabels(Graph &graph);
+// unordered_map<int, set<int>> computeLabels(Graph &graph, set<int> F);
 
 // // we declare label set f for each node, but the nodes have either one label, or none at all.
 
@@ -47,7 +47,7 @@
 //     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
 //     // 5. Let Fx be the label-set for every x ∈ P
-//     unordered_map<int, set<int>> Fx = computeLabels(graph); // set, but nodes have either one label or none at all (=all)
+//     unordered_map<int, set<int>> Fx = computeLabels(graph, F); // set, but nodes have either one label or none at all (=all)
 
 //     set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
 
@@ -64,19 +64,28 @@
 
 //         for (int label : Fx_sigma_i) 
 //         {
-//         if (st_f.find(label) != st_f.end()) 
-//         {
-//             Node* startNode = graph.getNode(st_f[label]);
-//             if (startNode != nullptr) 
-//             { // Add the start node corresponding to this label to the set
-//                 S_Fx_sigma_i.insert(startNode);
+//             if (st_f.find(label) != st_f.end()) 
+//             {
+//                 Node* startNode = graph.getNode(st_f[label]);
+//                 if (startNode != nullptr) 
+//                 {   // Add the start node corresponding to this label to the set
+//                     S_Fx_sigma_i.insert(startNode);
+//                 }
+//             } 
+//             else 
+//             {
+//                 cout << "Warning: Start node for label " << label << " not found!" << endl;
 //             }
-//         } 
-//         else 
-//         {
-//             cout << "Warning: Start node for label " << label << " not found!" << endl;
 //         }
-//     }
+
+//         // Also include nodes with label -1
+//         for (const auto &[nodeId, nodePtr] : graph.getAdjList()) 
+//         {
+//             if (nodePtr->getLabel() == -1) 
+//             {
+//                 S_Fx_sigma_i.insert(nodePtr);
+//             }
+//         }
 
 // // cout << "Node " << point_id << ": Start node for label " << Fx_sigma_i << ", Start node count: " << S_Fx_sigma_i.size() << endl;
 
@@ -136,8 +145,14 @@
 //     {
 //         // find the first node in the graph with label f
 //         vector<int> nodesWithLabel = graph.findNodesWithLabel(f);
+
+//         // also find the nodes without a label
+//         vector<int> nodesWithoutLabel = graph.findNodesWithLabel(-1);
+//         // and store them in the same buffer
+//         nodesWithLabel.insert(nodesWithLabel.end(), nodesWithoutLabel.begin(), nodesWithoutLabel.end());
+
 //         if (!nodesWithLabel.empty())
-//         { // we assume that the first occurrence is the start node ??????????? TODO
+//         { // we assume that the first occurrence is the start node ------------------------------------------------------
 //             start_nodes[f] = nodesWithLabel[0];
 //         }
 //         else
@@ -150,15 +165,24 @@
 // }
 
 // // find each node's label
-// unordered_map<int, set<int>> computeLabels(Graph &graph) 
+// unordered_map<int, set<int>> computeLabels(Graph &graph, set<int> F) 
 // {
 //     unordered_map<int, set<int>> labels;
 
 //     // iterate through all nodes in the graph
 //     for (const auto &[nodeId, nodePtr] : graph.getAdjList()) 
 //     {
-//         // get and store the label for this node
-//         labels[nodeId] = {nodePtr->getLabel()};
+//         // get the label from this node
+//         int label = nodePtr->getLabel();
+
+//         // if it has no label, we treat it like it has them all
+//         if (label == -1) 
+//         {
+//             labels[nodeId] = F; // assign all labels from the label set F
+//         } else 
+//         { // if it has a label, we store it
+//             labels[nodeId] = {label};
+//         }
 //     }
 
 //     return labels;
