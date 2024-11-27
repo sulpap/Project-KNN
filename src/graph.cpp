@@ -159,14 +159,14 @@ Graph::Graph(map<int, Node*> adj_list) : graphId(currentGraphId++) {
     this->adjList = adj_list;
 }
 
+Graph::~Graph() {}
+
 void Graph::clear() {
     for (auto& nodePair : adjList) {
         delete nodePair.second;
     }
     adjList.clear();     
 }
-
-Graph::~Graph() {}
 
 int Graph::getGraphId() const {
     return this->graphId;
@@ -193,9 +193,10 @@ void Graph::addNode(Node* node) {
     this->adjList[node->getId()] = node;
 }
 
-Node* Graph::getNode(int id) {
-    if (this->adjList.find(id) != this->adjList.end()) {
-        return this->adjList[id];
+Node* Graph::getNode(int id) const {
+    auto it = this->adjList.find(id);
+    if (it != this->adjList.end()) {
+        return it->second;
     }
     return nullptr;  // Node with the given id doesn't exist
 }
@@ -228,6 +229,10 @@ int Graph::getNodeCount() const {
     return this->adjList.size();
 }
 
+
+bool Graph::isEmpty() const {
+    return adjList.empty();
+}
 
 void Graph::addEdge(int idFrom, Node* node) {
     this->adjList[idFrom]->addEdge(node);

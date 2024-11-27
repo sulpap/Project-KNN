@@ -44,7 +44,7 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
 {
     srand(time(0));
     
-    // convert the set of labels into a vector ------------------------- IS F A SET OF INTS OR VECTOR ?? TODO
+    // convert the set of labels into a vector
     vector<int> labels(F.begin(), F.end());
 
     // make sure labels are enough for the nodes

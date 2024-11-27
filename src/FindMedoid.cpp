@@ -8,7 +8,7 @@
 vector<int> getRandomSample(vector<int>& Pf, int taph) 
 {
     // Edge case: if the number of requested samples is greater than the available data
-    if (taph >= Pf.size()) {
+    if (static_cast<vector<int>::size_type>(taph) >= Pf.size()) {
         return Pf; // Return all elements if we want more or equal samples than available
     }
 
@@ -45,8 +45,14 @@ int findMinInT(const vector<int>& Rf, const map<int, int>& T)
 
 map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 {
+    // if (graph.isEmpty())
+    // {
+    //     // not specified. check tho
+    // }
+
+    // 1. Initialize M to be an empty map and T to a zero map
     map<int, Node *> M;
-    map<int, int> T;
+    map<int, int> T; // T is intended as a counter
 
     // TODO is this needed? or is it automatically initialized to 0???
     for (int i = 0; i < 10; i++)
@@ -54,21 +60,31 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
         T[i] = 0;
     }
 
-    // For each label in F
-    for(auto& f : F)
+    // for each f ∈ F, the set of all filters, do
+    for(int f : F)
     {
-        // Find ids of all nodes with label f
+        // 2. Let Pf denore the ids of all points matching filter f
         vector<int> Pf = graph.findNodesWithLabel(f);
 
-        // Get taph randomly sampled data point ids from Pf
+        if (Pf.empty())
+        {
+            continue; // skip if no nodes have this label
+        }
+
+        // 3. Let Rf ← τ randomly sampled data point ids from Pf
         vector<int> Rf = getRandomSample(Pf, taph); // taph is a threshold = an upper bound
 
-        // p* <- arg min_{p in Rf} T[p]
+        if (Rf.empty())
+        {
+            continue; // skip if no valid sample could be found
+        }
+
+        // p* <- arg min_{p ∈ Rf} T[p]
         int p_star = findMinInT(Rf, T);
 
         // Update M[f] <- p* and T[p*] <- T[p*] + 1
         M[f] = graph.getNode(p_star);
-        T[p_star] += 1; // T[p_star]++;
+        T[p_star] += 1; // or T[p_star]++;
     }
     return M;
 }
