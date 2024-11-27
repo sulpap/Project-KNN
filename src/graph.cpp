@@ -372,4 +372,3 @@ void Graph::graphIntersection(Graph& otherGraph) {
     }
     this->adjList = intersectAdjList;
 }
-
