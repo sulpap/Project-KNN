@@ -141,7 +141,7 @@ TEST_CASE("Test FindMedoid")
         Graph graph;
         for (int i = 1; i <= 100; ++i)
         {
-            graph.addNode(new Node(i, {static_cast<double>(i)}, {}, i % 5)); // Labels: 0-4
+            graph.addNode(new Node(i, {static_cast<double>(i)}, {}, i % 3 + 1)); // Labels: 1-3
         }
 
         // set<int> F = {1, 2, 3};
@@ -150,6 +150,7 @@ TEST_CASE("Test FindMedoid")
         // map<int, Node *> medoids = FindMedoid(graph, taph, F);
         // REQUIRE(medoids.size() == 3);
 
+        // medoids.clear();
         graph.clear();
     }
 
