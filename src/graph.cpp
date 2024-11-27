@@ -159,14 +159,14 @@ Graph::Graph(map<int, Node*> adj_list) : graphId(currentGraphId++) {
     this->adjList = adj_list;
 }
 
+Graph::~Graph() {}
+
 void Graph::clear() {
     for (auto& nodePair : adjList) {
         delete nodePair.second;
     }
     adjList.clear();     
 }
-
-Graph::~Graph() {}
 
 int Graph::getGraphId() const {
     return this->graphId;

@@ -68,8 +68,8 @@ class Graph {
         Graph();
         Graph(map<int, Node*> adj_list);
 
-        void clear();
         ~Graph();
+        void clear();
 
         // Getters
         int getGraphId() const;

@@ -1,10 +1,10 @@
-#include "catch.hpp"
-#include "../include/graph.hpp"
-#include "../include/graph_binary_io.hpp"
-#include <fstream>
-#include <vector>
+// #include "catch.hpp"
+// #include "../include/graph.hpp"
+// #include "../include/graph_binary_io.hpp"
+// #include <fstream>
+// #include <vector>
 
-using namespace std;
+// using namespace std;
 
 // // helper function - checks if two graphs are equal
 // bool graphs_are_equal(const Graph &g1, const Graph &g2)
@@ -40,6 +40,7 @@ using namespace std;
 // {
 //     // example graph
 //     Graph graph;
+
 //     Node *node1 = new Node(1, {0.0, 1.0}, {}, 10);
 //     Node *node2 = new Node(2, {2.0, 3.0}, {}, 20);
 //     Node *node3 = new Node(3, {4.0, 5.0}, {}, 30);
