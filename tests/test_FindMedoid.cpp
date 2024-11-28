@@ -141,16 +141,15 @@ TEST_CASE("Test FindMedoid")
         Graph graph;
         for (int i = 1; i <= 100; ++i)
         {
-            graph.addNode(new Node(i, {static_cast<double>(i)}, {}, i % 3 + 1)); // Labels: 1-3
+            graph.addNode(new Node(i, {static_cast<double>(i)}, {}, i % 3 + 1)); // labels: 1-3
         }
 
-        // set<int> F = {1, 2, 3};
-        // int taph = 50; // Exceeds nodes with label
+        set<int> F = {1, 2, 3};
+        int taph = 50; // exceeds nodes with label
 
-        // map<int, Node *> medoids = FindMedoid(graph, taph, F);
-        // REQUIRE(medoids.size() == 3);
+        map<int, Node *> medoids = FindMedoid(graph, taph, F);
+        REQUIRE(medoids.size() == 3);
 
-        // medoids.clear();
         graph.clear();
     }
 
