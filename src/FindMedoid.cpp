@@ -54,10 +54,9 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
     map<int, Node *> M;
     map<int, int> T; // T is intended as a counter
 
-    // TODO is this needed? it's automatically initialized to 0???
-    for (int i = 0; i < 10; i++)
+    for (const auto& pair : graph.getAdjList()) 
     {
-        T[i] = 0;
+        T[pair.first] = 0; // initializing T to a zero map, ensures that it has entries for all nodes in the graph
     }
 
     // for each f ∈ F, the set of all filters, do
