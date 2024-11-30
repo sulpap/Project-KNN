@@ -37,7 +37,6 @@ double euclidean_distance_floats(vector<float> &coords1, vector<float> &coords2)
     return sqrt(sum);
 }
 
-
 double euclidean_distance_of_nodes(Node *node1, Node *node2)
 {
     // take the coords from the two nodes and call euclidean_distance

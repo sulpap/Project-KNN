@@ -228,8 +228,8 @@ int main()
 
     double a = 0.5;
     int L_small = 3; 
-    int R_small = 2; // small max degree for initial subgraphs
-    int R_stitched = 3; // max degree after stitching
+    int R_small = 1; // small max degree for initial subgraphs
+    int R_stitched = 2; // max degree after stitching
 
     Graph resultGraph = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
 
@@ -241,6 +241,8 @@ int main()
         }
         std::cout << std::endl;
     }
+
+    resultGraph.clear();
 
     return 0;
 }

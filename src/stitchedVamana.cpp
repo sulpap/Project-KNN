@@ -25,7 +25,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, vector<int> F, double a, in
     set<int> processedLabels;
 
     // foreach f ∈ F do
-    for (int f : F)
+    for (int f : set<int>(F.begin(), F.end()))
     {
         if (processedLabels.find(f) != processedLabels.end()) 
         {
@@ -35,22 +35,27 @@ Graph stitchedVamana(vector<vector<double>> &coords, vector<int> F, double a, in
         processedLabels.insert(f);
 
         // get Pf
-        vector<vector<double>> Pf = groupedPoints[f]; // how do I get Pf?
+        vector<vector<double>> Pf = groupedPoints[f];
 
         // 4. Let Gf ← Vamana(Pf, α, R_small, L_small)
         Graph Gf;
         Vamana(Gf, Pf, R_small, a, L_small, f); // we also give f, because vamana creates the graph, so it 
                                                 // needs to add the values of the nodes, in which is the label
         // merge ("stitch") Gf into G
-        G.graphUnion(Gf);
+        // G.graphUnion(Gf);
+        Gf.printEdges();
     }
 
     // foreach v ∈ V do
     for (auto &[nodeId, nodePtr] : G.getAdjList())
     {
+        printf("entered the second loop of stitched\n");
+        printf("Node %d has %lu outgoing edges.\n", nodeId, nodePtr->getEdges().size());
         // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
         set<Node *> N_out(nodePtr->getEdges().begin(), nodePtr->getEdges().end());
-        FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
+        printf("right before robust\n");
+        // FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
+        printf("right after robust\n");
     }
 
     return G;

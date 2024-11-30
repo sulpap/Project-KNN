@@ -17,8 +17,8 @@
 
 int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
 {
-    printf("Input: R: %d, a: %f, L: %d, f: %d\n", R,a,int_L,f);
-    generate_graph(graph, coords, R, f);
+    unordered_map<int, int> indexes;
+    generate_graph(graph, coords, R, f, indexes);
     graph.printEdges();
 
     cout << "Start of medoid calculation..." << endl;
@@ -32,7 +32,11 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
 
     cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
 
-    Node *medoid = graph.getNode(medoidIndex);
+cout << "medoidIndex:" << medoidIndex << " indexes[medoidIndex]:" << indexes[medoidIndex] << endl;
+
+    // get the correct nodeId -> match the index with the nodeId
+    int medoidNodeId = indexes[medoidIndex];
+    Node *medoid = graph.getNode(medoidNodeId);
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     vector<int> randomPermutation(coords.size());                // Size of vector randomPermutation = number of points in dataset = number of vectors in coords
@@ -46,6 +50,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
     {
         set<Node *> V_set;
         set<Node *> L_set;
+cout<< "before greedy" << endl;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
 
         Node *sigma_i = graph.getNode(point_id);
@@ -73,5 +78,6 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
             }
         }
     }
+    printf("end of vamana\n");
     return medoidIndex;
 }

@@ -317,7 +317,6 @@ void Graph::graphUnion(Graph& otherGraph)                                   // w
     }
 }
 
-
 Graph Graph::graphDifference(Graph& otherGraph) {
     Graph result(*this);  // Create a copy of the current graph (copy constructor should be defined)
 
