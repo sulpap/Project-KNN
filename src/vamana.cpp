@@ -8,6 +8,8 @@
 #include <random>
 #include <chrono>
 
+#define OFFSET 10000
+
 // coords = coords of all vectors in P dataset (Graph)
 // randomPermutation = σ 
 
@@ -15,12 +17,8 @@
 // V is the set of visited nodes returned from Greedy
 // sigma_i_out are the possible candidates, out-neighbors.
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
+int calculate_medoid(vector<vector<double>> &coords)
 {
-    unordered_map<int, int> indexes;
-    generate_graph(graph, coords, R, f, indexes);
-    graph.printEdges();
-
     cout << "Start of medoid calculation..." << endl;
 
     auto start = chrono::high_resolution_clock::now();
@@ -32,11 +30,25 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
 
     cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
 
-cout << "medoidIndex:" << medoidIndex << " indexes[medoidIndex]:" << indexes[medoidIndex] << endl;
+    return medoidIndex;
+}
+
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
+{
+    unordered_map<int, int> indexes;
+    generate_graph(graph, coords, R, f, indexes);
+
+    int medoidIndex = calculate_medoid(coords);
 
     // get the correct nodeId -> match the index with the nodeId
     int medoidNodeId = indexes[medoidIndex];
     Node *medoid = graph.getNode(medoidNodeId);
+
+    if (medoid == nullptr) 
+    {
+        cerr << "Error: Medoid node with ID " << medoidNodeId << " not found in the graph." << endl;
+        return -1;
+    }
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     vector<int> randomPermutation(coords.size());                // Size of vector randomPermutation = number of points in dataset = number of vectors in coords
@@ -50,12 +62,17 @@ cout << "medoidIndex:" << medoidIndex << " indexes[medoidIndex]:" << indexes[med
     {
         set<Node *> V_set;
         set<Node *> L_set;
-cout<< "before greedy" << endl;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
+        
+        Node *sigma_i = graph.getNode(f * OFFSET + point_id);
+        if (sigma_i == nullptr) 
+        {
+            cerr << "Error: Node with ID " << point_id << " not found in the graph." << endl;
+            continue; // skip this iteration or handle the error appropriately
+        }
 
-        Node *sigma_i = graph.getNode(point_id);
         RobustPrune(sigma_i, V_set, a, R);
-
+        
         list<Node *> sigma_i_out = sigma_i->getEdges();
         for (auto node_j : sigma_i_out)
         {
@@ -78,6 +95,6 @@ cout<< "before greedy" << endl;
             }
         }
     }
-    printf("end of vamana\n");
+
     return medoidIndex;
 }

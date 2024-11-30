@@ -67,7 +67,6 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
             printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
     }
-    cout << "end of generate graph.\n";
 }
 
 

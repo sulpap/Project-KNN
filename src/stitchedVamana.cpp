@@ -41,9 +41,10 @@ Graph stitchedVamana(vector<vector<double>> &coords, vector<int> F, double a, in
         Graph Gf;
         Vamana(Gf, Pf, R_small, a, L_small, f); // we also give f, because vamana creates the graph, so it 
                                                 // needs to add the values of the nodes, in which is the label
+      
         // merge ("stitch") Gf into G
         // G.graphUnion(Gf);
-        Gf.printEdges();
+        // create a set of graphs?????? for each label?????
     }
 
     // foreach v ∈ V do
@@ -54,7 +55,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, vector<int> F, double a, in
         // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
         set<Node *> N_out(nodePtr->getEdges().begin(), nodePtr->getEdges().end());
         printf("right before robust\n");
-        // FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
+        FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
         printf("right after robust\n");
     }
 
@@ -106,6 +107,16 @@ map<int, vector<vector<double>>> computePoints(const vector<vector<double>> &coo
         cerr << "Error: The size of coords does not match the size of labels in F!" << endl;
         return labelToPoints;
     }
+
+// for (int i = 0; i < coords.size(); ++i) {
+//     int label = F[i];
+//     labelToPoints[label].push_back(coords[i]);
+//     cout << "Point " << i << " with label " << label << " has coordinates: ";
+//     for (double val : coords[i]) {
+//         cout << val << " ";
+//     }
+//     cout << endl;
+// }
 
     // Group points in coords by their label in F
     for (int i = 0; i < coords.size(); ++i) 
