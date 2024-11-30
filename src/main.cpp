@@ -224,25 +224,33 @@ int main()
         {5.0, 3.5}
     };
 
-    vector<int> F = {1, 2, 2, 3, 3, 1};
+    // vector<int> F = {1, 2, 2, 3, 3, 1};
 
-    double a = 0.5;
-    int L_small = 3; 
-    int R_small = 1; // small max degree for initial subgraphs
-    int R_stitched = 2; // max degree after stitching
+    // double a = 0.5;
+    // int L_small = 3; 
+    // int R_small = 1; // small max degree for initial subgraphs
+    // int R_stitched = 2; // max degree after stitching
 
-    Graph resultGraph = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
+    // Graph resultGraph = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
 
-    std::cout << "Resulting Graph:" << std::endl;
-    for (const auto &[nodeId, nodePtr] : resultGraph.getAdjList()) {
-        std::cout << "Node " << nodeId << " -> ";
-        for (const auto &neighbor : nodePtr->getEdges()) {
-            std::cout << neighbor->getId() << " ";
-        }
-        std::cout << std::endl;
-    }
+    // std::cout << "Resulting Graph:" << std::endl;
+    // for (const auto &[nodeId, nodePtr] : resultGraph.getAdjList()) {
+    //     std::cout << "Node " << nodeId << " -> ";
+    //     for (const auto &neighbor : nodePtr->getEdges()) {
+    //         std::cout << neighbor->getId() << " ";
+    //     }
+    //     std::cout << std::endl;
+    // }
 
-    resultGraph.clear();
+    // resultGraph.clear();
+
+    Graph G;
+    unordered_map<int, int> indexes;
+    generate_graph(G,coords, 2, 1, indexes);
+
+    G.printEdges();
+
+    G.clear();
 
     return 0;
 }

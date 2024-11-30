@@ -71,10 +71,6 @@ void Node::addCoordinate(vector<double> coordinate) {
     this->coordinates.insert(this->coordinates.end(), coordinate.begin(), coordinate.end());
 }
 
-// void Node::addLabel(const string& label) {
-//     this->label.insert(label);
-// }
-
 bool Node::edgeExists(int id) {
     for (Node* edge: this->edges) {
         if (edge->getId() == id) {

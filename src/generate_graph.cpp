@@ -9,7 +9,6 @@
 // this new approach of generate_graph, creates a graph of nodes with label f
 void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, unordered_map<int, int> &indexes)
 {
-    printf("start of generate graph...\n");
     srand(time(0));
 
     size_t n = coords.size();  // number of points in the current graph
@@ -20,7 +19,6 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
     int offset = 10000;
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        printf("loop %ld in making new nodes\n", i);
         int unique_id = f * offset + i;
         Node* newNode = new Node(unique_id, coords[i], {}, f);
         graph.addNode(newNode);
@@ -34,8 +32,6 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
     // each node has exactly R edges
     for (size_t i = 0; i < coords.size(); ++i) 
     {
-        printf("loop %ld in making edges\n", i);
-
         int unique_id = f * offset + i;
         Node* current = graph.getNode(unique_id);
 
@@ -70,10 +66,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
         {
             printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
-
-        printf("exiting while loop...\n");
     }
-
     cout << "end of generate graph.\n";
 }
 

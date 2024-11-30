@@ -22,13 +22,17 @@ TEST_CASE("Test generate_graph basic functionality")
     // check that 3 nodes have been added
     int nodecount = graph.getNodeCount();
     REQUIRE(nodecount == 3);
-
-    REQUIRE(indexes.size() == 4); // 4 nodes so 4 indexes
-
+    
     // verify that nodes have the correct coordinates
-    REQUIRE(graph.getNode(0)->getCoordinates() == coords[0]);
-    REQUIRE(graph.getNode(1)->getCoordinates() == coords[1]);
-    REQUIRE(graph.getNode(2)->getCoordinates() == coords[2]);
+    REQUIRE(graph.getNode(0 * 10000 + 0)->getCoordinates() == coords[0]);
+    REQUIRE(graph.getNode(0 * 10000 + 1)->getCoordinates() == coords[1]);
+    REQUIRE(graph.getNode(0 * 10000 + 2)->getCoordinates() == coords[2]);
+
+    // ensure indexes work correctly
+    REQUIRE(indexes.size() == 3); // 3 nodes so 3 indexes
+    REQUIRE(graph.getNode(0 * 10000 + 0)->getId()  == indexes[0]);
+    REQUIRE(graph.getNode(0 * 10000 + 1)->getId()  == indexes[1]);
+    REQUIRE(graph.getNode(0 * 10000 + 2)->getId()  == indexes[2]);
 
     // ensure that each node has R edges and that label is as declared (0)
     for (int i = 0; i < 3; ++i)
