@@ -6,14 +6,14 @@
 #include <chrono>
 #include <algorithm>
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int R)
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f)
 {
     srand(time(0));
 
     // nodeIds start from 0
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        Node* newNode = new Node(i, coords[i], {}, 0);
+        Node* newNode = new Node(i, coords[i], {}, f); // pass the label here
         graph.addNode(newNode);
     }
 

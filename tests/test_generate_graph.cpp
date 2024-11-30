@@ -16,7 +16,7 @@ TEST_CASE("Test generate_graph basic functionality")
     int R = 2;
 
     Graph graph;
-    generate_graph(graph, coords, R);
+    generate_graph(graph, coords, R, 0);
 
     // check that 3 nodes have been added
     int nodecount = graph.getNodeCount();
@@ -27,12 +27,13 @@ TEST_CASE("Test generate_graph basic functionality")
     REQUIRE(graph.getNode(1)->getCoordinates() == coords[1]);
     REQUIRE(graph.getNode(2)->getCoordinates() == coords[2]);
 
-    // ensure that each node has R edges
+    // ensure that each node has R edges and that label is as declared (0)
     for (int i = 0; i < 3; ++i)
     {
         Node *node = graph.getNode(i);
         int edgeCount = node->getEdges().size();
         REQUIRE(edgeCount == R);
+        REQUIRE(node->getLabel() == 0); // check that label is 0
     }
 
     graph.clear();
@@ -49,7 +50,7 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
     int R = 3;
 
     Graph graph;
-    generate_graph(graph, coords, R);
+    generate_graph(graph, coords, R, 0);
 
     // verify that there are no self-loops
     for (int i = 0; i < 4; ++i)

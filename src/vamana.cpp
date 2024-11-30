@@ -15,9 +15,11 @@
 // V is the set of visited nodes returned from Greedy
 // sigma_i_out are the possible candidates, out-neighbors.
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L)
+int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
 {
-    generate_graph(graph, coords, R);
+    printf("Input: R: %d, a: %f, L: %d, f: %d\n", R,a,int_L,f);
+    generate_graph(graph, coords, R, f);
+    graph.printEdges();
 
     cout << "Start of medoid calculation..." << endl;
 
@@ -31,14 +33,6 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
     cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
 
     Node *medoid = graph.getNode(medoidIndex);
-    // cout << "Medoid Node: \n";
-    // cout << "\t- Id: " << medoid->getId() << "\n";
-    // cout << "\t- GraphId: " << medoid->getGraphId() << "\n";
-    // cout << "\t- Coordinates:";
-    // for (double i: medoid->getCoordinates()) {
-    //     cout << " " << i;
-    // }
-    // cout << endl;
 
     // make a random permutation of 1..n, to traverse the nodes in a random order
     vector<int> randomPermutation(coords.size());                // Size of vector randomPermutation = number of points in dataset = number of vectors in coords
@@ -48,11 +42,8 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
-    // int counter = 0;
-
     for (int point_id : randomPermutation)
     {
-        // cout << counter++ << "th: " << point_id << endl;
         set<Node *> V_set;
         set<Node *> L_set;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
