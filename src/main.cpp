@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     Graph graph;
     cout << "Calling Vamana..." << endl;
     start = chrono::high_resolution_clock::now();
-    int medoid_id = Vamana(graph, base, R, a, L);
+    int medoid_id = Vamana(graph, base, R, a, L, 0);//added 0 label to not get errors
     end = chrono::high_resolution_clock::now();
     vamana_duration = end - start;
     cout << "Vamana took " << vamana_duration.count() << " seconds." << endl;
@@ -206,40 +206,44 @@ int main(int argc, char* argv[]) {
 // #include "../include/graph.hpp"
 // #include "../include/bin_read.hpp" 
 // #include "../include/generate_graph.hpp" 
-// #include "../include/graph_binary_io.hpp"
+// #include "../include/vamana.hpp"
 // #include "../include/FindMedoid.hpp"
-// #include "../include/stichedVamana.hpp" 
+// #include "../include/stitchedVamana.hpp" 
+// #include <cmath>
 
 // using namespace std;
 
 // int main() 
 // {
-//     // vector<vector<double>> coords = {
-//     //     {0.0, 1.0},
-//     //     {1.0, 1.5},
-//     //     {2.0, 0.5},
-//     //     {3.0, 2.0},
-//     //     {4.0, 3.0},
-//     //     {5.0, 3.5}
-//     // };
+//     vector<vector<double>> coords = {
+//         {0.0, 1.0},
+//         {1.0, 1.5},
+//         {2.0, 0.5},
+//         {3.0, 2.0},
+//         {4.0, 3.0},
+//         {5.0, 3.5}
+//     };
 
-//     // set<int> F = {1, 2, 3};
-//     // double a = 0.5;
-//     // int L_small = 2;
-//     // int R_small = 3;
-//     // int R_stiched = 2;
+//     vector<int> F = {1, 2, 2, 3, 3, 1};
 
-//     // Graph G = stichedVamana(coords, F, a, L_small, R_small, R_stiched);
+//     double a = 0.5;
+//     int L_small = 3; 
+//     int R_small = 1; // small max degree for initial subgraphs
+//     int R_stitched = 2; // max degree after stitching
 
-//     // G.printEdges();
+//     Graph resultGraph = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
 
-//     Graph graph;
-    
-//     for (int i = 1; i <= 100; ++i)
-//     {
-//         graph.addNode(new Node(i, {static_cast<double>(i)}, {}, i % 5)); // Labels: 0-4
-//     }
+//     // std::cout << "Resulting Graph:" << std::endl;
+//     // for (const auto &[nodeId, nodePtr] : resultGraph.getAdjList()) {
+//     //     std::cout << "Node " << nodeId << " -> ";
+//     //     for (const auto &neighbor : nodePtr->getEdges()) {
+//     //         std::cout << neighbor->getId() << " ";
+//     //     }
+//     //     std::cout << std::endl;
+//     // }
 
-//     graph.clear();
-   
+//     resultGraph.clear();
+
+
+//     return 0;
 // }

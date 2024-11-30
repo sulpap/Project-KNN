@@ -71,10 +71,6 @@ void Node::addCoordinate(vector<double> coordinate) {
     this->coordinates.insert(this->coordinates.end(), coordinate.begin(), coordinate.end());
 }
 
-// void Node::addLabel(const string& label) {
-//     this->label.insert(label);
-// }
-
 bool Node::edgeExists(int id) {
     for (Node* edge: this->edges) {
         if (edge->getId() == id) {
@@ -301,7 +297,7 @@ void Graph::graphUnion(Graph& otherGraph)                                   // w
         Node* otherNode = it.second;
 
         //check if the node already exists in the current graph
-        if (this->adjList.find(nodeId) == this->adjList.end()) {            // note: an h find epistrepsei to end, tote paei na pei oti DEN vrethike
+        if (this->adjList.find(nodeId) == this->adjList.end()) {
             //if it doesn't, add it
             this->addNode(new Node(*otherNode));                            // copy constructor
         }
@@ -316,7 +312,6 @@ void Graph::graphUnion(Graph& otherGraph)                                   // w
         }
     }
 }
-
 
 Graph Graph::graphDifference(Graph& otherGraph) {
     Graph result(*this);  // Create a copy of the current graph (copy constructor should be defined)

@@ -1,41 +1,74 @@
-#include <../include/utility.hpp>
 #include "../include/graph.hpp"
+#include "../include/generate_graph.hpp"
 #include <cstdlib>
 #include <ctime>
 #include <random>
 #include <chrono>
 #include <algorithm>
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int R)
+// this new approach of generate_graph, creates a graph of nodes with label f
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, unordered_map<int, int> &indexes)
 {
     srand(time(0));
 
-    // nodeIds start from 0
+    size_t n = coords.size();  // number of points in the current graph
+    if (n == 0) return;  // avoid processing empty graphs
+
+    // nodeIds start from 0. we need them to be unique for each label, so nodeIds have this form: f × offset + i
+    // offset must be larger than the max number of nodes per label
+    int offset = 10000;
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        Node* newNode = new Node(i, coords[i], {}, 0);
+        int unique_id = f * offset + i;
+        Node* newNode = new Node(unique_id, coords[i], {}, f);
         graph.addNode(newNode);
+
+        // store id-index since they don't match
+        indexes[i] = unique_id;
     }
+
+    int adjusted_R = min(static_cast<int>(n) - 1, R);  // adjust R if necessary
 
     // each node has exactly R edges
     for (size_t i = 0; i < coords.size(); ++i) 
     {
-        Node* current = graph.getNode(i);
+        int unique_id = f * offset + i;
+        Node* current = graph.getNode(unique_id);
 
         int edgesAdded = 0;
 
-        while (edgesAdded < R) 
+        set<size_t> potentialNeighbors;
+        for (size_t j = 0; j < n; ++j) 
         {
-            size_t randomNeighborId = rand() % coords.size();
+            if (j != i) 
+            {
+                potentialNeighbors.insert(f * offset + j); // add other nodes as potential neighbors
+            }
+        }
 
-            // add edge only if it's not a self-loop and doesn't already exist
-            if (randomNeighborId != i && !current->edgeExists(randomNeighborId)) {
-                graph.addEdge(i, randomNeighborId);
+        while (edgesAdded < adjusted_R && !potentialNeighbors.empty()) 
+        {
+            auto it = potentialNeighbors.begin();
+            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor ------------------------------------
+
+            size_t randomNeighborId = *it;
+
+            if (!current->edgeExists(randomNeighborId)) 
+            {
+                graph.addEdge(unique_id, randomNeighborId);
                 edgesAdded++;
             }
+
+            potentialNeighbors.erase(it);  // remove the selected neighbor to avoid cycles!
+        }
+
+        if (edgesAdded < adjusted_R) 
+        {
+            printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
     }
 }
+
 
 // F is the set of existing labels
 // this function generates nodes with random labels from F and adds 2 or less random edges to nodes of the same label

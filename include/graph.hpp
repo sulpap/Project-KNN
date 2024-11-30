@@ -15,7 +15,6 @@ class Node {
         int graphId;
         vector<double> coordinates;
         list<Node*> edges;
-        // set<string> labels;
         int label;
 
     public:
@@ -45,10 +44,10 @@ class Node {
         // Extra Functions
         void addEdge(Node* to);
         void addCoordinate(vector<double> coordinates);
-        // void addLabel(const string& label);
+        // void addLabel
 
         bool edgeExists(int id); // Checks if node has an outgoing edge to the node with that id
-        // bool labelExist(const string& label) const;
+        // bool labelExist
 
         double getSpecificCoordinate(int dimension);
         void setSpecificCoordinate(int dimension, double value);

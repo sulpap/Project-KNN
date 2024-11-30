@@ -21,7 +21,7 @@ TEST_CASE("Vamana function test")
     double a = 1; // distance threshold
     int int_L = 5;
 
-    int med = Vamana(graph, coords, R, a, int_L);
+    int med = Vamana(graph, coords, R, a, int_L, 0);
     int med_check = findMedoid(coords);
 
     REQUIRE(med == med_check);
