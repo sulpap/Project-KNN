@@ -37,7 +37,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
 {
     unordered_map<int, int> indexes;
     generate_graph(graph, coords, R, f, indexes);
-
+    
     int medoidIndex = calculate_medoid(coords);
 
     // get the correct nodeId -> match the index with the nodeId
