@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     Graph graph;
     cout << "Calling Vamana..." << endl;
     start = chrono::high_resolution_clock::now();
-    int medoid_id = Vamana(graph, base, R, a, L, 0);//added 0 label to not get errors
+    int medoid_id = Vamana(graph, base, R, a, L, 0);//added a label to not get errors
     end = chrono::high_resolution_clock::now();
     vamana_duration = end - start;
     cout << "Vamana took " << vamana_duration.count() << " seconds." << endl;
@@ -200,7 +200,6 @@ int main(int argc, char* argv[]) {
 */
 
 
-
 // #include <iostream>
 // #include <cassert>
 // #include "../include/graph.hpp"
@@ -215,35 +214,26 @@ int main(int argc, char* argv[]) {
 
 // int main() 
 // {
-//     vector<vector<double>> coords = {
-//         {0.0, 1.0},
-//         {1.0, 1.5},
-//         {2.0, 0.5},
-//         {3.0, 2.0},
-//         {4.0, 3.0},
-//         {5.0, 3.5}
-//     };
+//     Node *node1 = new Node(1, {0.0, 1.0}, {}, 1);
+//     Node *node2 = new Node(2, {2.0, 3.0}, {}, 1);
+//     Node *node3 = new Node(3, {4.0, 5.0}, {}, 2);
 
-//     vector<int> F = {1, 2, 2, 3, 3, 1};
+//     vector<Node*> nodes = {node1, node2, node3};
 
-//     double a = 0.5;
-//     int L_small = 3; 
-//     int R_small = 1; // small max degree for initial subgraphs
-//     int R_stitched = 2; // max degree after stitching
+//     set<int> F = {1, 2, 3};
 
-//     Graph resultGraph = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
+//     double alpha = 1.2;
+//     int L_small = 5;
+//     int R_small = 3;
+//     int R_stitched = 5;
 
-//     // std::cout << "Resulting Graph:" << std::endl;
-//     // for (const auto &[nodeId, nodePtr] : resultGraph.getAdjList()) {
-//     //     std::cout << "Node " << nodeId << " -> ";
-//     //     for (const auto &neighbor : nodePtr->getEdges()) {
-//     //         std::cout << neighbor->getId() << " ";
-//     //     }
-//     //     std::cout << std::endl;
-//     // }
+//     map<int, Graph> sGmap = stitchedVamana(nodes, F, alpha, L_small, R_small, R_stitched);
 
-//     resultGraph.clear();
-
+//     for (auto& [label, Gf] : sGmap) 
+//     {
+//         Gf.printEdges();
+//         Gf.clear();
+//     }
 
 //     return 0;
 // }
