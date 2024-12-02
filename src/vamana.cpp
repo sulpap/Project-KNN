@@ -8,8 +8,6 @@
 #include <random>
 #include <chrono>
 
-#define OFFSET 10000
-
 // coords = coords of all vectors in P dataset (Graph)
 // randomPermutation = σ 
 

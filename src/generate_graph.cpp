@@ -16,10 +16,9 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
 
     // nodeIds start from 0. we need them to be unique for each label, so nodeIds have this form: f × offset + i
     // offset must be larger than the max number of nodes per label
-    int offset = 10000;
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        int unique_id = f * offset + i;
+        int unique_id = f * OFFSET + i;
         Node* newNode = new Node(unique_id, coords[i], {}, f);
         graph.addNode(newNode);
 
@@ -32,7 +31,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
     // each node has exactly R edges
     for (size_t i = 0; i < coords.size(); ++i) 
     {
-        int unique_id = f * offset + i;
+        int unique_id = f * OFFSET + i;
         Node* current = graph.getNode(unique_id);
 
         int edgesAdded = 0;
@@ -42,7 +41,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
         {
             if (j != i) 
             {
-                potentialNeighbors.insert(f * offset + j); // add other nodes as potential neighbors
+                potentialNeighbors.insert(f * OFFSET + j); // add other nodes as potential neighbors
             }
         }
 

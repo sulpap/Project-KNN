@@ -4,7 +4,8 @@
 #include "../include/generate_graph.hpp"
 
 // in stitchedVamana, we know the set of points (nodes) beforehand, so we already have their labels.
-// stitchedVamana does not return a stitched graph, but a collection of graphs, one for each label
+// stitchedVamana does not return a stitched graph, but a collection of graphs, one for each label.
+// if there are no nodes for a label, then no graph is created.
 
 map<int, set<int>> compute_Fx(const vector<Node*>& nodes);
 map<int, vector<vector<double>>> compute_PfMap(const vector<Node*>& nodes, const set<int>& F); 
