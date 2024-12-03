@@ -8,8 +8,6 @@
 #include <random>
 #include <chrono>
 
-#define OFFSET 10000
-
 // coords = coords of all vectors in P dataset (Graph)
 // randomPermutation = σ 
 
@@ -35,18 +33,28 @@ int calculate_medoid(vector<vector<double>> &coords)
 
 int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
 {
-    unordered_map<int, int> indexes;
-    generate_graph(graph, coords, R, f, indexes);
+    // cout << "Vamana started with the following inputs:" << endl;
+    // cout << "Coordinates:" << endl;
+    // for (size_t i = 0; i < coords.size(); ++i) {
+    //     cout << "Point " << i << ": ";
+    //     for (double coord : coords[i]) {
+    //         cout << coord << " ";
+    //     }
+    //     cout << endl;
+    // }
+    
+    // cout << "R: " << R << ", a: " << a << ", int_L: " << int_L << ", f: " << f << endl;
+    
+    generate_graph(graph, coords, R, f);
     
     int medoidIndex = calculate_medoid(coords);
 
     // get the correct nodeId -> match the index with the nodeId
-    int medoidNodeId = indexes[medoidIndex];
-    Node *medoid = graph.getNode(medoidNodeId);
+    Node *medoid = graph.getNode(medoidIndex);
 
     if (medoid == nullptr) 
     {
-        cerr << "Error: Medoid node with ID " << medoidNodeId << " not found in the graph." << endl;
+        cerr << "Error: Medoid node with ID " << medoidIndex << " not found in the graph." << endl;
         return -1;
     }
 
@@ -64,7 +72,7 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         set<Node *> L_set;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
         
-        Node *sigma_i = graph.getNode(f * OFFSET + point_id);
+        Node *sigma_i = graph.getNode(point_id);
         if (sigma_i == nullptr) 
         {
             cerr << "Error: Node with ID " << point_id << " not found in the graph." << endl;

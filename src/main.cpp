@@ -203,7 +203,7 @@ int main(int argc, char* argv[]) {
 // #include <iostream>
 // #include <cassert>
 // #include "../include/graph.hpp"
-// #include "../include/bin_read.hpp" 
+// #include "../include/filteredVamana.hpp" 
 // #include "../include/generate_graph.hpp" 
 // #include "../include/vamana.hpp"
 // #include "../include/FindMedoid.hpp"
@@ -214,25 +214,53 @@ int main(int argc, char* argv[]) {
 
 // int main() 
 // {
-//     Node *node1 = new Node(1, {0.0, 1.0}, {}, 1);
-//     Node *node2 = new Node(2, {2.0, 3.0}, {}, 1);
-//     Node *node3 = new Node(3, {4.0, 5.0}, {}, 2);
+//     vector<vector<double>> coords = {
+//         {0, 1.0, 2.0, 3.0},
+//         {1, 4.0, 5.0, 6.0},
+//         {0, 7.0, 8.0, 9.0},
+//         {0, 10.0, 11.0, 12.0},
+//         {1, 1.5, 2.5, 3.5}
+//     };
 
-//     vector<Node*> nodes = {node1, node2, node3};
+//     set<int> F = {0, 1}; 
+//     double alpha = 1.2;       
+//     int L = 3;
+//     int R = 2;
+//     int taph = 0;
 
-//     set<int> F = {1, 2, 3};
+//     Graph G = filteredVamana(coords, alpha, L, R, F, taph);
+
+//     G.printEdges();
+
+//     G.clear();
+
+//     return 0;
+// }
+
+// int main() 
+// {
+//     vector<vector<double>> coords = {
+//         {0, 1.0, 2.0, 3.0},
+//         {1, 4.0, 5.0, 6.0},
+//         {0, 7.0, 8.0, 9.0},
+//         {0, 10.0, 11.0, 12.0},
+//         {1, 1.5, 2.5, 3.5}
+//     };
+
+//     set<int> F = {0, 1};
 
 //     double alpha = 1.2;
 //     int L_small = 5;
 //     int R_small = 3;
 //     int R_stitched = 5;
 
-//     map<int, Graph> sGmap = stitchedVamana(nodes, F, alpha, L_small, R_small, R_stitched);
+//     map<int, Graph> sGmap = stitchedVamana(coords, F, alpha, L_small, R_small, R_stitched);
 
-//     for (auto& [label, Gf] : sGmap) 
+//     for (auto& [f, Gf] : sGmap) 
 //     {
 //         Gf.printEdges();
 //         Gf.clear();
+//         cout << "cleared!!!" << endl;
 //     }
 
 //     return 0;

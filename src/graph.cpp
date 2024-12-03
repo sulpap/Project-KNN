@@ -266,7 +266,7 @@ void Graph::printEdges()
 
     for (const auto& it : this->adjList) {
         Node* node = it.second;
-        cout << "Node " << node->getId() << " has edges directed to: ";
+        cout << "Node " << node->getId() << " (Label: " << node->getLabel() << ") has edges directed to: ";
 
         if (node->getEdges().empty()) {
             cout << "-";
