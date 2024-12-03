@@ -6,68 +6,51 @@
 #include <chrono>
 #include <algorithm>
 
-// this new approach of generate_graph, creates a graph of nodes with label f
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, unordered_map<int, int> &indexes)
+// creates a graph of nodes with label f
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f)
 {
-    srand(time(0));
-
-    size_t n = coords.size();  // number of points in the current graph
-    if (n == 0) return;  // avoid processing empty graphs
-
-    // nodeIds start from 0. we need them to be unique for each label, so nodeIds have this form: f × offset + i
-    // offset must be larger than the max number of nodes per label
-    for (size_t i = 0; i < coords.size(); i++) 
+    int coords_size = static_cast<int>(coords.size());
+    if (coords_size == 0)
     {
-        int unique_id = f * OFFSET + i;
-        Node* newNode = new Node(unique_id, coords[i], {}, f);
-        graph.addNode(newNode);
-
-        // store id-index since they don't match
-        indexes[i] = unique_id;
+        return; // avoid processing if graph is going to be empty
     }
 
-    int adjusted_R = min(static_cast<int>(n) - 1, R);  // adjust R if necessary
+    // if R is smaller than the size of coords (nodes) then R = size of coords
+    if (R >= coords_size) 
+    {
+        // cerr << "Error: R must be less than the number of nodes.\n";
+        // return;
+        R = coords_size - 1;
+    }
+
+    srand(time(0));
+
+    // nodeIds start from 0
+    for (size_t i = 0; i < coords.size(); i++) 
+    {
+        Node* newNode = new Node(i, coords[i], {}, f);
+        graph.addNode(newNode);
+    }
 
     // each node has exactly R edges
     for (size_t i = 0; i < coords.size(); ++i) 
     {
-        int unique_id = f * OFFSET + i;
-        Node* current = graph.getNode(unique_id);
+        Node* current = graph.getNode(i);
 
         int edgesAdded = 0;
 
-        set<size_t> potentialNeighbors;
-        for (size_t j = 0; j < n; ++j) 
+        while (edgesAdded < R) 
         {
-            if (j != i) 
-            {
-                potentialNeighbors.insert(f * OFFSET + j); // add other nodes as potential neighbors
-            }
-        }
+            size_t randomNeighborId = rand() % coords.size();
 
-        while (edgesAdded < adjusted_R && !potentialNeighbors.empty()) 
-        {
-            auto it = potentialNeighbors.begin();
-            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor ------------------------------------
-
-            size_t randomNeighborId = *it;
-
-            if (!current->edgeExists(randomNeighborId)) 
-            {
-                graph.addEdge(unique_id, randomNeighborId);
+            // add edge only if it's not a self-loop and doesn't already exist
+            if (randomNeighborId != i && !current->edgeExists(randomNeighborId)) {
+                graph.addEdge(i, randomNeighborId);
                 edgesAdded++;
             }
-
-            potentialNeighbors.erase(it);  // remove the selected neighbor to avoid cycles!
-        }
-
-        if (edgesAdded < adjusted_R) 
-        {
-            printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
     }
 }
-
 
 // F is the set of existing labels
 // this function generates nodes with random labels from F and adds 2 or less random edges to nodes of the same label
@@ -78,6 +61,8 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
     
     // convert the set of labels into a vector
     vector<int> labels(F.begin(), F.end());
+    // add -1 to it, to represent the nodes with no label
+    labels.push_back(-1);
 
     // make sure labels are enough for the nodes
     if (labels.size() <= 0 || coords.size() <= 0)
@@ -100,34 +85,44 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
         Node* current = graph.getNode(i);
         int currentLabel = current->getLabel();
 
-        // Find potential neighbors with the same label
-        vector<int> sameLabelNodes;
-        for (size_t j = 0; j < coords.size(); ++j)
-        {
-            if (j != i && graph.getNode(j)->getLabel() == currentLabel)
-            {
-                sameLabelNodes.push_back(j);
-            }
-        }
+        vector<int> targetNodes;
 
-        // add edges based on the number of nodes available
-        if (sameLabelNodes.size() >= 2)
+        if (currentLabel == -1)
         {
-            // add edges to two random nodes
-            unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-            shuffle(sameLabelNodes.begin(), sameLabelNodes.end(), default_random_engine(seed));
-            graph.addEdge(i, sameLabelNodes[0]);
-            graph.addEdge(i, sameLabelNodes[1]);
-        }
-        else if (sameLabelNodes.size() == 1)
-        {
-            // add an edge to the only available node
-            graph.addEdge(i, sameLabelNodes[0]);
+            // if the label is -1, then add nodes from all labels
+            for (size_t j = 0; j < coords.size(); ++j)
+            {
+                if (j != i)
+                {
+                    targetNodes.push_back(j);
+                }
+            }
         }
         else
         {
+            // else, find neighbors with the same label
+            for (size_t j = 0; j < coords.size(); ++j)
+            {
+                if (j != i && graph.getNode(j)->getLabel() == currentLabel)
+                {
+                    targetNodes.push_back(j);
+                }
+            }
+
+        }
+
+        // add edges to up to 2 randomly selected target nodes
+        unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+        shuffle(targetNodes.begin(), targetNodes.end(), default_random_engine(seed));
+
+        int edgeCount = min(2, static_cast<int>(targetNodes.size()));
+        for (int e = 0; e < edgeCount; ++e) {
+            graph.addEdge(i, targetNodes[e]);
+        }
+
+        if (edgeCount == 0) {
             cerr << "Warning: Node " << i << " with label " << currentLabel
-                 << " has no other nodes with the same label." << endl;
+                 << " has no valid neighbors to connect." << endl;
         }
     }
 }

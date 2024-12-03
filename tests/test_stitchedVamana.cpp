@@ -1,6 +1,5 @@
 #include "catch.hpp"
 #include "../include/stitchedVamana.hpp"
-#include "../include/generate_graph.hpp"
 
 using namespace std;
 
@@ -31,7 +30,7 @@ TEST_CASE("stitchedVamana function test")
         REQUIRE(resultGmap.find(f) != resultGmap.end()); // make sure a graph for this label exists
         const Graph &Gf = resultGmap[f];
 
-        REQUIRE(!Gf.isEmpty()); // the graph must not be empty if nodes exist for this label
+        REQUIRE_FALSE(Gf.isEmpty()); // the graph must not be empty if nodes exist for this label
         REQUIRE(Gf.getNodeCount() > 0);
     }
 
@@ -95,6 +94,7 @@ TEST_CASE("stitchedVamana function test")
         vector<vector<double>> manyCoords;
         for (int i = 0; i < 1000; ++i)
         {
+            // create some random coords based on i
             manyCoords.push_back({static_cast<double>(i % 10), static_cast<double>(i), static_cast<double>(i + 1)});
         }
 
