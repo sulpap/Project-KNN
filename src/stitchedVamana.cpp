@@ -3,23 +3,67 @@
 #include "../include/filteredrobustprune.hpp"
 #include "../include/generate_graph.hpp"
 
-// in stitchedVamana, we know the set of points (nodes) beforehand, so we already have their labels.
+// in stitchedVamana, we know the set of points beforehand
 // stitchedVamana does not return a stitched graph, but a collection of graphs, one for each label.
-// if there are no nodes for a label, then no graph is created.
+// if there are no nodes for a label, then the graph would be empty.
 
-map<int, set<int>> compute_Fx(const vector<Node*>& nodes);
-map<int, vector<vector<double>>> compute_PfMap(const vector<Node*>& nodes, const set<int>& F); 
+unordered_map<int, set<int>> compute_Fx(vector<vector<double>> &coords, set<int> F)
+{
+    unordered_map<int, set<int>> Fx;
+    for (size_t i = 0; i < coords.size(); i++) 
+    {
+        if (coords[i].empty()) 
+        {
+            cerr << "Error: Empty coordinate vector at index " << i << std::endl;
+            continue;
+        }
 
-map<int, Graph> stitchedVamana(vector<Node*> &nodes, set<int> F, double a, int L_small, int R_small, int R_stitched)
+        // first element is the label
+        int label = static_cast<int>(coords[i][0]);
+
+        Fx[i].insert(label);
+    }
+    return Fx;
+}
+
+unordered_map<int, vector<vector<double>>> compute_PfMap(vector<vector<double>> &coords, set<int> F)
+{
+    unordered_map<int, vector<vector<double>>> PfMap;
+    for (size_t i = 0; i < coords.size(); i++) 
+    {
+        if (coords[i].empty()) 
+        {
+            cerr << "Error: Empty coordinate vector at index " << i << std::endl;
+            continue;
+        }
+
+        // first element is the label
+        int label = static_cast<int>(coords[i][0]);
+
+        // check if the label is in the filter set F
+        if (F.find(label) != F.end()) 
+        {
+            // remaining elements are the coordinates
+            vector<double> pointCoords(coords[i].begin() + 1, coords[i].end());
+
+            // add the coordinates to the corresponding label in PfMap
+            PfMap[label].push_back(pointCoords);
+        }
+    }
+    return PfMap;
+
+}
+
+map<int, Graph> stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched)
 {
     // 1. Initialize G = (V, E) to an empty graph
     map<int, Graph> labelGraphs; // we initialize an empty map -> int = label, Graph = Gf, to store each Gf for label f
 
     // 2. Let Fx ⊆ F be the label-set for every x ∈ P
-    map<int, set<int>> Fx = compute_Fx(nodes); // Fx maps node IDs to their label sets
+    unordered_map<int, set<int>> Fx = compute_Fx(coords, F); // Fx maps node IDs to their label sets 
 
     // 3. Let Pf ⊆ P be the set of points with label f ∈ F
-    map<int, vector<vector<double>>> PfMap = compute_PfMap(nodes, F); // Map each label f to its corresponding set of points (coordinates)
+    unordered_map<int, vector<vector<double>>> PfMap = compute_PfMap(coords, F); // Map each label f to its corresponding set of points (coordinates)
 
     // foreach f ∈ F do
     for (int f : F)
@@ -30,7 +74,8 @@ map<int, Graph> stitchedVamana(vector<Node*> &nodes, set<int> F, double a, int L
         // if Pf is empty, then we were given no nodes with this label
         if (Pf.empty())
         {
-            cout << "There are no nodes with label " << f << "." << endl;
+            Graph Gf;
+            labelGraphs[f] = Gf; // add the empty graph without calling vamana
             continue;
         }
 
@@ -38,9 +83,8 @@ map<int, Graph> stitchedVamana(vector<Node*> &nodes, set<int> F, double a, int L
         Graph Gf;
         Vamana(Gf, Pf, R_small, a, L_small, f); // we also give f, because vamana creates the graph, so it 
                                                 // needs to add the values of the nodes, in which is the label
-                                                
-        // merge ("stitch") Gf into G
-        labelGraphs[f] = Gf; // store Gf
+        // store Gf                                        
+        labelGraphs[f] = Gf; 
     }
 
     for (auto& [label, Gf] : labelGraphs) 
@@ -56,29 +100,4 @@ map<int, Graph> stitchedVamana(vector<Node*> &nodes, set<int> F, double a, int L
     }
 
     return labelGraphs;
-}
-
-map<int, set<int>> compute_Fx(const vector<Node*>& nodes) 
-{
-    map<int, set<int>> Fx;
-    for (Node* node : nodes) 
-    {
-        // add the node's label to its label set
-        Fx[node->getId()].insert(node->getLabel());
-    }
-    return Fx;
-}
-
-map<int, vector<vector<double>>> compute_PfMap(const vector<Node*>& nodes, const set<int>& F) 
-{
-    map<int, vector<vector<double>>> PfMap;
-    for (Node* node : nodes) 
-    {
-        int label = node->getLabel();
-        if (F.find(label) != F.end()) 
-        {
-            PfMap[label].push_back(node->getCoordinates());
-        }
-    }
-    return PfMap;
 }
