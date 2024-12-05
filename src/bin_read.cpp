@@ -154,3 +154,41 @@ vector<vector<int>> ground_truth(vector<vector<float>> &points, vector<vector<fl
     }
     return knn_results;
 }
+
+/* Συνάρτηση που παίρνει ως παράμετρο ένα binary ground truth file το οποίο παρήχθη από το src/calculate_groundtruth.cpp
+με τη δομή που περιγράφεται στο src/calculate_groundtruth.cpp και την τιμή του k για το οποίο παρήχθη το ground truth file.
+Επιστρέφει το binary ground truth file σε vector της μορφής: vector<vector<int>> */
+vector<vector<int>> gtbin_read(const char* filename, int k) {
+    // Code is very similar to: https://github.com/transactionalblog/sigmod-contest-2024/blob/eeba09101429f2fffe18e02a282b4bb70b87ddd1/io.h#L40
+
+    vector<vector<int>> data;
+    ifstream ifs;
+    ifs.open(filename, ios::binary);
+    assert(ifs.is_open());
+
+    // Each line of ground truth file first contains the number of elements of the vector, and then the id points of such vector
+    // Ground truth file contains 5012 lines
+
+    uint32_t N; // dimensions of first vector
+    ifs.read((char *)&N, sizeof(uint32_t));         // N is an int
+    data.resize(5012);      // we have 5012 queries -> therefore, 5012 vectors of ground truth
+
+    vector<int> buff(k);    // maximum dimension of each vector (aka, equal to k) [this is our buffer]
+    int counter = 0;
+
+    while (ifs.read((char *)buff.data(), N * sizeof(int))) {
+        vector<int> row(N);
+        for (uint32_t d = 0; d < N; d++) {
+            row[d] = static_cast<int>(buff[d]);
+        }
+        data[counter++] = move(row);
+
+        if(counter == 5012)         // We've read all vectors
+            break;
+
+        ifs.read((char *)&N, sizeof(uint32_t));         // N is an int and it's the number of dimensions of next vector to read
+    }
+
+    ifs.close();
+    return data;
+}
