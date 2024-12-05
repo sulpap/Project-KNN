@@ -29,8 +29,9 @@ TEST_CASE("filteredVamana function test")
     int R = 2;
     set<int> labels = {0, 1, 2};
     int taph = 3;
+    map<int, Node *> st_f;
 
-    Graph G = filteredVamana(coords, alpha, L, R, labels, taph);
+    Graph G = filteredVamana(coords, alpha, L, R, labels, taph, st_f);
 
     // check that the graph is not empty
     REQUIRE_FALSE(G.isEmpty());
@@ -47,6 +48,14 @@ TEST_CASE("filteredVamana function test")
         Node *node = G.getNode(i);
         REQUIRE(node != nullptr);
         REQUIRE(node->getLabel() == static_cast<int>(coords[i][0]));
+    }
+
+    // check that medoids are correctly identified for each label
+    REQUIRE(st_f.size() == labels.size()); // ensure all labels have a medoid
+    for (int label : labels)
+    {
+        REQUIRE(st_f.find(label) != st_f.end());
+        REQUIRE(st_f[label] != nullptr);
     }
 
     // additional checks for specific connections if necessary????????????

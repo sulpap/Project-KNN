@@ -1,19 +1,19 @@
 #include "../include/filteredVamana.hpp"
 #include "../include/vamana.hpp"
 #include "../include/filteredrobustprune.hpp"
-#include "../include/generate_graph.hpp"
+#include <unordered_map>
 
 // in stitchedVamana, we know the set of points beforehand
-// stitchedVamana does not return a stitched graph, but a collection of graphs, one for each label.
+// stitchedVamana returns a stitched graph, that sonsists of a collection of subgraphs, one for each label.
 // if there are no nodes for a label, then the graph would be empty.
 
 unordered_map<int, set<int>> compute_Fx(vector<vector<double>> &coords);
 unordered_map<int, vector<vector<double>>> compute_PfMap(vector<vector<double>> &coords, set<int> F);
 
-map<int, Graph> stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched)
+Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched)
 {
     // 1. Initialize G = (V, E) to an empty graph
-    map<int, Graph> labelGraphs; // we initialize an empty map -> int = label, Graph = Gf, to store each Gf for label f
+    Graph G;
 
     // 2. Let Fx ⊆ F be the label-set for every x ∈ P
     unordered_map<int, set<int>> Fx = compute_Fx(coords); // Fx maps node IDs to their label sets 
@@ -31,7 +31,7 @@ map<int, Graph> stitchedVamana(vector<vector<double>> &coords, set<int> F, doubl
         if (Pf.empty())
         {
             Graph Gf;
-            labelGraphs[f] = Gf; // add the empty graph without calling vamana
+            G.graphUnion(Gf); // add the empty graph without calling vamana to avoid extra work
             continue;
         }
 
@@ -39,23 +39,20 @@ map<int, Graph> stitchedVamana(vector<vector<double>> &coords, set<int> F, doubl
         Graph Gf;
         Vamana(Gf, Pf, R_small, a, L_small, f); // we also give f, because vamana creates the graph, so it 
                                                 // needs to add the values of the nodes, in which is the label
-        // store Gf                                        
-        labelGraphs[f] = Gf; 
+        // merge "stitch" graphs 
+        G.graphUnion(Gf);
     }
 
-    for (auto& [label, Gf] : labelGraphs) 
+    // foreach v ∈ V do
+    for (auto& [nodeId, nodePtr] : G.getAdjList()) 
     {
-        // foreach v ∈ V do
-        for (auto& [nodeId, nodePtr] : Gf.getAdjList()) 
-        {
-            // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
-            list<Node *> temp = nodePtr->getEdges();
-            set<Node*> N_out(temp.begin(), temp.end());
-            FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
-        }
+        // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
+        list<Node *> temp = nodePtr->getEdges();
+        set<Node*> N_out(temp.begin(), temp.end());
+        FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
     }
 
-    return labelGraphs;
+    return G;
 }
 
 unordered_map<int, set<int>> compute_Fx(vector<vector<double>> &coords)
