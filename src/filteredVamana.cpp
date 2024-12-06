@@ -7,16 +7,15 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include <unordered_map>
+#include <unordered_map> // least complexity (less than map)
 
 // database P is basically coords
 // we declare label set f for each node, even though the nodes have only one label, so the set always contains of one element.
 
 void initialize_graph(Graph &G, const vector<vector<double>> &coords);
-unordered_map<int, int> compute_st_f(Graph &graph, const set<int> &F);
 unordered_map<int, set<int>> compute_Fx(Graph &graph, set<int> F);
 
-Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph)
+Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph, map<int, Node *>& st_f)
 {
     // 1. Initialize an empty graph
     Graph G;
@@ -24,13 +23,10 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
     // fill the graph with nodes based on the coords info (label & point coords)
     initialize_graph(G, coords);
     
-    // 2. Let s denote the medoid of P (graph)
-    map<int, Node *> s = FindMedoid(G, taph, F);
+    // 2. Let st(f) denote the start node for filter label f for every f ∈ F
+    st_f = FindMedoid(G, taph, F);
 
-    // 3. Let st(f) denote the start node for filter label f for every f ∈ F
-    unordered_map<int, int> st_f = compute_st_f(G, F); // unordered map has the least complexity
-
-    // 4. Let σ (randomPermutation) be a random permutation of [n]
+    // 3. Let σ (randomPermutation) be a random permutation of [n]
     vector<int> randomPermutation(coords.size());
     iota(randomPermutation.begin(), randomPermutation.end(), 0);
 
@@ -38,18 +34,15 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
-    // 5. Let Fx be the label-set for every x ∈ P
+    // 4. Let Fx be the label-set for every x ∈ P
     unordered_map<int, set<int>> Fx = compute_Fx(G, F);
 
-    set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
-
-    // this is to keep track of already processed labels, to avoid extra work
-    // set<int> processedLabels;
+    // set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
 
     // foreach i ∈ [n] do
     for (int point_id : randomPermutation)
     {
-        // 6. Let S_{F_{x_{σ(i)}}} = {st(f): f ∈ F_{x_{σ(i)}} }
+        // 5. Let S_{F_{x_{σ(i)}}} = {st(f): f ∈ F_{x_{σ(i)}} }
 
         // get the label of the current node x_sigma(i)
         set<int> Fx_sigma_i = Fx[point_id];
@@ -59,9 +52,11 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
 
         for (int label : Fx_sigma_i) 
         {
-            if (st_f.find(label) != st_f.end()) 
+            // see if there exists a start node for this label
+            auto it = st_f.find(label);
+            if (it != st_f.end()) 
             {
-                Node* startNode = G.getNode(st_f[label]);
+                Node* startNode = it->second; // can use st_f[label]; to access the node, but we use the iterator to avoid a second lookup (first was for find)
                 if (startNode != nullptr) 
                 {   // add the start node corresponding to this label to the set
                     S_Fx_sigma_i.insert(startNode);
@@ -73,19 +68,17 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
             }
         }
 
-        // 7. Let [∅;V_{F_{x_{σ(i)}}}] ← FilteredGreedySearch(S_{F_{x_{σ(i)}}}, x_{σ(i)}, 0, L, F_{x_{σ(i)}})
+        // 6. Let [∅;V_{F_{x_{σ(i)}}}] ← FilteredGreedySearch(S_{F_{x_{σ(i)}}}, x_{σ(i)}, 0, L, F_{x_{σ(i)}})
         set<Node *> V_Fx_sigma_i;
         set<Node *> L_set;
         vector<double> queryCoords = (G.getNode(point_id))->getCoordinates();
 
         FilteredGreedySearch(S_Fx_sigma_i, queryCoords, 0, int_L, L_set, V_Fx_sigma_i, Fx_sigma_i);
 
-// cout << "After FGS" << endl;
+        // 7. V ← V ∪ V_{F_{x_{σ(i)}}} -------- unnecessary step
+        // V.insert(V_Fx_sigma_i.begin(), V_Fx_sigma_i.end());
 
-        // 8. V ← V ∪ V_{F_{x_{σ(i)}}}
-        V.insert(V_Fx_sigma_i.begin(), V_Fx_sigma_i.end());
-
-        // 9. Run FilteredRobustPrune(σ(i), V_{F_{x_{σ(i)}}}, α, R) to update out-neighbors of σ(i)
+        // 8. Run FilteredRobustPrune(σ(i), V_{F_{x_{σ(i)}}}, α, R) to update out-neighbors of σ(i)
         Node *sigma_i = G.getNode(point_id);
         if (!sigma_i) 
         {
@@ -94,13 +87,11 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
         }
         FilteredRobustPrune(sigma_i, V_Fx_sigma_i, a, R);
 
-// cout << "After FRP" << endl;
-
         // foreach j ∈ N_out(σ(i)) do
         list<Node *> sigma_i_out = sigma_i->getEdges();
         for (auto node_j : sigma_i_out)
         {
-            // 10. Update N_out(j) ← N_out(j) ∪ {σ(i)}
+            // 9. Update N_out(j) ← N_out(j) ∪ {σ(i)}
             list<Node *> j_out = node_j->getEdges();
             auto it = find(j_out.begin(), j_out.end(), sigma_i);
             if (it == j_out.end())
@@ -112,7 +103,7 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
             j_out = node_j->getEdges();
             if (static_cast<int>(j_out.size()) > R)
             {
-                // 11. Run FilteredRobustPrune(j, N_out(j), α, R) to update out-neighbors of j
+                // 10. Run FilteredRobustPrune(j, N_out(j), α, R) to update out-neighbors of j
                 set<Node *> j_out_set(j_out.begin(), j_out.end());
                 FilteredRobustPrune(node_j, j_out_set, a, R);   
             }
@@ -138,34 +129,11 @@ void initialize_graph(Graph &G, const vector<vector<double>> &coords)
         vector<double> pointCoords(coords[i].begin() + 1, coords[i].end());
 
         // create a new Node
-        Node* newNode = new Node(static_cast<int>(i), pointCoords, {}, label);
+        Node* newNode = new Node(static_cast<int>(i), pointCoords, {}, label); // id: i, coords, no edges, label
 
         // add the node to the graph
         G.addNode(newNode);
     }
-}
-
-unordered_map<int, int> compute_st_f(Graph &G, const set<int> &F)
-{
-    unordered_map<int, int> st_f; // st(f) for every f ∈ F
-
-    // traverse through the labels in F
-    for (int f : F)
-    {
-        // find the first node in the graph with label f
-        vector<int> nodesWithLabel = G.findNodesWithLabel(f);
-
-        if (!nodesWithLabel.empty())
-        { // we assume that the first occurrence is the start node
-            st_f[f] = nodesWithLabel[0];
-        }
-        else
-        {
-            cout << "No nodes found with label: " << f << endl;
-        }
-    }
-
-    return st_f;
 }
 
 unordered_map<int, set<int>> compute_Fx(Graph &G, set<int> F) 

@@ -24,8 +24,14 @@ class Node {
         // Copy constructor
         Node(const Node& other);
 
+        // Move constructor
+        Node(Node&& other) noexcept;
+
         // Destructor
         ~Node();
+
+        // Move assignment operator
+        Node& operator=(Node&& other) noexcept;
 
         // Getters
         int getId() const;
@@ -81,6 +87,7 @@ class Graph {
 
         // Extra Functions
         void addNode(Node* node);
+        void moveNode(Node* node);
         Node* getNode(int id) const;
         void deleteNode(int id); // Deletes the Node entirely (Καλύτερα να χρησιμοποιείται αν το node ανήκει μόνο σε έναν γράφο)
         Node* removeNode(int id); // Removes the Node from the graph
@@ -92,7 +99,8 @@ class Graph {
         void removeEdge(int idFrom, int idTo);
         void printEdges();
         vector<int> findNodesWithLabel(int label);
-        void graphUnion(Graph& otherGraph);
+        // void graphUnion(Graph& otherGraph);
+        void graphUnion(Graph&& otherGraph);
         Graph graphDifference(Graph& otherGraph);
         void graphIntersection(Graph& otherGraph);
 };

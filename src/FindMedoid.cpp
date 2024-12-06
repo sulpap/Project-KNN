@@ -45,11 +45,6 @@ int findMinInT(const vector<int>& Rf, const map<int, int>& T)
 
 map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 {
-    // if (graph.isEmpty())
-    // {
-    //     // not specified. check tho
-    // }
-
     // 1. Initialize M to be an empty map and T to a zero map
     map<int, Node *> M;
     map<int, int> T; // T is intended as a counter
@@ -67,6 +62,7 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 
         if (Pf.empty())
         {
+            cout << "Nodes not found with label: " << f << "!" << endl;
             continue; // skip if no nodes have this label
         }
 
@@ -75,6 +71,7 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
 
         if (Rf.empty())
         {
+            cout << "Random samples not found for label: " << f << "!" << endl;
             continue; // skip if no valid sample could be found
         }
 

@@ -16,6 +16,30 @@ TEST_CASE("Node Class Tests", "[Node]")
         REQUIRE(node.getLabel() == 1);
     }
 
+    SECTION("Move Constructor")
+    {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        node1->addEdge(node2);
+
+        // Move construct a new node
+        Node* node3 = new Node(move(*node1)); // Move by value
+
+        // Check node3 has the data
+        REQUIRE(node3->getId() == 1);
+        REQUIRE(node3->getCoordinates() == vector<double>{1.0, 2.0});
+        REQUIRE(!node3->getEdges().empty());
+
+        // Check node1 is invalidated
+        REQUIRE(node1->getLabel() == -1);
+        REQUIRE(node1->getEdges().empty());
+
+        delete node1; // Now safe to delete invalidated node
+        delete node2;
+        delete node3;
+    }
+
+
     SECTION("Setters and Getters")
     {
         node.setId(2);
@@ -28,6 +52,30 @@ TEST_CASE("Node Class Tests", "[Node]")
         REQUIRE(node.getGraphId() == 3);
         REQUIRE(node.getCoordinates() == newCoordinates);
         REQUIRE(node.getLabel() == 1);
+    }
+
+    SECTION("Move Assignment Operator")
+    {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        node1->addEdge(node2);
+
+        // Create another node and move-assign
+        Node* node3 = new Node(3, {0.0, 0.0}, {});
+        *node3 = move(*node1); // Move by assignment
+
+        // Check node3 has the data
+        REQUIRE(node3->getId() == 1);
+        REQUIRE(node3->getCoordinates() == vector<double>{1.0, 2.0});
+        REQUIRE(!node3->getEdges().empty());
+
+        // Check node1 is invalidated
+        REQUIRE(node1->getLabel() == -1);
+        REQUIRE(node1->getEdges().empty());
+
+        delete node1; // Now safe to delete invalidated node
+        delete node2;
+        delete node3;
     }
 
     SECTION("Add Edge and Check Existence")
@@ -96,6 +144,25 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         REQUIRE(gid == graph.getGraphId());
     }
 
+    SECTION("Move Node")
+    {
+        Graph graph;
+
+        // Create a node
+        Node* node = new Node(1, {1.0, 1.0}, {});
+
+        // Move node into the graph
+        graph.moveNode(node);
+
+        // Verify the node is in the adjacency list
+        REQUIRE(graph.getNode(1) == node);
+
+        // Verify the node's graph ID matches the graph's ID
+        REQUIRE(node->getGraphId() == graph.getGraphId());
+        
+        graph.clear();
+    }
+
     SECTION("Delete Node")
     {
         Node *node = new Node(1, {1.0, 2.0}, {});
@@ -136,143 +203,99 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         REQUIRE(graph.getNode(2) == nullptr);
     }
 
-    SECTION("Union of Graphs")
-    {
-        Graph otherGraph;
-        Node *node1 = new Node(1, {1.0, 2.0}, {});
-        Node *node2 = new Node(2, {3.0, 4.0}, {});
-        otherGraph.addNode(node1);
-        otherGraph.addNode(node2);
-
-        CHECK(otherGraph.getNode(1)->getId() == 1);
-        CHECK(otherGraph.getNode(1)->getGraphId() == otherGraph.getGraphId());
-        CHECK(otherGraph.getNode(1)->getCoordinates().at(0) == 1.0);
-        CHECK(otherGraph.getNode(1)->getCoordinates().at(1) == 2.0);
-        CHECK(otherGraph.getNode(1)->getEdges().empty() == true);
-
-        CHECK(otherGraph.getNode(2)->getId() == 2);
-        CHECK(otherGraph.getNode(2)->getGraphId() == otherGraph.getGraphId());
-        CHECK(otherGraph.getNode(2)->getCoordinates().at(0) == 3.0);
-        CHECK(otherGraph.getNode(2)->getCoordinates().at(1) == 4.0);
-        CHECK(otherGraph.getNode(2)->getEdges().empty() == true);
-
-        graph.graphUnion(otherGraph);
-        REQUIRE(graph.getAdjList().size() == 2);
-
-        REQUIRE(graph.getNode(1)->getId() == 1);
-        REQUIRE(graph.getNode(1)->getGraphId() == graph.getGraphId());
-        REQUIRE(graph.getNode(1)->getCoordinates().at(0) == 1.0);
-        REQUIRE(graph.getNode(1)->getCoordinates().at(1) == 2.0);
-        REQUIRE(graph.getNode(1)->getEdges().empty() == true);
-
-        REQUIRE(graph.getNode(2)->getId() == 2);
-        REQUIRE(graph.getNode(2)->getGraphId() == graph.getGraphId());
-        REQUIRE(graph.getNode(2)->getCoordinates().at(0) == 3.0);
-        REQUIRE(graph.getNode(2)->getCoordinates().at(1) == 4.0);
-        REQUIRE(graph.getNode(2)->getEdges().empty() == true);
-
-        otherGraph.clear();
-    }
-
-    // SECTION("Union of Graphs with same Nodes") {
-    //     Graph otherGraph;
-    //     Node* node1_1 = new Node(1, {1.0, 2.0}, {});
-    //     Node* node2_1 = new Node(2, {3.0, 4.0}, {});
-
-    //     Node* node1_2 = new Node(1, {1.0, 2.0}, {});
-    //     Node* node2_2 = new Node(2, {3.0, 4.0}, {});
-
-    //     graph.addNode(node1_1);
-    //     graph.addNode(node2_1);
-    //     otherGraph.addNode(node1_2);
-    //     otherGraph.addNode(node2_2);
-    // }
-
     // Clean up dynamically allocated nodes
     graph.clear();
 }
 
-TEST_CASE("Graph Union Test - Basic", "[UnionBasic]")
-{
-    // Create graph1 with some nodes and edges
-    Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
-    graph1.addNode(node1);
-    graph1.addNode(node2);
-    graph1.addEdge(1, 2);
+TEST_CASE("Graph Union - Ownership Transfer", "[GraphUnion]") {
+    Graph graph1, graph2;
 
-    // Create graph2 with a new node and an overlapping node
-    Graph graph2;
-    Node *node2_copy = new Node(2, {1.0, 1.0}, {}); // Same ID as in graph1
-    Node *node3 = new Node(3, {2.0, 2.0}, {});
-    graph2.addNode(node2_copy);
-    graph2.addNode(node3);
-    graph2.addEdge(2, 3);
+    // Create nodes for graph2
+    Node* node1 = new Node(1, {1.0, 1.0}, {});
+    Node* node2 = new Node(2, {2.0, 2.0}, {});
+    node1->addEdge(node2);
+    graph2.addNode(node1);
+    graph2.addNode(node2);
 
-    // Perform the union
-    graph1.graphUnion(graph2);
+    graph1.graphUnion(move(graph2));
 
-    SECTION("Union adds new nodes correctly")
-    {
-        REQUIRE(graph1.getNode(3) != nullptr); // Node 3 should now exist
-    }
+    // Check nodes are transferred
+    REQUIRE(graph1.getNode(1) != nullptr);
+    REQUIRE(graph1.getNode(2) != nullptr);
 
-    SECTION("Union doesn't duplicate existing nodes")
-    {
-        REQUIRE(graph1.getNode(2)->getCoordinates() == std::vector<double>({1.0, 1.0}));
-    }
+    // Check edges are intact
+    REQUIRE(graph1.getNode(1)->edgeExists(2));
 
-    SECTION("Union adds edges correctly")
-    {
-        Node *node2_after_union = graph1.getNode(2);
-        REQUIRE(node2_after_union->edgeExists(3)); // Edge 2 -> 3 should be added
-    }
+    // Ensure graph2 is cleared
+    REQUIRE(graph2.getAdjList().empty());
 
     graph1.clear();
     graph2.clear();
 }
 
-TEST_CASE("Graph Union Test - Empty Graph", "[UnionEmpty]")
-{
-    // Create two graphs, one empty and one with nodes
-    Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
-    graph1.addNode(node1);
+TEST_CASE("Graph Union - Merge with Overlapping Nodes", "[GraphUnion]") {
+    Graph graph1, graph2;
 
-    Graph emptyGraph;
+    // Add overlapping node to both graphs
+    Node* node1_1 = new Node(1, {1.0, 1.0}, {});
+    Node* node1_2 = new Node(1, {1.0, 1.0}, {});  // Same ID but different instance
+    Node* node2 = new Node(2, {2.0, 2.0}, {});
 
-    // Perform union with an empty graph
-    graph1.graphUnion(emptyGraph);
+    graph1.addNode(node1_1);
+    graph2.addNode(node1_2);
+    graph2.addNode(node2);
+    graph2.addEdge(1, node2);
 
-    SECTION("Union with empty graph doesn't alter the original graph")
-    {
-        REQUIRE(graph1.getNode(1) != nullptr); // Node 1 should still exist
-        REQUIRE(graph1.getNode(2) == nullptr); // No new nodes should be added
-    }
+    graph1.graphUnion(move(graph2));
+
+    // Node 1 should not be duplicated
+    REQUIRE(graph1.getNode(1) != nullptr);
+    REQUIRE(graph1.getAdjList().size() == 2); // Only two unique nodes
+
+    // Edge from node 1 to node 2 should exist
+    REQUIRE(graph1.getNode(1)->edgeExists(2));
+
+    // Ensure graph2 is cleared
+    REQUIRE(graph2.getAdjList().empty());
 
     graph1.clear();
+    graph2.clear();
 }
 
-TEST_CASE("Graph Union Test - Self-loops Handling", "[UnionSelfLoops]")
-{
-    Graph graph1;
-    Node *node1 = new Node(1, {0.0, 1.0}, {});
-    node1->addEdge(node1); // Self-loop
+TEST_CASE("Graph Union - Empty Graph", "[GraphUnion]") {
+    Graph graph1, graph2;
+
+    // Add a node to graph1
+    Node* node = new Node(1, {1.0, 1.0}, {});
+    graph1.addNode(node);
+
+    // union with an empty graph
+    graph1.graphUnion(std::move(graph2));
+
+    // Ensure graph1 remains unchanged
+    REQUIRE(graph1.getNode(1) != nullptr);
+    REQUIRE(graph1.getAdjList().size() == 1);
+
+    // Ensure graph2 is cleared
+    REQUIRE(graph2.getAdjList().empty());
+
+    graph1.clear();
+    graph2.clear();
+}
+
+TEST_CASE("Graph Union - Self-loops Handling", "[GraphUnion]") {
+    Graph graph1, graph2;
+
+    // Create a node with a self-loop in graph1
+    Node* node1 = new Node(1, {1.0, 1.0}, {});
+    node1->addEdge(node1);
     graph1.addNode(node1);
 
-    Graph graph2;
-    Node *node2 = new Node(2, {1.0, 1.0}, {});
-    graph2.addNode(node2);
+    // Create a second graph and union
+    graph1.graphUnion(std::move(graph2));
 
-    // Perform the union
-    graph1.graphUnion(graph2);
-
-    SECTION("Union doesn't duplicate self-loops")
-    {
-        Node *node1_after_union = graph1.getNode(1);
-        REQUIRE(node1_after_union->edgeExists(1)); // Ensure self-loop exists
-    }
+    // Ensure self-loop is preserved
+    REQUIRE(node1->edgeExists(1));
 
     graph1.clear();
     graph2.clear();

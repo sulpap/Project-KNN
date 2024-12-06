@@ -4,7 +4,9 @@
 #include <unordered_map>
 #include "../include/graph.hpp"
 
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f);
+#define OFFSET 10000 // so ids won't overlap
+
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, unordered_map<int, int> &indexes);
 void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, const set<int> &F);
 
 #endif

@@ -7,47 +7,70 @@
 #include <algorithm>
 
 // creates a graph of nodes with label f
-void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f)
+void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, unordered_map<int, int> &indexes)
 {
-    int coords_size = static_cast<int>(coords.size());
-    if (coords_size == 0)
-    {
-        return; // avoid processing if graph is going to be empty
-    }
-
-    // if R is smaller than the size of coords (nodes) then R = size of coords
-    if (R >= coords_size) 
-    {
-        // cerr << "Error: R must be less than the number of nodes.\n";
-        // return;
-        R = coords_size - 1;
-    }
-
     srand(time(0));
 
-    // nodeIds start from 0
+    size_t n = coords.size();  // number of points in the current graph
+    if (n == 0) return;  // avoid processing empty graphs
+
+    // nodeIds start from 0. we need them to be unique for each label, so ids won't overlap
+    // so nodeIds have this form: f × offset + i
+    // offset must be larger than the max number of nodes per label
     for (size_t i = 0; i < coords.size(); i++) 
     {
-        Node* newNode = new Node(i, coords[i], {}, f);
+        int unique_id = f * OFFSET + i;
+        Node* newNode = new Node(unique_id, coords[i], {}, f);
         graph.addNode(newNode);
+
+        // store id-index since they don't match
+        indexes[i] = unique_id;
     }
+
+    int adjusted_R = min(static_cast<int>(n) - 1, R);  // adjust R if necessary
 
     // each node has exactly R edges
     for (size_t i = 0; i < coords.size(); ++i) 
     {
-        Node* current = graph.getNode(i);
+        int unique_id = f * OFFSET + i;
+        Node* current = graph.getNode(unique_id);
+
+        if (!current)
+        {
+            cout << "Node with id: " << unique_id << " does not exist in the graph.\n";
+            continue;
+        }
 
         int edgesAdded = 0;
 
-        while (edgesAdded < R) 
+        set<size_t> potentialNeighbors;
+        for (size_t j = 0; j < n; ++j) 
         {
-            size_t randomNeighborId = rand() % coords.size();
+            if (j != i) 
+            {
+                potentialNeighbors.insert(f * OFFSET + j); // add other nodes as potential neighbors
+            }
+        }
 
-            // add edge only if it's not a self-loop and doesn't already exist
-            if (randomNeighborId != i && !current->edgeExists(randomNeighborId)) {
-                graph.addEdge(i, randomNeighborId);
+        while (edgesAdded < adjusted_R && !potentialNeighbors.empty()) 
+        {
+            auto it = potentialNeighbors.begin();
+            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor ------------------------------------
+
+            size_t randomNeighborId = *it;
+
+            if (!current->edgeExists(randomNeighborId)) 
+            {
+                graph.addEdge(unique_id, randomNeighborId);
                 edgesAdded++;
             }
+
+            potentialNeighbors.erase(it);  // remove the selected neighbor to avoid cycles!
+        }
+
+        if (edgesAdded < adjusted_R) 
+        {
+            printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
     }
 }
@@ -83,6 +106,12 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
     for (size_t i = 0; i < coords.size(); ++i)
     {
         Node* current = graph.getNode(i);
+        if (!current)
+        {
+            cout << "Node with id: " << i << " does not exist in the graph.\n";
+            continue;
+        }
+
         int currentLabel = current->getLabel();
 
         vector<int> targetNodes;

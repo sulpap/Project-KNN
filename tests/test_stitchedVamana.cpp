@@ -1,92 +1,77 @@
 #include "catch.hpp"
 #include "../include/stitchedVamana.hpp"
+#include "../include/generate_graph.hpp"
 
 using namespace std;
 
 TEST_CASE("stitchedVamana function test")
 {
     vector<vector<double>> coords = {
-        {1, 1.0, 2.0},
-        {1, 2.0, 3.0},
-        {2, 3.0, 4.0},
-        {2, 5.0, 6.0},
-        {3, 7.0, 8.0}
+        {0, 1.0, 2.0, 3.0},
+        {1, 4.0, 5.0, 6.0},
+        {1, 7.0, 8.0, 9.0},
+        {0, 10.0, 11.0, 12.0},
+        {1, 1.5, 2.5, 3.5},
+        {2, 4.3, 6.0, 1.9},
+        {2, 3.4, 6.1, 1.2}
     };
 
-    // input parameters
-    set<int> F = {1, 2, 3};
-    double a = 0.5;
-    int L_small = 2;
+    set<int> F = {0, 1, 2};
+
+    double a = 1.2;
+    int L_small = 5;
     int R_small = 3;
-    int R_stitched = 4;
+    int R_stitched = 5;
+    map<int, Node *> medoids;
 
-    map<int, Graph> resultGmap = stitchedVamana(coords, F, a, L_small, R_small, R_stitched);
+    Graph G = stitchedVamana(coords, F, a, L_small, R_small, R_stitched, medoids);
 
-    REQUIRE(resultGmap.size() == F.size()); // we need to have a graph for each label in F
+    cout << "Test: Nodes size: " << G.getNodeCount() << " and coords size: " << coords.size() << endl;
 
-    // validate specific graphs
-    for (int f : F)
+    SECTION("Validate stitched graph properties") 
     {
-        REQUIRE(resultGmap.find(f) != resultGmap.end()); // make sure a graph for this label exists
-        const Graph &Gf = resultGmap[f];
+        REQUIRE_FALSE(G.isEmpty()); // graph should not be empty
+        REQUIRE(G.getNodeCount() == static_cast<int>(coords.size())); // should have all nodes from input
 
-        REQUIRE_FALSE(Gf.isEmpty()); // the graph must not be empty if nodes exist for this label
-        REQUIRE(Gf.getNodeCount() > 0);
-    }
+        // TODO check the existence of nodes and labels
+        
 
-    // validate structure and edges for one specific label
-    SECTION("Validate graph for label 1")
-    {
-        const Graph &Gf1 = resultGmap[1];
-        REQUIRE(Gf1.getNodeCount() == 2); // label 1 has 2 nodes in input
+        // TODO validate specific edges for label 0 (optional)
+
+                
     }
 
     SECTION("Empty input test")
     {
         vector<vector<double>> emptyCoords;
-        set<int> F = {1, 2, 3};
-        map<int, Graph> resultGmap = stitchedVamana(emptyCoords, F, a, L_small, R_small, R_stitched);
+        Graph emptyGraph = stitchedVamana(emptyCoords, F, a, L_small, R_small, R_stitched, medoids);
+        REQUIRE(emptyGraph.isEmpty());  // graph should be empty
 
-        REQUIRE(resultGmap.size() == F.size()); // graphs for all labels should exist 
-
-        for (int f : F)
-        {
-            REQUIRE(resultGmap[f].isEmpty()); // but they should be empty
-        }
-
-        for (auto &[f, Gf] : resultGmap)
-        {
-            Gf.clear();
-        }
+        emptyGraph.clear();
     }
 
     SECTION("No nodes for specific label")
     {
-        set<int> Fnew = {1, 2, 3, 4}; // label 4 has no nodes
-        map<int, Graph> resultGmap = stitchedVamana(coords, Fnew, a, L_small, R_small, R_stitched);
+        set<int> Fnew = {0, 1, 2, 3, 4}; // labels 3&4 have no nodes
+        Graph G = stitchedVamana(coords, Fnew, a, L_small, R_small, R_stitched, medoids);
+        
+        REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));  // existing nodes should still be included
 
-        REQUIRE(resultGmap.size() == 4); // should create graphs for all labels
-        REQUIRE(resultGmap[4].isEmpty()); // but graph of label 4 should be empty
+        // ensure label 4 nodes are absent
+        auto nodesWithLabel4 = G.findNodesWithLabel(4);
+        REQUIRE(nodesWithLabel4.empty());
 
-        for (auto &[f, Gf] : resultGmap)
-        {
-            Gf.clear();
-        }
+        G.clear();
     }
 
     SECTION("Single label test")
     {
         set<int> Fsingle = {1};
-        map<int, Graph> resultGmap = stitchedVamana(coords, Fsingle, a, L_small, R_small, R_stitched);
+        Graph G = stitchedVamana(coords, Fsingle, a, L_small, R_small, R_stitched, medoids);
 
-        REQUIRE(resultGmap.size() == 1);
-        REQUIRE(resultGmap.find(1) != resultGmap.end());
-        REQUIRE(resultGmap[1].getNodeCount() == 2); // 2 nodes with label 1
+        REQUIRE(G.getNodeCount() == 3); // 3 nodes with label 1
 
-        for (auto &[f, Gf] : resultGmap)
-        {
-            Gf.clear();
-        }
+        G.clear();
     }
 
     SECTION("Test with many nodes")
@@ -99,22 +84,16 @@ TEST_CASE("stitchedVamana function test")
         }
 
         set<int> largeF = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
-        map<int, Graph> resultGmap = stitchedVamana(manyCoords, largeF, a, L_small, R_small, R_stitched);
-
-        REQUIRE(resultGmap.size() == largeF.size());
-        for (int f : largeF)
-        {
-            REQUIRE(resultGmap[f].getNodeCount() > 0);
+        Graph G = stitchedVamana(manyCoords, largeF, a, L_small, R_small, R_stitched, medoids);
+        
+        REQUIRE(G.getNodeCount() == 1000);
+        for (int f : largeF) {
+            auto nodesWithLabel = G.findNodesWithLabel(f);
+            REQUIRE_FALSE(nodesWithLabel.empty());  // ensure nodes for each label exist
         }
 
-        for (auto &[f, Gf] : resultGmap)
-        {
-            Gf.clear();
-        }
+        G.clear();
     }
 
-    for (auto &[f, Gf] : resultGmap)
-    {
-        Gf.clear();
-    }
+    G.clear();
 }

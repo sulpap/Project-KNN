@@ -212,56 +212,60 @@ int main(int argc, char* argv[]) {
 
 // using namespace std;
 
-// int main() 
+// void init_graph(Graph &G, const vector<vector<double>> &coords)
 // {
-//     vector<vector<double>> coords = {
-//         {0, 1.0, 2.0, 3.0},
-//         {1, 4.0, 5.0, 6.0},
-//         {0, 7.0, 8.0, 9.0},
-//         {0, 10.0, 11.0, 12.0},
-//         {1, 1.5, 2.5, 3.5}
-//     };
+//     // initialize nodes from coords
+//     for (size_t i = 0; i < coords.size(); i++) 
+//     {
+//         if (coords[i].empty()) {
+//             cerr << "Error: Empty coordinate vector at index " << i << endl;
+//             continue;
+//         }
 
-//     set<int> F = {0, 1}; 
-//     double alpha = 1.2;       
-//     int L = 3;
-//     int R = 2;
-//     int taph = 0;
+//         // first element is the label
+//         int label = static_cast<int>(coords[i][0]);
 
-//     Graph G = filteredVamana(coords, alpha, L, R, F, taph);
+//         // remaining elements are the coordinates
+//         vector<double> pointCoords(coords[i].begin() + 1, coords[i].end());
 
-//     G.printEdges();
+//         // create a new Node
+//         Node* newNode = new Node(static_cast<int>(i), pointCoords, {}, label); // id: i, coords, no edges, label
 
-//     G.clear();
-
-//     return 0;
+//         // add the node to the graph
+//         G.addNode(newNode);
+//     }
 // }
 
+// Node* createNode(int id, const vector<double>& coords, int label) {
+//     return new Node(id, coords, {}, label);
+// }
+
+
 // int main() 
 // {
 //     vector<vector<double>> coords = {
 //         {0, 1.0, 2.0, 3.0},
 //         {1, 4.0, 5.0, 6.0},
-//         {0, 7.0, 8.0, 9.0},
+//         {1, 7.0, 8.0, 9.0},
 //         {0, 10.0, 11.0, 12.0},
-//         {1, 1.5, 2.5, 3.5}
+//         {1, 1.5, 2.5, 3.5},
+//         {2, 4.3, 6.0, 1.9},
+//         {2, 3.4, 6.1, 1.2}
 //     };
 
-//     set<int> F = {0, 1};
+//     set<int> F = {0, 1, 2};
 
 //     double alpha = 1.2;
 //     int L_small = 5;
 //     int R_small = 3;
 //     int R_stitched = 5;
+//     map<int, Node *> medoids;
 
-//     map<int, Graph> sGmap = stitchedVamana(coords, F, alpha, L_small, R_small, R_stitched);
+//     Graph G = stitchedVamana(coords, F, alpha, L_small, R_small, R_stitched, medoids);
 
-//     for (auto& [f, Gf] : sGmap) 
-//     {
-//         Gf.printEdges();
-//         Gf.clear();
-//         cout << "cleared!!!" << endl;
-//     }
+//     G.printEdges();
+
+//     G.clear();
 
 //     return 0;
 // }
