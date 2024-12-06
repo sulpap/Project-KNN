@@ -18,11 +18,10 @@ TEST_CASE("filteredVamana function test")
 {
     vector<vector<double>> coords = {
         {0, 1.0, 2.0}, // point 0 with label 0 and so on
-        {1, 2.0, 3.0}, 
+        {1, 2.0, 3.0},
         {0, 1.5, 2.5},
         {1, 3.0, 4.0},
-        {2, 5.0, 5.0}
-    };
+        {2, 5.0, 5.0}};
 
     double alpha = 1.2;
     int L = 2;
@@ -36,19 +35,10 @@ TEST_CASE("filteredVamana function test")
     // check that the graph is not empty
     REQUIRE_FALSE(G.isEmpty());
 
-    // check that the graph contains the correct number of nodes (function initialize_graph in filteredVamana)
-    REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));
+    // initialization checks and label validation is done in the corresponding function tests (below)
 
     // check that out-degrees are within the allowed limit
     REQUIRE(validate_R(G, R));
-
-    // check that the nodes have correct labels
-    for (int i = 0; i < static_cast<int>(coords.size()); ++i)
-    {
-        Node *node = G.getNode(i);
-        REQUIRE(node != nullptr);
-        REQUIRE(node->getLabel() == static_cast<int>(coords[i][0]));
-    }
 
     // check that medoids are correctly identified for each label
     REQUIRE(st_f.size() == labels.size()); // ensure all labels have a medoid
@@ -58,7 +48,7 @@ TEST_CASE("filteredVamana function test")
         REQUIRE(st_f[label] != nullptr);
     }
 
-    // additional checks for specific connections if necessary????????????
+    // some example additional checks for specific connections
     SECTION("Graph contains expected edges")
     {
         Node *node0 = G.getNode(0);
@@ -77,6 +67,64 @@ TEST_CASE("filteredVamana function test")
         Node *node3 = G.getNode(3);
         REQUIRE(node3 != nullptr);
         REQUIRE(static_cast<int>(node3->getEdges().size()) <= R);
+    }
+
+    G.clear();
+}
+
+TEST_CASE("initialize_graph function test")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 2.0, 3.0},
+        {2, 3.0, 4.0},
+    };
+
+    Graph G;
+    initialize_graph(G, coords);
+
+    // check that the graph is not empty
+    REQUIRE_FALSE(G.isEmpty());
+
+    // check that the graph contains the correct number of nodes
+    REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));
+
+    // check that each node has the expected label and coordinates
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        Node *node = G.getNode(static_cast<int>(i));
+        REQUIRE(node != nullptr);
+        REQUIRE(node->getLabel() == static_cast<int>(coords[i][0]));
+
+        vector<double> expectedCoords(coords[i].begin() + 1, coords[i].end());
+        REQUIRE(node->getCoordinates() == expectedCoords);
+    }
+
+    G.clear();
+}
+
+TEST_CASE("compute_Fx function test in filteredVamana")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 2.0, 3.0},
+        {0, 1.5, 2.5},
+        {2, 5.0, 5.0}};
+
+    set<int> labels = {0, 1, 2};
+    Graph G;
+    initialize_graph(G, coords);
+    unordered_map<int, set<int>> Fx = compute_Fx(G, labels);
+
+    // check that Fx contains the correct number of entries
+    REQUIRE(static_cast<int>(Fx.size()) == G.getNodeCount());
+
+    // check that each node has the correct label in Fx
+    for (const auto &[nodeId, nodePtr] : G.getAdjList())
+    {
+        REQUIRE(Fx.find(nodeId) != Fx.end());
+        int label = nodePtr->getLabel();
+        REQUIRE(Fx[nodeId] == set<int>{label});
     }
 
     G.clear();

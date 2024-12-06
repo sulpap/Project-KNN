@@ -7,13 +7,9 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include <unordered_map> // least complexity (less than map)
 
 // database P is basically coords
 // we declare label set f for each node, even though the nodes have only one label, so the set always contains of one element.
-
-void initialize_graph(Graph &G, const vector<vector<double>> &coords);
-unordered_map<int, set<int>> compute_Fx(Graph &graph, set<int> F);
 
 Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph, map<int, Node *>& st_f)
 {
