@@ -60,6 +60,7 @@
         "thread": "cpp",
         "typeinfo": "cpp",
         "variant": "cpp",
-        "something": "cpp"
+        "something": "cpp",
+        "unordered_set": "cpp"
     }
 }

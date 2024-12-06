@@ -7,13 +7,12 @@
 #include <iostream>
 #include <random>
 #include <chrono>
-#include <unordered_map>
+#include <unordered_map> // least complexity (less than map)
 
 // database P is basically coords
 // we declare label set f for each node, even though the nodes have only one label, so the set always contains of one element.
 
 void initialize_graph(Graph &G, const vector<vector<double>> &coords);
-// unordered_map<int, int> compute_st_f(Graph &graph, const set<int> &F);
 unordered_map<int, set<int>> compute_Fx(Graph &graph, set<int> F);
 
 Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph, map<int, Node *>& st_f)
@@ -24,7 +23,6 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
     // fill the graph with nodes based on the coords info (label & point coords)
     initialize_graph(G, coords);
     
-    // 2. Let s denote the medoid of P (graph)
     // 2. Let st(f) denote the start node for filter label f for every f ∈ F
     st_f = FindMedoid(G, taph, F);
 
@@ -77,8 +75,6 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
 
         FilteredGreedySearch(S_Fx_sigma_i, queryCoords, 0, int_L, L_set, V_Fx_sigma_i, Fx_sigma_i);
 
-// cout << "After FGS" << endl;
-
         // 7. V ← V ∪ V_{F_{x_{σ(i)}}} -------- unnecessary step
         // V.insert(V_Fx_sigma_i.begin(), V_Fx_sigma_i.end());
 
@@ -90,8 +86,6 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
             continue;
         }
         FilteredRobustPrune(sigma_i, V_Fx_sigma_i, a, R);
-
-// cout << "After FRP" << endl;
 
         // foreach j ∈ N_out(σ(i)) do
         list<Node *> sigma_i_out = sigma_i->getEdges();

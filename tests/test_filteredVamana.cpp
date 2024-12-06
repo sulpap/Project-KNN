@@ -36,7 +36,7 @@ TEST_CASE("filteredVamana function test")
     // check that the graph is not empty
     REQUIRE_FALSE(G.isEmpty());
 
-    // check that the graph contains the correct number of nodes
+    // check that the graph contains the correct number of nodes (function initialize_graph in filteredVamana)
     REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));
 
     // check that out-degrees are within the allowed limit

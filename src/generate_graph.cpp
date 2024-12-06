@@ -35,6 +35,12 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
         int unique_id = f * OFFSET + i;
         Node* current = graph.getNode(unique_id);
 
+        if (!current)
+        {
+            cout << "Node with id: " << unique_id << " does not exist in the graph.\n";
+            continue;
+        }
+
         int edgesAdded = 0;
 
         set<size_t> potentialNeighbors;
@@ -100,6 +106,12 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
     for (size_t i = 0; i < coords.size(); ++i)
     {
         Node* current = graph.getNode(i);
+        if (!current)
+        {
+            cout << "Node with id: " << i << " does not exist in the graph.\n";
+            continue;
+        }
+
         int currentLabel = current->getLabel();
 
         vector<int> targetNodes;

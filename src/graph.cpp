@@ -19,7 +19,42 @@ Node::Node(const Node& other)
 
 }
 
+// Move constructor
+Node::Node(Node&& other) noexcept 
+    : id(other.id),
+      graphId(other.graphId),
+      coordinates(move(other.coordinates)),
+      edges(move(other.edges)),
+      label(other.label) {
+    // 'other' is left in a valid, but empty state
+    other.id = -1;
+    other.label = -1;
+    other.edges.clear();
+}
+
 Node::~Node() {}
+
+// Move assignment operator
+Node& Node::operator=(Node&& other) noexcept {
+    if (this != &other) {  // Avoid self-assignment
+        // Clear the previous data of this
+        coordinates.clear();
+        edges.clear();
+
+        // Transfer ownership of resources from 'other' to 'this'
+        id = other.id;
+        graphId = other.graphId;
+        coordinates = move(other.coordinates);
+        edges = move(other.edges);
+        label = other.label;
+
+        // Leave 'other' in a valid but empty state
+        other.id = -1;
+        other.label = -1;
+        other.edges.clear();
+    }
+    return *this;
+}
 
 int Node::getId() const {
     return this->id;
@@ -80,10 +115,6 @@ bool Node::edgeExists(int id) {
     return false;
 }
 
-// bool Node::labelExist(const string& label) const {
-//     return this->labels.find(label) != this->labels.end();
-// }
-
 double Node::getSpecificCoordinate(int dimension) {
     if (dimension < 0 || static_cast<size_t>(dimension) >= this->coordinates.size()) {
         throw out_of_range("Invalid dimension");
@@ -117,34 +148,6 @@ vector<int> Node::getNeighbors()
     }
     return neighbors;
 }
-
-
-// // Move constructor
-// Node::Node(Node&& other) noexcept 
-//     : id(other.id), coordinates(std::move(other.coordinates)), edges(std::move(other.edges)) 
-// {
-//     // 'other' is left in a valid, but empty state
-//     other.id = 0;
-// }
-
-
-// // Move assignment operator
-// Node& Node::operator=(Node&& other) noexcept {
-//     if (this != &other) {  // Avoid self-assignment
-//         // Clear the previous data of this
-//         coordinates.clear();
-//         edges.clear();
-
-//         // Transfer ownership of resources from 'other' to 'this'
-//         id = other.id;
-//         coordinates = std::move(other.coordinates);
-//         edges = std::move(other.edges);
-
-//         // Leave 'other' in a valid but empty state
-//         other.id = 0;
-//     }
-//     return *this;
-// }
 
 
 int Graph::currentGraphId = 1;
@@ -187,6 +190,12 @@ void Graph::setAdjList(map<int, Node*> adjList) {
 void Graph::addNode(Node* node) {
     node->setGraphId(this->getGraphId());
     this->adjList[node->getId()] = node;
+}
+
+void Graph::moveNode(Node* node) {
+    int nodeId = node->getId();
+    this->adjList[nodeId] = node;  // Directly assign the pointer
+    this->graphId = node->getGraphId();
 }
 
 Node* Graph::getNode(int id) const {
@@ -289,28 +298,64 @@ vector<int> Graph::findNodesWithLabel(int label) {
     return nodesWithLabel;
 }
 
-void Graph::graphUnion(Graph& otherGraph)                                   // we basically add another graph to our graph
-{
-    for (auto& it : otherGraph.getAdjList()) {                              // note: & --> working with references to the elements in the container, not copies
+// void Graph::graphUnion(Graph& otherGraph)                                   // we basically add another graph to our graph
+// {
+//     for (auto& it : otherGraph.getAdjList()) {                              // note: & --> working with references to the elements in the container, not copies
         
+//         int nodeId = it.first;
+//         Node* otherNode = it.second;
+
+//         //check if the node already exists in the current graph
+//         if (this->adjList.find(nodeId) == this->adjList.end()) {
+//             //if it doesn't, add it
+//             this->addNode(new Node(*otherNode));                            // copy constructor
+//         }
+        
+//         //iterate through the edges of the node from otherGraph
+//         for (Node* edge : otherNode->getEdges()) {
+//             //check if the edge already exists
+//             if (!this->getNode(nodeId)->edgeExists(edge->getId())) {
+//                 //add the edge
+//                 this->addEdge(nodeId, edge);
+//             }
+//         }
+//     }
+// }
+void Graph::graphUnion(Graph&& otherGraph)                      // add another graph to the current, transferring ownership of the nodes and then clear the other graph
+{
+    for (auto& it : otherGraph.getAdjList()) 
+    { 
         int nodeId = it.first;
         Node* otherNode = it.second;
 
-        //check if the node already exists in the current graph
-        if (this->adjList.find(nodeId) == this->adjList.end()) {
-            //if it doesn't, add it
-            this->addNode(new Node(*otherNode));                            // copy constructor
+        // if the node doesn't exist in the current graph, transfer ownership
+        if (this->adjList.find(nodeId) == this->adjList.end()) 
+        {
+            this->moveNode(otherNode);  // transfer ownership directly
+            otherGraph.adjList.erase(nodeId); // prevent dangling pointers
         }
-        
-        //iterate through the edges of the node from otherGraph
-        for (Node* edge : otherNode->getEdges()) {
-            //check if the edge already exists
-            if (!this->getNode(nodeId)->edgeExists(edge->getId())) {
-                //add the edge
-                this->addEdge(nodeId, edge);
+        else 
+        {
+            Node* currentNode = this->getNode(nodeId);
+            // iterate through the edges of the node from otherGraph
+            for (Node* edge : otherNode->getEdges()) 
+            {
+                // check if the edge already exists
+                if (!currentNode->edgeExists(edge->getId())) 
+                {
+                    // if it doesn't, add it
+                    currentNode->addEdge(edge);
+                }
             }
+
+            // delete the node in the other graph to prevent leaks
+            delete otherNode;
+            otherGraph.adjList.erase(nodeId);
         }
     }
+
+    // clear the other graph as its nodes are now part of this graph
+    otherGraph.adjList.clear();  // avoid dangling pointers by not deleting the nodes!
 }
 
 Graph Graph::graphDifference(Graph& otherGraph) {
