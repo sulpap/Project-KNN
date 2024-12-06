@@ -32,4 +32,9 @@ The groundtruth files contain, for each query, the identifiers (vector number, s
 of its k nearest neighbors, ordered by *increasing* (squared euclidean) distance. */
 vector<vector<int>> ground_truth(vector<vector<float>> &points, vector<vector<float>> &queries, int k);
 
+/* Συνάρτηση που παίρνει ως παράμετρο ένα binary ground truth file το οποίο παρήχθη από το src/calculate_groundtruth.cpp
+με τη δομή που περιγράφεται στο src/calculate_groundtruth.cpp και την τιμή του k για το οποίο παρήχθη το ground truth file.
+Επιστρέφει το binary ground truth file σε vector της μορφής: vector<vector<int>> */
+vector<vector<int>> gtbin_read(const char* filename, int k);
+
 #endif

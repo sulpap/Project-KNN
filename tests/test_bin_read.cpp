@@ -190,3 +190,35 @@ TEST_CASE("Test ground_truth with small amount of points, queries") {
 
     REQUIRE(gt_sol == gt_func);
 }
+
+// /* We comment following test due to long time of valgrind to finish.
+// Test passes all assertions.
+// SHOULDN'T DELETE TEST! */
+// TEST_CASE("Test gtbin_read with big file") {
+// // We need to create a binary ground truth file just how src/calculate_groundtruth.cpp does it
+
+//     vector<vector<float>> points = databin_read("datasets/smallscale/dummy-data.bin");
+//     vector<vector<float>> queries = queriesbin_read("datasets/smallscale/dummy-queries.bin");
+//     vector<vector<int>> gt = ground_truth(points, queries, 100);
+
+//     string output_file = "testing_gtbin_read.bin";
+
+//     ofstream ofs(output_file, ios::out | ios::binary);
+//     assert(gt.size() == 5012);
+//     for (unsigned i = 0; i < gt.size(); i++) {
+//         auto const &gt_sol = gt[i];
+//         int num_dimensions = gt_sol.size();
+
+//         // Save num_dimensions first into the file
+//         ofs.write(reinterpret_cast<const char *>(&num_dimensions), sizeof(uint32_t));        // num_dimensions is an int
+
+//         // Save ids of neighbors
+//         ofs.write(reinterpret_cast<char const *>(&gt_sol[0]), num_dimensions * sizeof(int));
+//     }
+//     ofs.close();
+
+//     vector<vector<int>> gt2 = gtbin_read(output_file.c_str(), 100);     // The gt2 that we get back should be identical to gt
+//     REQUIRE(gt2 == gt);
+
+//     remove(output_file.c_str());
+// }
