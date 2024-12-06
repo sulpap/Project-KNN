@@ -1,4 +1,5 @@
 #include "catch.hpp"
+#include "../include/graph.hpp"
 #include "../include/stitchedVamana.hpp"
 #include "../include/generate_graph.hpp"
 
@@ -13,8 +14,7 @@ TEST_CASE("stitchedVamana function test")
         {0, 10.0, 11.0, 12.0},
         {1, 1.5, 2.5, 3.5},
         {2, 4.3, 6.0, 1.9},
-        {2, 3.4, 6.1, 1.2}
-    };
+        {2, 3.4, 6.1, 1.2}};
 
     set<int> F = {0, 1, 2};
 
@@ -26,26 +26,29 @@ TEST_CASE("stitchedVamana function test")
 
     Graph G = stitchedVamana(coords, F, a, L_small, R_small, R_stitched, medoids);
 
-    cout << "Test: Nodes size: " << G.getNodeCount() << " and coords size: " << coords.size() << endl;
-
-    SECTION("Validate stitched graph properties") 
+    SECTION("Validate stitched graph properties")
     {
-        REQUIRE_FALSE(G.isEmpty()); // graph should not be empty
+        REQUIRE_FALSE(G.isEmpty());                                   // graph should not be empty
         REQUIRE(G.getNodeCount() == static_cast<int>(coords.size())); // should have all nodes from input
 
-        // TODO check the existence of nodes and labels
-        
-
-        // TODO validate specific edges for label 0 (optional)
-
-                
+        // validate specific edges for label 0 (example)
+        auto nodesWithLabel0 = G.findNodesWithLabel(0);
+        for (int nodeId : nodesWithLabel0)
+        {
+            Node *node = G.getNode(nodeId);
+            REQUIRE(node != nullptr);
+            for (Node *neighbor : node->getEdges())
+            {
+                REQUIRE(neighbor->getLabel() == 0); // All neighbors should also have label 0
+            }
+        }
     }
 
     SECTION("Empty input test")
     {
         vector<vector<double>> emptyCoords;
         Graph emptyGraph = stitchedVamana(emptyCoords, F, a, L_small, R_small, R_stitched, medoids);
-        REQUIRE(emptyGraph.isEmpty());  // graph should be empty
+        REQUIRE(emptyGraph.isEmpty()); // graph should be empty
 
         emptyGraph.clear();
     }
@@ -54,8 +57,8 @@ TEST_CASE("stitchedVamana function test")
     {
         set<int> Fnew = {0, 1, 2, 3, 4}; // labels 3&4 have no nodes
         Graph G = stitchedVamana(coords, Fnew, a, L_small, R_small, R_stitched, medoids);
-        
-        REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));  // existing nodes should still be included
+
+        REQUIRE(G.getNodeCount() == static_cast<int>(coords.size())); // existing nodes should still be included
 
         // ensure label 4 nodes are absent
         auto nodesWithLabel4 = G.findNodesWithLabel(4);
@@ -85,15 +88,84 @@ TEST_CASE("stitchedVamana function test")
 
         set<int> largeF = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9};
         Graph G = stitchedVamana(manyCoords, largeF, a, L_small, R_small, R_stitched, medoids);
-        
+
         REQUIRE(G.getNodeCount() == 1000);
-        for (int f : largeF) {
+        for (int f : largeF)
+        {
             auto nodesWithLabel = G.findNodesWithLabel(f);
-            REQUIRE_FALSE(nodesWithLabel.empty());  // ensure nodes for each label exist
+            REQUIRE_FALSE(nodesWithLabel.empty()); // ensure nodes for each label exist
         }
 
         G.clear();
     }
+
+    G.clear();
+}
+
+TEST_CASE("compute_Fx function test in stitchedVamana")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 3.0, 4.0},
+        {0, 5.0, 6.0},
+    };
+
+    unordered_map<int, set<int>> Fx = compute_Fx(coords);
+
+    // validate the size of Fx matches the number of points
+    REQUIRE(Fx.size() == coords.size());
+
+    // validate each point's labels
+    for (size_t i = 0; i < coords.size(); i++)
+    {
+        int expectedLabel = static_cast<int>(coords[i][0]);
+        REQUIRE(Fx[i] == set<int>{expectedLabel});
+    }
+}
+
+TEST_CASE("compute_PfMap function test")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 3.0, 4.0},
+        {0, 5.0, 6.0},
+        {2, 7.0, 8.0},
+    };
+    set<int> F = {0, 1, 2};
+
+    unordered_map<int, vector<vector<double>>> PfMap = compute_PfMap(coords, F);
+
+    // PfMap should have entries for each label in F
+    REQUIRE(PfMap.size() == F.size());
+
+    // validate the points corresponding to each label
+    REQUIRE(PfMap[0].size() == 2); // two points with label 0
+    REQUIRE(PfMap[1].size() == 1); // one point with label 1
+    REQUIRE(PfMap[2].size() == 1); // one point with label 2
+
+    // validate coordinates for a specific label (ex. 0)
+    vector<vector<double>> expectedCoords0 = {{1.0, 2.0}, {5.0, 6.0}};
+    REQUIRE(PfMap[0] == expectedCoords0);
+}
+
+TEST_CASE("store_medoid function test")
+{
+    Graph G;
+    Node *node1 = new Node(1, {0.0, 0.0}, {}, 0);
+    Node *node2 = new Node(2, {1.0, 1.0}, {}, 1);
+    G.addNode(node1);
+    G.addNode(node2);
+
+    map<int, Node *> medoids;
+    store_medoid(G, medoids, 0, 1);
+
+    // Validate that the medoid for label 0 is stored correctly
+    REQUIRE(medoids.size() == 1);
+    REQUIRE(medoids[0] == node1);
+
+    // Test for a non-existent medoid ID
+    store_medoid(G, medoids, 1, 3);
+    REQUIRE(medoids.size() == 1); // No new medoid should be added for invalid ID
 
     G.clear();
 }

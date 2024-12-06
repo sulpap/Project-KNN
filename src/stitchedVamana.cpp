@@ -1,17 +1,12 @@
-#include "../include/filteredVamana.hpp"
+#include "../include/stitchedVamana.hpp"
 #include "../include/vamana.hpp"
 #include "../include/filteredrobustprune.hpp"
-#include <unordered_map> // unordered map has the least complexity
 
 // in stitchedVamana, we know the set of points beforehand
 // stitchedVamana returns a stitched graph, that sonsists of a collection of subgraphs, one for each label.
 // if there are no nodes for a label, then the graph would be empty.
 
 using namespace std;
-
-unordered_map<int, set<int>> compute_Fx(vector<vector<double>> &coords);
-unordered_map<int, vector<vector<double>>> compute_PfMap(vector<vector<double>> &coords, set<int> F);
-void store_medoid(Graph &G, map<int, Node *>& medoids, int f, int medoidId);
 
 Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched, map<int, Node *>& medoids)
 {
