@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "../include/FindMedoid.hpp"
+#include "../include/bin_read.hpp"      // due to last test
 
 TEST_CASE("Test FindMedoid")
 {
@@ -174,6 +175,46 @@ TEST_CASE("Test FindMedoid")
         REQUIRE(medoids[3]->getId() == 3);
 
         graph.clear();
+    }
+
+    graph.clear();
+}
+
+
+TEST_CASE("FindMedoid in big disconnected graph") {
+    Graph graph;
+
+    vector<vector<float>> points = databin_read("datasets/smallscale/dummy-data.bin");
+    set<int> F;         // Φίλτρα του γράφου (έχει 129 φίλτρα -- ξεκινούν από το 0 μέχρι και το 128)
+    int taph = 3;
+
+// [1] Αρχικοποίηση γράφου [δημιουργούμε κόμβους χωρίς ακμές και τους βάζουμε στον γράφο]
+    int point_id_counter = 0;
+    for(u_int i = 0; i < points.size(); i++) {
+        vector<float> point = points[i];
+
+        int label = point[0];
+        F.insert(label);        // if label already exists in F, label won't be inserted in F
+
+        vector<double> coordinates(point.begin() + 1, point.end());
+
+        Node* node = new Node(point_id_counter, coordinates, {}, label);     // For now, node has no edges
+        point_id_counter++;
+
+        graph.addNode(node);
+    }
+
+// [2] Κλήση FindMedoid
+    map<int, Node*> M = FindMedoid(graph, taph, F);
+
+// [3] Έλεγχος αποτελεσμάτων FindMedoid
+    REQUIRE(M.size() == F.size());       // F and M should have the same size
+
+    for (auto it = M.begin(); it != M.end(); it++) {
+        int filter = it->first;
+        Node* start_node = it->second;
+        int label_sn = start_node->getLabel();      // label of start node
+        REQUIRE(filter == label_sn);        // key of map (aka, the filter) and label of start node should match
     }
 
     graph.clear();

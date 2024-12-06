@@ -32,7 +32,7 @@ TEST_CASE("stitchedVamana function test")
         REQUIRE(G.getNodeCount() == static_cast<int>(coords.size())); // should have all nodes from input
 
         // validate specific edges for label 0 (example)
-        auto nodesWithLabel0 = G.findNodesWithLabel(0);
+        auto nodesWithLabel0 = G.findNodeIdsWithLabel(0);
         for (int nodeId : nodesWithLabel0)
         {
             Node *node = G.getNode(nodeId);
@@ -61,7 +61,7 @@ TEST_CASE("stitchedVamana function test")
         REQUIRE(G.getNodeCount() == static_cast<int>(coords.size())); // existing nodes should still be included
 
         // ensure label 4 nodes are absent
-        auto nodesWithLabel4 = G.findNodesWithLabel(4);
+        auto nodesWithLabel4 = G.findNodeIdsWithLabel(4);
         REQUIRE(nodesWithLabel4.empty());
 
         G.clear();
@@ -92,7 +92,7 @@ TEST_CASE("stitchedVamana function test")
         REQUIRE(G.getNodeCount() == 1000);
         for (int f : largeF)
         {
-            auto nodesWithLabel = G.findNodesWithLabel(f);
+            auto nodesWithLabel = G.findNodeIdsWithLabel(f);
             REQUIRE_FALSE(nodesWithLabel.empty()); // ensure nodes for each label exist
         }
 

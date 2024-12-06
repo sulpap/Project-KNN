@@ -98,7 +98,8 @@ class Graph {
         void addEdge(int idFrom, int idTo);  // use this when 2 nodes are already in the graph, else: cout error message
         void removeEdge(int idFrom, int idTo);
         void printEdges();
-        vector<int> findNodesWithLabel(int label);
+        vector<int> findNodeIdsWithLabel(int label);
+        vector<Node*> findNodesWithLabel(int label);
         // void graphUnion(Graph& otherGraph);
         void graphUnion(Graph&& otherGraph);
         Graph graphDifference(Graph& otherGraph);

@@ -288,11 +288,21 @@ void Graph::printEdges()
     }
 }
 
-vector<int> Graph::findNodesWithLabel(int label) {
+vector<int> Graph::findNodeIdsWithLabel(int label) {
     vector<int> nodesWithLabel;
     for (const auto& [id, node] : this->adjList) {
         if (node->getLabel() == label) {
             nodesWithLabel.push_back(id);
+        }
+    }
+    return nodesWithLabel;
+}
+
+vector<Node*> Graph::findNodesWithLabel(int label) {
+    vector<Node*> nodesWithLabel;
+    for (const auto& [id, node] : this->adjList) {
+        if (node->getLabel() == label) {
+            nodesWithLabel.push_back(node);
         }
     }
     return nodesWithLabel;
