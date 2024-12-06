@@ -58,7 +58,7 @@ map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F)
     for(int f : F)
     {
         // 2. Let Pf denore the ids of all points matching filter f
-        vector<int> Pf = graph.findNodesWithLabel(f);
+        vector<int> Pf = graph.findNodeIdsWithLabel(f);
 
         if (Pf.empty())
         {
