@@ -16,12 +16,12 @@ int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
 
     if (argc != 9) {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <R_stitched> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
-        cout << "      t must be an int" << endl;
+        cout << "      R_stitched must be an int" << endl;
         // cout << "      approach must be either \"Filtered\" or \"Stitched\"" << endl;
         return 1;
     }
@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
     int L = stoi(argv[2]);
     int R = stoi(argv[3]);
     double a = stod(argv[4]);
-    int t = stoi(argv[5]);
+    int R_stitched = stoi(argv[5]);
     // const char* approach = argv[6];
     const char* base_filename = argv[6];
     const char* query_filename = argv[7];
@@ -53,7 +53,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- L: " << L << "\n";
     cout << "\t- R: " << R << "\n";
     cout << "\t- a: " << a << "\n";
-    cout << "\t- t: " << t << "\n";
+    cout << "\t- R_stitched: " << R_stitched << "\n";
     // cout << "\t- Approach: " << approach << "\n";
     cout << "\t- Base file: " << base_filename << "\n";
     cout << "\t- Query file: " << query_filename << "\n";
@@ -117,7 +117,8 @@ int main(int argc, char* argv[]) {
     cout << "\nCalling FilteredVamana..." << endl;
     start = chrono::high_resolution_clock::now();
     // int medoid_id = Vamana(graph, base, R, a, L, 0);
-    graph = filteredVamana(base, a, L, R, set_F, t, st_f);
+    // graph = filteredVamana(base, a, L, R, set_F, t, st_f);
+    graph = stitchedVamana(base, set_F, a, L, R, R_stitched, st_f);
     end = chrono::high_resolution_clock::now();
     filtered_vamana_duration = end - start;
     cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
@@ -186,7 +187,7 @@ int main(int argc, char* argv[]) {
             F_q_set.insert(query_F);
         }
 
-        cout << "Calling FilteredGreedySearch for " << i << "th query..." << endl;
+        cout << "Calling FilteredGreedySearch for " << i << "th query with filter: " << query_F << endl;
         start = chrono::high_resolution_clock::now();
         FilteredGreedySearch(S_set, query, k, L, L_set, V_set, F_q_set);
         end = chrono::high_resolution_clock::now();
@@ -269,10 +270,10 @@ int main(int argc, char* argv[]) {
     cout << "\t- Base dataset load time: " << base_f_duration.count() << "seconds.\n";
     cout << "\t- Query dataset load time: " << query_f_duration.count() << "seconds.\n";
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << "seconds.\n";
-    cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << "seconds.\n";
-    cout << "\t- Average time GreadySearch ran for ALL queries: " << average_query_greedy_duration.count() << "seconds.\n";
-    cout << "\t- Average time GreadySearch ran for FILTERED queries: " << average_filtered_query_greedy_duration.count() << "seconds.\n";
-    cout << "\t- Average time GreadySearch ran for UNFILTERED queries: " << average_unfiltered_query_greedy_duration.count() << "seconds.\n";
+    cout << "\t- Index build time (StitchedVamana): " << filtered_vamana_duration.count() << "seconds.\n";
+    cout << "\t- Average time GreadySearch ran for ALL queries: " << average_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Average time GreadySearch ran for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Average time GreadySearch ran for UNFILTERED queries: " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;
     
     // 6. Clean up
     cout << "Cleaning...\n" << endl;
