@@ -54,7 +54,9 @@ void FilteredGreedySearch(set<Node*> &S_set, vector<double> &queryCoords, int k,
 // Initialize L_set, V_set to empty
     assert(L_set.empty() == true);      // given L_set should be empty
     assert(V_set.empty() == true);      // given V_set should be empty
-   
+    if(S_set.size() == 0)       // Δεν υπάρχει start node για το συγκεκριμένο φίλτρο (aka, δεν υπάρχει point στον γράφο με αυτό το φίλτρο)
+        return;                 // therefore, we return empty L_set, V_set
+
     // We traverse S_set:
     set<int> s_filters;
     set<Node*> LminusV;
