@@ -179,7 +179,7 @@ int main(int argc, char* argv[]) {
 
         cout << "Calling FilteredGreedySearch for " << i << "th query..." << endl;
         start = chrono::high_resolution_clock::now();
-        FilteredGreedySearch(S_set, query, k, L, L_set, V_set);
+        // FilteredGreedySearch(S_set, query, k, L, L_set, V_set);
         end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         total_query_greedy_duration += duration;
