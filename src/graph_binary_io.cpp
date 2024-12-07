@@ -11,8 +11,8 @@
 // 	Number of neighbors M (uint32_t)
 // 	IDs of neighbors (list of int)
 
-// example: 
-// N 
+// example:
+// N
 // ID_of_1st_node | C | d1 | d2 | ... | d100 | M | id1 | id2 | ... | idM |
 // ID_of_2nt_node | C | d1 | d2 | ... | d100 | M | id1 | id2 | ... | idM |
 // ...
@@ -20,54 +20,60 @@
 
 using namespace std;
 
-void save_graph_to_binary(const Graph& graph, const string& filename) {
+void save_graph_to_binary(const Graph &graph, const string &filename)
+{
     ofstream outFile(filename, ios::binary);
-    if (!outFile.is_open()) {
+    if (!outFile.is_open())
+    {
         cerr << "Error opening file for writing: " << filename << endl;
         return;
     }
 
     // write graphId
     int graphId = graph.getGraphId();
-    outFile.write(reinterpret_cast<const char*>(&graphId), sizeof(graphId));
+    outFile.write(reinterpret_cast<const char *>(&graphId), sizeof(graphId));
 
     // write number of nodes
     int nodeCount = graph.getNodeCount();
-    outFile.write(reinterpret_cast<const char*>(&nodeCount), sizeof(nodeCount));
+    outFile.write(reinterpret_cast<const char *>(&nodeCount), sizeof(nodeCount));
 
     // write the nodes
-    for (const auto& [id, nodePtr] : graph.getAdjList()) {
+    for (const auto &[id, nodePtr] : graph.getAdjList())
+    {
         int idd = nodePtr->getId();
-        outFile.write(reinterpret_cast<const char*>(&idd), sizeof(idd));
+        outFile.write(reinterpret_cast<const char *>(&idd), sizeof(idd));
 
         int graphId = nodePtr->getGraphId();
-        outFile.write(reinterpret_cast<const char*>(&graphId), sizeof(graphId));
+        outFile.write(reinterpret_cast<const char *>(&graphId), sizeof(graphId));
 
         // write the coordinates
         vector<double> coordinates = nodePtr->getCoordinates();
         int coordSize = coordinates.size();
-        outFile.write(reinterpret_cast<const char*>(&coordSize), sizeof(coordSize));
-        outFile.write(reinterpret_cast<const char*>(coordinates.data()), coordSize * sizeof(double));
+        outFile.write(reinterpret_cast<const char *>(&coordSize), sizeof(coordSize));
+        outFile.write(reinterpret_cast<const char *>(coordinates.data()), coordSize * sizeof(double));
 
         // write label
         int label = nodePtr->getLabel();
-        outFile.write(reinterpret_cast<const char*>(&label), sizeof(label));
+        outFile.write(reinterpret_cast<const char *>(&label), sizeof(label));
 
         // write the edges
         vector<int> neighbors = nodePtr->getNeighbors();
         int neighborCount = neighbors.size();
-        outFile.write(reinterpret_cast<const char*>(&neighborCount), sizeof(neighborCount));
-        for (int neighborId : neighbors) {
-            outFile.write(reinterpret_cast<const char*>(&neighborId), sizeof(neighborId));
+        outFile.write(reinterpret_cast<const char *>(&neighborCount), sizeof(neighborCount));
+        for (int neighborId : neighbors)
+        {
+            outFile.write(reinterpret_cast<const char *>(&neighborId), sizeof(neighborId));
         }
     }
 
     outFile.close();
 }
 
-Graph load_graph_from_binary(const string& filename) {
+Graph load_graph_from_binary(const string &filename)
+{
     ifstream inFile(filename, ios::binary);
-    if (!inFile.is_open()) {
+    if (!inFile.is_open())
+    {
         cerr << "Error opening file for reading: " << filename << endl;
         throw runtime_error("File not found or cannot be opened");
     }
@@ -76,56 +82,61 @@ Graph load_graph_from_binary(const string& filename) {
 
     // retrieve the graphId
     int graphId;
-    inFile.read(reinterpret_cast<char*>(&graphId), sizeof(graphId));
+    inFile.read(reinterpret_cast<char *>(&graphId), sizeof(graphId));
     graph.setGraphId(graphId);
 
     // retrieve number of nodes
     int nodeCount;
-    inFile.read(reinterpret_cast<char*>(&nodeCount), sizeof(nodeCount));
+    inFile.read(reinterpret_cast<char *>(&nodeCount), sizeof(nodeCount));
 
     // store neighbor relationships temporarily
     map<int, vector<int>> neighborMap;
 
-    for (int i = 0; i < nodeCount; ++i) {
+    for (int i = 0; i < nodeCount; ++i)
+    {
         // read node attributes
         int id;
-        inFile.read(reinterpret_cast<char*>(&id), sizeof(id));
+        inFile.read(reinterpret_cast<char *>(&id), sizeof(id));
 
         int nodeGraphId;
-        inFile.read(reinterpret_cast<char*>(&nodeGraphId), sizeof(nodeGraphId));
+        inFile.read(reinterpret_cast<char *>(&nodeGraphId), sizeof(nodeGraphId));
 
         int coordSize;
-        inFile.read(reinterpret_cast<char*>(&coordSize), sizeof(coordSize));
+        inFile.read(reinterpret_cast<char *>(&coordSize), sizeof(coordSize));
         vector<double> coordinates(coordSize);
-        inFile.read(reinterpret_cast<char*>(coordinates.data()), coordSize * sizeof(double));
+        inFile.read(reinterpret_cast<char *>(coordinates.data()), coordSize * sizeof(double));
 
         int label;
-        inFile.read(reinterpret_cast<char*>(&label), sizeof(label));
+        inFile.read(reinterpret_cast<char *>(&label), sizeof(label));
 
         int neighborCount;
-        inFile.read(reinterpret_cast<char*>(&neighborCount), sizeof(neighborCount));
+        inFile.read(reinterpret_cast<char *>(&neighborCount), sizeof(neighborCount));
 
         // read neighbor IDs and store in the map
         vector<int> neighbors(neighborCount);
-        for (int j = 0; j < neighborCount; ++j) {
+        for (int j = 0; j < neighborCount; ++j)
+        {
             int neighborId;
-            inFile.read(reinterpret_cast<char*>(&neighborId), sizeof(neighborId));
+            inFile.read(reinterpret_cast<char *>(&neighborId), sizeof(neighborId));
             neighbors[j] = neighborId;
         }
         neighborMap[id] = neighbors;
 
         // create and add the node to the graph
-        Node* node = new Node(id, coordinates, {}, label);
+        Node *node = new Node(id, coordinates, {}, label);
         node->setGraphId(nodeGraphId);
         graph.addNode(node);
     }
 
     // reconstruct edges using the neighbor map
-    for (const auto& [id, neighbors] : neighborMap) {
-        Node* node = graph.getNode(id);
-        for (int neighborId : neighbors) {
-            Node* neighborNode = graph.getNode(neighborId);
-            if (neighborNode) {
+    for (const auto &[id, neighbors] : neighborMap)
+    {
+        Node *node = graph.getNode(id);
+        for (int neighborId : neighbors)
+        {
+            Node *neighborNode = graph.getNode(neighborId);
+            if (neighborNode)
+            {
                 node->addEdge(neighborNode);
             }
         }

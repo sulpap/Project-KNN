@@ -5,6 +5,6 @@
 
 using namespace std;
 
-void RobustPrune(Node* p, set<Node*> V, double a, int R);
+void RobustPrune(Node *p, set<Node *> V, double a, int R);
 
 #endif

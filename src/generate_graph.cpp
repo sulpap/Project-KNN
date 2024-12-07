@@ -11,29 +11,30 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
 {
     srand(time(0));
 
-    size_t n = coords.size();  // number of points in the current graph
-    if (n == 0) return;  // avoid processing empty graphs
+    size_t n = coords.size(); // number of points in the current graph
+    if (n == 0)
+        return; // avoid processing empty graphs
 
     // nodeIds start from 0. we need them to be unique for each label, so ids won't overlap
     // so nodeIds have this form: f × offset + i
     // offset must be larger than the max number of nodes per label
-    for (size_t i = 0; i < coords.size(); i++) 
+    for (size_t i = 0; i < coords.size(); i++)
     {
         int unique_id = f * OFFSET + i;
-        Node* newNode = new Node(unique_id, coords[i], {}, f);
+        Node *newNode = new Node(unique_id, coords[i], {}, f);
         graph.addNode(newNode);
 
         // store id-index since they don't match
         indexes[i] = unique_id;
     }
 
-    int adjusted_R = min(static_cast<int>(n) - 1, R);  // adjust R if necessary
+    int adjusted_R = min(static_cast<int>(n) - 1, R); // adjust R if necessary
 
     // each node has exactly R edges
-    for (size_t i = 0; i < coords.size(); ++i) 
+    for (size_t i = 0; i < coords.size(); ++i)
     {
         int unique_id = f * OFFSET + i;
-        Node* current = graph.getNode(unique_id);
+        Node *current = graph.getNode(unique_id);
 
         if (!current)
         {
@@ -44,31 +45,31 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
         int edgesAdded = 0;
 
         set<size_t> potentialNeighbors;
-        for (size_t j = 0; j < n; ++j) 
+        for (size_t j = 0; j < n; ++j)
         {
-            if (j != i) 
+            if (j != i)
             {
                 potentialNeighbors.insert(f * OFFSET + j); // add other nodes as potential neighbors
             }
         }
 
-        while (edgesAdded < adjusted_R && !potentialNeighbors.empty()) 
+        while (edgesAdded < adjusted_R && !potentialNeighbors.empty())
         {
             auto it = potentialNeighbors.begin();
             advance(it, rand() % potentialNeighbors.size()); // select a random neighbor ------------------------------------
 
             size_t randomNeighborId = *it;
 
-            if (!current->edgeExists(randomNeighborId)) 
+            if (!current->edgeExists(randomNeighborId))
             {
                 graph.addEdge(unique_id, randomNeighborId);
                 edgesAdded++;
             }
 
-            potentialNeighbors.erase(it);  // remove the selected neighbor to avoid cycles!
+            potentialNeighbors.erase(it); // remove the selected neighbor to avoid cycles!
         }
 
-        if (edgesAdded < adjusted_R) 
+        if (edgesAdded < adjusted_R)
         {
             printf("Warning: Node %d could only form %d edges.\n", unique_id, edgesAdded);
         }
@@ -81,7 +82,7 @@ void generate_graph(Graph &graph, vector<vector<double>> &coords, int R, int f, 
 void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, const set<int> &F)
 {
     srand(time(0));
-    
+
     // convert the set of labels into a vector
     vector<int> labels(F.begin(), F.end());
     // add -1 to it, to represent the nodes with no label
@@ -98,14 +99,14 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
     for (size_t i = 0; i < coords.size(); ++i)
     {
         int label = labels[i % labels.size()]; // assign labels cyclically
-        Node* newNode = new Node(i, coords[i], {}, label);
+        Node *newNode = new Node(i, coords[i], {}, label);
         graph.addNode(newNode);
     }
 
     // create edges such that each node has exactly 2 edges (not R) to nodes with the same label
     for (size_t i = 0; i < coords.size(); ++i)
     {
-        Node* current = graph.getNode(i);
+        Node *current = graph.getNode(i);
         if (!current)
         {
             cout << "Node with id: " << i << " does not exist in the graph.\n";
@@ -137,7 +138,6 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
                     targetNodes.push_back(j);
                 }
             }
-
         }
 
         // add edges to up to 2 randomly selected target nodes
@@ -145,11 +145,13 @@ void generate_label_based_graph(Graph &graph, vector<vector<double>> &coords, co
         shuffle(targetNodes.begin(), targetNodes.end(), default_random_engine(seed));
 
         int edgeCount = min(2, static_cast<int>(targetNodes.size()));
-        for (int e = 0; e < edgeCount; ++e) {
+        for (int e = 0; e < edgeCount; ++e)
+        {
             graph.addEdge(i, targetNodes[e]);
         }
 
-        if (edgeCount == 0) {
+        if (edgeCount == 0)
+        {
             cerr << "Warning: Node " << i << " with label " << currentLabel
                  << " has no valid neighbors to connect." << endl;
         }

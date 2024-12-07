@@ -104,14 +104,13 @@ TEST_CASE("Test generate_label_based_graph basic functionality")
         {10.0, 11.0, 12.0},
         {13.0, 14.0, 15.0}
     };
-    
     set<int> F = {0, 1};
 
     Graph graph;
     generate_label_based_graph(graph, coords, F);
 
     // check that all nodes were created
-    REQUIRE(graph.getNodeCount() == coords.size());
+    REQUIRE(graph.getNodeCount() == static_cast<int>(coords.size()));
 
     // check that each node's coordinates are correct
     for (size_t i = 0; i < coords.size(); ++i)

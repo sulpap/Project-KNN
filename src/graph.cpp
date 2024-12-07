@@ -234,7 +234,6 @@ int Graph::getNodeCount() const {
     return this->adjList.size();
 }
 
-
 bool Graph::isEmpty() const {
     return adjList.empty();
 }
