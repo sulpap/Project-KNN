@@ -15,7 +15,7 @@ using namespace std;
 int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
 
-    if (argc != 8) {
+    if (argc != 9) {
         cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
@@ -108,9 +108,7 @@ int main(int argc, char* argv[]) {
     // Make set_F
     set<int> set_F;
     for (vector<double> point : base) {
-        if (point[0] != -1) {
-            set_F.insert(static_cast<int>(point[0]));
-        }
+        set_F.insert(static_cast<int>(point[0]));
     }
 
     // 3. Call Vamana.
@@ -160,7 +158,8 @@ int main(int argc, char* argv[]) {
         full_S_set.insert(pair.second);
     }
 
-    for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    // for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    for(int i = 0; i < 100; i++) {
         vector<double> query = queries[i];
         set<Node*> L_set;
         set<Node*> V_set;
@@ -177,17 +176,27 @@ int main(int argc, char* argv[]) {
         // Πρέπει να κάνω μια if για τα φίλτρα του query, ώστε να καθορίζω τα S_set και F_q_set για τον fgs
         // πως παίρνω το φίλτρο από το query. Ποια η διαφορά type 0 vs 1
 
+        int query_F = query[1];
+
+        if (query_F == -1) {
+            S_set = full_S_set;
+            F_q_set = set_F;
+        } else {
+            S_set.insert(st_f[query_F]);
+            F_q_set.insert(query_F);
+        }
+
         cout << "Calling FilteredGreedySearch for " << i << "th query..." << endl;
         start = chrono::high_resolution_clock::now();
-        // FilteredGreedySearch(S_set, query, k, L, L_set, V_set);
+        FilteredGreedySearch(S_set, query, k, L, L_set, V_set, F_q_set);
         end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         total_query_greedy_duration += duration;
-        // if () {          Επισης εδώ για τα φίλτρα
-        //     total_unfiltered_query_greedy_duration += duration;
-        // } else {
-        //     total_filtered_query_greedy_duration += duration;
-        // }
+        if (query_F == -1) {
+            total_unfiltered_query_greedy_duration += duration;
+        } else {
+            total_filtered_query_greedy_duration += duration;
+        }
         cout << "GreedySearch for " << i << "th query took " << duration.count() << " seconds." << endl;
 
         // 6. Compare greedy with ground truth
@@ -217,17 +226,17 @@ int main(int argc, char* argv[]) {
         totalPercent += percent;
         totalQueriesSize++;
 
-        // if () {          Επισης εδώ για τα φίλτρα
-        //     totalFilteredFound += found;
-        //     totalFilteredK += k;
-        //     totalFilteredPercent += percent;
-        //     totalFilteredQueriesSize++;
-        // } else {
-        //     totalUnfilteredFound += found;
-        //     totalUnfilteredK += k;
-        //     totalUnfilteredPercent += percent;
-        //     totalUnfilteredQueriesSize++;
-        // }
+        if (query_F == -1) {
+            totalFilteredFound += found;
+            totalFilteredK += k;
+            totalFilteredPercent += percent;
+            totalFilteredQueriesSize++;
+        } else {
+            totalUnfilteredFound += found;
+            totalUnfilteredK += k;
+            totalUnfilteredPercent += percent;
+            totalUnfilteredQueriesSize++;
+        }
     }
 
     // Calculate total recall across all queries
