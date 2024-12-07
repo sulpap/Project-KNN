@@ -32,10 +32,10 @@ bool graphs_are_equal(Graph &g1, Graph &g2)
             return false;
         }
     }
-    
-    adjList1.clear(); 
+
+    adjList1.clear();
     adjList2.clear();
-    
+
     return true;
 }
 

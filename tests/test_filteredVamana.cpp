@@ -109,8 +109,8 @@ TEST_CASE("compute_Fx function test in filteredVamana")
         {0, 1.0, 2.0},
         {1, 2.0, 3.0},
         {0, 1.5, 2.5},
-        {2, 5.0, 5.0}};
-
+        {2, 5.0, 5.0}
+    };
     set<int> labels = {0, 1, 2};
     Graph G;
     initialize_graph(G, coords);

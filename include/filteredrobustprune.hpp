@@ -5,6 +5,6 @@
 
 using namespace std;
 
-void FilteredRobustPrune(Node* p, set<Node*> V, double a, int R);
+void FilteredRobustPrune(Node *p, set<Node *> V, double a, int R);
 
 #endif

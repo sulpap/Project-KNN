@@ -40,7 +40,6 @@ TEST_CASE("Test euclidean_distance")
     }
 }
 
-
 TEST_CASE("Test euclidean_distance_floats")
 {
     vector<float> coords1 = {0.0, 0.0, 0.0};
@@ -48,8 +47,8 @@ TEST_CASE("Test euclidean_distance_floats")
 
     SECTION("Test distance between (0,0,0) and (3,4,0)")
     {
-        double expected_distance = 5.0;                                             // 3^2 + 4^2 = 25, sqrt(25) = 5
-        REQUIRE(euclidean_distance_floats(coords1, coords2) == expected_distance); 
+        double expected_distance = 5.0; // 3^2 + 4^2 = 25, sqrt(25) = 5
+        REQUIRE(euclidean_distance_floats(coords1, coords2) == expected_distance);
     }
 
     SECTION("Test distance between identical points")
@@ -61,7 +60,7 @@ TEST_CASE("Test euclidean_distance_floats")
     {
         vector<float> coords3 = {-1.0, -1.0, -1.0};
         vector<float> coords4 = {2.0, 3.0, -1.0};
-        double expected_distance = sqrt(pow(3.0, 2) + pow(4.0, 2) + pow(0.0, 2));   // sqrt(25) = 5
+        double expected_distance = sqrt(pow(3.0, 2) + pow(4.0, 2) + pow(0.0, 2)); // sqrt(25) = 5
         REQUIRE(euclidean_distance_floats(coords3, coords4) == expected_distance);
     }
 
@@ -69,11 +68,10 @@ TEST_CASE("Test euclidean_distance_floats")
     {
         vector<float> coords7 = {1e6, 1e6, 1e6};
         vector<float> coords8 = {2e6, 2e6, 2e6};
-        double expected_distance = sqrt(pow(1e6, 2) + pow(1e6, 2) + pow(1e6, 2));   // sqrt(3e12) = 1e6 * sqrt(3)
+        double expected_distance = sqrt(pow(1e6, 2) + pow(1e6, 2) + pow(1e6, 2)); // sqrt(3e12) = 1e6 * sqrt(3)
         REQUIRE(euclidean_distance_floats(coords7, coords8) == expected_distance);
     }
 }
-
 
 TEST_CASE("Test euclidean_distance_of_nodes")
 {
@@ -95,7 +93,6 @@ TEST_CASE("Test euclidean_distance_of_nodes")
     }
 }
 
-
 TEST_CASE("Test findMedoid")
 {
     SECTION("Basic input")
@@ -103,7 +100,8 @@ TEST_CASE("Test findMedoid")
         vector<vector<double>> coords = {
             {1.0, 1.0},
             {2.0, 2.0},
-            {3.0, 3.0}};
+            {3.0, 3.0}
+        };
 
         // medoid is the point closest to all others, in this case: {2.0, 2.0} which is element 1
         int medoidIndex = findMedoid(coords);
@@ -129,12 +127,12 @@ TEST_CASE("Test findMedoid")
         vector<vector<double>> coords = {
             {1.0, 1.0},
             {1.0, 1.0},
-            {1.0, 1.0}};
+            {1.0, 1.0}
+        };
         int medoidIndex = findMedoid(coords);
         REQUIRE(medoidIndex == 0); // any index is valid, but 0 is expected
     }
 }
-
 
 TEST_CASE("Test convert_to_double")
 {

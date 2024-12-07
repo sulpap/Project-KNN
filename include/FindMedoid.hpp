@@ -3,6 +3,6 @@
 
 #include "../include/graph.hpp"
 
-map<int, Node*> FindMedoid(Graph &graph, int taph, set<int> F);
+map<int, Node *> FindMedoid(Graph &graph, int taph, set<int> F);
 
 #endif

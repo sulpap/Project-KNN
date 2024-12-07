@@ -70,7 +70,6 @@ TEST_CASE("Test b2fvecs_read with small file")
 
     SECTION("Test b2fvecs_read with an out-of-range query")
     {
-
         vector<vector<float>> vectors = b2fvecs_read(test_file, 3, 5);
         REQUIRE(vectors.empty());
     }
