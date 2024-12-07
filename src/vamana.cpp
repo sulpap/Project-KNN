@@ -15,28 +15,28 @@
 // V is the set of visited nodes returned from Greedy
 // sigma_i_out are the possible candidates, out-neighbors.
 
-int calculate_medoid(vector<vector<double>> &coords)
-{
-    cout << "Start of medoid calculation..." << endl;
+// int calculate_medoid(vector<vector<double>> &coords)
+// {
+//     cout << "Start of medoid calculation..." << endl;
 
-    auto start = chrono::high_resolution_clock::now();
+//     auto start = chrono::high_resolution_clock::now();
 
-    int medoidIndex = findMedoid(coords);
+//     int medoidIndex = findMedoid(coords);
 
-    auto end = chrono::high_resolution_clock::now();
-    chrono::duration<double> duration = end - start;
+//     auto end = chrono::high_resolution_clock::now();
+//     chrono::duration<double> duration = end - start;
 
-    cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
+//     cout << "Medoid calculation took: " << duration.count() << " seconds." << endl;
 
-    return medoidIndex;
-}
+//     return medoidIndex;
+// }
 
 int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
 {
     unordered_map<int, int> indexes; // <position, id>
     generate_graph(graph, coords, R, f, indexes);
 
-    int medoidIndex = calculate_medoid(coords);
+    int medoidIndex = findMedoid(coords);
 
     // get the correct nodeId -> match the index with the nodeId
     int medoidNodeId = indexes[medoidIndex];
@@ -94,5 +94,5 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         }
     }
 
-    return medoidIndex;
+    return medoidNodeId;
 }
