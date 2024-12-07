@@ -176,19 +176,33 @@ int main(int argc, char* argv[]) {
         // Πρέπει να κάνω μια if για τα φίλτρα του query, ώστε να καθορίζω τα S_set και F_q_set για τον fgs
         // πως παίρνω το φίλτρο από το query. Ποια η διαφορά type 0 vs 1
 
+        // int query_F = query[1];
+
+        // if (query_F == -1) {
+        //     S_set = full_S_set;
+        //     F_q_set = set_F;
+        // } else {
+        //     S_set.insert(st_f[query_F]);
+        //     F_q_set.insert(query_F);
+        // }
+
         int query_F = query[1];
 
         if (query_F == -1) {
             S_set = full_S_set;
             F_q_set = set_F;
         } else {
-            S_set.insert(st_f[query_F]);
+            if (st_f.find(query_F) != st_f.end()) {     // found
+                S_set.insert(st_f[query_F]);
+            }
+            // else: st_f not found, and so S_set will be empty (there exists no start node with filter = query_F)
+                // S_set will be empty
             F_q_set.insert(query_F);
         }
 
         cout << "Calling FilteredGreedySearch for " << i << "th query..." << endl;
         start = chrono::high_resolution_clock::now();
-        FilteredGreedySearch(S_set, query, k, L, L_set, V_set, F_q_set);
+        FilteredGreedySearch(S_set, query, starting_k, L, L_set, V_set, F_q_set);
         end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         total_query_greedy_duration += duration;
@@ -206,18 +220,28 @@ int main(int argc, char* argv[]) {
         //     return EXIT_FAILURE;
         // }
         // we only need the top k results of ground truth to compare
-        vector<int> gt(gt_sol.begin(), gt_sol.begin() + k);
+        // vector<int> gt(gt_sol.begin(), gt_sol.begin() + k);
 
         // We traverse L_set
         int found = 0;
         for (auto node : L_set) {
             int id_L = node->getId();
-            if (find(gt.begin(), gt.end(), id_L) != gt.end()) {
+            if (find(gt_sol.begin(), gt_sol.end(), id_L) != gt_sol.end()) {
                 found++;
             }
         }
 
-        float percent = (100 * found) / (float)k;
+        float percent;
+
+        if (k == 0) {
+            if (found == 0) {
+                percent = 100.0;
+            } else {
+                percent = 0.0;
+            }
+        } else {
+            float percent = (100 * found) / (float)k;
+        }
         cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
     
         // Accumulate totals for overall and average recall
