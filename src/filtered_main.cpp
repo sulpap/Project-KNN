@@ -158,8 +158,8 @@ int main(int argc, char* argv[]) {
         full_S_set.insert(pair.second);
     }
 
-    // for(int i = 0; i < static_cast<int>(queries.size()); i++) {
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    // for(int i = 0; i < 100; i++) {
         vector<double> query = queries[i];
         set<Node*> L_set;
         set<Node*> V_set;
@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
                 percent = 0.0;
             }
         } else {
-            float percent = (100 * found) / (float)k;
+            percent = (100 * found) / (float)k;
         }
         cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
     
@@ -290,10 +290,10 @@ int main(int argc, char* argv[]) {
     average_unfiltered_query_greedy_duration = total_unfiltered_query_greedy_duration / totalUnfilteredQueriesSize;
 
     cout << "Timing Summary:\n";
-    cout << "\t- Base dataset load time: " << base_f_duration.count() << "seconds.\n";
-    cout << "\t- Query dataset load time: " << query_f_duration.count() << "seconds.\n";
-    cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << "seconds.\n";
-    cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << "seconds.\n";
+    cout << "\t- Base dataset load time: " << base_f_duration.count() << " seconds.\n";
+    cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
+    cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
+    cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << " second or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
     cout << "\t- Average time GreadySearch ran for ALL queries: " << average_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Average time GreadySearch ran for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Average time GreadySearch ran for UNFILTERED queries: " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;
