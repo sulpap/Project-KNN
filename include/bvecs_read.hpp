@@ -5,8 +5,8 @@
 #include <iostream>
 #include <cstdint>
 
-using  namespace std;
+using namespace std;
 
-vector<vector<uint8_t>> bvecs_read(const char* filename, size_t a = 1, size_t b = 0);
+vector<vector<uint8_t>> bvecs_read(const char *filename, size_t a = 1, size_t b = 0);
 
 #endif

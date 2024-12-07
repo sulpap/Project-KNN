@@ -17,7 +17,8 @@ TEST_CASE("Vamana function test")
         {2.0, 3.0},
         {3.0, 4.0},
         {4.0, 5.0},
-        {2.0, 1.0}};
+        {2.0, 1.0}
+    };
     int R = 3;    // max out-degree (R)
     double a = 1; // distance threshold
     int int_L = 5;

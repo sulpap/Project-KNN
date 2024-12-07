@@ -9,7 +9,7 @@
 #include <chrono>
 
 // coords = coords of all vectors in P dataset (Graph)
-// randomPermutation = σ 
+// randomPermutation = σ
 
 // L is the set of closest neighbors returned from Greedy
 // V is the set of visited nodes returned from Greedy
@@ -33,28 +33,16 @@ int calculate_medoid(vector<vector<double>> &coords)
 
 int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
 {
-    // cout << "Vamana started with the following inputs:" << endl;
-    // cout << "Coordinates:" << endl;
-    // for (size_t i = 0; i < coords.size(); ++i) {
-    //     cout << "Point " << i << ": ";
-    //     for (double coord : coords[i]) {
-    //         cout << coord << " ";
-    //     }
-    //     cout << endl;
-    // }
-    
-    // cout << "R: " << R << ", a: " << a << ", int_L: " << int_L << ", f: " << f << endl;
-
-    unordered_map<int, int> indexes;
+    unordered_map<int, int> indexes; // <position, id>
     generate_graph(graph, coords, R, f, indexes);
-    
+
     int medoidIndex = calculate_medoid(coords);
 
     // get the correct nodeId -> match the index with the nodeId
     int medoidNodeId = indexes[medoidIndex];
     Node *medoid = graph.getNode(medoidNodeId);
 
-    if (medoid == nullptr) 
+    if (medoid == nullptr)
     {
         cerr << "Error: Medoid node with ID " << medoidNodeId << " not found in the graph." << endl;
         return -1;
@@ -73,16 +61,16 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         set<Node *> V_set;
         set<Node *> L_set;
         GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
-        
+
         Node *sigma_i = graph.getNode(f * OFFSET + point_id);
-        if (sigma_i == nullptr) 
+        if (sigma_i == nullptr)
         {
             cerr << "Error: Node with ID " << point_id << " not found in the graph." << endl;
             continue; // skip this iteration or handle the error appropriately
         }
 
         RobustPrune(sigma_i, V_set, a, R);
-        
+
         list<Node *> sigma_i_out = sigma_i->getEdges();
         for (auto node_j : sigma_i_out)
         {

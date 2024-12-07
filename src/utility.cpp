@@ -24,12 +24,14 @@ double euclidean_distance(vector<double> coords1, vector<double> coords2)
 }
 
 // Οι παράμετροι της συνάρτησης έχουν μόνο τις διαστάσεις. Όχι τις ετικέτες ή query_type.
-double euclidean_distance_floats(vector<float> &coords1, vector<float> &coords2) {
+double euclidean_distance_floats(vector<float> &coords1, vector<float> &coords2)
+{
     assert(coords1.size() == coords2.size());
     double sum = 0.0;
     double dist = 0.0;
 
-    for (size_t i = 0; i < coords1.size(); i++) {
+    for (size_t i = 0; i < coords1.size(); i++)
+    {
         dist = coords2[i] - coords1[i];
         sum += dist * dist;
     }
