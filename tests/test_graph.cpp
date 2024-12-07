@@ -4,7 +4,7 @@
 TEST_CASE("Node Class Tests", "[Node]")
 {
     // Test Node creation
-    std::vector<double> coordinates = {1.0, 2.0};
+    vector<double> coordinates = {1.0, 2.0};
     Node node(1, coordinates, {}, 1);
 
     SECTION("Node Initialization")
@@ -39,21 +39,6 @@ TEST_CASE("Node Class Tests", "[Node]")
         delete node3;
     }
 
-
-    SECTION("Setters and Getters")
-    {
-        node.setId(2);
-        node.setGraphId(3);
-        std::vector<double> newCoordinates = {4.0, 5.0};
-        node.setCoordinates(newCoordinates);
-        node.setLabel(1);
-
-        REQUIRE(node.getId() == 2);
-        REQUIRE(node.getGraphId() == 3);
-        REQUIRE(node.getCoordinates() == newCoordinates);
-        REQUIRE(node.getLabel() == 1);
-    }
-
     SECTION("Move Assignment Operator")
     {
         Node* node1 = new Node(1, {1.0, 2.0}, {});
@@ -78,6 +63,20 @@ TEST_CASE("Node Class Tests", "[Node]")
         delete node3;
     }
 
+    SECTION("Setters and Getters")
+    {
+        node.setId(2);
+        node.setGraphId(3);
+        vector<double> newCoordinates = {4.0, 5.0};
+        node.setCoordinates(newCoordinates);
+        node.setLabel(1);
+
+        REQUIRE(node.getId() == 2);
+        REQUIRE(node.getGraphId() == 3);
+        REQUIRE(node.getCoordinates() == newCoordinates);
+        REQUIRE(node.getLabel() == 1);
+    }
+
     SECTION("Add Edge and Check Existence")
     {
         Node otherNode(2, {3.0, 4.0}, {}, {});
@@ -85,6 +84,33 @@ TEST_CASE("Node Class Tests", "[Node]")
         REQUIRE(node.getEdges().size() == 1);
         REQUIRE(node.edgeExists(2) == true);
         REQUIRE(node.edgeExists(3) == false);
+    }
+
+    SECTION("Add Coordinate and Check Existence")
+    {
+        vector<double> initialCoordinates = node.getCoordinates();
+        REQUIRE(initialCoordinates.size() == 2); // initial coordinates are {1.0, 2.0}
+
+        // add a new coordinate
+        vector<double> newCoordinates = {3.0, 4.0};
+        node.addCoordinate(newCoordinates);
+
+        // check that the new coordinates were added correctly
+        vector<double> updatedCoordinates = node.getCoordinates();
+        REQUIRE(updatedCoordinates.size() == 4); // total coordinates should now be 4
+        REQUIRE(updatedCoordinates[0] == 1.0);
+        REQUIRE(updatedCoordinates[1] == 2.0);
+        REQUIRE(updatedCoordinates[2] == 3.0);
+        REQUIRE(updatedCoordinates[3] == 4.0);
+
+        // add another set of coordinates
+        vector<double> moreCoordinates = {5.0};
+        node.addCoordinate(moreCoordinates);
+
+        // verify the coordinates again
+        updatedCoordinates = node.getCoordinates();
+        REQUIRE(updatedCoordinates.size() == 5); // total coordinates should now be 5
+        REQUIRE(updatedCoordinates[4] == 5.0);
     }
 
     SECTION("Delete Edge")
@@ -99,14 +125,14 @@ TEST_CASE("Node Class Tests", "[Node]")
     {
         REQUIRE(node.getSpecificCoordinate(0) == 1.0);
         REQUIRE(node.getSpecificCoordinate(1) == 2.0);
-        REQUIRE_THROWS_AS(node.getSpecificCoordinate(2), std::out_of_range);
+        REQUIRE_THROWS_AS(node.getSpecificCoordinate(2), out_of_range);
     }
 
     SECTION("Set Specific Coordinate")
     {
         node.setSpecificCoordinate(0, 10.0);
         REQUIRE(node.getSpecificCoordinate(0) == 10.0);
-        REQUIRE_THROWS_AS(node.setSpecificCoordinate(2, 1.0), std::out_of_range);
+        REQUIRE_THROWS_AS(node.setSpecificCoordinate(2, 1.0), out_of_range);
     }
 }
 
@@ -119,6 +145,7 @@ TEST_CASE("Graph Class Tests", "[Graph]")
     {
         REQUIRE(graph.getGraphId() == temp_currentGraphId); // Check initial graph ID
         REQUIRE(graph.getAdjList().empty());                // Ensure adjacency list is empty
+        REQUIRE(graph.isEmpty() == true);
     }
 
     SECTION("Clear Graph")
@@ -142,6 +169,7 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         REQUIRE(graph.getNode(1) == node);
         int gid = node->getGraphId();
         REQUIRE(gid == graph.getGraphId());
+        REQUIRE(graph.isEmpty() == false);
     }
 
     SECTION("Move Node")
@@ -163,6 +191,14 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         graph.clear();
     }
 
+    SECTION("Get Node")
+    {
+        Node *node = new Node(1, {1.0, 2.0}, {});
+        graph.addNode(node);
+        REQUIRE(graph.getNode(1) == node);
+        REQUIRE(graph.getNode(2) == nullptr);
+    }
+
     SECTION("Delete Node")
     {
         Node *node = new Node(1, {1.0, 2.0}, {});
@@ -172,6 +208,48 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         REQUIRE(graph.getNode(1) == nullptr);
     }
 
+    SECTION("Remove Node")
+    {
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addEdge(1, node2); // connect node1 to node2
+
+        Node* removedNode = graph.removeNode(1);
+
+        // verify the node is no longer in the graph
+        REQUIRE(graph.getAdjList().size() == 1);
+        REQUIRE(graph.getNode(1) == nullptr);
+
+        // verify the node's edges are removed
+        REQUIRE(node2->getNeighbors().empty());
+
+        // verify the node's properties are reset
+        REQUIRE(removedNode->getId() == 1);
+        REQUIRE(removedNode->getGraphId() == 0);
+
+        delete removedNode;
+    }
+
+    SECTION("Get Node Count")
+    {
+        REQUIRE(graph.getNodeCount() == 0); // Initially, the graph is empty
+
+        Node* node1 = new Node(1, {1.0, 2.0}, {});
+        Node* node2 = new Node(2, {3.0, 4.0}, {});
+        graph.addNode(node1);
+        graph.addNode(node2);
+
+        REQUIRE(graph.getNodeCount() == 2); // After adding two nodes
+
+        graph.deleteNode(1);
+        REQUIRE(graph.getNodeCount() == 1); // After deleting one node
+
+        graph.deleteNode(2);
+        REQUIRE(graph.getNodeCount() == 0); // After deleting all nodes
+    }
+    
     SECTION("Add Edge")
     {
         Node *node1 = new Node(1, {1.0, 2.0}, {});
@@ -195,12 +273,48 @@ TEST_CASE("Graph Class Tests", "[Graph]")
         REQUIRE(node1->getEdges().empty());
     }
 
-    SECTION("Get Node")
+    SECTION("Find NodeIds with Label")
     {
-        Node *node = new Node(1, {1.0, 2.0}, {});
-        graph.addNode(node);
-        REQUIRE(graph.getNode(1) == node);
-        REQUIRE(graph.getNode(2) == nullptr);
+        Node* node1 = new Node(1, {1.0, 2.0}, {}, 10);
+        Node* node2 = new Node(2, {3.0, 4.0}, {}, 20);
+        Node* node3 = new Node(3, {5.0, 6.0}, {}, 10);
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+
+        vector<int> nodeIdsWithLabel10 = graph.findNodeIdsWithLabel(10);
+        vector<int> nodeIdsWithLabel20 = graph.findNodeIdsWithLabel(20);
+        vector<int> nodeIdsWithLabel30 = graph.findNodeIdsWithLabel(30);
+
+        REQUIRE(nodeIdsWithLabel10.size() == 2); // 2 nodes with label 10
+        REQUIRE(nodeIdsWithLabel20.size() == 1); // 1 node with label 20
+        REQUIRE(nodeIdsWithLabel30.empty()); // no nodes with label 30
+
+        REQUIRE(find(nodeIdsWithLabel10.begin(), nodeIdsWithLabel10.end(), 1) != nodeIdsWithLabel10.end());
+        REQUIRE(find(nodeIdsWithLabel10.begin(), nodeIdsWithLabel10.end(), 3) != nodeIdsWithLabel10.end());
+        REQUIRE(nodeIdsWithLabel20.front() == 2);
+    }
+
+    SECTION("Find Nodes with Label")
+    {
+        Node* node1 = new Node(1, {1.0, 2.0}, {}, 10);
+        Node* node2 = new Node(2, {3.0, 4.0}, {}, 20);
+        Node* node3 = new Node(3, {5.0, 6.0}, {}, 10);
+        graph.addNode(node1);
+        graph.addNode(node2);
+        graph.addNode(node3);
+
+        vector<Node*> nodesWithLabel10 = graph.findNodesWithLabel(10);
+        vector<Node*> nodesWithLabel20 = graph.findNodesWithLabel(20);
+        vector<Node*> nodesWithLabel30 = graph.findNodesWithLabel(30);
+
+        REQUIRE(nodesWithLabel10.size() == 2); // 2 nodes with label 10
+        REQUIRE(nodesWithLabel20.size() == 1); // 1 node with label 20
+        REQUIRE(nodesWithLabel30.empty()); // no nodes with label 30
+
+        REQUIRE(find(nodesWithLabel10.begin(), nodesWithLabel10.end(), node1) != nodesWithLabel10.end());
+        REQUIRE(find(nodesWithLabel10.begin(), nodesWithLabel10.end(), node3) != nodesWithLabel10.end());
+        REQUIRE(nodesWithLabel20.front() == node2);
     }
 
     // Clean up dynamically allocated nodes
@@ -270,7 +384,7 @@ TEST_CASE("Graph Union - Empty Graph", "[GraphUnion]") {
     graph1.addNode(node);
 
     // union with an empty graph
-    graph1.graphUnion(std::move(graph2));
+    graph1.graphUnion(move(graph2));
 
     // Ensure graph1 remains unchanged
     REQUIRE(graph1.getNode(1) != nullptr);
@@ -292,7 +406,7 @@ TEST_CASE("Graph Union - Self-loops Handling", "[GraphUnion]") {
     graph1.addNode(node1);
 
     // Create a second graph and union
-    graph1.graphUnion(std::move(graph2));
+    graph1.graphUnion(move(graph2));
 
     // Ensure self-loop is preserved
     REQUIRE(node1->edgeExists(1));
