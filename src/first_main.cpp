@@ -98,9 +98,18 @@ int main(int argc, char* argv[]) {
 
     // 3. Call Vamana.
     Graph graph;
+    vector<Node *> nodes;
+
+    for (size_t i = 0 ; i < base.size() ; i++) {
+        vector<double> point_coords(base[i]);
+        Node *tempNode = new Node(i, point_coords, {}, -1);
+        nodes.push_back(tempNode);
+    }
+
+
     cout << "Calling Vamana..." << endl;
     start = chrono::high_resolution_clock::now();
-    int medoid_id = Vamana(graph, base, R, a, L, 0);//added a label to not get errors
+    int medoid_id = Vamana(graph, nodes, R, a, L);
     end = chrono::high_resolution_clock::now();
     vamana_duration = end - start;
     cout << "Vamana took " << vamana_duration.count() << " seconds." << endl;
