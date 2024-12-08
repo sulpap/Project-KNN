@@ -15,9 +15,9 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 9) 
+    if (argc != 8) 
     {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
@@ -49,25 +49,10 @@ int main(int argc, char* argv[])
     }
     vector<vector<double>> points = convert_to_double(points_f);
 
-// Query File
-    cout << "Loading Query dataset..." << endl;
-    start = chrono::high_resolution_clock::now();
-    vector<vector<float>> queries_f = queriesbin_read(argv[7]);
-    end = chrono::high_resolution_clock::now();
-    chrono::duration<double> query_f_duration = end - start;
-    cout << "Loaded " << queries_f.size() << " query points from the Query dataset in " << query_f_duration.count() << " seconds." << endl;
-
-    // Check size of query_f
-    if (queries_f.empty()) {
-        cout << "No queries vectors read from the file." << endl;
-        return EXIT_FAILURE;
-    }
-    vector<vector<double>> queries = convert_to_double(queries_f);
-
 // Groundtruth File
     cout << "Loading Groundtruth dataset..." << endl;
     start = chrono::high_resolution_clock::now();
-    vector<vector<int>> gt = gtbin_read(argv[8], k);
+    vector<vector<int>> gt = gtbin_read(argv[7], k);
     end = chrono::high_resolution_clock::now();
     chrono::duration<double> ground_truth_duration = end - start;
     cout << "Loaded " << gt.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
