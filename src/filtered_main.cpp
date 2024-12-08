@@ -240,7 +240,7 @@ int main(int argc, char* argv[]) {
                 percent = 0.0;
             }
         } else {
-            percent = (100 * found) / (float)k;
+            float percent = (100 * found) / (float)k;
         }
         cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
     

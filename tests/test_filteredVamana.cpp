@@ -111,10 +111,10 @@ TEST_CASE("compute_Fx function test in filteredVamana")
         {0, 1.5, 2.5},
         {2, 5.0, 5.0}
     };
-    // set<int> labels = {0, 1, 2};
+    set<int> labels = {0, 1, 2};
     Graph G;
     initialize_graph(G, coords);
-    unordered_map<int, set<int>> Fx = compute_Fx(G);
+    unordered_map<int, set<int>> Fx = compute_Fx(G, labels);
 
     // check that Fx contains the correct number of entries
     REQUIRE(static_cast<int>(Fx.size()) == G.getNodeCount());

@@ -9,58 +9,41 @@
 #include <chrono>
 #include <cassert>
 
-Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R, set<int> F, int taph, map<int, Node *> &st_f)
-{
-    // 1. Initialize an empty graph
+Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,  set<int> F, int taph, map<int, Node *>& st_f) {
     Graph G;
-
-    // fill the graph with nodes based on the coords info (label & point coords)
     initialize_graph(G, coords);
-
-    // 2. Let st(f) denote the start node for filter label f for every f ∈ F
     st_f = FindMedoid(G, taph, F);
 
-    // 3. Let σ (randomPermutation) be a random permutation of [n]
     vector<int> randomPermutation(coords.size());
-    iota(randomPermutation.begin(), randomPermutation.end(), 0);            // starts from 0 μέχρι until coords.size - 1
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count(); // obtain a time-based seed and shuffle
+    iota(randomPermutation.begin(), randomPermutation.end(), 0);        // ξεκινάει από το 0 μέχρι και coords.size - 1    
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count();     // obtain a time-based seed and shuffle
     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
-    // foreach i ∈ [n] do
-    for (int point_id : randomPermutation) // ids in initialize_graph are also from 0 to coords.size - 1
-    {
-        Node *point = G.getNode(point_id);
+    for (int point_id : randomPermutation) {        // Τα ids στην initialize_graph πάνε και αυτά από 0 μέχρι και coords.size - 1
+        Node* point = G.getNode(point_id);
         int label = point->getLabel();
 
-        Node *start_node = st_f[label];
-        set<Node *> L_set;
-        set<Node *> V_set;
-        set<Node *> S_set;
-
-// cout << "fileterd, start node id: " << start_node->getId() << " and label: " << label << " loop: " << point_id << endl;
-
+        Node* start_node = st_f[label];
+        set<Node*> L_set;
+        set<Node*> V_set;
+        set<Node*> S_set;
         S_set.insert(start_node);
-        
         vector<double> coordinates = point->getCoordinates();
         int k = 0;
-
         set<int> F;
         F.insert(label);
-
         FilteredGreedySearch(S_set, coordinates, k, int_L, L_set, V_set, F);
         assert(L_set.size() == 0);
 
         FilteredRobustPrune(point, V_set, a, R);
 
-        list<Node *> point_out = point->getEdges();
-        for (auto j : point_out)
-        {
-            j->addEdge(point); // addEdge won't add point as neighbor of j if that's already the case
-            list<Node *> j_out = j->getEdges();
+        list<Node*> point_out = point->getEdges();
+        for(auto j : point_out) {
+            j->addEdge(point);      // addEdge won't add point as neighbor of j if that's already the case
+            list<Node*> j_out = j->getEdges();
 
-            if (static_cast<int>(j_out.size()) > R)
-            {
-                set<Node *> V_set(j_out.begin(), j_out.end()); // We initialize V with out neighbors of j
+            if(static_cast<int>(j_out.size()) > R) {
+                set<Node*> V_set(j_out.begin(), j_out.end());       // We initialize V with out neighbors of j
                 FilteredRobustPrune(j, V_set, a, R);
             }
         }
@@ -91,7 +74,7 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
 //     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
 
 //     // 4. Let Fx be the label-set for every x ∈ P
-//     unordered_map<int, set<int>> Fx = compute_Fx(G);
+//     unordered_map<int, set<int>> Fx = compute_Fx(G, F);
 
 //     // set<Node *> V; // initializing this set outside the loop, so that it accumulates nodes across iterations
 
@@ -193,7 +176,7 @@ void initialize_graph(Graph &G, const vector<vector<double>> &coords)
     }
 }
 
-unordered_map<int, set<int>> compute_Fx(Graph &G)
+unordered_map<int, set<int>> compute_Fx(Graph &G, set<int> F)
 {
     // find each node's label and store it in Fx
     unordered_map<int, set<int>> Fx;
