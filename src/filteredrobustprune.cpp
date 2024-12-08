@@ -47,7 +47,12 @@ void FilteredRobustPrune(Node* p, set<Node*> V, double a, int R) {
                 //     continue;
                 // }
             // }
-            if ((p->getLabel() == pPrime->getLabel()) && (p->getLabel() != pStar->getLabel())) {
+            // if ((p->getLabel() == pPrime->getLabel()) && (p->getLabel() != pStar->getLabel())) {
+            //     ++it;
+            //     continue;
+            // }
+
+            if (pPrime->getLabel() != pStar->getLabel()) {
                 ++it;
                 continue;
             }
