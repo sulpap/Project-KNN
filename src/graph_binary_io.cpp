@@ -156,7 +156,7 @@ Graph load_graph_from_binary(const string &filename)
 // --Format of the Binary File for Map M:--
 //  number of nodes in M
 //  For each node:
-//      Label (int), Node ID (int)
+//      Label (int) Node ID (int)
 
 void save_map_to_binary(const map<int, Node *> &M, const string &filename)
 {
