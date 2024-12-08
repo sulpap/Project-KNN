@@ -13,22 +13,46 @@ SRCFILES = $(wildcard $(SRCDIR)/*.cpp)
 TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 
 # Specific source files for each executable
+FIRST_MAIN_SRC = $(SRCDIR)/first_main.cpp
 FILTERED_MAIN_SRC = $(SRCDIR)/filtered_main.cpp
+FILTERED_MAIN_GRAPH_SRC = $(SRCDIR)/filtered_main_graph.cpp
+FILTERED_MAIN_LOAD_SRC = $(SRCDIR)/filtered_main_load.cpp
 STITCHED_MAIN_SRC = $(SRCDIR)/stitched_main.cpp
 CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
-COMMON_SRC = $(filter-out $(FILTERED_MAIN_SRC) $(STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
+COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(FILTERED_MAIN_LOAD_SRC) $(STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
+# first (old) main
+FIRST_MAIN_OBJ = $(OBJDIR)/first_main.o
+
+# filtered main
 FILTERED_MAIN_OBJ = $(OBJDIR)/filtered_main.o
+FILTERED_MAIN_GRAPH_OBJ = $(OBJDIR)/filtered_main_graph.o
+FILTERED_MAIN_LOAD_OBJ = $(OBJDIR)/filtered_main_load.o
+
+# stitched main
 STITCHED_MAIN_OBJ = $(OBJDIR)/stitched_main.o
+
+# calculate groundtruth main
 CALC_GT_OBJ = $(OBJDIR)/calculate_groundtruth.o
+
+# common (not main)
 COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
 TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-all: $(BINDIR)/filtered_main $(BINDIR)/stitched_main $(BINDIR)/calculate_groundtruth # test
+all: $(BINDIR)/first_main $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/filtered_main_load $(BINDIR)/stitched_main $(BINDIR)/calculate_groundtruth # test
 
 # Build main executable
+$(BINDIR)/first_main: $(FIRST_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 $(BINDIR)/filtered_main: $(FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/filtered_main_graph: $(FILTERED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/filtered_main_load: $(FILTERED_MAIN_LOAD_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/stitched_main: $(STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)

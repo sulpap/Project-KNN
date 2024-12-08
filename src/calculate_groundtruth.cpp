@@ -3,6 +3,8 @@
 #include <fstream>          // ofs
 #include <cassert>
 #include <iostream>
+#include <cstdint>                  // due to uint32_t
+
 using namespace std;
 
 #include "../include/bin_read.hpp"

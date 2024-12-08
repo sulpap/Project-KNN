@@ -66,7 +66,8 @@ TEST_CASE("Save and Load Graph - Basic Test")
     REQUIRE(graphs_are_equal(graph, loadedGraph));
 
     // clean up
-    remove(filename.c_str());
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
     graph.clear();
     loadedGraph.clear();
 }
@@ -87,7 +88,8 @@ TEST_CASE("Save and Load Graph - Empty Graph")
     REQUIRE(graphs_are_equal(emptyGraph, loadedGraph));
 
     // clean up
-    remove(filename.c_str());
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
     emptyGraph.clear();
     loadedGraph.clear();
 }
@@ -122,7 +124,118 @@ TEST_CASE("Save and Load Graph - Complex Graph")
     REQUIRE(graphs_are_equal(graph, loadedGraph));
 
     // clean up
-    remove(filename.c_str());
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
     graph.clear();
     loadedGraph.clear();
+}
+
+TEST_CASE("Save and Load Map - Empty Map")
+{
+    // Create an empty map
+    map<int, Node*> emptyMap;
+    Graph dummyGraph;
+
+    // Save the map to a binary file
+    string filename = "empty_map.bin";
+    save_map_to_binary(emptyMap, filename);
+
+    // Load the map back
+    map<int, Node*> loadedMap = load_map_from_binary(filename, dummyGraph);
+
+    // Verify the loaded map is empty
+    REQUIRE(loadedMap.empty());
+
+    // clean up
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
+    dummyGraph.clear();
+}
+
+TEST_CASE("Save and Load Map - Single Node Map")
+{
+    // Create a graph with a single node
+    Graph graph;
+    Node* node1 = new Node(1, {0.0, 1.0}, {}, 100);
+    graph.addNode(node1);
+
+    // Create a map with one entry
+    map<int, Node*> mapSingle;
+    mapSingle[1] = node1;
+
+    // Save the map to a binary file
+    string filename = "single_node_map.bin";
+    save_map_to_binary(mapSingle, filename);
+
+    // Load the map back
+    map<int, Node*> loadedMap = load_map_from_binary(filename, graph);
+
+    // Verify the loaded map matches the original
+    REQUIRE(loadedMap.size() == mapSingle.size());
+    REQUIRE(loadedMap[1] == node1);
+
+    // clean up
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
+    graph.clear();
+}
+
+TEST_CASE("Save and Load Map - Multiple Nodes Map")
+{
+    // create a graph with multiple nodes
+    Graph graph;
+    Node* node1 = new Node(1, {1.0, 1.1}, {}, 101);
+    Node* node2 = new Node(2, {2.0, 2.1}, {}, 102);
+    Node* node3 = new Node(3, {3.0, 3.1}, {}, 103);
+    graph.addNode(node1);
+    graph.addNode(node2);
+    graph.addNode(node3);
+
+    // create a map with multiple entries
+    map<int, Node*> mapMultiple;
+    mapMultiple[1] = node1;
+    mapMultiple[2] = node2;
+    mapMultiple[3] = node3;
+
+    // save & load the map
+    string filename = "multiple_nodes_map.bin";
+    save_map_to_binary(mapMultiple, filename);
+    map<int, Node*> loadedMap = load_map_from_binary(filename, graph);
+
+    // verify the loaded map matches the original
+    REQUIRE(loadedMap.size() == mapMultiple.size());
+    REQUIRE(loadedMap[1] == node1);
+    REQUIRE(loadedMap[2] == node2);
+    REQUIRE(loadedMap[3] == node3);
+    
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
+    graph.clear();
+}
+
+TEST_CASE("Save and Load Map - Nonexistent Node in Map")
+{
+    // graph with no nodes
+    Graph graph;
+
+    // simulate a corrupted map file referencing a nonexistent node
+    string filename = "invalid_map.bin";
+    ofstream outFile("datasets/smallscale/" + filename, ios::binary);
+    int mapSize = 1;  // 1 entry
+    outFile.write(reinterpret_cast<const char*>(&mapSize), sizeof(mapSize));
+    int label = 99;      // label
+    int nodeId = 42;     // nonexistent Node ID
+    outFile.write(reinterpret_cast<const char*>(&label), sizeof(label));
+    outFile.write(reinterpret_cast<const char*>(&nodeId), sizeof(nodeId));
+    outFile.close();
+
+    // try to load the corrupted map
+    REQUIRE_THROWS_WITH(
+        load_map_from_binary(filename, graph),
+        Catch::Contains("Node ID not found in graph")
+    );
+
+    string path = "datasets/smallscale/" + filename;
+    remove(path.c_str());
+    graph.clear();
 }

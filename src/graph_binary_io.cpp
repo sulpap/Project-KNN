@@ -2,34 +2,37 @@
 #include <fstream>
 #include <cstdint>
 
-// --Format of the Binary File:--
-// number of nodes N (uint32_t)
+// --Format of the Binary File for Graph:--
+// Graph ID | number of nodes N (uint32_t)
 // For each node:
 // 	Node ID (int)
-// 	Label (int)
+//  Node's Graph ID (int)
 // 	Coordinates (vector of float --> array of floats)
+// 	Label (int)
 // 	Number of neighbors M (uint32_t)
 // 	IDs of neighbors (list of int)
 
 // example:
-// N
-// ID_of_1st_node | C | d1 | d2 | ... | d100 | M | id1 | id2 | ... | idM |
-// ID_of_2nt_node | C | d1 | d2 | ... | d100 | M | id1 | id2 | ... | idM |
+// ID_of_graph N
+// ID_of_1st_node | ID_of_graph(node) | d1 | d2 | ... | d100 | C | M | id1 | id2 | ... | idM |
+// ID_of_2nt_node | ID_of_graph(node) |d1 | d2 | ... | d100 | C | M | id1 | id2 | ... | idM |
 // ...
-// ID_of_N_node | C | d1 | d2 | ... | d100 | M | id1 | id2 | ... | idM |
+// ID_of_N_node | ID_of_graph(node) | d1 | d2 | ... | d100 | C | M | id1 | id2 | ... | idM |
 
 using namespace std;
 
 void save_graph_to_binary(const Graph &graph, const string &filename)
 {
-    ofstream outFile(filename, ios::binary);
+    string path = "datasets/smallscale/" + filename;
+
+    ofstream outFile(path, ios::binary);
     if (!outFile.is_open())
     {
         cerr << "Error opening file for writing: " << filename << endl;
         return;
     }
 
-    // write graphId
+    // write graphId of the graph
     int graphId = graph.getGraphId();
     outFile.write(reinterpret_cast<const char *>(&graphId), sizeof(graphId));
 
@@ -40,9 +43,11 @@ void save_graph_to_binary(const Graph &graph, const string &filename)
     // write the nodes
     for (const auto &[id, nodePtr] : graph.getAdjList())
     {
+        // write their ids
         int idd = nodePtr->getId();
         outFile.write(reinterpret_cast<const char *>(&idd), sizeof(idd));
 
+        // write graphId of the node
         int graphId = nodePtr->getGraphId();
         outFile.write(reinterpret_cast<const char *>(&graphId), sizeof(graphId));
 
@@ -71,7 +76,9 @@ void save_graph_to_binary(const Graph &graph, const string &filename)
 
 Graph load_graph_from_binary(const string &filename)
 {
-    ifstream inFile(filename, ios::binary);
+    string path = "datasets/smallscale/" + filename;
+
+    ifstream inFile(path, ios::binary);
     if (!inFile.is_open())
     {
         cerr << "Error opening file for reading: " << filename << endl;
@@ -144,4 +151,79 @@ Graph load_graph_from_binary(const string &filename)
 
     inFile.close();
     return graph;
+}
+
+// --Format of the Binary File for Map M:--
+//  number of nodes in M
+//  For each node:
+//      Label (int), Node ID (int)
+
+void save_map_to_binary(const map<int, Node *> &M, const string &filename)
+{
+    string path = "datasets/smallscale/" + filename;
+
+    ofstream outFile(path, ios::binary);
+    if (!outFile.is_open())
+    {
+        cerr << "Error opening file for writing: " << filename << endl;
+        return;
+    }
+
+    // write the number of entries in the map
+    int mapSize = M.size();
+    outFile.write(reinterpret_cast<const char *>(&mapSize), sizeof(mapSize));
+
+    // write each key-value pair (Label, Node ID)
+    for (const auto &[label, nodePtr] : M)
+    {
+        outFile.write(reinterpret_cast<const char *>(&label), sizeof(label));
+
+        int nodeId = nodePtr->getId();
+        outFile.write(reinterpret_cast<const char *>(&nodeId), sizeof(nodeId));
+    }
+
+    outFile.close();
+}
+
+map<int, Node *> load_map_from_binary(const string &filename, const Graph &graph)
+{
+    string path = "datasets/smallscale/" + filename;
+
+    ifstream inFile(path, ios::binary);
+    if (!inFile.is_open())
+    {
+        cerr << "Error opening file for reading: " << filename << endl;
+        throw runtime_error("File not found or cannot be opened");
+    }
+
+    map<int, Node *> M;
+
+    // read the number of entries in the map
+    int mapSize;
+    inFile.read(reinterpret_cast<char *>(&mapSize), sizeof(mapSize));
+
+    for (int i = 0; i < mapSize; ++i)
+    {
+        // retrieve the label
+        int label;
+        inFile.read(reinterpret_cast<char *>(&label), sizeof(label));
+
+        // retrieve the Node ID
+        int nodeId;
+        inFile.read(reinterpret_cast<char *>(&nodeId), sizeof(nodeId));
+
+        // retrieve the Node* from the graph using the Node ID
+        Node *nodePtr = graph.getNode(nodeId);
+        if (nodePtr == nullptr)
+        {
+            cerr << "Error: Node ID " << nodeId << " not found in graph." << endl;
+            throw runtime_error("Node ID not found in graph");
+        }
+
+        // insert into the map to rebuild it
+        M[label] = nodePtr;
+    }
+
+    inFile.close();
+    return M;
 }
