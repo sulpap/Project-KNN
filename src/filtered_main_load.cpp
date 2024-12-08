@@ -17,8 +17,8 @@ int main(int argc, char* argv[])
 {
     auto total_start = chrono::high_resolution_clock::now();
 
-    if (argc != 6) {
-        cout << "Usage: " << argv[0] << " <k> <L> <graph_filename> <queries_file_path> <groundtruth_file_path> " << endl;
+    if (argc != 5) {
+        cout << "Usage: " << argv[0] << " <k> <graph_filename> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         return 1;
     }
@@ -26,13 +26,26 @@ int main(int argc, char* argv[])
     cout << "\nFilteredVamana procedure that loads the graph starting..." << endl;
 
     int k = atoi(argv[1]);
-    int L = atoi(argv[2]);
-    string graph_filename = argv[3];
+    string graph_filename = argv[2];
+
+    // find L from filename
+    int L = -1; // Default value in case L is not found
+    size_t pos_L = graph_filename.find("L=");
+
+    if (pos_L != string::npos) {
+        size_t pos_start = pos_L + 2;  // Skip past "L="
+        size_t pos_end = graph_filename.find('_', pos_start);
+        if (pos_end == string::npos) {
+            pos_end = graph_filename.length(); // in case "L=" is the last part
+        }
+        string L_str = graph_filename.substr(pos_start, pos_end - pos_start);
+        L = stoi(L_str); // Convert substring to integer
+    }
 
 // Query File
     cout << "Loading Query dataset..." << endl;
     auto start = chrono::high_resolution_clock::now();
-    vector<vector<float>> queries_f = queriesbin_read(argv[4]);
+    vector<vector<float>> queries_f = queriesbin_read(argv[3]);
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> query_f_duration = end - start;
     cout << "Loaded " << queries_f.size() << " query points from the Query dataset in " << query_f_duration.count() << " seconds." << endl;

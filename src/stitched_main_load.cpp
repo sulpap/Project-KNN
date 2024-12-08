@@ -14,5 +14,7 @@ using namespace std;
 
 int main(int argc, char* argv[]) {
 
+    cout << "\nStitchedVamana procedure that loads the graph starting..." << endl;
+
     return 0;
 }

@@ -15,11 +15,10 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 7) 
+    if (argc != 6) 
     {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path>" << endl;
-        cout << "Note: k must be an int\n";
-        cout << "      L must be an int\n";
+        cout << "Usage: " << argv[0] << " <L> <R> <a> <t> <base_file_path>" << endl;
+        cout << "Note: L must be an int\n";
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
         cout << "      t must be an int" << endl;
@@ -28,16 +27,15 @@ int main(int argc, char* argv[])
 
     cout << "\nFilteredVamana procedure that saves the graph starting..." << endl;
 
-    int k = atoi(argv[1]);
-    int L = atoi(argv[2]);
-    int R = atoi(argv[3]);
-    double a = stod(argv[4]);
-    int taph = atoi(argv[5]);
+    int L = atoi(argv[1]);
+    int R = atoi(argv[2]);
+    double a = stod(argv[3]);
+    int taph = atoi(argv[4]);
 
 // Base File
     cout << "\nLoading Base dataset..." << endl;
     auto start = chrono::high_resolution_clock::now();
-    vector<vector<float>> points_f = databin_read(argv[6]);
+    vector<vector<float>> points_f = databin_read(argv[5]);
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> base_f_duration = end - start;
     cout << "Loaded " << points_f.size() << " points from the Base dataset in " << base_f_duration.count() << " seconds." << endl;
@@ -65,9 +63,9 @@ int main(int argc, char* argv[])
     chrono::duration<double> filtered_vamana_duration = end - start;
     cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
 
-    // save the graph and the map to binary files. graph file contains k and L in its name, so we can know their values at all times
+    // save the graph and the map to binary files. graph file contains vamana's parameters in its name, so we can know their values at all times
     // to call filtered_main_load with the correct parameters
-    string graph_filename = "filtered_graph_k=" + to_string(k) + "_L=" + to_string(L);
+    string graph_filename = "filtered_graph_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_taph=" + to_string(taph);
     cout << "Saving the graph to '" << graph_filename << ".bin' and the map of medoids in 'filtered_map.bin' ..." << endl;
     save_graph_to_binary(graph, graph_filename);
     save_map_to_binary(M, "filtered_map");
