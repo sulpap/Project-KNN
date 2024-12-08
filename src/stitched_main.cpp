@@ -264,6 +264,18 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    cout << "\nQueries:\n";
+
+    cout << "\t- Total: " << totalQueriesSize << endl;
+    cout << "\t- Filtered: " << totalFilteredQueriesSize << endl;
+    cout << "\t- Unfiltered: " << totalUnfilteredQueriesSize << endl;
+
+    float filteredPercentage = (100 * totalFilteredQueriesSize) / totalQueriesSize;
+    cout << "\t- Percentage of Filtered: " << filteredPercentage << "%" << endl;
+
+    float unfilteredPercentage = (100 * totalUnfilteredQueriesSize) / totalQueriesSize;
+    cout << "\t- Percentage of Unfiltered: " << unfilteredPercentage << "%" << endl;
+
     // Calculate total recall across all queries
     cout << "\nRecalls:\n";
 

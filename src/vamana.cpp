@@ -31,16 +31,21 @@
 //     return medoidIndex;
 // }
 
-int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int int_L, int f)
+int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 {
-    unordered_map<int, int> indexes; // <position, id>
-    generate_graph(graph, coords, R, f, indexes);
+    // unordered_map<int, int> indexes; // <position, id>
 
-    int medoidIndex = findMedoid(coords);
+    vector<vector<double>> actual_coords;
 
-    // get the correct nodeId -> match the index with the nodeId
-    int medoidNodeId = indexes[medoidIndex];
-    Node *medoid = graph.getNode(medoidNodeId);
+    for (Node *node : coords) {
+        actual_coords.push_back(node->getCoordinates());
+    }
+
+    generate_graph(graph, coords, R);
+
+    int medoidNodeId = findMedoid(actual_coords);
+
+    Node *medoid = graph.getNode(coords[medoidNodeId]->getId());
 
     if (medoid == nullptr)
     {
@@ -60,12 +65,12 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
     {
         set<Node *> V_set;
         set<Node *> L_set;
-        GreedySearch(medoid, coords[point_id], 1, int_L, L_set, V_set);
+        GreedySearch(medoid, actual_coords[point_id], 1, int_L, L_set, V_set);
 
-        Node *sigma_i = graph.getNode(f * OFFSET + point_id);
+        Node *sigma_i = graph.getNode(coords[point_id]->getId());
         if (sigma_i == nullptr)
         {
-            cerr << "Error: Node with ID " << point_id << " not found in the graph." << endl;
+            cerr << "Error: Node with ID " << coords[point_id]->getId() << " not found in the graph." << endl;
             continue; // skip this iteration or handle the error appropriately
         }
 
@@ -94,5 +99,5 @@ int Vamana(Graph &graph, vector<vector<double>> &coords, int R, double a, int in
         }
     }
 
-    return medoidNodeId;
+    return coords[medoidNodeId]->getId();
 }
