@@ -181,7 +181,7 @@ int main(int argc, char* argv[]) {
     auto total_end = chrono::high_resolution_clock::now();
     chrono::duration<double> total_duration = total_end - total_start;
     cout << "Program ran in " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes." << endl;
-    cout << "Bye from main" << endl;
+    cout << "Bye from main!" << endl;
     return 0;
 }
 
