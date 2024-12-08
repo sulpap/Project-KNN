@@ -15,9 +15,9 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
-    if (argc != 8) 
+    if (argc != 7) 
     {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path>" << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
@@ -26,13 +26,13 @@ int main(int argc, char* argv[])
         return 1;
     }
 
+    cout << "\nFilteredVamana procedure that saves the graph starting..." << endl;
+
     int k = atoi(argv[1]);
     int L = atoi(argv[2]);
     int R = atoi(argv[3]);
     double a = stod(argv[4]);
     int taph = atoi(argv[5]);
-
-    cout << "\nFilteredVamana procedure that saves the graph starting..." << endl;
 
 // Base File
     cout << "\nLoading Base dataset..." << endl;
@@ -48,20 +48,6 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
     vector<vector<double>> points = convert_to_double(points_f);
-
-// Groundtruth File
-    cout << "Loading Groundtruth dataset..." << endl;
-    start = chrono::high_resolution_clock::now();
-    vector<vector<int>> gt = gtbin_read(argv[7], k);
-    end = chrono::high_resolution_clock::now();
-    chrono::duration<double> ground_truth_duration = end - start;
-    cout << "Loaded " << gt.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
-
-    // Check size of ground_truth
-    if (gt.empty()) {
-        cout << "No ground_truth sets read from the file." << endl;
-        return EXIT_FAILURE;
-    }
     
 // set F_all_filters
     set<int> F_all_filters;
@@ -79,14 +65,17 @@ int main(int argc, char* argv[])
     chrono::duration<double> filtered_vamana_duration = end - start;
     cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
 
-    cout << "Saving the graph to 'filtered_graph.bin' and the map of medoids in 'filtered_map.bin' ..." << endl;
-    save_graph_to_binary(graph, "filtered_graph");
+    // save the graph and the map to binary files. graph file contains k and L in its name, so we can know their values at all times
+    // to call filtered_main_load with the correct parameters
+    string graph_filename = "filtered_graph_k=" + to_string(k) + "_L=" + to_string(L);
+    cout << "Saving the graph to '" << graph_filename << ".bin' and the map of medoids in 'filtered_map.bin' ..." << endl;
+    save_graph_to_binary(graph, graph_filename);
     save_map_to_binary(M, "filtered_map");
 
     cout << "Graph and map saved successfully! Cleaning..." << endl;
     graph.clear();
 
-    cout << "Bye from filtered_main_graph" << endl;
+    cout << "Bye from filtered_main_graph!" << endl;
     
     return 0;
 }
