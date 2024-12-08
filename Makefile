@@ -14,21 +14,33 @@ TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 
 # Specific source files for each executable
 FILTERED_MAIN_SRC = $(SRCDIR)/filtered_main.cpp
+FILTERED_MAIN_GRAPH_SRC = $(SRCDIR)/filtered_main_graph.cpp
 STITCHED_MAIN_SRC = $(SRCDIR)/stitched_main.cpp
 CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
-COMMON_SRC = $(filter-out $(FILTERED_MAIN_SRC) $(STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
+COMMON_SRC = $(filter-out $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
+# filtered main
 FILTERED_MAIN_OBJ = $(OBJDIR)/filtered_main.o
+FILTERED_MAIN_GRAPH_OBJ = $(OBJDIR)/filtered_main_graph.o
+
+# stitched main
 STITCHED_MAIN_OBJ = $(OBJDIR)/stitched_main.o
+
+# calculate groundtruth main
 CALC_GT_OBJ = $(OBJDIR)/calculate_groundtruth.o
+
+# common (not main)
 COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
 TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-all: $(BINDIR)/filtered_main $(BINDIR)/stitched_main $(BINDIR)/calculate_groundtruth # test
+all: $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main $(BINDIR)/calculate_groundtruth # test
 
 # Build main executable
 $(BINDIR)/filtered_main: $(FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/filtered_main_graph: $(FILTERED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/stitched_main: $(STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
