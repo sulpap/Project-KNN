@@ -22,14 +22,13 @@ int main(int argc, char* argv[]) {
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
         cout << "      R_stitched must be an int" << endl;
-        // cout << "      approach must be either \"Filtered\" or \"Stitched\"" << endl;
         return 1;
     }
 
     chrono::duration<double> base_f_duration;
     chrono::duration<double> query_f_duration;
     chrono::duration<double> ground_truth_duration;
-    chrono::duration<double> filtered_vamana_duration;
+    chrono::duration<double> stitched_vamana_duration;
     chrono::duration<double> average_query_greedy_duration;
     chrono::duration<double> average_filtered_query_greedy_duration;
     chrono::duration<double> average_unfiltered_query_greedy_duration;
@@ -43,7 +42,6 @@ int main(int argc, char* argv[]) {
     int R = stoi(argv[3]);
     double a = stod(argv[4]);
     int R_stitched = stoi(argv[5]);
-    // const char* approach = argv[6];
     const char* base_filename = argv[6];
     const char* query_filename = argv[7];
     const char* groudtruth_filename = argv[8];
@@ -54,7 +52,6 @@ int main(int argc, char* argv[]) {
     cout << "\t- R: " << R << "\n";
     cout << "\t- a: " << a << "\n";
     cout << "\t- R_stitched: " << R_stitched << "\n";
-    // cout << "\t- Approach: " << approach << "\n";
     cout << "\t- Base file: " << base_filename << "\n";
     cout << "\t- Query file: " << query_filename << "\n";
     cout << "\t- Groudtruth file: " << groudtruth_filename << endl;
@@ -114,26 +111,12 @@ int main(int argc, char* argv[]) {
     // 3. Call Vamana.
     Graph graph;
     map<int, Node *> st_f;
-    cout << "\nCalling FilteredVamana..." << endl;
+    cout << "\nCalling StitchedVamana..." << endl;
     start = chrono::high_resolution_clock::now();
-    // int medoid_id = Vamana(graph, base, R, a, L, 0);
-    // graph = filteredVamana(base, a, L, R, set_F, t, st_f);
     graph = stitchedVamana(base, set_F, a, L, R, R_stitched, st_f);
     end = chrono::high_resolution_clock::now();
-    filtered_vamana_duration = end - start;
-    cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
-
-    // Node* medoid = graph.getNode(medoid_id);
-    // cout << "Start Node for Every Filter:\n";
-    // // for
-    // cout << "\t- filter:\n"
-    // cout << "\t\t- Id: " << medoid->getId() << "\n";
-    // cout << "\t\t- GraphId: " << medoid->getGraphId() << "\n";
-    // cout << "\t\t- Coordinates:";
-    // for (double i: medoid->getCoordinates()) {
-    //     cout << " " << i;
-    // }
-    // cout << endl;
+    stitched_vamana_duration = end - start;
+    cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
 
     // 4. Call Greedy for every query.
     // ALL
@@ -154,19 +137,15 @@ int main(int argc, char* argv[]) {
 
     int starting_k = k;
 
-    set<Node *> full_S_set;
-    for (const auto& pair : st_f) {
-        full_S_set.insert(pair.second);
-    }
-
-    // for(int i = 0; i < static_cast<int>(queries.size()); i++) {
-    for(int i = 0; i < 100; i++) {
+    for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    // for(int i = 0; i < 100; i++) {
         vector<double> query = queries[i];
         set<Node*> L_set;
         set<Node*> V_set;
         set<Node*> S_set;
         set<int> F_q_set;
         vector<int> gt_sol = ground_truth[i];
+        vector<double> query_coords(query.begin() + 2, query.end());
         int gt_size = static_cast<int>(gt_sol.size());
         if (starting_k > gt_size) {
             k = gt_size;
@@ -174,22 +153,39 @@ int main(int argc, char* argv[]) {
             k = starting_k;
         }
 
-        // Πρέπει να κάνω μια if για τα φίλτρα του query, ώστε να καθορίζω τα S_set και F_q_set για τον fgs
-        // πως παίρνω το φίλτρο από το query. Ποια η διαφορά type 0 vs 1
-
         int query_F = query[1];
 
         if (query_F == -1) {
-            S_set = full_S_set;
+            for (int label : set_F) {
+                set<Node*> temp_S_set;
+                set<int> temp_F_q_set;
+                set<Node*> temp_L_set;
+                set<Node*> temp_V_set;
+                temp_S_set.insert(st_f[label]);
+                temp_F_q_set.insert(label);
+
+                start = chrono::high_resolution_clock::now();
+                FilteredGreedySearch(temp_S_set, query_coords, 1, L, temp_L_set, temp_V_set, temp_F_q_set);
+                end = chrono::high_resolution_clock::now();
+                chrono::duration<double> duration = end - start;
+                total_query_greedy_duration += duration;
+                total_unfiltered_query_greedy_duration += duration;
+
+                S_set.insert(*temp_L_set.begin());
+            }
             F_q_set = set_F;
         } else {
-            S_set.insert(st_f[query_F]);
+            if (st_f.find(query_F) != st_f.end()) {     // found
+                S_set.insert(st_f[query_F]);
+            }
+            // else: st_f not found, and so S_set will be empty (there exists no start node with filter = query_F)
+                // S_set will be empty
             F_q_set.insert(query_F);
         }
 
-        cout << "Calling FilteredGreedySearch for " << i << "th query with filter: " << query_F << endl;
+        cout << "Calling FilteredGreedySearch for " << i << "th query with label " << query_F << ". . ." << endl;
         start = chrono::high_resolution_clock::now();
-        FilteredGreedySearch(S_set, query, k, L, L_set, V_set, F_q_set);
+        FilteredGreedySearch(S_set, query_coords, starting_k, L, L_set, V_set, F_q_set);
         end = chrono::high_resolution_clock::now();
         chrono::duration<double> duration = end - start;
         total_query_greedy_duration += duration;
@@ -200,25 +196,28 @@ int main(int argc, char* argv[]) {
         }
         cout << "GreedySearch for " << i << "th query took " << duration.count() << " seconds." << endl;
 
-        // 6. Compare greedy with ground truth
-        // Paizei na min xreiazetai
-        // if (k > static_cast<int>(gt_sol.size())) {
-        //     cout << "ERROR: For query (zero based) #"<< i << " can't compare greedy vs ground truth. Could compare with k up to " << gt_sol.size() << endl;
-        //     return EXIT_FAILURE;
-        // }
-        // we only need the top k results of ground truth to compare
-        vector<int> gt(gt_sol.begin(), gt_sol.begin() + k);
+        // 5. Compare greedy with ground truth
 
         // We traverse L_set
         int found = 0;
         for (auto node : L_set) {
             int id_L = node->getId();
-            if (find(gt.begin(), gt.end(), id_L) != gt.end()) {
+            if (find(gt_sol.begin(), gt_sol.end(), id_L) != gt_sol.end()) {
                 found++;
             }
         }
 
-        float percent = (100 * found) / (float)k;
+        float percent;
+
+        if (k == 0) {
+            if (found == 0) {
+                percent = 100.0;
+            } else {
+                percent = 0.0;
+            }
+        } else {
+            percent = (100 * found) / (float)k;
+        }
         cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
     
         // Accumulate totals for overall and average recall
@@ -228,17 +227,39 @@ int main(int argc, char* argv[]) {
         totalQueriesSize++;
 
         if (query_F == -1) {
-            totalFilteredFound += found;
-            totalFilteredK += k;
-            totalFilteredPercent += percent;
-            totalFilteredQueriesSize++;
-        } else {
             totalUnfilteredFound += found;
             totalUnfilteredK += k;
             totalUnfilteredPercent += percent;
             totalUnfilteredQueriesSize++;
+        } else {
+            totalFilteredFound += found;
+            totalFilteredK += k;
+            totalFilteredPercent += percent;
+            totalFilteredQueriesSize++;
         }
     }
+
+    cout << "\nArguments:\n";
+    cout << "\t- k: " << k << "\n";
+    cout << "\t- L: " << L << "\n";
+    cout << "\t- R: " << R << "\n";
+    cout << "\t- a: " << a << "\n";
+    cout << "\t- R_stitched: " << R_stitched << "\n";
+    cout << "\t- Base file: " << base_filename << "\n";
+    cout << "\t- Query file: " << query_filename << "\n";
+    cout << "\t- Groudtruth file: " << groudtruth_filename << endl;
+
+    cout << "\nQueries:\n";
+
+    cout << "\t- Total: " << totalQueriesSize << endl;
+    cout << "\t- Filtered: " << totalFilteredQueriesSize << endl;
+    cout << "\t- Unfiltered: " << totalUnfilteredQueriesSize << endl;
+
+    float filteredPercentage = (100 * totalFilteredQueriesSize) / totalQueriesSize;
+    cout << "\t- Percentage of Filtered: " << filteredPercentage << "%" << endl;
+
+    float unfilteredPercentage = (100 * totalUnfilteredQueriesSize) / totalQueriesSize;
+    cout << "\t- Percentage of Unfiltered: " << unfilteredPercentage << "%" << endl;
 
     // Calculate total recall across all queries
     cout << "\nRecalls:\n";
@@ -261,21 +282,24 @@ int main(int argc, char* argv[]) {
     float averageUnfilteredRecall = totalUnfilteredPercent / totalUnfilteredQueriesSize;
     cout << "\t- Average recall across UNFILTERED queries (totalUnfilteredPercent/number_of_unfiltered_queries): " << averageUnfilteredRecall << "%\n" << endl;
 
-    // 5. Print Summary
+    // 6. Print Summary
     average_query_greedy_duration = total_query_greedy_duration / totalQueriesSize;
     average_filtered_query_greedy_duration = total_filtered_query_greedy_duration / totalFilteredQueriesSize;
     average_unfiltered_query_greedy_duration = total_unfiltered_query_greedy_duration / totalUnfilteredQueriesSize;
 
     cout << "Timing Summary:\n";
-    cout << "\t- Base dataset load time: " << base_f_duration.count() << "seconds.\n";
-    cout << "\t- Query dataset load time: " << query_f_duration.count() << "seconds.\n";
-    cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << "seconds.\n";
-    cout << "\t- Index build time (StitchedVamana): " << filtered_vamana_duration.count() << "seconds.\n";
-    cout << "\t- Average time GreadySearch ran for ALL queries: " << average_query_greedy_duration.count() << " seconds.\n";
-    cout << "\t- Average time GreadySearch ran for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
-    cout << "\t- Average time GreadySearch ran for UNFILTERED queries: " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;
+    cout << "\t- Base dataset load time: " << base_f_duration.count() << " seconds.\n";
+    cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
+    cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
+    cout << "\t- Index build time (StitchedVamana): " << stitched_vamana_duration.count() << " second or " << stitched_vamana_duration.count() / 60 << " minutes.\n";
+    cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Total time FilteredGreadySearch calculation took for UNFILTERED queries (with the calculation of their starting nodes): " << total_unfiltered_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Average time FilteredGreadySearch took for ALL queries: " << average_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Average time FilteredGreadySearch took for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Average time FilteredGreadySearch took for UNFILTERED queries (with the calculation of their starting nodes): " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;
     
-    // 6. Clean up
+    // 7. Clean up
     cout << "Cleaning...\n" << endl;
     graph.clear();      // once done
 

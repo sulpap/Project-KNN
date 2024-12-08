@@ -133,7 +133,7 @@ TEST_CASE("compute_PfMap function test")
     };
     set<int> F = {0, 1, 2};
 
-    unordered_map<int, vector<vector<double>>> PfMap = compute_PfMap(coords, F);
+    unordered_map<int, vector<Node *>> PfMap = compute_PfMap(coords, F);
 
     // PfMap should have entries for each label in F
     REQUIRE(PfMap.size() == F.size());
@@ -144,8 +144,9 @@ TEST_CASE("compute_PfMap function test")
     REQUIRE(PfMap[2].size() == 1); // one point with label 2
 
     // validate coordinates for a specific label (ex. 0)
-    vector<vector<double>> expectedCoords0 = {{1.0, 2.0}, {5.0, 6.0}};
-    REQUIRE(PfMap[0] == expectedCoords0);
+    vector<int> expectedCoords0 = {0, 2};
+    REQUIRE(PfMap[0][0]->getId() == expectedCoords0[0]);
+    REQUIRE(PfMap[0][1]->getId() == expectedCoords0[1]);
 }
 
 TEST_CASE("store_medoid function test")

@@ -12,27 +12,30 @@ TEST_CASE("Test generate_graph basic functionality")
     vector<vector<double>> coords = {
         {1.0, 2.0, 3.0},
         {4.0, 5.0, 6.0},
-        {7.0, 8.0, 9.0}};
+        {7.0, 8.0, 9.0}
+    };
+
+    vector<Node *> nodes;
+
+    for (size_t i = 0 ; i < coords.size() ; i++) {
+        vector<double> point_coords(coords[i]);
+        Node *tempNode = new Node(i, point_coords, {}, 0);
+        nodes.push_back(tempNode);
+    }
+
     int R = 2;
 
     Graph graph;
-    unordered_map<int, int> indexes;
-    generate_graph(graph, coords, R, 0, indexes);
+    generate_graph(graph, nodes, R);
 
     // check that 3 nodes have been added
     int nodecount = graph.getNodeCount();
     REQUIRE(nodecount == 3);
     
     // verify that nodes have the correct coordinates
-    REQUIRE(graph.getNode(0 * OFFSET + 0)->getCoordinates() == coords[0]);
-    REQUIRE(graph.getNode(0 * OFFSET + 1)->getCoordinates() == coords[1]);
-    REQUIRE(graph.getNode(0 * OFFSET + 2)->getCoordinates() == coords[2]);
-
-    // ensure indexes work correctly
-    REQUIRE(indexes.size() == 3); // 3 nodes so 3 indexes
-    REQUIRE(graph.getNode(0 * OFFSET + 0)->getId()  == indexes[0]);
-    REQUIRE(graph.getNode(0 * OFFSET + 1)->getId()  == indexes[1]);
-    REQUIRE(graph.getNode(0 * OFFSET + 2)->getId()  == indexes[2]);
+    REQUIRE(graph.getNode(0)->getCoordinates() == coords[0]);
+    REQUIRE(graph.getNode(1)->getCoordinates() == coords[1]);
+    REQUIRE(graph.getNode(2)->getCoordinates() == coords[2]);
 
     // ensure that each node has R edges and that label is as declared (0)
     for (int i = 0; i < 3; ++i)
@@ -53,12 +56,21 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         {1.0, 1.0, 1.0},
         {2.0, 2.0, 2.0},
         {3.0, 3.0, 3.0},
-        {4.0, 4.0, 4.0}};
+        {4.0, 4.0, 4.0}
+    };
+
+    vector<Node *> nodes;
+
+    for (size_t i = 0 ; i < coords.size() ; i++) {
+        vector<double> point_coords(coords[i]);
+        Node *tempNode = new Node(i, point_coords, {}, -1);
+        nodes.push_back(tempNode);
+    }
+
     int R = 3;
 
     Graph graph;
-    unordered_map<int, int> indexes;
-    generate_graph(graph, coords, R, 0, indexes);
+    generate_graph(graph, nodes, R);
 
     // verify that there are no self-loops
     for (int i = 0; i < 4; ++i)
