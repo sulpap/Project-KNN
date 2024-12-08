@@ -72,10 +72,10 @@ int main(int argc, char* argv[])
     save_graph_to_binary(graph, graph_filename);
     save_map_to_binary(M, "filtered_map");
 
-    cout << "Graph and map saved successfully! Cleaning..." << endl;
+    cout << "\nGraph and map saved successfully! Cleaning..." << endl;
     graph.clear();
 
-    cout << "Bye from filtered_main_graph!" << endl;
+    cout << "\nBye from filtered_main_graph!" << endl;
     
     return 0;
 }

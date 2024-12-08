@@ -23,7 +23,7 @@ using namespace std;
 
 void save_graph_to_binary(const Graph &graph, const string &filename)
 {
-    string path = "bin/" + filename;
+    string path = "datasets/smallscale/" + filename;
 
     ofstream outFile(path, ios::binary);
     if (!outFile.is_open())
@@ -76,7 +76,7 @@ void save_graph_to_binary(const Graph &graph, const string &filename)
 
 Graph load_graph_from_binary(const string &filename)
 {
-    string path = "bin/" + filename;
+    string path = "datasets/smallscale/" + filename;
 
     ifstream inFile(path, ios::binary);
     if (!inFile.is_open())
@@ -160,7 +160,7 @@ Graph load_graph_from_binary(const string &filename)
 
 void save_map_to_binary(const map<int, Node *> &M, const string &filename)
 {
-    string path = "bin/" + filename;
+    string path = "datasets/smallscale/" + filename;
 
     ofstream outFile(path, ios::binary);
     if (!outFile.is_open())
@@ -187,7 +187,7 @@ void save_map_to_binary(const map<int, Node *> &M, const string &filename)
 
 map<int, Node *> load_map_from_binary(const string &filename, const Graph &graph)
 {
-    string path = "bin/" + filename;
+    string path = "datasets/smallscale/" + filename;
 
     ifstream inFile(path, ios::binary);
     if (!inFile.is_open())
