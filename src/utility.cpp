@@ -10,7 +10,8 @@
 #include <cassert>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2)
-{
+{   
+    assert(coords1.size() == coords2.size());
     double sum = 0.0;
     double dist = 0.0;
 
