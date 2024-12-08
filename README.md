@@ -1,10 +1,10 @@
 # Project-KNN (1o Παραδοτέο)
 
-Θεοδοσία Παπαδήμα 1115202000162
+Θεοδοσία Παπαδήμα 1115202000162  sdi2000162@di.uoa.gr
 
-Γιώργος Κορύλλος 1115202100069
+Γιώργος Κορύλλος 1115202100069  sdi2100069@di.uoa.gr
 
-Βασιλική Τσαντήλα 1115201800199
+Βασιλική Τσαντήλα 1115201800199  sdi1800199@di.uoa.gr
 
 ### Οδηγίες εκτέλεσης
 Για να τρέξετε την main:
@@ -13,9 +13,9 @@
 * Εκτελείτε την εντολή: chmod +x run.sh
 * Εκτελείτε την εντολή: ./run.sh
 
-π.χ. 1: ./bin/main 20 40 80 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+π.χ. 1: ./bin/first_main 20 40 80 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
-π.χ. 2: ./bin/main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+π.χ. 2: ./bin/first_main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 Για να τρέξετε τα test:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
