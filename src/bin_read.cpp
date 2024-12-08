@@ -6,6 +6,7 @@
 #include <string>
 #include <vector>
 #include <algorithm>                // sort
+#include <cstdint>                  // due to uint32_t
 
 #include "assert.h"
 using namespace std;
