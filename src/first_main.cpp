@@ -12,6 +12,7 @@
 
 using namespace std;
 
+// Main 1ου παραδοτέου:
 int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
 
@@ -193,8 +194,8 @@ int main(int argc, char* argv[]) {
 
 /*
 [0] Examples of execution (Must be in the directory that Makefile is):
-./bin/main 20 40 80 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+./bin/first_main 20 40 80 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
-./bin/main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
+./bin/first_main 100 200 60 1.2 datasets/siftsmall/siftsmall_base.fvecs datasets/siftsmall/siftsmall_query.fvecs datasets/siftsmall/siftsmall_groundtruth.ivecs
 
 */
