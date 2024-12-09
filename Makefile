@@ -15,34 +15,30 @@ TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 # Specific source files for each executable
 FIRST_MAIN_SRC = $(SRCDIR)/first_main.cpp
 
+MAIN_LOAD_SRC = $(SRCDIR)/main_load.cpp
+
 FILTERED_MAIN_SRC = $(SRCDIR)/filtered_main.cpp
 FILTERED_MAIN_GRAPH_SRC = $(SRCDIR)/filtered_main_graph.cpp
-FILTERED_MAIN_LOAD_SRC = $(SRCDIR)/filtered_main_load.cpp
-CONFIG_FILTERED_MAIN_SRC = $(SRCDIR)/config_filtered_main.cpp
 
 STITCHED_MAIN_SRC = $(SRCDIR)/stitched_main.cpp
 STITCHED_MAIN_GRAPH_SRC = $(SRCDIR)/stitched_main_graph.cpp
-STITCHED_MAIN_LOAD_SRC = $(SRCDIR)/stitched_main_load.cpp
-CONFIG_STITCHED_MAIN_SRC = $(SRCDIR)/config_stitched_main.cpp
 
 CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
 
-COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(FILTERED_MAIN_LOAD_SRC) $(CONFIG_FILTERED_MAIN_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_LOAD_SRC) $(CONFIG_STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
+COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(MAIN_LOAD_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
 # first (old) main
 FIRST_MAIN_OBJ = $(OBJDIR)/first_main.o
 
+MAIN_LOAD_OBJ = $(OBJDIR)/main_load.o
+
 # filtered main
 FILTERED_MAIN_OBJ = $(OBJDIR)/filtered_main.o
 FILTERED_MAIN_GRAPH_OBJ = $(OBJDIR)/filtered_main_graph.o
-FILTERED_MAIN_LOAD_OBJ = $(OBJDIR)/filtered_main_load.o
-CONFIG_FILTERED_MAIN_OBJ = $(OBJDIR)/config_filtered_main.o
 
 # stitched main
 STITCHED_MAIN_OBJ = $(OBJDIR)/stitched_main.o
 STITCHED_MAIN_GRAPH_OBJ = $(OBJDIR)/stitched_main_graph.o
-STITCHED_MAIN_LOAD_OBJ = $(OBJDIR)/stitched_main_load.o
-CONFIG_STITCHED_MAIN_OBJ = $(OBJDIR)/config_stitched_main.o
 
 # calculate groundtruth main
 CALC_GT_OBJ = $(OBJDIR)/calculate_groundtruth.o
@@ -52,12 +48,15 @@ COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
 TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-all: $(BINDIR)/first_main $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/filtered_main_load $(BINDIR)/config_filtered_main $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/stitched_main_load $(BINDIR)/config_stitched_main $(BINDIR)/calculate_groundtruth # test
+all: $(BINDIR)/first_main $(BINDIR)/main_load $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/calculate_groundtruth # test
 
 # ----- Build main executables -----
 
 # first (old) main
 $(BINDIR)/first_main: $(FIRST_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/main_load: $(MAIN_LOAD_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # filtered
@@ -67,23 +66,11 @@ $(BINDIR)/filtered_main: $(FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 $(BINDIR)/filtered_main_graph: $(FILTERED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
-$(BINDIR)/filtered_main_load: $(FILTERED_MAIN_LOAD_OBJ) $(COMMON_OBJ) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
-
-$(BINDIR)/config_filtered_main: $(CONFIG_FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
-
 # stitched
 $(BINDIR)/stitched_main: $(STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/stitched_main_graph: $(STITCHED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
-
-$(BINDIR)/stitched_main_load: $(STITCHED_MAIN_LOAD_OBJ) $(COMMON_OBJ) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
-	
-$(BINDIR)/config_stitched_main: $(CONFIG_STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # calculate_groundtruth
