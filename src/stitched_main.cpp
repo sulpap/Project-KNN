@@ -44,7 +44,7 @@ int main(int argc, char* argv[]) {
     int R_stitched = stoi(argv[5]);
     const char* base_filename = argv[6];
     const char* query_filename = argv[7];
-    const char* groudtruth_filename = argv[8];
+    const char* groundtruth_filename = argv[8];
 
     cout << "Arguments:\n";
     cout << "\t- k: " << k << "\n";
@@ -54,7 +54,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- R_stitched: " << R_stitched << "\n";
     cout << "\t- Base file: " << base_filename << "\n";
     cout << "\t- Query file: " << query_filename << "\n";
-    cout << "\t- Groudtruth file: " << groudtruth_filename << endl;
+    cout << "\t- Groundtruth file: " << groundtruth_filename << endl;
 
     // 2. Read Files
     // Base File
@@ -88,7 +88,7 @@ int main(int argc, char* argv[]) {
     // Groundtruth File
     cout << "Loading Groundtruth dataset..." << endl;
     start = chrono::high_resolution_clock::now();
-    vector<vector<int>> ground_truth = gtbin_read(groudtruth_filename, k);
+    vector<vector<int>> ground_truth = gtbin_read(groundtruth_filename, k);
     end = chrono::high_resolution_clock::now();
     ground_truth_duration = end - start;
     cout << "Loaded " << ground_truth.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
@@ -137,7 +137,9 @@ int main(int argc, char* argv[]) {
 
     int starting_k = k;
 
-    for(int i = 0; i < static_cast<int>(queries.size()); i++) {
+    int queries_size = static_cast<int>(queries.size());
+
+    for(int i = 0; i < queries_size ; i++) {
     // for(int i = 0; i < 100; i++) {
         vector<double> query = queries[i];
         set<Node*> L_set;
@@ -183,7 +185,10 @@ int main(int argc, char* argv[]) {
             F_q_set.insert(query_F);
         }
 
-        cout << "Calling FilteredGreedySearch for " << i << "th query with label " << query_F << ". . ." << endl;
+        // Uncomment below if you want more details for each query
+        // cout << "Calling FilteredGreedySearch for " << i << "th query with label " << query_F << ". . ." << endl;
+        std::cout << "\rCalculating Query " << (i + 1) << "/" << queries_size << std::flush;
+
         start = chrono::high_resolution_clock::now();
         FilteredGreedySearch(S_set, query_coords, starting_k, L, L_set, V_set, F_q_set);
         end = chrono::high_resolution_clock::now();
@@ -194,7 +199,8 @@ int main(int argc, char* argv[]) {
         } else {
             total_filtered_query_greedy_duration += duration;
         }
-        cout << "GreedySearch for " << i << "th query took " << duration.count() << " seconds." << endl;
+        // Uncomment below if you want more details for each query
+        // cout << "GreedySearch for " << i << "th query took " << duration.count() << " seconds." << endl;
 
         // 5. Compare greedy with ground truth
 
@@ -218,7 +224,8 @@ int main(int argc, char* argv[]) {
         } else {
             percent = (100 * found) / (float)k;
         }
-        cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
+        // Uncomment below if you want more details for each query
+        // cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
     
         // Accumulate totals for overall and average recall
         totalFound += found;
@@ -239,7 +246,7 @@ int main(int argc, char* argv[]) {
         }
     }
 
-    cout << "\nArguments:\n";
+    cout << "\n\nArguments:\n";
     cout << "\t- k: " << k << "\n";
     cout << "\t- L: " << L << "\n";
     cout << "\t- R: " << R << "\n";
@@ -247,7 +254,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- R_stitched: " << R_stitched << "\n";
     cout << "\t- Base file: " << base_filename << "\n";
     cout << "\t- Query file: " << query_filename << "\n";
-    cout << "\t- Groudtruth file: " << groudtruth_filename << endl;
+    cout << "\t- Groundtruth file: " << groundtruth_filename << endl;
 
     cout << "\nQueries:\n";
 

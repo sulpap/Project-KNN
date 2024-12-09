@@ -1,7 +1,6 @@
 #include "../include/bin_read.hpp"
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
-#include "../include/filteredVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
 #include "../include/graph_binary_io.hpp"
 #include <chrono>
@@ -23,7 +22,7 @@ int main(int argc, char* argv[])
         return 1;
     }
 
-    cout << "\nFilteredVamana procedure that loads the graph starting..." << endl;
+    cout << "\nProcedure that loads the graph and implements the query calculations starting..." << endl;
 
     int k = atoi(argv[1]);
     string graph_filename = argv[2];
@@ -60,7 +59,7 @@ int main(int argc, char* argv[])
 // Groundtruth File
     cout << "Loading Groundtruth dataset..." << endl;
     start = chrono::high_resolution_clock::now();
-    vector<vector<int>> gt = gtbin_read(argv[5], k);
+    vector<vector<int>> gt = gtbin_read(argv[4], k);
     end = chrono::high_resolution_clock::now();
     chrono::duration<double> ground_truth_duration = end - start;
     cout << "Loaded " << gt.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
@@ -172,6 +171,6 @@ int main(int argc, char* argv[])
     auto total_end = chrono::high_resolution_clock::now();
     chrono::duration<double> total_duration = total_end - total_start;
     cout << "\nProgram ran in " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes." << endl;
-    cout << "\nBye from filtered_main_load!" << endl;
+    cout << "\nBye from main_load!" << endl;
     return 0;
 }
