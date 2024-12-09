@@ -50,7 +50,7 @@ config_stitched_main
 
 ### Διαχωρισμός εργασιών
 
-Ο καθένας ανέλαβε από κάποια βαασικά κομμάτια (filteredGreedySearch, filteredRobustPrune, filtered & stitchedVamana), καθώς και από έναν αριθμό επιμέρους βοηθητικών συναρτήσεων, μαζί με τα unit test που τους αντιστοιχούν.
+Ο καθένας ανέλαβε από κάποια βααικά κομμάτια (filteredGreedySearch, filteredRobustPrune, filtered & stitchedVamana), καθώς και από έναν αριθμό επιμέρους βοηθητικών συναρτήσεων, μαζί με τα unit test που τους αντιστοιχούν.
 
 ### Σχεδιαστικές επιλογές
 
