@@ -40,9 +40,9 @@ config_stitched_main
 
 `To run the tests`     
     ```
-    Πηγαίνουμε στο directory που είναι το Makefile
-    make test
-    ./bin/test
+    Πηγαίνουμε στο directory που είναι το Makefile    
+    make test    
+    ./bin/test   
     ```
 
 Με την εντολή make valgrind τρέχει το valgrind για τα test.
