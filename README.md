@@ -102,8 +102,21 @@ config_stitched_main
     - PC 3:
 
 * Stitched (με R_stitched = 2):
-    - PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
-    - PC 2:
-    - PC 3:
+- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds).
+- PC 2:
+- PC 3:
+
+Παράδειγμα εκτέλεσης για k = 100, L = 110, R = 96, a = 1.2:
+
+* Filtered (με τ = 55):
+- PC 1: 814.093 seconds or 13.5682 minutes (FilteredVamana: 318.533 seconds, queries: 0.0984857 seconds)
+- PC2: 182.79 seconds or 3.0465 minutes (FilteredVamana: 64.286 seconds, queries: 118.248 seconds).
+- PC 3:
+
+* Stitched (με R_stitched = 98):
+- PC 1: 954.395 seconds or 15.9066 minutes (StitchedVamana: 385.931 seconds, queries 567.07 seconds)
+- PC 2: 
+- PC 3:
+
 
 Δεν υπάρχουν διαρροές μνήμης.
