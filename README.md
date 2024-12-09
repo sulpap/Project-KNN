@@ -42,11 +42,14 @@ config_stitched_main
     - Πηγαίνουμε στο directory που είναι το Makefile
     - make test
     - ./bin/test
+ 
+- To run the tests with valgrind:
+    - Πηγαίνουμε στο directory που είναι το Makefile
+    - make valgrind
 
-Με την εντολή make valgrind τρέχει το valgrind για τα test.
-
-Για να καθαρίσετε τα αντικείμενα και εκτελέσιμα αρχεία:
-* Στο directory που βρίσκεται το Makefile, εκτελείτε την εντολή: make clean
+- To clean object and executable files:
+    - Πηγαίνουμε στο directory που είναι το Makefile
+    - make clean
 
 ### Διαχωρισμός εργασιών
 
