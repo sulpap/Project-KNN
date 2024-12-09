@@ -1,27 +1,82 @@
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
 #include "../include/bin_read.hpp"
+#include "../include/graph_binary_io.hpp"
 #include "../include/filteredVamana.hpp"
 #include "../include/stitchedVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
+#include <fstream>
+#include <vector>
+#include <string>
+#include <chrono>
+#include <sstream>
+#include <map>
+#include <cstring>
+#include <set>
+#include <cstdlib>
 
 #include <chrono>
 
 using namespace std;
 
+// Function to trim whitespace
+const char* trim(const char* str) {
+    while (isspace(*str)) str++; // Skip leading spaces
+    const char* end = str + strlen(str) - 1;
+    while (end > str && isspace(*end)) end--; // Skip trailing spaces
+    *(char*)(end + 1) = '\0'; // Null-terminate
+    return str;
+}
+
+// Function to parse the input file
+bool parseInputFile(const char* filename, map<string, string>& params) {
+    ifstream file(filename);
+    if (!file.is_open()) {
+        cerr << "Error: Could not open the input file." << endl;
+        return false;
+    }
+
+    string line;
+    while (getline(file, line)) {
+        // Skip empty lines and comments
+        if (line.empty() || line[0] == '#') continue;
+
+        size_t pos = line.find('=');
+        if (pos == string::npos) {
+            cerr << "Error: Invalid line format: " << line << endl;
+            return false;
+        }
+
+        string key = line.substr(0, pos);
+        string value = line.substr(pos + 1);
+
+        // Trim spaces and store in the map
+        key = trim(key.c_str());
+        value = trim(value.c_str());
+
+        params[key] = value;
+    }
+    return true;
+}
+
 int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
+    auto start = chrono::high_resolution_clock::now();
+    auto end = chrono::high_resolution_clock::now();
 
-    if (argc != 9) {
-        cout << "Usage: " << argv[0] << " <k> <L> <R> <a> <R_stitched> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+    if (argc != 9 && argc != 6 && argc != 2) {
+        cout << "Usage_1: " << argv[0] << " <k> <L> <R> <a> <R_stitched> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage_2: " << argv[0] << " <k> <graph_file_path> <map_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage_3: " << argv[0] << " <input_file>" << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
-        cout << "      R_stitched must be an int" << endl;
+        cout << "      R_stitched must be an int\n";
+        cout << "      input_file must be a .txt file with a specific structure like stitched_config.txt" << endl;
         return 1;
     }
 
@@ -36,39 +91,145 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> total_filtered_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_unfiltered_query_greedy_duration = chrono::duration<double>::zero();
     
+    int k = 0;
+    int L = 0;
+    int R = 0;
+    int R_stitched = 0;
+    double a = 0.0;
+    const char* base_filename = nullptr;
+    const char* query_filename = nullptr;
+    const char* groundtruth_filename = nullptr;
+    const char* graph_filename = nullptr;
+    const char* map_filename = nullptr;
+    
     // 1. Get Inputs
-    int k = stoi(argv[1]);
-    int L = stoi(argv[2]);
-    int R = stoi(argv[3]);
-    double a = stod(argv[4]);
-    int R_stitched = stoi(argv[5]);
-    const char* base_filename = argv[6];
-    const char* query_filename = argv[7];
-    const char* groundtruth_filename = argv[8];
+    if (argc == 2) {
+        const char* input_file = argv[1];
+        map<string, string> params;
+
+        // Parse the input file
+        if (!parseInputFile(input_file, params)) {
+            return 1;
+        }
+
+        cout << "Contents of params after parsing:" << endl;
+        for (const auto& param : params) {
+            cout << param.first << " = " << param.second << endl;
+        }
+
+        // if (params.find("k") == params.end()) {
+        //     cerr << "Error: 'k' not found in the input file!" << endl;
+        // }
+        // if (params.find("L") == params.end()) {
+        //     cerr << "Error: 'L' not found in the input file!" << endl;
+        // }
+        // if (params.find("R") == params.end()) {
+        //     cerr << "Error: 'R' not found in the input file!" << endl;
+        // }
+        // if (params.find("a") == params.end()) {
+        //     cerr << "Error: 'a' not found in the input file!" << endl;
+        // }
+        // if (params.find("t") == params.end()) {
+        //     cerr << "Error: 't' not found in the input file!" << endl;
+        // }
+        // if (params.find("base_file") == params.end()) {
+        //     cerr << "Error: 'base_file' not found in the input file!" << endl;
+        // }
+        // if (params.find("queries_file") == params.end()) {
+        //     cerr << "Error: 'queries_file' not found in the input file!" << endl;
+        // }
+        // if (params.find("groundtruth_file") == params.end()) {
+        //     cerr << "Error: 'groundtruth_file' not found in the input file!" << endl;
+        // }
+
+        const char * tmp_base_filename = params.at("base_file").c_str();
+        const size_t base_filename_len = strlen(tmp_base_filename);
+        char * tmp_new_base_filename = new char[base_filename_len + 1];
+
+        const char * tmp_query_filename = params.at("queries_file").c_str();
+        const size_t query_filename_len = strlen(tmp_query_filename);
+        char * tmp_new_query_filename = new char[query_filename_len + 1];
+
+        const char * tmp_groundtruth_filename = params.at("groundtruth_file").c_str();
+        const size_t groundtruth_filename_len = strlen(tmp_groundtruth_filename);
+        char * tmp_new_groundtruth_filename = new char[groundtruth_filename_len + 1];
+
+        try {
+            k = stoi(params.at("k"));
+            L = stoi(params.at("L"));
+            R = stoi(params.at("R"));
+            a = stod(params.at("a"));
+            R_stitched = stoi(params.at("R_stitched"));
+
+            strncpy(tmp_new_base_filename, tmp_base_filename, base_filename_len + 1);
+            tmp_new_base_filename[base_filename_len] = '\0';
+            delete[] base_filename;
+            base_filename = tmp_new_base_filename;
+            
+            strncpy(tmp_new_query_filename, tmp_query_filename, query_filename_len + 1);
+            tmp_new_query_filename[query_filename_len] = '\0';
+            delete[] query_filename;
+            query_filename = tmp_new_query_filename;
+
+            strncpy(tmp_new_groundtruth_filename, tmp_groundtruth_filename, groundtruth_filename_len + 1);
+            tmp_new_groundtruth_filename[groundtruth_filename_len] = '\0';
+            delete[] groundtruth_filename;
+            groundtruth_filename = tmp_new_groundtruth_filename;
+        } catch (const out_of_range& e) {
+            cerr << "Error: Missing required parameter in the input file." << endl;
+            return 1;
+        } catch (const invalid_argument& e) {
+            cerr << "Error: Invalid parameter value in the input file." << endl;
+            return 1;
+        }
+    } else if (argc == 6) {
+        k = stoi(argv[1]);
+        graph_filename = argv[2];
+        map_filename = argv[3];
+        query_filename = argv[4];
+        groundtruth_filename = argv[5];
+    } else if (argc == 9) {
+        k = stoi(argv[1]);
+        L = stoi(argv[2]);
+        R = stoi(argv[3]);
+        a = stod(argv[4]);
+        R_stitched = stoi(argv[5]);
+        base_filename = argv[6];
+        query_filename = argv[7];
+        groundtruth_filename = argv[8];
+    }
 
     cout << "Arguments:\n";
     cout << "\t- k: " << k << "\n";
-    cout << "\t- L: " << L << "\n";
-    cout << "\t- R: " << R << "\n";
-    cout << "\t- a: " << a << "\n";
-    cout << "\t- R_stitched: " << R_stitched << "\n";
-    cout << "\t- Base file: " << base_filename << "\n";
+    if (argc != 6) {
+        cout << "\t- L: " << L << "\n";
+        cout << "\t- R: " << R << "\n";
+        cout << "\t- a: " << a << "\n";
+        cout << "\t- R_stitched: " << R_stitched << "\n";
+        cout << "\t- Base file: " << base_filename << "\n";
+    } else {
+        cout << "\t- Graph file: " << graph_filename << "\n";
+        cout << "\t- Map file: " << map_filename << "\n";
+    }
     cout << "\t- Query file: " << query_filename << "\n";
     cout << "\t- Groundtruth file: " << groundtruth_filename << endl;
 
     // 2. Read Files
     // Base File
-    cout << "\nLoading Base dataset..." << endl;
-    auto start = chrono::high_resolution_clock::now();
-    vector<vector<float>> base_f = databin_read(base_filename);
-    auto end = chrono::high_resolution_clock::now();
-    base_f_duration = end - start;
-    cout << "Loaded " << base_f.size() << " points from the Base dataset in " << base_f_duration.count() << " seconds." << endl;
+    vector<vector<float>> base_f;
+    if (argc != 6) {
+        cout << "\nLoading Base dataset..." << endl;
+        start = chrono::high_resolution_clock::now();
+        base_f = databin_read(base_filename);
+        end = chrono::high_resolution_clock::now();
+        base_f_duration = end - start;
+        cout << "Loaded " << base_f.size() << " points from the Base dataset in " << base_f_duration.count() << " seconds." << endl;
 
-    // Check size of base_f
-    if (base_f.empty()) {
-        cout << "No base vectors read from the file." << endl;
-        return EXIT_FAILURE;
+        // Check size of base_f
+        if (base_f.empty()) {
+            cout << "No base vectors read from the file." << endl;
+            return EXIT_FAILURE;
+        }
     }
 
     // Query File
@@ -99,24 +260,58 @@ int main(int argc, char* argv[]) {
         return EXIT_FAILURE;
     }
     
-    vector<vector<double>> base = convert_to_double(base_f);
+    vector<vector<double>> base;
+    if (argc != 6) {
+        base = convert_to_double(base_f);
+    }
     vector<vector<double>> queries = convert_to_double(query_f);
-
+    
     // Make set_F
     set<int> set_F;
-    for (vector<double> point : base) {
-        set_F.insert(static_cast<int>(point[0]));
+    if (argc != 6) {
+        for (vector<double> point : base) {
+            set_F.insert(static_cast<int>(point[0]));
+        }
     }
 
-    // 3. Call Vamana.
+    // 3. Call Vamana or Load Graph and Map from files
     Graph graph;
     map<int, Node *> st_f;
-    cout << "\nCalling StitchedVamana..." << endl;
-    start = chrono::high_resolution_clock::now();
-    graph = stitchedVamana(base, set_F, a, L, R, R_stitched, st_f);
-    end = chrono::high_resolution_clock::now();
-    stitched_vamana_duration = end - start;
-    cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
+
+    if (argc != 6) {
+        cout << "\nCalling StitchedVamana..." << endl;
+        start = chrono::high_resolution_clock::now();
+        graph = stitchedVamana(base, set_F, a, L, R, R_stitched, st_f);
+        end = chrono::high_resolution_clock::now();
+        stitched_vamana_duration = end - start;
+        cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
+    } else {
+        // find L from filename
+        L = -1; // Default value in case L is not found
+        string temp_graph_filename = graph_filename;
+        string temp_map_filename = map_filename;
+        size_t pos_L = temp_graph_filename.find("L=");
+
+        if (pos_L != string::npos) {
+            size_t pos_start = pos_L + 2;  // Skip past "L="
+            size_t pos_end = temp_graph_filename.find('_', pos_start);
+            if (pos_end == string::npos) {
+                pos_end = temp_graph_filename.length(); // in case "L=" is the last part
+            }
+            string L_str = temp_graph_filename.substr(pos_start, pos_end - pos_start);
+            L = stoi(L_str); // Convert substring to integer
+        }
+
+        graph = load_graph_from_binary(temp_graph_filename);
+        st_f = load_map_from_binary(temp_map_filename, graph);
+    }
+
+    // Make set_F
+    if (argc == 6) {
+        for (const auto& pair : graph.getAdjList()) {
+            set_F.insert(pair.second->getLabel());
+        }
+    }
 
     // 4. Call Greedy for every query.
     // ALL
@@ -248,11 +443,16 @@ int main(int argc, char* argv[]) {
 
     cout << "\n\nArguments:\n";
     cout << "\t- k: " << k << "\n";
-    cout << "\t- L: " << L << "\n";
-    cout << "\t- R: " << R << "\n";
-    cout << "\t- a: " << a << "\n";
-    cout << "\t- R_stitched: " << R_stitched << "\n";
-    cout << "\t- Base file: " << base_filename << "\n";
+    if (argc != 6) {
+        cout << "\t- L: " << L << "\n";
+        cout << "\t- R: " << R << "\n";
+        cout << "\t- a: " << a << "\n";
+        cout << "\t- R_stitched: " << R_stitched << "\n";
+        cout << "\t- Base file: " << base_filename << "\n";
+    } else {
+        cout << "\t- Graph file: " << graph_filename << "\n";
+        cout << "\t- Map file: " << map_filename << "\n";
+    }
     cout << "\t- Query file: " << query_filename << "\n";
     cout << "\t- Groundtruth file: " << groundtruth_filename << endl;
 
@@ -295,10 +495,14 @@ int main(int argc, char* argv[]) {
     average_unfiltered_query_greedy_duration = total_unfiltered_query_greedy_duration / totalUnfilteredQueriesSize;
 
     cout << "Timing Summary:\n";
-    cout << "\t- Base dataset load time: " << base_f_duration.count() << " seconds.\n";
+    if (argc != 6) {
+        cout << "\t- Base dataset load time: " << base_f_duration.count() << " seconds.\n";
+    }
     cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
-    cout << "\t- Index build time (StitchedVamana): " << stitched_vamana_duration.count() << " seconds or " << stitched_vamana_duration.count() / 60 << " minutes.\n";
+    if (argc != 6) {
+        cout << "\t- Index build time (StitchedVamana): " << stitched_vamana_duration.count() << " seconds or " << stitched_vamana_duration.count() / 60 << " minutes.\n";
+    }
     cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for UNFILTERED queries (with the calculation of their starting nodes): " << total_unfiltered_query_greedy_duration.count() << " seconds.\n";

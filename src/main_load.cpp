@@ -16,7 +16,7 @@ int main(int argc, char* argv[])
 {
     auto total_start = chrono::high_resolution_clock::now();
 
-    if (argc != 5) {
+    if (argc != 6) {
         cout << "Usage: " << argv[0] << " <k> <graph_filename> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         return 1;
@@ -26,6 +26,7 @@ int main(int argc, char* argv[])
 
     int k = atoi(argv[1]);
     string graph_filename = argv[2];
+    string map_filename = argv[3];
 
     // find L from filename
     int L = -1; // Default value in case L is not found
@@ -44,7 +45,7 @@ int main(int argc, char* argv[])
 // Query File
     cout << "Loading Query dataset..." << endl;
     auto start = chrono::high_resolution_clock::now();
-    vector<vector<float>> queries_f = queriesbin_read(argv[3]);
+    vector<vector<float>> queries_f = queriesbin_read(argv[4]);
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> query_f_duration = end - start;
     cout << "Loaded " << queries_f.size() << " query points from the Query dataset in " << query_f_duration.count() << " seconds." << endl;
@@ -59,7 +60,7 @@ int main(int argc, char* argv[])
 // Groundtruth File
     cout << "Loading Groundtruth dataset..." << endl;
     start = chrono::high_resolution_clock::now();
-    vector<vector<int>> gt = gtbin_read(argv[4], k);
+    vector<vector<int>> gt = gtbin_read(argv[5], k);
     end = chrono::high_resolution_clock::now();
     chrono::duration<double> ground_truth_duration = end - start;
     cout << "Loaded " << gt.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
@@ -71,7 +72,7 @@ int main(int argc, char* argv[])
     }
 
     Graph graph = load_graph_from_binary(graph_filename);
-    map<int, Node *> M = load_map_from_binary("filtered_map", graph);
+    map<int, Node *> M = load_map_from_binary(map_filename, graph);
 
     // set F_all_filters
     set<int> F_all_filters;
