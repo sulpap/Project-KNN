@@ -66,16 +66,16 @@ config_stitched_main
 
 * Το αρχείο graph_binary_io.pp περιέχει τις συναρτήσεις αποθήκευσης σε αρχείο binary και φόρτισης από αυτό του γράφου και του map που περιέχει τα medoid από αρχείο binary. 
 * Η save_graph_to_binary αποθηκεύει τον γράφο με την ακόλουθη μορφή:
-- number of nodes N
-- For each node:
-	- Node ID
-	- Node's Graph ID (int)
-	- Coordinates 
-    - Label
-	- Number of neighbors M
-	- IDs of neighbors
+    - number of nodes N
+    - For each node:
+        - Node ID
+        - Node's Graph ID (int)
+        - Coordinates 
+        - Label
+        - Number of neighbors M
+        - IDs of neighbors
 
-Δηλαδή, αποθηκεύοντας πρώτα τον αριθμό των κόμβων και ύστερα, για κάθε κόμβο, το ID του, την ετικέτα, τις συντεταγμένες, τον αριθμό των γειτόνων του και τα ID των γειτόνων.
+    Δηλαδή, αποθηκεύοντας πρώτα τον αριθμό των κόμβων και ύστερα, για κάθε κόμβο, το ID του, την ετικέτα, τις συντεταγμένες, τον αριθμό των γειτόνων του και τα ID των γειτόνων.
 
 * Η load_graph_from_binary διαβάζει αυτά τα δεδομένα από το .bin αρχείο που έχει δημιουργήσει η save_graph_to_binary και κάνει την αντίστοιχη απαιτούμενη ενέργεια ώστε να δημιουργήσει τον γράφο (δηλαδή, δημιουργεί τον κόμβο και τους γειτονικούς κόμβους και τους συνδέει).
 
