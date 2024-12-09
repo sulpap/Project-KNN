@@ -147,6 +147,16 @@ TEST_CASE("compute_PfMap function test")
     vector<int> expectedCoords0 = {0, 2};
     REQUIRE(PfMap[0][0]->getId() == expectedCoords0[0]);
     REQUIRE(PfMap[0][1]->getId() == expectedCoords0[1]);
+
+    Graph G;
+
+    for (const auto& pair : PfMap) {
+        for (Node * node : pair.second) {
+            G.addNode(node);
+        }
+    }
+
+    G.clear();
 }
 
 TEST_CASE("store_medoid function test")
