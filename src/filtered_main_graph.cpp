@@ -15,6 +15,8 @@ using namespace std;
 
 int main(int argc, char* argv[])
 {
+    auto total_start = chrono::high_resolution_clock::now();
+
     if (argc != 6) 
     {
         cout << "Usage: " << argv[0] << " <L> <R> <a> <t> <base_file_path>" << endl;
@@ -72,6 +74,10 @@ int main(int argc, char* argv[])
 
     cout << "\nGraph and map saved successfully! Cleaning..." << endl;
     graph.clear();
+
+    auto total_end = chrono::high_resolution_clock::now();
+    chrono::duration<double> total_duration = total_end - total_start;
+    cout << "\nProgram ran in " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes." << endl;
 
     cout << "\nBye from filtered_main_graph!" << endl;
     

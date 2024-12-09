@@ -9,15 +9,16 @@
 ### Οδηγίες εκτέλεσης
 Για την συγκεκριμένη εφαρμογή έχουν υλοποιηθεί οι εξής main:
 Όσον αφορά τον filteredVamana:
-* filtered_main: Φορτώνει τη βάση και κάνει όλους τους υπολογισμούς (FilteredVamana, queries)
-* filtered_main_graph: Φορτώνει τη βάση και κάνει το κομμάτι του FilteredVamana, αποθηκεύοντας τον γράφο σε .bin αρχείο
-* filtered_main_load: Παίρνει τον γράφο από το .bin αρχείο και κάνει τους υπολογισμούς για τα queries
+* filtered_main: Φορτώνει τη βάση και κάνει όλους τους υπολογισμούς (FilteredVamana, queries).
+* filtered_main_graph: Φορτώνει τη βάση και κάνει το κομμάτι του FilteredVamana, αποθηκεύοντας τον γράφο σε .bin αρχείο.
 
 Αντίστοιχα, για τον stitchedVamana:
 * stitched_main
 * stitched_main_graph
-* stitched_main_load
 Που κάνουν τις ίδιες λειτουργίες.
+
+Όπως επίσης και μια γενική
+* main_load: Παίρνει τον γράφο από το .bin αρχείο και κάνει τους υπολογισμούς για τα queries.
 
 Για να τρέξετε την εκάστοτε main:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
