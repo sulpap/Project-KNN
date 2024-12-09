@@ -85,7 +85,10 @@ config_stitched_main
 
 * H load_map_from_binary με παρόμοιο τρόπο όπως με τον γράφο επιστρέφει το map.
 
-++++bin_read?
+* Αναφορικά με τις συναρτήσεις ανάγνωσης των datasets του παραδοτέου: η databin_read διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως το πεδίο T. Αντίστοιχα, η queries_bin διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως τα πεδία l και r. Τέλος, η ground_truth υπολογίζει το ground truth με exhaustive search επιστρέφοντας σε vectors τα ids των points που αποτελούν λύση για το εκάστοτε query. 
+
+
+
 +++ άλλες παραδοχές
 
 
