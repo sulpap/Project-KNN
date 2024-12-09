@@ -1,7 +1,6 @@
 #include "../include/bin_read.hpp"
 #include "../include/graph.hpp"
 #include "../include/utility.hpp"
-#include "../include/filteredVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
 #include "../include/graph_binary_io.hpp"
 #include <chrono>
@@ -17,22 +16,35 @@ int main(int argc, char* argv[])
 {
     auto total_start = chrono::high_resolution_clock::now();
 
-    if (argc != 6) {
-        cout << "Usage: " << argv[0] << " <k> <L> <graph_filename> <queries_file_path> <groundtruth_file_path> " << endl;
+    if (argc != 5) {
+        cout << "Usage: " << argv[0] << " <k> <graph_filename> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Note: k must be an int\n";
         return 1;
     }
 
-    cout << "\nFilteredVamana procedure that loads the graph starting..." << endl;
+    cout << "\nProcedure that loads the graph and implements the query calculations starting..." << endl;
 
     int k = atoi(argv[1]);
-    int L = atoi(argv[2]);
-    string graph_filename = argv[3];
+    string graph_filename = argv[2];
+
+    // find L from filename
+    int L = -1; // Default value in case L is not found
+    size_t pos_L = graph_filename.find("L=");
+
+    if (pos_L != string::npos) {
+        size_t pos_start = pos_L + 2;  // Skip past "L="
+        size_t pos_end = graph_filename.find('_', pos_start);
+        if (pos_end == string::npos) {
+            pos_end = graph_filename.length(); // in case "L=" is the last part
+        }
+        string L_str = graph_filename.substr(pos_start, pos_end - pos_start);
+        L = stoi(L_str); // Convert substring to integer
+    }
 
 // Query File
     cout << "Loading Query dataset..." << endl;
     auto start = chrono::high_resolution_clock::now();
-    vector<vector<float>> queries_f = queriesbin_read(argv[4]);
+    vector<vector<float>> queries_f = queriesbin_read(argv[3]);
     auto end = chrono::high_resolution_clock::now();
     chrono::duration<double> query_f_duration = end - start;
     cout << "Loaded " << queries_f.size() << " query points from the Query dataset in " << query_f_duration.count() << " seconds." << endl;
@@ -47,7 +59,7 @@ int main(int argc, char* argv[])
 // Groundtruth File
     cout << "Loading Groundtruth dataset..." << endl;
     start = chrono::high_resolution_clock::now();
-    vector<vector<int>> gt = gtbin_read(argv[5], k);
+    vector<vector<int>> gt = gtbin_read(argv[4], k);
     end = chrono::high_resolution_clock::now();
     chrono::duration<double> ground_truth_duration = end - start;
     cout << "Loaded " << gt.size() << " groundtruth sets from the Groundtruth dataset in " << ground_truth_duration.count() << " seconds." << endl;
@@ -159,6 +171,6 @@ int main(int argc, char* argv[])
     auto total_end = chrono::high_resolution_clock::now();
     chrono::duration<double> total_duration = total_end - total_start;
     cout << "\nProgram ran in " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes." << endl;
-    cout << "\nBye from filtered_main_load!" << endl;
+    cout << "\nBye from main_load!" << endl;
     return 0;
 }

@@ -9,21 +9,34 @@
 ### Οδηγίες εκτέλεσης
 Για την συγκεκριμένη εφαρμογή έχουν υλοποιηθεί οι εξής main:
 Όσον αφορά τον filteredVamana:
-* filtered_main: Φορτώνει τη βάση και κάνει όλους τους υπολογισμούς (FilteredVamana, queries)
-* filtered_main_graph: Φορτώνει τη βάση και κάνει το κομμάτι του FilteredVamana, αποθηκεύοντας τον γράφο σε .bin αρχείο
-* filtered_main_load: Παίρνει τον γράφο από το .bin αρχείο και κάνει τους υπολογισμούς για τα queries
+* filtered_main: Φορτώνει τη βάση και κάνει όλους τους υπολογισμούς (FilteredVamana, queries).
+* filtered_main_graph: Φορτώνει τη βάση και κάνει το κομμάτι του FilteredVamana, αποθηκεύοντας τον γράφο σε .bin αρχείο.
+* config_filtered_main: Ίδια με την filtered_main αλλά τρέχει με configuration file για τις παραμέτρους.
 
 Αντίστοιχα, για τον stitchedVamana:
 * stitched_main
 * stitched_main_graph
-* stitched_main_load
+config_stitched_main
 Που κάνουν τις ίδιες λειτουργίες.
 
-Για να τρέξετε την εκάστοτε main:
+Όπως επίσης και μια γενική
+* main_load: Παίρνει τον γράφο από το .bin αρχείο και κάνει τους υπολογισμούς για τα queries.
+
+Για να τρέξετε την εκάστοτε main:      
+Επιλογή 1:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
 * Εκτελείτε την εντολή: make
 * Εκτελείτε την εντολή: chmod +x run_<όνομα της main>.sh
 * Εκτελείτε την εντολή: ./run_<όνομα της main>.sh
+και αλλάζετε τις παραμέτρους μέσα στο script.
+
+Επιλογή 2:
+* Μεταφέρεστε στο directory που βρίσκεται το Makefile.
+* Εκτελείτε την εντολή: make
+* Εκτελείτε την εντολή: 
+	- ./bin/config_filtered_main filtered_config.txt ή
+ 	- ./bin/config_stitched_main stitched_config.txt
+και χειρίζεστε τις τιμές των παραμέτρων μέσω του αντίστοιχου config file.
 
 Για να τρέξετε τα test:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
@@ -37,6 +50,7 @@
 
 ### Διαχωρισμός εργασιών
 
+Ο καθένας ανέλαβε από κάποια βαασικά κομμάτια (filteredGreedySearch, filteredRobustPrune, filtered & stitchedVamana), καθώς και από έναν αριθμό επιμέρους βοηθητικών συναρτήσεων, μαζί με τα unit test που τους αντιστοιχούν.
 
 ### Σχεδιαστικές επιλογές
 
@@ -44,33 +58,48 @@
 Για τις συναρτήσεις του filteredVamana και FindMedoid, υπάρχει λειτουργική υλοποίηση σύμφωνα αυστηρά με τον ψευδοκώδικα σε σχόλιο,
 και απλοποιημένη υλοποίηση (εκτός σχόλιου), η οποία είναι ταχύτερη.
 
-Πιο συγκεκριμένα, οι αλλαγές αφορούν ......................................
+* Αναφορικά με τον stitchedVamana: η κλήση της RobustPrune είναι αναγκαία στην περίπτωση που η ένωση των υπογράφων δημιουργήσει νέες ακμές στον συνολικό γράφο και άρα το κλάδεμα ορισμένων ακμών κρίνεται απαραίτητο. Εν προκειμένω, παρατηρήθηκε ότι μετά την ένωση των υπογράφων δεν δημιουργούνται νέες ακμές, γι'αυτό και η κλήση της RobustPrune δεν χρειάζεται. Έτσι, αποφασίζουμε να μην γίνεται κλήση της RobustPrune στον stitchedVamana και η κλήση της vamana του 1ου παραδοτέου να γίνεται με παράμετρο Rstitched αντί για Rsmall [piazza post](https://piazza.com/class/m1kh0ggogpyg0/post/72). 
+
+* Στις main, έχει υλοποιηθεί η εξής βελτιστοποίηση "Για καθε unfiltered search, για καθε φιλτρο ευρεση του K=1 κοντινοτερου σημειου στο query με περασμα του starting point(medoid) του καθε φιλτρου και μετα περασμα αυτων των σημειων σαν starting points στην τελικη αναζητηση με ολα τα φιλτρα. Δηλαδη αντι για τα κλασικα medoids και ολα τα φιλτρα θα βαζεις τα πιο κοντινα κατα προσεγγιση σημεια του καθε φιλτρου στο query και ολα τα φιλτρα." που προτάθηκε στο piazza, η οποία ανέβασε τα ποσοστά επιτυχίας των unfiltered queries από 49-50% σε 99,9%.
 
 * Το αρχείο graph_binary_io.pp περιέχει τις συναρτήσεις αποθήκευσης σε αρχείο binary και φόρτισης από αυτό του γράφου και του map που περιέχει τα medoid από αρχείο binary. 
 * Η save_graph_to_binary αποθηκεύει τον γράφο με την ακόλουθη μορφή:
-- number of nodes N
-- For each node:
-	- Node ID
-	- Node's Graph ID (int)
-	- Coordinates 
-    - Label
-	- Number of neighbors M
-	- IDs of neighbors
+    - number of nodes N
+    - For each node:
+        - Node ID
+        - Node's Graph ID (int)
+        - Coordinates 
+        - Label
+        - Number of neighbors M
+        - IDs of neighbors
 
-Δηλαδή, αποθηκεύοντας πρώτα τον αριθμό των κόμβων και ύστερα, για κάθε κόμβο, το ID του, την ετικέτα, τις συντεταγμένες, τον αριθμό των γειτόνων του και τα ID των γειτόνων.
+    Δηλαδή, αποθηκεύοντας πρώτα τον αριθμό των κόμβων και ύστερα, για κάθε κόμβο, το ID του, την ετικέτα, τις συντεταγμένες, τον αριθμό των γειτόνων του και τα ID των γειτόνων.
 
 * Η load_graph_from_binary διαβάζει αυτά τα δεδομένα από το .bin αρχείο που έχει δημιουργήσει η save_graph_to_binary και κάνει την αντίστοιχη απαιτούμενη ενέργεια ώστε να δημιουργήσει τον γράφο (δηλαδή, δημιουργεί τον κόμβο και τους γειτονικούς κόμβους και τους συνδέει).
 
 * Η save_map_to_binary αποθηκεύει το map με την ακόλουθη μορφή:
- - number of nodes in M
- - For each node:
-    - Label, Node ID
+  - number of nodes in M
+  - For each node:
+        - Label, Node ID
 
 * H load_map_from_binary με παρόμοιο τρόπο όπως με τον γράφο επιστρέφει το map.
 
+++++bin_read?
++++ άλλες παραδοχές
 
 
 ### Αποτελέσματα & Χρόνοι (Παραδείγματα)
 
+Παράδειγμα εκτέλεσης για k = 20, L = 40, R = 80, a = 1.2:
+
+* Filtered (με τ = 2):
+- PC 1: 156.653 seconds or 2.61089 minutes (FilteredVamana: 46.6505 seconds, queries: 108.431 seconds).
+- PC 2:
+- PC 3:
+
+* Stitched (με R_stitched = 2):
+- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
+- PC 2:
+- PC 3:
 
 Δεν υπάρχουν διαρροές μνήμης.
