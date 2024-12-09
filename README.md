@@ -89,11 +89,7 @@ config_stitched_main
   - For each node:
         - Label, Node ID
 
-* Αναφορικά με τις συναρτήσεις ανάγνωσης των datasets του παραδοτέου: η databin_read διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως το πεδίο T. Αντίστοιχα, η queries_bin διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως τα πεδία l και r. Τέλος, η ground_truth υπολογίζει το ground truth με exhaustive search επιστρέφοντας σε vectors τα ids των points που αποτελούν λύση για το εκάστοτε query. 
-
-
-
-+++ άλλες παραδοχές
+* Αναφορικά με τις συναρτήσεις ανάγνωσης των datasets του παραδοτέου: η databin_read διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως το πεδίο T. Αντίστοιχα, η queries_bin διαβάζει τα points του dataset και τα επιστρέφει σε vectors δίχως τα πεδία l και r. Τέλος, η ground_truth υπολογίζει το ground truth με exhaustive search επιστρέφοντας σε vectors τα ids των points που αποτελούν λύση για το εκάστοτε query.
 
 
 ### Αποτελέσματα & Χρόνοι (Παραδείγματα)
@@ -101,14 +97,14 @@ config_stitched_main
 Παράδειγμα εκτέλεσης για k = 20, L = 40, R = 80, a = 1.2:
 
 * Filtered (με τ = 2):
-- PC 1: 156.653 seconds or 2.61089 minutes (FilteredVamana: 46.6505 seconds, queries: 108.431 seconds).
-- PC 2: 38.9644 seconds or 0.649406 minutes (FilteredVamana: 12.0758 seconds, queries: 26.7097 seconds).
-- PC 3:
+    - PC 1: 156.653 seconds or 2.61089 minutes (FilteredVamana: 46.6505 seconds, queries: 108.431 seconds).
+    - PC 2: 38.9644 seconds or 0.649406 minutes (FilteredVamana: 12.0758 seconds, queries: 26.7097 seconds).
+    - PC 3:
 
 * Stitched (με R_stitched = 2):
-- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds).
-- PC 2:
-- PC 3:
+    - PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
+    - PC 2:
+    - PC 3:
 
 Παράδειγμα εκτέλεσης για k = 100, L = 110, R = 96, a = 1.2:
 

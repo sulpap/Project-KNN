@@ -65,9 +65,9 @@ int main(int argc, char* argv[])
 
     // save the graph and the map to binary files. graph file contains k and L in its name, so we can know their values at all times
     // to call stitched_main_load with the correct parameters
-    string graph_filename = "stitched_graph_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_R_stchd=" + to_string(R_stitched);
-    string map_filename = "stitched_map_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_R_stchd=" + to_string(R_stitched);
-    cout << "Saving the graph to '" << graph_filename << " and the map of medoids in 'stitched_map' binary files ..." << endl;
+    string graph_filename = "stitched_graph_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_R_stitched=" + to_string(R_stitched);
+    string map_filename = "stitched_map_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_R_stitched=" + to_string(R_stitched);
+    cout << "Saving the graph to './datasets/smallscale/" << graph_filename << ".bin' and the map of medoids to './datasets/smallscale/" << map_filename << ".bin' binary files ..." << endl;
     save_graph_to_binary(graph, graph_filename);
     save_map_to_binary(st_f, map_filename);
 
