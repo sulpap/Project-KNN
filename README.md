@@ -11,20 +11,26 @@
 Όσον αφορά τον filteredVamana:
 * filtered_main: Φορτώνει τη βάση και κάνει όλους τους υπολογισμούς (FilteredVamana, queries).
 * filtered_main_graph: Φορτώνει τη βάση και κάνει το κομμάτι του FilteredVamana, αποθηκεύοντας τον γράφο σε .bin αρχείο.
+* config_filtered_main: Ίδια με την filtered_main αλλά τρέχει με configuration file για τις παραμέτρους.
 
 Αντίστοιχα, για τον stitchedVamana:
 * stitched_main
 * stitched_main_graph
+config_stitched_main
 Που κάνουν τις ίδιες λειτουργίες.
 
 Όπως επίσης και μια γενική
 * main_load: Παίρνει τον γράφο από το .bin αρχείο και κάνει τους υπολογισμούς για τα queries.
 
 Για να τρέξετε την εκάστοτε main:
+Επιλογή 1:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
 * Εκτελείτε την εντολή: make
 * Εκτελείτε την εντολή: chmod +x run_<όνομα της main>.sh
 * Εκτελείτε την εντολή: ./run_<όνομα της main>.sh
+
+Επιλογή 2:
+Μέσω των configuration files και τρέχετε τις config_filtered_main, config_stitched_main με είσοδο το αντίστοιχο CF.
 
 Για να τρέξετε τα test:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
