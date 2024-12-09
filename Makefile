@@ -88,7 +88,7 @@ groundtruth: $(BINDIR)/calculate_groundtruth
 
 graphs: $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main_graph
 	./$(BINDIR)/filtered_main_graph 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin
-	./$(BINDIR)/stitched_main_graph 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin
+	./$(BINDIR)/stitched_main_graph 110 96 1.2 98 ./datasets/smallscale/dummy-data.bin
 
 valgrind: $(BINDIR)/test
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BINDIR)/test

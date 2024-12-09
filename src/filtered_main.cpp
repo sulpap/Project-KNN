@@ -513,7 +513,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
     if (argc != 6) {
-        cout << "\t- Index build time (StitchedVamana): " << filtered_vamana_duration.count() << " seconds or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
+        cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << " seconds or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
     } else {
         cout << "\t- Graph loading time: " << load_graph_duration.count() << " seconds.\n";
         cout << "\t- Map loading time: " << load_map_duration.count() << " seconds.\n";
