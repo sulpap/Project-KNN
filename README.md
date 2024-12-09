@@ -36,7 +36,7 @@ config_stitched_main
 * Εκτελείτε την εντολή: 
 	- ./bin/config_filtered_main filtered_config.txt ή
  	- ./bin/config_stitched_main stitched_config.txt
-και χειρίζεστε τις τιμές των παραμέτρων μέσω του αντίστοιχου CF.
+και χειρίζεστε τις τιμές των παραμέτρων μέσω του αντίστοιχου config file.
 
 Για να τρέξετε τα test:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
