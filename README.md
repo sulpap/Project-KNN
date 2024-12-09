@@ -38,10 +38,12 @@ config_stitched_main
  	- ./bin/config_stitched_main stitched_config.txt
 και χειρίζεστε τις τιμές των παραμέτρων μέσω του αντίστοιχου config file.
 
-Για να τρέξετε τα test:
-* Μεταφέρεστε στο directory που βρίσκεται το Makefile.
-* Εκτελείτε την εντολή: make test
-* Εκτελείτε την εντολή: ./bin/test
+`To run the tests`
+    ```
+    Πηγαίνουμε στο directory που είναι το Makefile
+    make test
+    ./bin/test
+    ```
 
 Με την εντολή make valgrind τρέχει το valgrind για τα test.
 
