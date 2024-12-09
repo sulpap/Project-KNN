@@ -1,3 +1,5 @@
+# Άμα θέλετε κάποιο άλλο παράδειγμα ενώ έχετε γράψει πολλά αφαιρέστε το '#' από κάθε γραμμή
+
 k = 20
 L = 40
 R = 80
@@ -6,3 +8,12 @@ R_stitched = 2
 base_file = ./datasets/smallscale/dummy-data.bin
 queries_file = ./datasets/smallscale/dummy-queries.bin
 groundtruth_file = ./datasets/smallscale/gt_k=20.bin
+
+#k = 100
+#L = 110
+#R = 96
+#a = 1.2
+#R_stitched = 98
+#base_file = ./datasets/smallscale/dummy-data.bin
+#queries_file = ./datasets/smallscale/dummy-queries.bin
+#groundtruth_file = ./datasets/smallscale/gt_k=100.bin

@@ -15,8 +15,6 @@ TESTFILES = $(wildcard $(TESTDIR)/*.cpp)
 # Specific source files for each executable
 FIRST_MAIN_SRC = $(SRCDIR)/first_main.cpp
 
-MAIN_LOAD_SRC = $(SRCDIR)/main_load.cpp
-
 FILTERED_MAIN_SRC = $(SRCDIR)/filtered_main.cpp
 FILTERED_MAIN_GRAPH_SRC = $(SRCDIR)/filtered_main_graph.cpp
 
@@ -25,12 +23,10 @@ STITCHED_MAIN_GRAPH_SRC = $(SRCDIR)/stitched_main_graph.cpp
 
 CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
 
-COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(MAIN_LOAD_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(CALC_GT_SRC), $(SRCFILES))
+COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
 # first (old) main
 FIRST_MAIN_OBJ = $(OBJDIR)/first_main.o
-
-MAIN_LOAD_OBJ = $(OBJDIR)/main_load.o
 
 # filtered main
 FILTERED_MAIN_OBJ = $(OBJDIR)/filtered_main.o
@@ -48,15 +44,12 @@ COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
 TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-all: $(BINDIR)/first_main $(BINDIR)/main_load $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/calculate_groundtruth # test
+all: $(BINDIR)/first_main $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/calculate_groundtruth # test
 
 # ----- Build main executables -----
 
 # first (old) main
 $(BINDIR)/first_main: $(FIRST_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
-	$(CC) $(CFLAGS) -o $@ $^
-
-$(BINDIR)/main_load: $(MAIN_LOAD_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # filtered
@@ -89,10 +82,13 @@ $(OBJDIR)/%.o: $(SRCDIR)/%.cpp | $(OBJDIR)
 $(OBJDIR)/%.o: $(TESTDIR)/%.cpp | $(OBJDIR)
 	$(CC) $(CFLAGS) -I$(INCLUDEDIR) -c $< -o $@
 
-# Run calculate_groundtruth after building it
+# Build and calculate groundtruth for k = 100
 groundtruth: $(BINDIR)/calculate_groundtruth
-	@echo "Running calculate_groundtruth..."
-	@./$(BINDIR)/calculate_groundtruth
+	./$(BINDIR)/calculate_groundtruth 100
+
+graphs: $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main_graph
+	./$(BINDIR)/filtered_main_graph 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin
+	./$(BINDIR)/stitched_main_graph 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin
 
 valgrind: $(BINDIR)/test
 	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./$(BINDIR)/test

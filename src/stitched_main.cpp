@@ -69,13 +69,14 @@ int main(int argc, char* argv[]) {
 
     if (argc != 9 && argc != 6 && argc != 2) {
         cout << "Usage_1: " << argv[0] << " <k> <L> <R> <a> <R_stitched> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
-        cout << "Usage_2: " << argv[0] << " <k> <graph_file_path> <map_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage_2: " << argv[0] << " <k> <graph_filename> <map_filename> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Usage_3: " << argv[0] << " <input_file>" << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
         cout << "      R_stitched must be an int\n";
+        cout << "      graph_filename and map_filename must be the names of the files, not the paths\n";
         cout << "      input_file must be a .txt file with a specific structure like stitched_config.txt" << endl;
         return 1;
     }
@@ -84,6 +85,8 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> query_f_duration;
     chrono::duration<double> ground_truth_duration;
     chrono::duration<double> stitched_vamana_duration;
+    chrono::duration<double> load_graph_duration;
+    chrono::duration<double> load_map_duration;
     chrono::duration<double> average_query_greedy_duration;
     chrono::duration<double> average_filtered_query_greedy_duration;
     chrono::duration<double> average_unfiltered_query_greedy_duration;
@@ -112,10 +115,10 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-        cout << "Contents of params after parsing:" << endl;
-        for (const auto& param : params) {
-            cout << param.first << " = " << param.second << endl;
-        }
+        // cout << "Contents of params after parsing:" << endl;
+        // for (const auto& param : params) {
+        //     cout << param.first << " = " << param.second << endl;
+        // }
 
         // if (params.find("k") == params.end()) {
         //     cerr << "Error: 'k' not found in the input file!" << endl;
@@ -302,8 +305,17 @@ int main(int argc, char* argv[]) {
             L = stoi(L_str); // Convert substring to integer
         }
 
+        start = chrono::high_resolution_clock::now();
         graph = load_graph_from_binary(temp_graph_filename);
+        end = chrono::high_resolution_clock::now();
+        load_graph_duration = end- start;
+        cout << "Loading Graph took " << load_graph_duration.count() << " seconds.\n" << endl;
+
+        start = chrono::high_resolution_clock::now();
         st_f = load_map_from_binary(temp_map_filename, graph);
+        end = chrono::high_resolution_clock::now();
+        load_map_duration = end- start;
+        cout << "Loading Map took " << load_map_duration.count() << " seconds.\n" << endl;
     }
 
     // Make set_F
@@ -502,6 +514,9 @@ int main(int argc, char* argv[]) {
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
     if (argc != 6) {
         cout << "\t- Index build time (StitchedVamana): " << stitched_vamana_duration.count() << " seconds or " << stitched_vamana_duration.count() / 60 << " minutes.\n";
+    } else {
+        cout << "\t- Graph loading time: " << load_graph_duration.count() << " seconds.\n";
+        cout << "\t- Map loading time: " << load_map_duration.count() << " seconds.\n";
     }
     cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
@@ -518,7 +533,7 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> total_duration = total_end - total_start;
     cout << "\nProgram ran for " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes.\n" << endl;
 
-    cout << "Bye from main" << endl;
+    cout << "Bye from stitched_main!" << endl;
 
     return 0;
 }
