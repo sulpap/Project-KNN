@@ -80,9 +80,9 @@ config_stitched_main
 * Η load_graph_from_binary διαβάζει αυτά τα δεδομένα από το .bin αρχείο που έχει δημιουργήσει η save_graph_to_binary και κάνει την αντίστοιχη απαιτούμενη ενέργεια ώστε να δημιουργήσει τον γράφο (δηλαδή, δημιουργεί τον κόμβο και τους γειτονικούς κόμβους και τους συνδέει).
 
 * Η save_map_to_binary αποθηκεύει το map με την ακόλουθη μορφή:
- - number of nodes in M
- - For each node:
-    - Label, Node ID
+  - number of nodes in M
+  - For each node:
+        - Label, Node ID
 
 * H load_map_from_binary με παρόμοιο τρόπο όπως με τον γράφο επιστρέφει το map.
 
