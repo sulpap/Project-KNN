@@ -102,7 +102,7 @@ config_stitched_main
 
 * Filtered (με τ = 2):
 - PC 1: 156.653 seconds or 2.61089 minutes (FilteredVamana: 46.6505 seconds, queries: 108.431 seconds).
-- PC 2:
+- PC 2: 38.9644 seconds or 0.649406 minutes (FilteredVamana: 12.0758 seconds, queries: 26.7097 seconds).
 - PC 3:
 
 * Stitched (με R_stitched = 2):
