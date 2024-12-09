@@ -68,7 +68,7 @@ int main(int argc, char* argv[])
     // save the graph and the map to binary files. graph file contains vamana's parameters in its name, so we can know their values at all times
     // to call filtered_main_load with the correct parameters
     string graph_filename = "filtered_graph_L=" + to_string(L) + "_a=" + to_string(a) + "_R=" + to_string(R) + "_taph=" + to_string(taph);
-    cout << "Saving the graph to '" << graph_filename << ".bin' and the map of medoids in 'filtered_map.bin' ..." << endl;
+    cout << "Saving the graph to '" << graph_filename << " and the map of medoids in 'filtered_map' binary files ..." << endl;
     save_graph_to_binary(graph, graph_filename);
     save_map_to_binary(M, "filtered_map");
 
