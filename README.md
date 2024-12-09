@@ -38,18 +38,18 @@ config_stitched_main
  	- ./bin/config_stitched_main stitched_config.txt
 και χειρίζεστε τις τιμές των παραμέτρων μέσω του αντίστοιχου config file.
 
-- To run the tests:
+- To run the `tests`:
     - Πηγαίνουμε στο directory που είναι το Makefile
-    - make test
-    - ./bin/test
+    - `make test`
+    - `./bin/test`
  
-- To run the tests with valgrind:
+- To run the `tests` with `valgrind`:
     - Πηγαίνουμε στο directory που είναι το Makefile
-    - make valgrind
+    - `make valgrind`
 
-- To clean object and executable files:
+- To `clean` object and executable files:
     - Πηγαίνουμε στο directory που είναι το Makefile
-    - make clean
+    - `make clean`
 
 ### Διαχωρισμός εργασιών
 
