@@ -99,7 +99,7 @@ int main(int argc, char* argv[]) {
     const char* base_filename = nullptr;
     const char* query_filename = nullptr;
     const char* groundtruth_filename = nullptr;
-    string graph_filename = nullptr;
+    const char* graph_filename = nullptr;
     const char* map_filename = nullptr;
     
     // 1. Get Inputs
@@ -112,10 +112,10 @@ int main(int argc, char* argv[]) {
             return 1;
         }
 
-        // cout << "Contents of params after parsing:" << endl;
-        // for (const auto& param : params) {
-        //     cout << param.first << " = " << param.second << endl;
-        // }
+        cout << "Contents of params after parsing:" << endl;
+        for (const auto& param : params) {
+            cout << param.first << " = " << param.second << endl;
+        }
 
         // if (params.find("k") == params.end()) {
         //     cerr << "Error: 'k' not found in the input file!" << endl;
@@ -265,11 +265,13 @@ int main(int argc, char* argv[]) {
         base = convert_to_double(base_f);
     }
     vector<vector<double>> queries = convert_to_double(query_f);
-
+    
     // Make set_F
     set<int> set_F;
-    for (vector<double> point : base) {
-        set_F.insert(static_cast<int>(point[0]));
+    if (argc != 6) {
+        for (vector<double> point : base) {
+            set_F.insert(static_cast<int>(point[0]));
+        }
     }
 
     // 3. Call Vamana or Load Graph and Map from files
@@ -286,20 +288,29 @@ int main(int argc, char* argv[]) {
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found
-        size_t pos_L = graph_filename.find("L=");
+        string temp_graph_filename = graph_filename;
+        string temp_map_filename = map_filename;
+        size_t pos_L = temp_graph_filename.find("L=");
 
         if (pos_L != string::npos) {
             size_t pos_start = pos_L + 2;  // Skip past "L="
-            size_t pos_end = graph_filename.find('_', pos_start);
+            size_t pos_end = temp_graph_filename.find('_', pos_start);
             if (pos_end == string::npos) {
-                pos_end = graph_filename.length(); // in case "L=" is the last part
+                pos_end = temp_graph_filename.length(); // in case "L=" is the last part
             }
-            string L_str = graph_filename.substr(pos_start, pos_end - pos_start);
+            string L_str = temp_graph_filename.substr(pos_start, pos_end - pos_start);
             L = stoi(L_str); // Convert substring to integer
         }
 
-        graph = load_graph_from_binary(graph_filename);
-        st_f = load_map_from_binary(map_filename, graph);
+        graph = load_graph_from_binary(temp_graph_filename);
+        st_f = load_map_from_binary(temp_map_filename, graph);
+    }
+
+    // Make set_F
+    if (argc == 6) {
+        for (const auto& pair : graph.getAdjList()) {
+            set_F.insert(pair.second->getLabel());
+        }
     }
 
     // 4. Call Greedy for every query.
