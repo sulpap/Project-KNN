@@ -297,7 +297,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- Base dataset load time: " << base_f_duration.count() << " seconds.\n";
     cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
-    cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << " second or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
+    cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << " seconds or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for UNFILTERED queries (with the calculation of their starting nodes): " << total_unfiltered_query_greedy_duration.count() << " seconds.\n";

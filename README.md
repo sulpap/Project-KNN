@@ -28,6 +28,7 @@ config_stitched_main
 * Εκτελείτε την εντολή: make
 * Εκτελείτε την εντολή: chmod +x run_<όνομα της main>.sh
 * Εκτελείτε την εντολή: ./run_<όνομα της main>.sh
+και αλλάζετε τις παραμέτρους μέσα στο script.
 
 Επιλογή 2:
 * Μεταφέρεστε στο directory που βρίσκεται το Makefile.
@@ -94,12 +95,13 @@ config_stitched_main
 Παράδειγμα εκτέλεσης για k = 20, L = 40, R = 80, a = 1.2:
 
 * Filtered (με τ = 2):
-- PC 1:
+- PC 1: 156.653 seconds or 2.61089 minutes (FilteredVamana: 46.6505 seconds, queries: 108.431 seconds).
 - PC 2:
+- PC 3:
 
 * Stitched (με R_stitched = 2):
-- PC 1:
+- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
 - PC 2:
-
+- PC 3:
 
 Δεν υπάρχουν διαρροές μνήμης.
