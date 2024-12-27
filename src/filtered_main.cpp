@@ -3,7 +3,6 @@
 #include "../include/bin_read.hpp"
 #include "../include/graph_binary_io.hpp"
 #include "../include/filteredVamana.hpp"
-#include "../include/stitchedVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
@@ -282,12 +281,12 @@ int main(int argc, char* argv[]) {
     map<int, Node *> st_f;
 
     if (argc != 6) {
-        cout << "\nCalling StitchedVamana..." << endl;
+        cout << "\nCalling FilteredVamana..." << endl;
         start = chrono::high_resolution_clock::now();
         graph = filteredVamana(base, a, L, R, set_F, t, st_f);
         end = chrono::high_resolution_clock::now();
         filtered_vamana_duration = end - start;
-        cout << "StitchedVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
+        cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found
