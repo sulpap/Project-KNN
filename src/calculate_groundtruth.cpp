@@ -5,6 +5,8 @@
 #include <iostream>
 #include <cstdint>                  // due to uint32_t
 
+#include <chrono>
+
 using namespace std;
 
 #include "../include/bin_read.hpp"
@@ -18,7 +20,10 @@ int main(int argc, char* argv[]) {
 
     vector<vector<float>> points = databin_read("datasets/smallscale/dummy-data.bin");
     vector<vector<float>> queries = queriesbin_read("datasets/smallscale/dummy-queries.bin");
+    auto start = chrono::high_resolution_clock::now();
     vector<vector<int>> gt = ground_truth(points, queries, k);
+    auto end = chrono::high_resolution_clock::now();
+    chrono::duration<double> duration = end - start;
 
     /*
     Δομή binary ground truth:
@@ -43,6 +48,9 @@ int main(int argc, char* argv[]) {
         ofs.write(reinterpret_cast<char const *>(&gt_sol[0]), num_dimensions * sizeof(int));
     }
     ofs.close();
+
+    cout << "Groundtruth file saved at: ./" << output_file << endl;
+    cout << "Groundtruth calculation took: " << duration.count() << " seconds" << endl;
 
     return 0;
 }
