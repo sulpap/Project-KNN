@@ -18,11 +18,8 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
         return; // avoid processing empty graphs
 
     // nodeIds start from 0. we need them to be unique for each label, so ids won't overlap
-    // so nodeIds have this form: f × offset + i
-    // offset must be larger than the max number of nodes per label
     for (size_t i = 0; i < coords.size(); i++) {
         graph.addNode(coords[i]);
-        // cout << "Iteration " << i << ": Node with id = " << coords[i]->getId() << " added!" << endl;
     }
 
     int adjusted_R = min(static_cast<int>(n) - 1, R); // adjust R if necessary
@@ -53,7 +50,7 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
         while (edgesAdded < adjusted_R && !potentialNeighbors.empty())
         {
             auto it = potentialNeighbors.begin();
-            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor ------------------------------------
+            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor
 
             size_t randomNeighborId = *it;
 
@@ -66,7 +63,6 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
                 // temp_node = graph.getNode(randomNeighborId);
                 // cout << "Node i id: " << temp_node->getId() << " label: " << temp_node->getLabel() << " graphId: " << temp_node->getGraphId() << endl;
 
-                // sleep(5);
                 graph.addEdge(coords[i]->getId(), randomNeighborId);
                 edgesAdded++;
             }
