@@ -169,8 +169,13 @@ stitched_main:
 
 * Stitched (με R_stitched = 2):
     - PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
-    - PC 2: 54.5899 seconds or 0.909831 minutes (StitchedVamana: 26.0254 seconds, queries: 28.3942 seconds) Total Accuracy 98.9059% (Filtered: 99.9915%, Unfiltered: 97.8895%)
-    - PC 3: 160.149 seconds or 2.66915 minutes (StitchedVamana: 81.3318 seconds , queries: 78.1706 seconds), Total Accuracy 98.9152% (Filtered: 99.9894%, Unfiltered: 97.9094%)
+    - PC 2:
+    - PC 3:
+=========
+- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds).
+- PC 2:
+- PC 3:
+>>>>>>>>> Temporary merge branch 2
 
 Παράδειγμα εκτέλεσης για k = 100, L = 110, R = 96, a = 1.2:
 
