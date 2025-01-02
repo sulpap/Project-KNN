@@ -1,7 +1,7 @@
 CC = g++
 # -Wall for all warnings
 # -Wextra for even more warnings
-CFLAGS = -Wall -O3 -Wextra -g -std=c++17
+CFLAGS = -Wall -O3 -Wextra -g -std=c++17 -pthread
 
 SRCDIR = src
 OBJDIR = build

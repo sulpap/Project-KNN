@@ -15,6 +15,7 @@
 // V is the set of visited nodes returned from Greedy
 // sigma_i_out are the possible candidates, out-neighbors.
 
+// calls findMedoid and prints time taken
 // int calculate_medoid(vector<vector<double>> &coords)
 // {
 //     cout << "Start of medoid calculation..." << endl;

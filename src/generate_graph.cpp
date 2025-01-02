@@ -56,13 +56,6 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
 
             if (!current->edgeExists(randomNeighborId))
             {
-                // Node *temp_node = graph.getNode(i);
-                // cout << "Node i id: " << temp_node->getId() << " label: " << temp_node->getLabel() << " graphId: " << temp_node->getGraphId() << endl;
-
-                // cout << randomNeighborId << " " << coords.size() << endl;
-                // temp_node = graph.getNode(randomNeighborId);
-                // cout << "Node i id: " << temp_node->getId() << " label: " << temp_node->getLabel() << " graphId: " << temp_node->getGraphId() << endl;
-
                 graph.addEdge(coords[i]->getId(), randomNeighborId);
                 edgesAdded++;
             }
