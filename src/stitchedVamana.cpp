@@ -3,11 +3,12 @@
 #include "../include/filteredrobustprune.hpp"
 #include <pthread.h>
 
-// in stitchedVamana, we know the set of points beforehand
 // stitchedVamana returns a stitched graph, that consists of a collection of subgraphs, one for each label.
 // if there are no nodes for a label, then the graph would be empty.
 
 using namespace std;
+
+// serial:
 
 // Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched, map<int, Node *> &medoids) 
 // {
@@ -131,9 +132,10 @@ struct Thread_params {
     Graph *graph;                // pointer to the main graph
     map<int, Node *> *medoids;   // pointer to medoids map
     pthread_mutex_t *mutex;     // we will need the mutex for the functions that are accessed by the threads (graphUnion and store_medoid)
+    pthread_mutex_t *mutex_medoid;
 };
 
-// thread function -- is done by each thread: the work of processing one label
+// thread function -- is done by each thread: the work of processing one label: make Gf, stitch it, store medoid.
 void *processLabel(void *args) 
 {
     Thread_params *params = static_cast<Thread_params *>(args);
@@ -152,9 +154,9 @@ void *processLabel(void *args)
     // store the medoid node
     if (medoidId != -1) 
     {
-        pthread_mutex_lock(params->mutex);
+        pthread_mutex_lock(params->mutex_medoid);
         store_medoid(*params->graph, *params->medoids, params->label, medoidId);
-        pthread_mutex_unlock(params->mutex);
+        pthread_mutex_unlock(params->mutex_medoid);
     }
 
     return nullptr;
@@ -170,6 +172,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
     pthread_t threads[F.size()];
     Thread_params params[F.size()];
     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t mutex_medoid = PTHREAD_MUTEX_INITIALIZER;
 
     int i = 0;
     for (int f : F) 
@@ -184,7 +187,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
         }
 
         // prepare thread parameters
-        params[i] = {f, Pf, a, R_small, L_small, &G, &medoids, &mutex};
+        params[i] = {f, Pf, a, R_small, L_small, &G, &medoids, &mutex, &mutex_medoid};
 
         // create a thread
         if (pthread_create(&threads[i], nullptr, processLabel, &params[i]) != 0) {

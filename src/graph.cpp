@@ -6,7 +6,8 @@ Node::Node(int id, vector<double> coordinates, list<Node*> edges, int label)
     , coordinates{ coordinates }
     , edges{ edges } 
     , label{ label } {
-
+    // mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_init(&mutex, nullptr);
 }
 
 // Copy constructor
@@ -16,7 +17,7 @@ Node::Node(const Node& other)
     , coordinates(other.coordinates)
     , edges(other.edges)
     , label(other.label) {
-
+    pthread_mutex_init(&mutex, nullptr);
 }
 
 // Move constructor
@@ -30,9 +31,12 @@ Node::Node(Node&& other) noexcept
     other.id = -1;
     other.label = -1;
     other.edges.clear();
+    pthread_mutex_init(&mutex, nullptr);
 }
 
-Node::~Node() {}
+Node::~Node() {
+    pthread_mutex_destroy(&mutex);
+}
 
 // Move assignment operator
 Node& Node::operator=(Node&& other) noexcept {
@@ -40,6 +44,7 @@ Node& Node::operator=(Node&& other) noexcept {
         // Clear the previous data of this
         coordinates.clear();
         edges.clear();
+        pthread_mutex_destroy(&mutex);
 
         // Transfer ownership of resources from 'other' to 'this'
         id = other.id;
@@ -47,11 +52,13 @@ Node& Node::operator=(Node&& other) noexcept {
         coordinates = move(other.coordinates);
         edges = move(other.edges);
         label = other.label;
+        // mutex = other.mutex;
 
         // Leave 'other' in a valid but empty state
         other.id = -1;
         other.label = -1;
         other.edges.clear();
+        pthread_mutex_init(&mutex, nullptr);
     }
     return *this;
 }
@@ -149,6 +156,15 @@ vector<int> Node::getNeighbors()
     return neighbors;
 }
 
+void Node::mutex_lock()
+{
+    pthread_mutex_lock(&this->mutex);
+}
+
+void Node::mutex_unlock()
+{
+    pthread_mutex_unlock(&this->mutex);
+}
 
 int Graph::currentGraphId = 1;
 
