@@ -129,10 +129,10 @@ struct Thread_params {
     double a;                    
     int R_small;                 
     int L_small;
-    Graph *graph;                // pointer to the main graph
-    map<int, Node *> *medoids;   // pointer to medoids map
-    pthread_mutex_t *mutex;     // we will need the mutex for the functions that are accessed by the threads (graphUnion and store_medoid)
-    pthread_mutex_t *mutex_medoid;
+    Graph *graph;                   // pointer to the main graph
+    map<int, Node *> *medoids;      // pointer to medoids map
+    pthread_mutex_t *mutex_union;   // mutex for graphUnion - we will need the mutexes for the functions that are accessed by the threads (shared functions)
+    pthread_mutex_t *mutex_medoid;  // mutex for store_medoid
 };
 
 // thread function -- is done by each thread: the work of processing one label: make Gf, stitch it, store medoid.
@@ -145,9 +145,9 @@ void *processLabel(void *args)
     int medoidId = Vamana(Gf, params->Pf, params->R_small, params->a, params->L_small);
 
     // merge (stitch) the subgraph into the main graph
-    pthread_mutex_lock(params->mutex);
+    pthread_mutex_lock(params->mutex_union);
     params->graph->graphUnion(std::move(Gf));
-    pthread_mutex_unlock(params->mutex); 
+    pthread_mutex_unlock(params->mutex_union); 
 
     Gf.clear();
 
@@ -171,7 +171,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
     // initialize pthreads
     pthread_t threads[F.size()];
     Thread_params params[F.size()];
-    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+    pthread_mutex_t mutex_union = PTHREAD_MUTEX_INITIALIZER;
     pthread_mutex_t mutex_medoid = PTHREAD_MUTEX_INITIALIZER;
 
     int i = 0;
@@ -187,7 +187,7 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
         }
 
         // prepare thread parameters
-        params[i] = {f, Pf, a, R_small, L_small, &G, &medoids, &mutex, &mutex_medoid};
+        params[i] = {f, Pf, a, R_small, L_small, &G, &medoids, &mutex_union, &mutex_medoid};
 
         // create a thread
         if (pthread_create(&threads[i], nullptr, processLabel, &params[i]) != 0) {
@@ -203,7 +203,8 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
         pthread_join(threads[j], nullptr);
     }
 
-    pthread_mutex_destroy(&mutex);
+    pthread_mutex_destroy(&mutex_union);
+    pthread_mutex_destroy(&mutex_medoid);
 
     return G;
 }

@@ -11,7 +11,9 @@ void FilteredRobustPrune(Node* p, set<Node*> V, double a, int R) {
     V.erase(p);
 
     // Step 2: N_out(p) <- ∅ (clear current out-neighbors of p)
+    // p->mutex_lock();
     p->setEdges(list<Node*>());
+    // p->mutex_unlock();
 
     // Step 3: while V ≠ ∅ do
     while (!V.empty()) {
@@ -28,7 +30,9 @@ void FilteredRobustPrune(Node* p, set<Node*> V, double a, int R) {
         }
 
         // Step 5: N_out(p) <- N_out(p) ∪ {p*}
+        // p->mutex_lock();
         p->addEdge(pStar);
+        // p->mutex_unlock();
 
         // Step 6: if |N_out(p)| = R then break
         if (p->getEdges().size() == static_cast<size_t>(R)) {

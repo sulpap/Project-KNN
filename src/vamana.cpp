@@ -93,8 +93,9 @@ int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
             {
                 auto it = find(j_out.begin(), j_out.end(), sigma_i);
                 if (it == j_out.end())
-                { // sigma_i doesn't exist in j_out
-                    node_j->mutex_lock();
+                { 
+                    // sigma_i doesn't exist in j_out
+                    node_j->mutex_lock(); // we are going to edit a node's list of neighbors, so we need to lock the mutex
                     node_j->addEdge(sigma_i);
                     node_j->mutex_unlock();
                 }

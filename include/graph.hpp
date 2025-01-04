@@ -17,7 +17,7 @@ class Node {
         vector<double> coordinates;
         list<Node*> edges;
         int label;
-        pthread_mutex_t mutex;
+        pthread_mutex_t mutex;  // this is to protect the node's data that could be edited by many threads (list of neighbors -> edges)
 
     public:
         // Constructor
