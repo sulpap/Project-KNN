@@ -6,6 +6,7 @@
 #include <map>
 #include <list>
 #include <set>
+#include <pthread.h>
 
 using namespace std;
 
@@ -16,6 +17,7 @@ class Node {
         vector<double> coordinates;
         list<Node*> edges;
         int label;
+        pthread_mutex_t mutex;  // this is to protect the node's data that could be edited by many threads (list of neighbors -> edges)
 
     public:
         // Constructor
@@ -61,6 +63,10 @@ class Node {
         void deleteEdge(int id);
 
         vector<int> getNeighbors();
+
+        // mutex
+        void mutex_lock();
+        void mutex_unlock();
 };
 
 class Graph {
