@@ -52,10 +52,8 @@ class Node {
         // Extra Functions
         void addEdge(Node* to);
         void addCoordinate(vector<double> coordinates);
-        // void addLabel
 
         bool edgeExists(int id); // Checks if node has an outgoing edge to the node with that id
-        // bool labelExist
 
         double getSpecificCoordinate(int dimension);
         void setSpecificCoordinate(int dimension, double value);

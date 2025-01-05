@@ -14,176 +14,176 @@
 
 // parallel:
 
-struct Thread_params {
-    Graph* G;
-    vector<int>* randomPermutation;
-    int start_index;
-    int end_index;
-    map<int, Node*>* st_f;
-    int int_L;
-    double a;
-    int R;
-    pthread_mutex_t* mutex;
-};
+// struct Thread_params {
+//     Graph* G;
+//     vector<int>* randomPermutation;
+//     int start_index;
+//     int end_index;
+//     map<int, Node*>* st_f;
+//     int int_L;
+//     double a;
+//     int R;
+//     pthread_mutex_t* mutex;
+// };
 
-// thread function -- each thread will take on a chunk of nodes from randomPermutation and do the work of filteredVamana
-void *process_chunk(void *args) 
-{
-    Thread_params *params = static_cast<Thread_params *>(args);
-    map<int, Node *> &st_f = *(params->st_f);
-
-    for (int i = params->start_index; i < params->end_index; i++) 
-    {
-        int point_id = (*params->randomPermutation)[i];
-        pthread_mutex_lock(params->mutex);
-        Node* point = params->G->getNode(point_id);
-        int label = point->getLabel();
-        Node *start_node = st_f[label];
-        pthread_mutex_unlock(params->mutex);
-
-        set<Node *> L_set;
-        set<Node *> V_set;
-        set<Node *> S_set;
-
-        S_set.insert(start_node);
-        int k = 0;
-        set<int> F;
-        F.insert(label);
-
-        pthread_mutex_lock(params->mutex);
-        vector<double> coordinates = point->getCoordinates();
-        FilteredGreedySearch(S_set, coordinates, k, params->int_L, L_set, V_set, F);
-        pthread_mutex_unlock(params->mutex);
-
-        assert(L_set.size() == 0);
-
-        pthread_mutex_lock(params->mutex);
-        FilteredRobustPrune(point, V_set, params->a, params->R);
-        pthread_mutex_unlock(params->mutex);
-
-        list<Node *> point_out = point->getEdges();
-        for (auto j : point_out)
-        {   
-            pthread_mutex_lock(params->mutex);
-            j->addEdge(point); // addEdge won't add point as neighbor of j if that's already the case
-            list<Node *> j_out = j->getEdges();
-            pthread_mutex_unlock(params->mutex);
-
-            if (static_cast<int>(j_out.size()) > params->R)
-            {
-                set<Node *> V_set(j_out.begin(), j_out.end());
-                pthread_mutex_lock(params->mutex);
-                FilteredRobustPrune(j, V_set, params->a, params->R);
-                pthread_mutex_unlock(params->mutex);
-            }
-        }
-    }
-    return nullptr;
-}
-
-Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R, set<int> F, int taph, map<int, Node *> &st_f) 
-{
-    Graph G;
-
-    initialize_graph(G, coords);
-
-    st_f = FindMedoid(G, taph, F);
-
-    vector<int> randomPermutation(coords.size());
-    iota(randomPermutation.begin(), randomPermutation.end(), 0);            // starts from 0 until coords.size - 1
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count(); // obtain a time-based seed and shuffle
-    shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
-   
-    int num_threads = 10;
-    int chunk_size = (randomPermutation.size() + num_threads - 1) / num_threads; // round up to ensure all elements are processed
-
-    // initialize pthreads
-    pthread_t threads[num_threads];
-    Thread_params params[num_threads];
-    pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
-
-    for (int i = 0; i < num_threads; i++)
-    {
-        // prepare thread parameters
-        int start = i * chunk_size;
-        int end = min(start + chunk_size, static_cast<int>(randomPermutation.size()));
-        params[i] = {&G, &randomPermutation, start, end, &st_f, int_L, a, R, &mutex};
-
-        // create a thread
-        if (pthread_create(&threads[i], nullptr, process_chunk, &params[i]) != 0) {
-            cerr << "Error creating thread for chunk no: " << i << endl;
-        }
-    }
-
-    // wait for all threads to complete
-    for (int j = 0; j < num_threads; j++) 
-    {
-        pthread_join(threads[j], nullptr);
-    }
-
-    pthread_mutex_destroy(&mutex);
-
-    return G;
-}
-
-// serial:
-
-// Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R, set<int> F, int taph, map<int, Node *> &st_f)
+// // thread function -- each thread will take on a chunk of nodes from randomPermutation and do the work of filteredVamana
+// void *process_chunk(void *args) 
 // {
-//     // 1. Initialize an empty graph
-//     Graph G;
+//     Thread_params *params = static_cast<Thread_params *>(args);
+//     map<int, Node *> &st_f = *(params->st_f);
 
-//     // fill the graph with nodes based on the coords info (label & point coords)
-//     initialize_graph(G, coords);
-
-//     // 2. Let st(f) denote the start node for filter label f for every f ∈ F
-//     st_f = FindMedoid(G, taph, F);
-
-//     // 3. Let σ (randomPermutation) be a random permutation of [n]
-//     vector<int> randomPermutation(coords.size());
-//     iota(randomPermutation.begin(), randomPermutation.end(), 0);            // starts from 0 until coords.size - 1
-//     unsigned seed = chrono::system_clock::now().time_since_epoch().count(); // obtain a time-based seed and shuffle
-//     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
-
-//     // foreach i ∈ [n] do
-//     for (int point_id : randomPermutation) // ids in initialize_graph are also from 0 to coords.size - 1
+//     for (int i = params->start_index; i < params->end_index; i++) 
 //     {
-//         Node *point = G.getNode(point_id);
+//         int point_id = (*params->randomPermutation)[i];
+//         pthread_mutex_lock(params->mutex);
+//         Node* point = params->G->getNode(point_id);
 //         int label = point->getLabel();
-
 //         Node *start_node = st_f[label];
+//         pthread_mutex_unlock(params->mutex);
+
 //         set<Node *> L_set;
 //         set<Node *> V_set;
 //         set<Node *> S_set;
 
 //         S_set.insert(start_node);
-        
-//         vector<double> coordinates = point->getCoordinates();
 //         int k = 0;
-
 //         set<int> F;
 //         F.insert(label);
 
-//         FilteredGreedySearch(S_set, coordinates, k, int_L, L_set, V_set, F);
+//         pthread_mutex_lock(params->mutex);
+//         vector<double> coordinates = point->getCoordinates();
+//         FilteredGreedySearch(S_set, coordinates, k, params->int_L, L_set, V_set, F);
+//         pthread_mutex_unlock(params->mutex);
+
 //         assert(L_set.size() == 0);
 
-//         FilteredRobustPrune(point, V_set, a, R);
+//         pthread_mutex_lock(params->mutex);
+//         FilteredRobustPrune(point, V_set, params->a, params->R);
+//         pthread_mutex_unlock(params->mutex);
 
 //         list<Node *> point_out = point->getEdges();
 //         for (auto j : point_out)
-//         {
+//         {   
+//             pthread_mutex_lock(params->mutex);
 //             j->addEdge(point); // addEdge won't add point as neighbor of j if that's already the case
 //             list<Node *> j_out = j->getEdges();
+//             pthread_mutex_unlock(params->mutex);
 
-//             if (static_cast<int>(j_out.size()) > R)
+//             if (static_cast<int>(j_out.size()) > params->R)
 //             {
-//                 set<Node *> V_set(j_out.begin(), j_out.end()); // We initialize V with out neighbors of j
-//                 FilteredRobustPrune(j, V_set, a, R);
+//                 set<Node *> V_set(j_out.begin(), j_out.end());
+//                 pthread_mutex_lock(params->mutex);
+//                 FilteredRobustPrune(j, V_set, params->a, params->R);
+//                 pthread_mutex_unlock(params->mutex);
 //             }
 //         }
 //     }
+//     return nullptr;
+// }
+
+// Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R, set<int> F, int taph, map<int, Node *> &st_f) 
+// {
+//     Graph G;
+
+//     initialize_graph(G, coords);
+
+//     st_f = FindMedoid(G, taph, F);
+
+//     vector<int> randomPermutation(coords.size());
+//     iota(randomPermutation.begin(), randomPermutation.end(), 0);            // starts from 0 until coords.size - 1
+//     unsigned seed = chrono::system_clock::now().time_since_epoch().count(); // obtain a time-based seed and shuffle
+//     shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
+   
+//     int chunk_size = (randomPermutation.size() + NUM_THREADS - 1) / NUM_THREADS; // round up to ensure all elements are processed
+
+//     // initialize pthreads
+//     pthread_t threads[NUM_THREADS];
+//     Thread_params params[NUM_THREADS];
+//     pthread_mutex_t mutex = PTHREAD_MUTEX_INITIALIZER;
+
+//     for (int i = 0; i < NUM_THREADS; i++)
+//     {
+//         // prepare thread parameters
+//         int start = i * chunk_size;
+//         int end = min(start + chunk_size, static_cast<int>(randomPermutation.size()));
+//         params[i] = {&G, &randomPermutation, start, end, &st_f, int_L, a, R, &mutex};
+
+//         // create a thread
+//         if (pthread_create(&threads[i], nullptr, process_chunk, &params[i]) != 0) {
+//             cerr << "Error creating thread for chunk no: " << i << endl;
+//         }
+//     }
+
+//     // wait for all threads to complete
+//     for (int j = 0; j < NUM_THREADS; j++) 
+//     {
+//         pthread_join(threads[j], nullptr);
+//     }
+
+//     pthread_mutex_destroy(&mutex);
+
 //     return G;
 // }
+
+// serial:
+
+Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R, set<int> F, int taph, map<int, Node *> &st_f)
+{
+    // 1. Initialize an empty graph
+    Graph G;
+
+    // fill the graph with nodes based on the coords info (label & point coords)
+    initialize_graph(G, coords);
+    // generate_label_based_graph(G, coords);
+
+    // 2. Let st(f) denote the start node for filter label f for every f ∈ F
+    st_f = FindMedoid(G, taph, F);
+
+    // 3. Let σ (randomPermutation) be a random permutation of [n]
+    vector<int> randomPermutation(coords.size());
+    iota(randomPermutation.begin(), randomPermutation.end(), 0);            // starts from 0 until coords.size - 1
+    unsigned seed = chrono::system_clock::now().time_since_epoch().count(); // obtain a time-based seed and shuffle
+    shuffle(randomPermutation.begin(), randomPermutation.end(), default_random_engine(seed));
+
+    // foreach i ∈ [n] do
+    for (int point_id : randomPermutation) // ids in initialize_graph are also from 0 to coords.size - 1
+    {
+        Node *point = G.getNode(point_id);
+        int label = point->getLabel();
+
+        Node *start_node = st_f[label];
+        set<Node *> L_set;
+        set<Node *> V_set;
+        set<Node *> S_set;
+
+        S_set.insert(start_node);
+        
+        vector<double> coordinates = point->getCoordinates();
+        int k = 0;
+
+        set<int> F;
+        F.insert(label);
+
+        FilteredGreedySearch(S_set, coordinates, k, int_L, L_set, V_set, F);
+        assert(L_set.size() == 0);
+
+        FilteredRobustPrune(point, V_set, a, R);
+
+        list<Node *> point_out = point->getEdges();
+        for (auto j : point_out)
+        {
+            j->addEdge(point); // addEdge won't add point as neighbor of j if that's already the case
+            list<Node *> j_out = j->getEdges();
+
+            if (static_cast<int>(j_out.size()) > R)
+            {
+                set<Node *> V_set(j_out.begin(), j_out.end()); // We initialize V with out neighbors of j
+                FilteredRobustPrune(j, V_set, a, R);
+            }
+        }
+    }
+    return G;
+}
 
 // (serial) version based strictly on the pseudocode:
 
