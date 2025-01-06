@@ -15,10 +15,14 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
 
     size_t n = coords.size(); // number of points in the current graph
     if (n == 0)
+    {
+        cerr << "Error [generate_graph]: No coordinates provided." << endl;
         return; // avoid processing empty graphs
+    }
 
     // nodeIds start from 0
-    for (size_t i = 0; i < coords.size(); i++) {
+    for (size_t i = 0; i < coords.size(); i++)
+    {
         graph.addNode(coords[i]);
     }
 
@@ -70,27 +74,32 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
 }
 
 // function to randomly connect nodes to nodes with the same label
-void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coords) {
+void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coords)
+{
     srand(time(0));
 
-    size_t n = coords.size(); // number of points in the input
-    if (n == 0) {
-        cerr << "Error: No coordinates provided." << endl;
-        return;
+    size_t n = coords.size(); // number of points in the current graph
+    if (n == 0)
+    {
+        cerr << "Error [generate_label_based_graph]: No coordinates provided." << endl;
+        return; // avoid processing empty graphs
     }
 
     map<int, vector<int>> labelToNodes; // this is to group nodes by label
 
     // group nodes by label (nodes are already added by the initialization function)
-    for (size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i)
+    {
         int label = static_cast<int>(coords[i][0]); // The label is the 0th element of the coords
         labelToNodes[label].push_back(i);
     }
 
     // add edges --> max 1 edge to a node of the same label
-    for (size_t i = 0; i < n; ++i) {
+    for (size_t i = 0; i < n; ++i)
+    {
         Node *current = graph.getNode(i);
-        if (!current) {
+        if (!current)
+        {
             // cerr << "Error: Node with id " << i << " does not exist in the graph." << endl;
             continue;
         }
@@ -99,25 +108,30 @@ void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coor
         const auto &sameLabelNodes = labelToNodes[label];
 
         // if no other nodes with the same label exist, skip
-        if (sameLabelNodes.size() <= 1) {
+        if (sameLabelNodes.size() <= 1)
+        {
             // cerr << "Warning: Node " << i << " has no other nodes with the same label to connect to." << endl;
             continue;
         }
 
         // select a random neighbor with the same label
         vector<int> potentialNeighbors;
-        for (int neighborId : sameLabelNodes) {
-            if (neighborId != i) {
+        for (int neighborId : sameLabelNodes)
+        {
+            if (neighborId != i)
+            {
                 potentialNeighbors.push_back(neighborId);
             }
         }
 
-        if (!potentialNeighbors.empty()) {
+        if (!potentialNeighbors.empty())
+        {
             unsigned seed = chrono::system_clock::now().time_since_epoch().count();
             shuffle(potentialNeighbors.begin(), potentialNeighbors.end(), default_random_engine(seed));
             int randomNeighborId = potentialNeighbors.front();
 
-            if (!current->edgeExists(randomNeighborId)) {
+            if (!current->edgeExists(randomNeighborId))
+            {
                 graph.addEdge(i, randomNeighborId);
             }
         }

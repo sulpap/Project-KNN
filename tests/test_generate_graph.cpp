@@ -78,7 +78,7 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
         Node *node = graph.getNode(i);
         for (auto edge : node->getEdges())
         {
-            REQUIRE(edge->getId() != i); // Node should not have an edge to itself
+            REQUIRE(edge->getId() != i); // node should not have an edge to itself
         }
     }
 
@@ -110,18 +110,46 @@ TEST_CASE("Test generate_graph no self-loops or duplicate edges")
 TEST_CASE("Test generate_label_based_graph basic functionality")
 {
     vector<vector<double>> coords = {
-        {1.0, 2.0, 3.0},
-        {4.0, 5.0, 6.0},
-        {7.0, 8.0, 9.0},
-        {10.0, 11.0, 12.0},
-        {13.0, 14.0, 15.0}
+        {0, 2.0, 3.0},
+        {0, 5.0, 6.0},
+        {1, 8.0, 9.0},
+        {1, 11.0, 12.0},
+        {0, 14.0, 15.0} 
     };
-    set<int> F = {0, 1};
+
+    vector<Node *> nodes;
+
+    // initialize nodes with labels as the first element of coords
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        int label = static_cast<int>(coords[i][0]); // take the label from the first element
+        vector<double> point_coords(coords[i].begin() + 1, coords[i].end()); // the remaining are coordinates
+        Node *tempNode = new Node(i, point_coords, {}, label);
+        nodes.push_back(tempNode);
+    }
 
     Graph graph;
+    for (Node *node : nodes)
+    {
+        graph.addNode(node);
+    }
+
     generate_label_based_graph(graph, coords);
 
-    //TODO
+    // verify that nodes are connected only to nodes with the same label
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        Node *node = graph.getNode(i);
+        REQUIRE(node != nullptr); // check that the node exists
+        int label = node->getLabel();
+
+        for (auto edge : node->getEdges())
+        {
+            Node *neighbor = graph.getNode(edge->getId());
+            REQUIRE(neighbor != nullptr); // neighbor exists
+            REQUIRE(neighbor->getLabel() == label); // and it has the same label
+        }
+    }
 
     graph.clear();
 }
