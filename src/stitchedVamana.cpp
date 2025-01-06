@@ -1,64 +1,18 @@
+/* StitchedVamana implementation file:
+   Contains the parallel implementation of stitchedVamana with pthreads
+   and the serial implementation in comments below.
+   To switch between the two versions, just comment/uncomment.
+*/
+
 #include "../include/stitchedVamana.hpp"
 #include "../include/vamana.hpp"
 #include "../include/filteredrobustprune.hpp"
 #include <pthread.h>
 
-// stitchedVamana returns a stitched graph, that consists of a collection of subgraphs, one for each label.
-// if there are no nodes for a label, then the graph would be empty.
+/* stitchedVamana returns a stitched graph, that consists of a collection of subgraphs, one for each label.
+if there are no nodes for a label, then the graph would be empty. */
 
 using namespace std;
-
-// serial:
-
-// Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched, map<int, Node *> &medoids) 
-// {
-//     // 1. Initialize G = (V, E) to an empty graph
-//     Graph G;
-
-//     // 2. Let Fx ⊆ F be the label-set for every x ∈ P
-//     unordered_map<int, set<int>> Fx = compute_Fx(coords); // Fx maps node IDs to their label sets
-
-//     // 3. Let Pf ⊆ P be the set of points with label f ∈ F
-//     unordered_map<int, vector<Node *>> PfMap = compute_PfMap(coords, F); // Map each label f to its corresponding set of points (coordinates)
-
-//     // foreach f ∈ F do
-//     for (int f : F) 
-//     {
-//         // get Pf (the nodes) for this label
-//         vector<Node *> Pf = PfMap[f];
-
-//         // if Pf is empty, then we were given no nodes with this label
-//         if (Pf.empty()) 
-//         {
-//             // continue without calling vamana to avoid extra work
-//             continue;
-//         }
-
-//         // 4. Let Gf ← Vamana(Pf, α, R_small, L_small)
-//         Graph Gf;
-
-//         int medoidId = Vamana(Gf, Pf, R_small, a, L_small); // we also give f, because vamana creates the graph, so it
-//                                                                // needs to add the values of the nodes, in which is the label
-
-//         // merge "stitch" graphs
-//         G.graphUnion(move(Gf));
-
-//         Gf.clear(); // Gf's adj list is already cleared by graphUnion. clear the nodes here.
-
-//         // store the medoid node
-//         store_medoid(G, medoids, f, medoidId);
-//     }
-
-//     // foreach v ∈ V do
-//     // for (auto &[nodeId, nodePtr] : G.getAdjList()) {
-//     //     // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
-//     //     list<Node *> temp = nodePtr->getEdges();
-//     //     set<Node *> N_out(temp.begin(), temp.end());
-//     //     FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
-//     // }
-
-//     return G;
-// }
 
 unordered_map<int, set<int>> compute_Fx(vector<vector<double>> &coords) 
 {
@@ -208,3 +162,55 @@ Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L
 
     return G;
 }
+
+// serial:
+
+// Graph stitchedVamana(vector<vector<double>> &coords, set<int> F, double a, int L_small, int R_small, int R_stitched, map<int, Node *> &medoids) 
+// {
+//     // 1. Initialize G = (V, E) to an empty graph
+//     Graph G;
+
+//     // 2. Let Fx ⊆ F be the label-set for every x ∈ P
+//     unordered_map<int, set<int>> Fx = compute_Fx(coords); // Fx maps node IDs to their label sets
+
+//     // 3. Let Pf ⊆ P be the set of points with label f ∈ F
+//     unordered_map<int, vector<Node *>> PfMap = compute_PfMap(coords, F); // Map each label f to its corresponding set of points (coordinates)
+
+//     // foreach f ∈ F do
+//     for (int f : F) 
+//     {
+//         // get Pf (the nodes) for this label
+//         vector<Node *> Pf = PfMap[f];
+
+//         // if Pf is empty, then we were given no nodes with this label
+//         if (Pf.empty()) 
+//         {
+//             // continue without calling vamana to avoid extra work
+//             continue;
+//         }
+
+//         // 4. Let Gf ← Vamana(Pf, α, R_small, L_small)
+//         Graph Gf;
+
+//         int medoidId = Vamana(Gf, Pf, R_small, a, L_small); // we also give f, because vamana creates the graph, so it
+//                                                                // needs to add the values of the nodes, in which is the label
+
+//         // merge "stitch" graphs
+//         G.graphUnion(move(Gf));
+
+//         Gf.clear(); // Gf's adj list is already cleared by graphUnion. clear the nodes here.
+
+//         // store the medoid node
+//         store_medoid(G, medoids, f, medoidId);
+//     }
+
+//     // foreach v ∈ V do
+//     // for (auto &[nodeId, nodePtr] : G.getAdjList()) {
+//     //     // 5. FilteredRobustPrune(v, N_out(v), α, R_stitched)
+//     //     list<Node *> temp = nodePtr->getEdges();
+//     //     set<Node *> N_out(temp.begin(), temp.end());
+//     //     FilteredRobustPrune(nodePtr, N_out, a, R_stitched);
+//     // }
+
+//     return G;
+// }
