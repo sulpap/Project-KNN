@@ -90,7 +90,10 @@ void FilteredGreedySearch(set<Node*> &S_set, vector<double> &queryCoords, int k,
         list<Node*> p_star_out = p_star->getEdges();            // out-neighbors of p*
         for(auto node : p_star_out) {
             int filter_p_star_out = node->getLabel();
-            assert(F_q_set.find(filter_p_star_out) != F_q_set.end());       // filter_p_star_out should exist in F_q_set
+
+            if(F_q_set.find(filter_p_star_out) == F_q_set.end()) {
+                continue;               // we don't take this neighbor into account, since its filter doesn't exist in F_q_set
+            }
 
             if(V_set.find(node) == V_set.end()) {       // p_star_out doesn't exist in V
                 L_set.insert(node);
