@@ -59,7 +59,7 @@ filtered_main:
     2. Δίνετε τον γράφο έτοιμο: ./bin/filtered_main <k> <graph_filename> <map_filename> <queries_file_path> <groundtruth_file_path>
         Προσοχή: Το graph_filename και το map_filename, πρέπει να είναι τα ονόματα των αρχείων όχι το path, όπως στο groundtruth_file_path!
         Π.χ: ./bin/filtered_main 100 filtered_graph_L=110_a=1.200000_R=96_taph=55 filtered_map_L=110_a=1.200000_R=96_taph=55 ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
-    3. Δίνετε ένα config αρχείο: ./bin/filtered_main <input_file>
+    3. Δίνεται ένα config αρχείο: ./bin/filtered_main <input_file>
         To config αρχείο έχει συγκεκριμένη μορφή!
             Π.χ.:   k = 100
                     L = 110
@@ -93,7 +93,7 @@ stitched_main:
     2. Δίνετε τον γράφο έτοιμο: ./bin/stitched_main <k> <graph_filename> <map_filename> <queries_file_path> <groundtruth_file_path>
         Προσοχή: Το graph_filename και το map_filename, πρέπει να είναι τα ονόματα των αρχείων όχι το path, όπως στο groundtruth_file_path!
         Π.χ: ./bin/stitched_main 100 stitched_graph_L=110_a=1.200000_R=96_R_stitched=98 stitched_map_L=110_a=1.200000_R=96_R_stitched=98 ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
-    3. Δίνετε ένα config αρχείο: ./bin/stitched_main <input_file>
+    3. Δίνεται ένα config αρχείο: ./bin/stitched_main <input_file>
         To config αρχείο έχει συγκεκριμένη μορφή!
             Π.χ.:   k = 100
                     L = 110
@@ -169,13 +169,8 @@ stitched_main:
 
 * Stitched (με R_stitched = 2):
     - PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds)
-    - PC 2:
-    - PC 3:
-=========
-- PC 1: 205.893 seconds or 3.43156 minutes (StitchedVamana: 92.9362 seconds , queries: 111.992 seconds).
-- PC 2:
-- PC 3:
->>>>>>>>> Temporary merge branch 2
+    - PC 2: 54.5899 seconds or 0.909831 minutes (StitchedVamana: 26.0254 seconds, queries: 28.3942 seconds) Total Accuracy 98.9059% (Filtered: 99.9915%, Unfiltered: 97.8895%)
+    - PC 3: 160.149 seconds or 2.66915 minutes (StitchedVamana: 81.3318 seconds , queries: 78.1706 seconds), Total Accuracy 98.9152% (Filtered: 99.9894%, Unfiltered: 97.9094%)
 
 Παράδειγμα εκτέλεσης για k = 100, L = 110, R = 96, a = 1.2:
 
