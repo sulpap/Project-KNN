@@ -78,6 +78,7 @@ struct Thread_params {
     double a;
     int R;
     pthread_mutex_t* mutex;
+    unordered_map<pair<Node*, Node*>, double, PairHash> *nodePairMap;
 };
 
 // thread function -- each thread will take on a chunk of nodes from randomPermutation and do the work of filteredVamana
@@ -105,8 +106,7 @@ void *process_chunk(void *args)
         F.insert(label);
 
         pthread_mutex_lock(params->mutex);
-        vector<double> coordinates = point->getCoordinates();
-        FilteredGreedySearch(S_set, coordinates, k, params->int_L, L_set, V_set, F);
+        FilteredGreedySearchIndex(S_set, point, k, params->int_L, L_set, V_set, F, *(params->nodePairMap));
         pthread_mutex_unlock(params->mutex);
 
         assert(L_set.size() == 0);
@@ -260,7 +260,7 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
         // prepare thread parameters
         int start = i * chunk_size;
         int end = min(start + chunk_size, static_cast<int>(randomPermutation.size()));
-        params[i] = {&G, &randomPermutation, start, end, &st_f, int_L, a, R, &mutex};
+        params[i] = {&G, &randomPermutation, start, end, &st_f, int_L, a, R, &mutex, &nodePairMap};
 
         // create a thread
         if (pthread_create(&threads[i], nullptr, process_chunk, &params[i]) != 0) {
