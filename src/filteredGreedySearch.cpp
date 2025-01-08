@@ -2,17 +2,58 @@
 #include "../include/utility.hpp"               // due to eucledean_distance
 
 #include <cassert>
-#include <cfloat>       // due to DBL_MAX
-#include <algorithm>    // due to sort
+#include <unordered_map>
 
-struct info {
-    Node* node;
-    double distance;
+// Compare function for sets that store: pair<double, Node*>. We want the set to be sorted by dist, and when tie breaker to use node's address
+struct Compare {
+    bool operator()(const pair<double, Node*>& a, const pair<double, Node*>& b) const {
+        if (a.first != b.first)
+            return a.first < b.first;   // Sort by dist
+        return a.second < b.second;     // Tie-breaker: Node* address
+    }
 };
 
-static bool info_compare(const struct info &item_1, const struct info &item_2) {
-    return item_1.distance < item_2.distance;
+// Insert function with size limit enforcement (our own insert function for inserting in "L set" -- updates nodeMap, sortedSet and checks if up to L elements are stored)
+static void insert(unordered_map<Node*, double>& nodeMap,
+            set<pair<double, Node*>, Compare>& sortedSet,
+            Node* node, double dist, size_t maxSize) {
+    if (nodeMap.find(node) != nodeMap.end()) {
+        // Node already exists. Skip this node (a set should contain unique elements)
+        return;
+    }
+
+    // Insert into both containers
+    nodeMap[node] = dist;
+    sortedSet.emplace(dist, node);
+
+    // Enforce size limit
+    if (sortedSet.size() > maxSize) {       // due to L should have up to L elements (see pseudocode)
+        // Remove the largest element
+        auto it = prev(sortedSet.end());
+        Node* nodeToRemove = it->second;    // Get Node* from the set
+        nodeMap.erase(nodeToRemove);        // Remove from map
+        sortedSet.erase(it);                // Remove from set
+    }
 }
+
+// Our own set_difference function for finding the difference of two sets of the following form: set<pair<double, Node*> vs set<Node*>& V_set
+static set<pair<double, Node*>, Compare> set_difference(
+    const set<pair<double, Node*>, Compare>& sortedSet,
+    const set<Node*>& V_set) {
+   
+    set<pair<double, Node*>, Compare> result;
+
+    for (const auto& pair : sortedSet) {
+        // Check if the Node* (second element of the pair) is in V_set
+        if (V_set.find(pair.second) == V_set.end()) {
+            // Not found in V_set, include in the result
+            result.insert(pair);
+        }
+    }
+
+    return result;
+}
+
 
 // L_set, V_set should be empty when calling the function
 // L_set, V_set will be full once function call terminated
@@ -51,105 +92,141 @@ void FilteredGreedySearch(set<Node*> &S_set, vector<double> &queryCoords, int k,
 
     assert(L >= k);
     assert(queryCoords.size() > 0);
-// Initialize L_set, V_set to empty
+    // Initialize L_set, V_set to empty
     assert(L_set.empty() == true);      // given L_set should be empty
     assert(V_set.empty() == true);      // given V_set should be empty
-    if(S_set.size() == 0)       // Δεν υπάρχει start node για το συγκεκριμένο φίλτρο (aka, δεν υπάρχει point στον γράφο με αυτό το φίλτρο)
-        return;                 // therefore, we return empty L_set, V_set
+    if(S_set.size() == 0)               // Δεν υπάρχει start node για το συγκεκριμένο φίλτρο (aka, δεν υπάρχει point στον γράφο με αυτό το φίλτρο)
+        return;                         // therefore, we return empty L_set, V_set
+
+
+    unordered_map<Node*, double> nodeMap;           // Main storage
+    set<pair<double, Node*>, Compare> sortedSet;    // Secondary sorted viewm of main storage
+    set<pair<double, Node*>, Compare> LminusV;
 
     // We traverse S_set:
     set<int> s_filters;
-    set<Node*> LminusV;
     for (auto node : S_set) {
-        L_set.insert(node);
         s_filters.insert(node->getLabel());
-        LminusV.insert(node);
+        double dist = euclidean_distance(node->getCoordinates(), queryCoords);
+        insert(nodeMap, sortedSet, node, dist, L);              // insert into "L set"
+        LminusV.emplace(dist, node);                            // Inserts a new pair in the set, if unique. This new pair is constructed in place using args as the arguments for its construction.
     }   
-    assert(s_filters == F_q_set);           // same size & same content
+    assert(s_filters == F_q_set);                               // same size & same content
 
-    while(LminusV.empty() == false) {       // while LminusV != {}        
+    while(LminusV.empty() == false) {                           // while LminusV != {}        
 
-        double min_dist = DBL_MAX;
-        Node* min_node = NULL;
+        auto first_pair = *LminusV.begin();                     // LminusV is sorted based on distance in descending order. Therefore, first element of LminusV is the min we are looking for
+        Node* p_star = first_pair.second;                       // The 'Node*'        
 
-        // We traverse LminusV:
-        for (auto node : LminusV) {
-            vector<double> node_coord = node->getCoordinates();
-            double distance = euclidean_distance(node_coord, queryCoords);
-            if(distance < min_dist) {
-                min_dist = distance;
-                min_node = node;
-            }
-        }  
-        Node* p_star = min_node;
+        // Update V_set [V = V U p*]
+        V_set.insert(p_star);                                   // if p_star is already in V_set, p_set won't be inserted in V
 
-       // Update V_set [V = V U p*]
-        V_set.insert(p_star);       // if p_star is already in V_set, p_set won't be inserted in V
-      
+
         // Update L_set [ L = L U Nout(p*) ]
         list<Node*> p_star_out = p_star->getEdges();            // out-neighbors of p*
         for(auto node : p_star_out) {
             int filter_p_star_out = node->getLabel();
-            assert(F_q_set.find(filter_p_star_out) != F_q_set.end());       // filter_p_star_out should exist in F_q_set
-
-            if(V_set.find(node) == V_set.end()) {       // p_star_out doesn't exist in V
-                L_set.insert(node);
-            }
-        }
-
-        // Update L to retain closests L points to query
-        if(static_cast<int>(L_set.size()) > L) {                
-            vector<struct info> vector_info;
-            // We traverse L and save it to vector
-            for (auto node : L_set) {
-                struct info item;
-                item.node = node;
-                item.distance = euclidean_distance(node->getCoordinates(), queryCoords);
-                vector_info.push_back(item);
-            }
-
-            // We sort the vector in ascending order
-            sort(vector_info.begin(), vector_info.end(), info_compare);
             
-            // We update L to retain top L elements of vector
-            set<Node*> temp;
-            for(int i = 0; i < L; i++) {
-                struct info item = vector_info[i];
-                temp.insert(item.node);
+            if(F_q_set.find(filter_p_star_out) == F_q_set.end()) {
+                continue;                                       // we don't take this neighbor into account, since its filter doesn't exist in F_q_set
             }
-            L_set = temp;
+
+            if(V_set.find(node) == V_set.end()) {               // p_star_out doesn't exist in V
+                double dist = euclidean_distance(node->getCoordinates(), queryCoords);
+                insert(nodeMap, sortedSet, node, dist, L);      // insert into "L set"
+            }
         }
 
-        set<Node*> temp;
-        set_difference(L_set.begin(), L_set.end(), V_set.begin(), V_set.end(), inserter(temp, temp.begin()));
-        LminusV = temp;
+        // Update of L to retain top L elements of vector happens immediately whenever we insert an element in "L set"
+
+        LminusV = set_difference(sortedSet, V_set);
     }
 
-
-    // Update L to retain closests k points to query
-    vector<struct info> vector_info;
-    // We traverse L and save it to vector
-    for (auto node : L_set) {
-        struct info item;
-        item.node = node;
-        item.distance = euclidean_distance(node->getCoordinates(), queryCoords);
-        vector_info.push_back(item);
-    }
-
-    // We sort the vector in ascending order
-    sort(vector_info.begin(), vector_info.end(), info_compare);
-   
     // We update L to retain top k elements of vector
     int my_k = k;
-    if(static_cast<int>(L_set.size()) < k) {
-        my_k = L_set.size();
+    if(static_cast<int>(sortedSet.size()) < k) {
+        my_k = sortedSet.size();
     }
-    set<Node*> temp;
-    for(int i = 0; i < my_k; i++) {
-        struct info item = vector_info[i];
-        temp.insert(item.node);
+
+    int i = 0;
+    for (auto it = sortedSet.begin(); i < my_k; ++it, ++i) {
+        L_set.insert(it->second);  // `it->second` is the node
     }
-    L_set = temp;
+
+    return;
+}
+
+// Should be called *only* from filtered vamana, *not* from filtered main.
+void FilteredGreedySearchIndex(set<Node *> &S_set, Node* query_node, int k, int L, set<Node *> &L_set, set<Node *> &V_set, set<int> &F_q_set, unordered_map<pair<Node*, Node*>, double, PairHash>& nodePairMap) {
+    assert(L >= k);
+    assert(query_node->getCoordinates().size() > 0);
+    // Initialize L_set, V_set to empty
+    assert(L_set.empty() == true);      // given L_set should be empty
+    assert(V_set.empty() == true);      // given V_set should be empty
+    if(S_set.size() == 0)               // Δεν υπάρχει start node για το συγκεκριμένο φίλτρο (aka, δεν υπάρχει point στον γράφο με αυτό το φίλτρο)
+        return;                         // therefore, we return empty L_set, V_set
+
+
+    unordered_map<Node*, double> nodeMap;           // Main storage
+    set<pair<double, Node*>, Compare> sortedSet;    // Secondary sorted viewm of main storage
+    set<pair<double, Node*>, Compare> LminusV;
+
+    // We traverse S_set:
+    set<int> s_filters;
+    for (auto node : S_set) {
+        s_filters.insert(node->getLabel());
+
+        // Create an order-independent key
+        pair<Node*, Node*> key = {min(node, query_node), max(node, query_node)};        // The hash and key use min and max to ensure that {node1, node2} is treated the same as {node2, node1}. This eliminates the need to insert the symmetric pair manually.
+        assert(nodePairMap.find(key) != nodePairMap.end());     // assert if key doesn't exist (no mutex need to be locked. all threads are done by this point)
+        double dist = nodePairMap[key];                         // already precomputed!
+        insert(nodeMap, sortedSet, node, dist, L);              // insert into "L set"
+        LminusV.emplace(dist, node);                            // Inserts a new pair in the set, if unique. This new pair is constructed in place using args as the arguments for its construction.
+    
+    }   
+    assert(s_filters == F_q_set);                               // same size & same content
+
+    while(LminusV.empty() == false) {                           // while LminusV != {}        
+
+        auto first_pair = *LminusV.begin();                     // LminusV is sorted based on distance in descending order. Therefore, first element of LminusV is the min we are looking for
+        Node* p_star = first_pair.second;                       // The 'Node*'        
+
+        // Update V_set [V = V U p*]
+        V_set.insert(p_star);                                   // if p_star is already in V_set, p_set won't be inserted in V
+
+
+        // Update L_set [ L = L U Nout(p*) ]
+        list<Node*> p_star_out = p_star->getEdges();            // out-neighbors of p*
+        for(auto node : p_star_out) {
+            int filter_p_star_out = node->getLabel();
+            
+            if(F_q_set.find(filter_p_star_out) == F_q_set.end()) {
+                continue;                                       // we don't take this neighbor into account, since its filter doesn't exist in F_q_set
+            }
+
+            if(V_set.find(node) == V_set.end()) {               // p_star_out doesn't exist in V
+                pair<Node*, Node*> key = {min(node, query_node), max(node, query_node)};        // Create an order-independent key
+                assert(nodePairMap.find(key) != nodePairMap.end());                             // assert if key doesn't exist (no mutex need to be locked. all threads are done by this point)
+                double dist = nodePairMap[key];                 // already precomputed!
+                insert(nodeMap, sortedSet, node, dist, L);      // insert into "L set"
+            }
+        }
+
+        // Update of L to retain top L elements of vector happens immediately whenever we insert an element in "L set"
+
+        LminusV = set_difference(sortedSet, V_set);
+    }
+
+    // We update L to retain top k elements of vector
+    int my_k = k;
+    if(static_cast<int>(sortedSet.size()) < k) {
+        my_k = sortedSet.size();
+    }
+
+    int i = 0;
+    for (auto it = sortedSet.begin(); i < my_k; ++it, ++i) {
+        L_set.insert(it->second);  // `it->second` is the node
+    }
 
     return;
 }
