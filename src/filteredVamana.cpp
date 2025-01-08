@@ -139,7 +139,7 @@ Graph filteredVamana(vector<vector<double>> &coords, double a, int int_L, int R,
     Graph G;
 
     initialize_graph(G, coords);
-   generate_label_based_graph(G, coords);
+    // generate_random_edges(G, 2);
 
     st_f = FindMedoid(G, taph, F);
 
