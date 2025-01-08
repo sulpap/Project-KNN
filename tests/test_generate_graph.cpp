@@ -153,3 +153,72 @@ TEST_CASE("Test generate_label_based_graph basic functionality")
 
     graph.clear();
 }
+
+TEST_CASE("Test generate_random_edges basic functionality")
+{
+    // create example graph with 4 nodes
+    vector<vector<double>> coords = {
+        {1.0, 2.0, 3.0},
+        {4.0, 5.0, 6.0},
+        {7.0, 8.0, 9.0},
+        {10.0, 11.0, 12.0}
+    };
+
+    vector<Node *> nodes;
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        Node *tempNode = new Node(i, coords[i], {}, 0);
+        nodes.push_back(tempNode);
+    }
+
+    Graph graph;
+    for (Node *node : nodes)
+    {
+        graph.addNode(node);
+    }
+
+    int maxEdgesPerNode = 2;
+    generate_random_edges(graph, maxEdgesPerNode);
+
+    // verify that each node has at most 2 edges
+    for (size_t i = 0; i < nodes.size(); ++i)
+    {
+        Node *node = graph.getNode(i);
+        REQUIRE(node != nullptr); // node exists
+
+        int edgeCount = node->getEdges().size();
+        REQUIRE(edgeCount <= maxEdgesPerNode); // node has at most maxEdgesPerNode edges
+    }
+
+    SECTION("No self loops")
+    {
+        for (size_t i = 0; i < nodes.size(); ++i)
+        {
+            Node *node = graph.getNode(i);
+            for (auto edge : node->getEdges())
+            {
+                REQUIRE(edge->getId() != static_cast<int>(i)); // node should not have an edge to itself
+            }
+        }
+    }
+
+    SECTION("No duplicate edges")
+    {
+        for (size_t i = 0; i < nodes.size(); ++i)
+        {
+            Node *node = graph.getNode(i);
+            vector<int> edgeIds;
+            for (auto edge : node->getEdges())
+            {
+                edgeIds.push_back(edge->getId());
+            }
+
+            // sort in order for duplicates to appear next to each other
+            sort(edgeIds.begin(), edgeIds.end());
+            // check if there are any
+            REQUIRE(adjacent_find(edgeIds.begin(), edgeIds.end()) == edgeIds.end());
+        }
+    }
+
+    graph.clear();
+}
