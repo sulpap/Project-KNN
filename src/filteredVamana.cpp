@@ -23,6 +23,7 @@
 #include <pthread.h>
 
 #define NUM_THREADS 10
+#define THREADS_NO 10
 
 void initialize_graph(Graph &G, const vector<vector<double>> &coords)
 {
@@ -135,10 +136,7 @@ void *process_chunk(void *args)
     return nullptr;
 }
 
-
-#define THREADS_NO 10
-
-// Παράμετροι που θα λάβει ένα thread για τον υπολογισμό των αποστάσεων
+// thread parameters for distance calculation
 struct arguments {
     map<int, Node*> *nodes;
     map<int, Node*>::iterator it_begin;

@@ -34,8 +34,6 @@
 
 int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 {
-    // unordered_map<int, int> indexes; // <position, id>
-
     vector<vector<double>> actual_coords;
 
     for (Node *node : coords) {
