@@ -118,7 +118,7 @@ void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coor
         vector<int> potentialNeighbors;
         for (int neighborId : sameLabelNodes)
         {
-            if (neighborId != i)
+            if (neighborId != static_cast<int>(i))
             {
                 potentialNeighbors.push_back(neighborId);
             }
@@ -134,6 +134,61 @@ void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coor
             {
                 graph.addEdge(i, randomNeighborId);
             }
+        }
+    }
+}
+
+// generates a specified number of random edges for each node in the graph
+void generate_random_edges(Graph &graph, int maxEdgesPerNode) 
+{
+    srand(time(0));
+
+    auto adjList = graph.getAdjList(); // get the adjacency list from the graph
+    size_t n = adjList.size();         // number of nodes in the graph
+    // size_t n = coords.size(); // number of points in the current graph
+
+    if (n == 0)
+    {
+        cerr << "Error [generate_random_edges]: No coordinates provided." << endl;
+        return; // avoid processing empty graphs
+    }
+
+    // add edges --> up to maxEdgesPerNode
+    for (const auto &entry : adjList)
+    {
+        Node *current = entry.second;
+        if (!current)
+        {
+            continue;
+        }
+        
+        vector<int> potentialNeighbors; // to store potential neighbors
+
+        // collect potential neighbors (all other nodes that are not already connected)
+        for (const auto &otherEntry : adjList)
+        {
+            int neighborId = otherEntry.first;
+            if (neighborId != current->getId() && !current->edgeExists(neighborId))
+            {
+                potentialNeighbors.push_back(neighborId);
+            }
+        }
+
+        // if there are no potential neighbors, skip
+        if (potentialNeighbors.empty())
+        {
+            continue;
+        }
+
+        // shuffle potential neighbors to randomize
+        random_device rd;
+        mt19937 gen(rd()); // Mersenne Twister provides better randomization than the default engine
+        shuffle(potentialNeighbors.begin(), potentialNeighbors.end(), gen);
+
+        // add up to maxEdgesPerNode edges
+        for (int k = 0; k < maxEdgesPerNode && k < static_cast<int>(potentialNeighbors.size()); ++k)
+        {
+            graph.addEdge(current->getId(), potentialNeighbors[k]);
         }
     }
 }
