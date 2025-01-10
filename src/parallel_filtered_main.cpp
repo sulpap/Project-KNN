@@ -19,6 +19,8 @@
 
 #include <chrono>
 
+#define THREADS_NUM 8
+
 using namespace std;
 
 // Function to trim whitespace
@@ -345,112 +347,97 @@ int main(int argc, char* argv[]) {
 
     int queries_size = static_cast<int>(queries.size());
 
-    for(int i = 0; i < queries_size ; i++) {
-    // for(int i = 0; i < 100; i++) {
-        vector<double> query = queries[i];
-        set<Node*> L_set;
-        set<Node*> V_set;
-        set<Node*> S_set;
-        set<int> F_q_set;
-        vector<int> gt_sol = ground_truth[i];
+    // Temporary double accumulators for reduction
+    double total_query_greedy_duration_accum = 0.0;
+    double total_unfiltered_query_greedy_duration_accum = 0.0;
+    double total_filtered_query_greedy_duration_accum = 0.0;
+
+    #pragma omp parallel for num_threads(THREADS_NUM) schedule(dynamic) \
+        reduction(+:totalFound, totalK, totalPercent, \
+                totalFilteredFound, totalFilteredK, totalFilteredPercent, \
+                totalUnfilteredFound, totalUnfilteredK, totalUnfilteredPercent, \
+                totalQueriesSize, totalFilteredQueriesSize, totalUnfilteredQueriesSize, \
+                total_query_greedy_duration_accum, total_unfiltered_query_greedy_duration_accum, \
+                total_filtered_query_greedy_duration_accum)
+    for (int i = 0; i < queries_size; i++) {
+        // Thread-local variables
+        const vector<double> query = queries[i];
+        std::set<Node*> L_set, V_set, S_set;
+        std::set<int> F_q_set;
+        const std::vector<int>& gt_sol = ground_truth[i];
         vector<double> query_coords(query.begin() + 2, query.end());
         int gt_size = static_cast<int>(gt_sol.size());
-        if (starting_k > gt_size) {
-            k = gt_size;
-        } else {
-            k = starting_k;
-        }
+        int local_k = (starting_k > gt_size) ? gt_size : starting_k;
 
-        int query_F = query[1];
-
+        int query_F = queries[i][1];
         if (query_F == -1) {
             for (int label : set_F) {
-                set<Node*> temp_S_set;
-                set<int> temp_F_q_set;
-                set<Node*> temp_L_set;
-                set<Node*> temp_V_set;
-                temp_S_set.insert(st_f[label]);
-                temp_F_q_set.insert(label);
+                std::set<Node*> temp_S_set{st_f[label]};
+                std::set<int> temp_F_q_set{label};
+                std::set<Node*> temp_L_set, temp_V_set;
 
-                start = chrono::high_resolution_clock::now();
+                auto start = chrono::high_resolution_clock::now();
                 FilteredGreedySearch(temp_S_set, query_coords, 1, L, temp_L_set, temp_V_set, temp_F_q_set);
-                end = chrono::high_resolution_clock::now();
-                chrono::duration<double> duration = end - start;
-                total_query_greedy_duration += duration;
-                total_unfiltered_query_greedy_duration += duration;
+                auto end = chrono::high_resolution_clock::now();
+                double duration = chrono::duration<double>(end - start).count();
                 
+                total_query_greedy_duration_accum += duration;
+                total_unfiltered_query_greedy_duration_accum += duration;
+
                 S_set.insert(*temp_L_set.begin());
             }
             F_q_set = set_F;
         } else {
-            if (st_f.find(query_F) != st_f.end()) {     // found
+            if (st_f.find(query_F) != st_f.end()) {
                 S_set.insert(st_f[query_F]);
             }
-            // else: st_f not found, and so S_set will be empty (there exists no start node with filter = query_F)
-                // S_set will be empty
             F_q_set.insert(query_F);
         }
 
-        // Uncomment below if you want more details for each query
-        // cout << "Calling FilteredGreedySearch for " << i << "th query with label " << query_F << ". . ." << endl;
-        std::cout << "\rCalculating Query " << (i + 1) << "/" << queries_size << std::flush;
-        
-        start = chrono::high_resolution_clock::now();
-        FilteredGreedySearch(S_set, query_coords, starting_k, L, L_set, V_set, F_q_set);
-        end = chrono::high_resolution_clock::now();
-        chrono::duration<double> duration = end - start;
-        total_query_greedy_duration += duration;
+        auto start = chrono::high_resolution_clock::now();
+        FilteredGreedySearch(S_set, query_coords, local_k, L, L_set, V_set, F_q_set);
+        auto end = chrono::high_resolution_clock::now();
+        double duration = chrono::duration<double>(end - start).count();
+
+        total_query_greedy_duration_accum += duration;
         if (query_F == -1) {
-            total_unfiltered_query_greedy_duration += duration;
+            total_unfiltered_query_greedy_duration_accum += duration;
         } else {
-            total_filtered_query_greedy_duration += duration;
+            total_filtered_query_greedy_duration_accum += duration;
         }
-        // Uncomment below if you want more details for each query
-        // cout << "GreedySearch for " << i << "th query took " << duration.count() << " seconds." << endl;
 
-        // 5. Compare greedy with ground truth
-
-        // We traverse L_set
         int found = 0;
-        for (auto node : L_set) {
-            int id_L = node->getId();
-            if (find(gt_sol.begin(), gt_sol.end(), id_L) != gt_sol.end()) {
+        for (const auto& node : L_set) {
+            if (std::find(gt_sol.begin(), gt_sol.end(), node->getId()) != gt_sol.end()) {
                 found++;
             }
         }
 
-        float percent;
+        float percent = (local_k == 0) ? 100.0f : (100.0f * found / static_cast<float>(local_k));
 
-        if (k == 0) {
-            if (found == 0) {
-                percent = 100.0;
-            } else {
-                percent = 0.0;
-            }
-        } else {
-            percent = (100 * found) / (float)k;
-        }
-        // Uncomment below if you want more details for each query
-        // cout << "Query (zero based) #" << i << " had " << percent << "% recall." << endl;
-    
-        // Accumulate totals for overall and average recall
         totalFound += found;
-        totalK += k;
+        totalK += local_k;
         totalPercent += percent;
         totalQueriesSize++;
 
         if (query_F == -1) {
             totalUnfilteredFound += found;
-            totalUnfilteredK += k;
+            totalUnfilteredK += local_k;
             totalUnfilteredPercent += percent;
             totalUnfilteredQueriesSize++;
         } else {
             totalFilteredFound += found;
-            totalFilteredK += k;
+            totalFilteredK += local_k;
             totalFilteredPercent += percent;
             totalFilteredQueriesSize++;
         }
     }
+
+
+    // Convert accumulated double durations back to chrono::duration
+    total_query_greedy_duration = chrono::duration<double>(total_query_greedy_duration_accum);
+    total_unfiltered_query_greedy_duration = chrono::duration<double>(total_unfiltered_query_greedy_duration_accum);
+    total_filtered_query_greedy_duration = chrono::duration<double>(total_filtered_query_greedy_duration_accum);
 
     cout << "\n\nArguments:\n";
     cout << "\t- k: " << k << "\n";
