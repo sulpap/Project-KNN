@@ -1,0 +1,143 @@
+Run Results:
+Run 1:
+Total Recall (ALL): 99.5855%
+Average Recall (ALL): 99.6115%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2281%
+Average Recall (Unfiltered): 99.2281%
+Total Time (ALL): 221.292 seconds
+Total Time (Filtered): 12.488 seconds
+Total Time (Unfiltered): 208.804 seconds
+Program Runtime: 30.0424 seconds
+
+Run 2:
+Total Recall (ALL): 99.5855%
+Average Recall (ALL): 99.6115%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2281%
+Average Recall (Unfiltered): 99.2281%
+Total Time (ALL): 220.709 seconds
+Total Time (Filtered): 12.7873 seconds
+Total Time (Unfiltered): 207.921 seconds
+Program Runtime: 29.789 seconds
+
+Run 3:
+Total Recall (ALL): 99.5855%
+Average Recall (ALL): 99.6115%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2281%
+Average Recall (Unfiltered): 99.2281%
+Total Time (ALL): 233.457 seconds
+Total Time (Filtered): 12.5305 seconds
+Total Time (Unfiltered): 220.926 seconds
+Program Runtime: 31.5823 seconds
+
+Run 4:
+Total Recall (ALL): 99.5855%
+Average Recall (ALL): 99.6115%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2281%
+Average Recall (Unfiltered): 99.2281%
+Total Time (ALL): 221.043 seconds
+Total Time (Filtered): 12.2527 seconds
+Total Time (Unfiltered): 208.79 seconds
+Program Runtime: 29.937 seconds
+
+Run 5:
+Total Recall (ALL): 99.5855%
+Average Recall (ALL): 99.6115%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2281%
+Average Recall (Unfiltered): 99.2281%
+Total Time (ALL): 222.539 seconds
+Total Time (Filtered): 12.4055 seconds
+Total Time (Unfiltered): 210.133 seconds
+Program Runtime: 30.1265 seconds
+
+Averages:
+Average Total Recall (ALL): 99.58%
+Average Average Recall (ALL): 99.61%
+Average Total Recall (Filtered): 99.99%
+Average Average Recall (Filtered): 99.99%
+Average Total Recall (Unfiltered): 99.22%
+Average Average Recall (Unfiltered): 99.22%
+Average Total Time (ALL): 223.80 seconds
+Average Total Time (Filtered): 12.49 seconds
+Average Total Time (Unfiltered): 211.31 seconds
+Average Program Runtime: 30.29 seconds
+Run 1:
+Total Recall (ALL): 98.9203%
+Average Recall (ALL): 98.9505%
+Total Recall (Filtered): 99.9915%
+Average Recall (Filtered): 99.992%
+Total Recall (Unfiltered): 97.9173%
+Average Recall (Unfiltered): 97.9173%
+Total Time (ALL): 70.8182 seconds
+Total Time (Filtered): 3.50801 seconds
+Total Time (Unfiltered): 67.3102 seconds
+Program Runtime: 10.0813 seconds
+
+Run 2:
+Total Recall (ALL): 98.9203%
+Average Recall (ALL): 98.9505%
+Total Recall (Filtered): 99.9915%
+Average Recall (Filtered): 99.992%
+Total Recall (Unfiltered): 97.9173%
+Average Recall (Unfiltered): 97.9173%
+Total Time (ALL): 71.4212 seconds
+Total Time (Filtered): 3.74715 seconds
+Total Time (Unfiltered): 67.6741 seconds
+Program Runtime: 10.1128 seconds
+
+Run 3:
+Total Recall (ALL): 98.9203%
+Average Recall (ALL): 98.9505%
+Total Recall (Filtered): 99.9915%
+Average Recall (Filtered): 99.992%
+Total Recall (Unfiltered): 97.9173%
+Average Recall (Unfiltered): 97.9173%
+Total Time (ALL): 71.714 seconds
+Total Time (Filtered): 3.87739 seconds
+Total Time (Unfiltered): 67.8366 seconds
+Program Runtime: 10.1052 seconds
+
+Run 4:
+Total Recall (ALL): 98.9203%
+Average Recall (ALL): 98.9505%
+Total Recall (Filtered): 99.9915%
+Average Recall (Filtered): 99.992%
+Total Recall (Unfiltered): 97.9173%
+Average Recall (Unfiltered): 97.9173%
+Total Time (ALL): 76.0354 seconds
+Total Time (Filtered): 3.84219 seconds
+Total Time (Unfiltered): 72.1932 seconds
+Program Runtime: 10.6505 seconds
+
+Run 5:
+Total Recall (ALL): 98.9203%
+Average Recall (ALL): 98.9505%
+Total Recall (Filtered): 99.9915%
+Average Recall (Filtered): 99.992%
+Total Recall (Unfiltered): 97.9173%
+Average Recall (Unfiltered): 97.9173%
+Total Time (ALL): 74.5327 seconds
+Total Time (Filtered): 3.86421 seconds
+Total Time (Unfiltered): 70.6685 seconds
+Program Runtime: 10.5111 seconds
+
+Averages:
+Average Total Recall (ALL): 198.50%
+Average Average Recall (ALL): 198.56%
+Average Total Recall (Filtered): 199.98%
+Average Average Recall (Filtered): 199.99%
+Average Total Recall (Unfiltered): 197.14%
+Average Average Recall (Unfiltered): 197.14%
+Average Total Time (ALL): 296.71 seconds
+Average Total Time (Filtered): 16.26 seconds
+Average Total Time (Unfiltered): 280.45 seconds
+Average Program Runtime: 40.58 seconds

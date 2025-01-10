@@ -10,6 +10,9 @@
 #include <algorithm>
 #include <limits>
 #include <cassert>
+#include <cstdlib>
+#include <ctime>
+#include <omp.h>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2)
 {   
@@ -87,6 +90,185 @@ int findMedoid(const vector<vector<double>> &coords)
         // update medoid if we find a new minimum
         if (totalDistance < minTotalDistance)
         {
+            minTotalDistance = totalDistance;
+            medoidIndex = i;
+        }
+    }
+
+    return medoidIndex;
+}
+
+int parallel_findMedoid(const vector<vector<double>> &coords)
+{
+    int medoidIndex = -1;
+    double minTotalDistance = numeric_limits<double>::max();
+    size_t n = coords.size();
+
+    // Precompute pair distances and store them in a distance matrix
+    vector<vector<double>> distance_matrix(n, vector<double>(n, 0.0));
+
+    // Parallel computation of the distance matrix
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < n; ++i)
+    {
+        for (size_t j = i + 1; j < n; ++j)
+        {
+            double dist = euclidean_distance(coords[i], coords[j]);
+            distance_matrix[i][j] = dist;
+            distance_matrix[j][i] = dist;
+        }
+    }
+
+    // Find the medoid
+    #pragma omp parallel
+    {
+        double localMinTotalDistance = numeric_limits<double>::max();
+        int localMedoidIndex = -1;
+
+        #pragma omp for schedule(static)
+        for (size_t i = 0; i < n; ++i)
+        {
+            double totalDistance = 0.0;
+            for (size_t j = 0; j < n; ++j)
+            {
+                if (i != j)
+                {
+                    totalDistance += distance_matrix[i][j];
+                    if (totalDistance >= localMinTotalDistance)
+                        break;
+                }
+            }
+
+            if (totalDistance < localMinTotalDistance)
+            {
+                localMinTotalDistance = totalDistance;
+                localMedoidIndex = i;
+            }
+        }
+
+        // Combine results from all threads
+        #pragma omp critical
+        {
+            if (localMinTotalDistance < minTotalDistance)
+            {
+                minTotalDistance = localMinTotalDistance;
+                medoidIndex = localMedoidIndex;
+            }
+        }
+    }
+
+    return medoidIndex;
+}
+
+int parallel_2_findMedoid(const vector<vector<double>> &coords)
+{
+    int medoidIndex = -1;
+    double minTotalDistance = numeric_limits<double>::max();
+    size_t n = coords.size();
+
+    // Precompute pair distances and store them in a distance matrix
+    vector<vector<double>> distance_matrix(n, vector<double>(n, 0.0));
+
+
+    #pragma omp_set_nested(1)
+    // Parallel computation of the distance matrix
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < n; ++i)
+    {
+        #pragma omp parallel for schedule(static)
+        for (size_t j = i + 1; j < n; ++j)
+        {
+            double dist = euclidean_distance(coords[i], coords[j]);
+            distance_matrix[i][j] = dist;
+            distance_matrix[j][i] = dist;
+        }
+    }
+
+    // Find the medoid
+    #pragma omp parallel
+    {
+        double localMinTotalDistance = numeric_limits<double>::max();
+        int localMedoidIndex = -1;
+
+        #pragma omp for schedule(static)
+        for (size_t i = 0; i < n; ++i)
+        {
+            double totalDistance = 0.0;
+            for (size_t j = 0; j < n; ++j)
+            {
+                if (i != j)
+                {
+                    totalDistance += distance_matrix[i][j];
+                    if (totalDistance >= localMinTotalDistance)
+                        break;
+                }
+            }
+
+            if (totalDistance < localMinTotalDistance)
+            {
+                localMinTotalDistance = totalDistance;
+                localMedoidIndex = i;
+            }
+        }
+
+        // Combine results from all threads
+        #pragma omp critical
+        {
+            if (localMinTotalDistance < minTotalDistance)
+            {
+                minTotalDistance = localMinTotalDistance;
+                medoidIndex = localMedoidIndex;
+            }
+        }
+    }
+
+    return medoidIndex;
+}
+
+int findMedoid_random(const vector<vector<double>> &coords)
+{
+    // Seed the random number generator to ensure different results on each run
+    std::srand(static_cast<unsigned>(std::time(0)));
+
+    // Select a random index from the coords vector
+    int randomIndex = std::rand() % coords.size();
+
+    return randomIndex;
+}
+
+int findMedoidInSubset(const std::vector<std::vector<double>> &coords, size_t subsetSize) {
+    size_t n = coords.size();
+    if (subsetSize > n) {
+        subsetSize = n; // Ensure subsetSize does not exceed total points
+    }
+
+    // Generate a random subset of indices
+    std::vector<int> indices(n);
+    for (size_t i = 0; i < n; ++i) {
+        indices[i] = i;
+    }
+
+    // Shuffle and select the first subsetSize indices
+    std::srand(static_cast<unsigned>(std::time(0)));
+    std::random_shuffle(indices.begin(), indices.end());
+    std::vector<int> subset(indices.begin(), indices.begin() + subsetSize);
+
+    // Compute the medoid within the subset
+    int medoidIndex = -1;
+    double minTotalDistance = std::numeric_limits<double>::max();
+
+    for (int i : subset) {
+        double totalDistance = 0.0;
+        for (int j : subset) {
+            if (i != j) {
+                totalDistance += euclidean_distance(coords[i], coords[j]);
+                if (totalDistance >= minTotalDistance) { // Early exit
+                    break;
+                }
+            }
+        }
+
+        if (totalDistance < minTotalDistance) {
             minTotalDistance = totalDistance;
             medoidIndex = i;
         }
