@@ -147,3 +147,61 @@ TEST_CASE("Test convert_to_double")
     REQUIRE(one_d.size() == one_f.size());
     REQUIRE(one_d[0] == one_f[0]);
 }
+
+TEST_CASE("initialize_graph function test")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 2.0, 3.0},
+        {2, 3.0, 4.0},
+    };
+
+    Graph G;
+    initialize_graph(G, coords);
+
+    // check that the graph is not empty
+    REQUIRE_FALSE(G.isEmpty());
+
+    // check that the graph contains the correct number of nodes
+    REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));
+
+    // check that each node has the expected label and coordinates
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        Node *node = G.getNode(static_cast<int>(i));
+        REQUIRE(node != nullptr);
+        REQUIRE(node->getLabel() == static_cast<int>(coords[i][0]));
+
+        vector<double> expectedCoords(coords[i].begin() + 1, coords[i].end());
+        REQUIRE(node->getCoordinates() == expectedCoords);
+    }
+
+    G.clear();
+}
+
+TEST_CASE("computeFx function test in filteredVamana")
+{
+    vector<vector<double>> coords = {
+        {0, 1.0, 2.0},
+        {1, 2.0, 3.0},
+        {0, 1.5, 2.5},
+        {2, 5.0, 5.0}
+    };
+    // set<int> labels = {0, 1, 2};
+    Graph G;
+    initialize_graph(G, coords);
+    unordered_map<int, set<int>> Fx = computeFx(G);
+
+    // check that Fx contains the correct number of entries
+    REQUIRE(static_cast<int>(Fx.size()) == G.getNodeCount());
+
+    // check that each node has the correct label in Fx
+    for (const auto &[nodeId, nodePtr] : G.getAdjList())
+    {
+        REQUIRE(Fx.find(nodeId) != Fx.end());
+        int label = nodePtr->getLabel();
+        REQUIRE(Fx[nodeId] == set<int>{label});
+    }
+
+    G.clear();
+}

@@ -1,3 +1,5 @@
+/* contains distance helper functions, findMedoid, convert_to_double and filteredVamana helper functions*/
+
 #include <../include/utility.hpp>
 #include "../include/graph.hpp"
 #include <iostream>
@@ -283,4 +285,48 @@ vector<vector<double>> convert_to_double(const vector<vector<float>> &float_vect
         double_vector[i] = vector<double>(float_vector[i].begin(), float_vector[i].end());
     }
     return double_vector;
+}
+
+// filteredVamana functions:
+
+void initialize_graph(Graph &G, const vector<vector<double>> &coords)
+{
+    // initialize nodes from coords
+    for (size_t i = 0; i < coords.size(); i++)
+    {
+        if (coords[i].empty())
+        {
+            cerr << "Error: Empty coordinate vector at index " << i << endl;
+            continue;
+        }
+
+        // first element is the label
+        int label = static_cast<int>(coords[i][0]);
+
+        // remaining elements are the coordinates
+        vector<double> pointCoords(coords[i].begin() + 1, coords[i].end());
+
+        // create a new Node
+        Node *newNode = new Node(static_cast<int>(i), pointCoords, {}, label); // id: i, coords, no edges, label
+
+        // add the node to the graph
+        G.addNode(newNode);
+    }
+}
+
+unordered_map<int, set<int>> computeFx(Graph &G)
+{
+    // find each node's label and store it in Fx
+    unordered_map<int, set<int>> Fx;
+
+    // iterate through all nodes in the graph
+    for (const auto &[nodeId, nodePtr] : G.getAdjList())
+    {
+        // get the label from this node
+        int label = nodePtr->getLabel();
+
+        Fx[nodeId] = {label};
+    }
+
+    return Fx;
 }

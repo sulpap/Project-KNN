@@ -125,10 +125,10 @@ map<int, Node *> FindMedoid(Graph &graph, int taph, set<int> F)
 //             continue; // skip if no valid sample could be found
 //         }
 
-//         // p* <- arg min_{p ∈ Rf} T[p]
+//         // 4. p* <- arg min_{p ∈ Rf} T[p]
 //         int p_star = findMinInT(Rf, T);
 
-//         // Update M[f] <- p* and T[p*] <- T[p*] + 1
+//         // 5. Update M[f] <- p* and T[p*] <- T[p*] + 1
 //         Node* p_star_node = graph.getNode(p_star);
 //         if (p_star_node)
 //         {

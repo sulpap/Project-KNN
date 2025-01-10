@@ -3,6 +3,7 @@
 #include "../include/generate_graph.hpp"
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -222,3 +223,68 @@ TEST_CASE("Test generate_random_edges basic functionality")
 
     graph.clear();
 }
+
+// TEST_CASE("Test connect_subgraphs basic functionality")
+// {
+//     Graph globalGraph;
+//     unordered_map<int, vector<Node *>> PfMap;
+
+//     // create subgraph 0
+//     vector<Node *> subgraph0;
+//     subgraph0.push_back(new Node(0, {0.0, 0.0}, {}, 0));
+//     subgraph0.push_back(new Node(1, {1.0, 1.0}, {}, 0));
+//     PfMap[0] = subgraph0;
+
+//     // create subgraph 1
+//     vector<Node *> subgraph1;
+//     subgraph1.push_back(new Node(2, {2.0, 2.0}, {}, 1));
+//     subgraph1.push_back(new Node(3, {3.0, 3.0}, {}, 1));
+//     PfMap[1] = subgraph1;
+
+//     // create subgraph 2
+//     vector<Node *> subgraph2;
+//     subgraph2.push_back(new Node(4, {4.0, 4.0}, {}, 2));
+//     subgraph2.push_back(new Node(5, {5.0, 5.0}, {}, 2));
+//     PfMap[2] = subgraph2;
+
+//     // add all nodes to the global graph
+//     for (const auto &entry : PfMap)
+//     {
+//         for (Node *node : entry.second)
+//         {
+//             globalGraph.addNode(node);
+//         }
+//     }
+
+//     // call connect_subgraphs
+//     connect_subgraphs(globalGraph, PfMap);
+
+//     // check that subgraphs are connected
+//     for (size_t i = 0; i < PfMap.size() - 1; ++i)
+//     {
+//         const auto &nodes1 = PfMap[i];
+//         const auto &nodes2 = PfMap[i + 1];
+
+//         bool isConnected = false;
+
+//         for (Node *node1 : nodes1)
+//         {
+//             for (Node *node2 : nodes2)
+//             {
+//                 if (node1->edgeExists(node2->getId()) || node2->edgeExists(node1->getId()))
+//                 {
+//                     isConnected = true;
+//                     break;
+//                 }
+//             }
+//             if (isConnected)
+//             {
+//                 break;
+//             }
+//         }
+
+//         REQUIRE(isConnected); // ensure subgraph i is connected to subgraph i+1
+//     }
+
+//     globalGraph.clear();
+// }
