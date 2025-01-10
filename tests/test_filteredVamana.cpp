@@ -1,5 +1,9 @@
+/* contains the unit tests for files: filteredVamana.cpp, filteredVamanaParallel.cpp, filteredVamanaParallelDistances.cpp */
+
 #include "catch.hpp"
 #include "../include/filteredVamana.hpp"
+#include "../include/filteredVamanaParallel.hpp"
+#include "../include/filteredVamanaParallelDistances.hpp"
 
 // helper function to check graph structure
 bool validate_R(Graph &G, int R)
@@ -35,7 +39,7 @@ TEST_CASE("filteredVamana function test")
     // check that the graph is not empty
     REQUIRE_FALSE(G.isEmpty());
 
-    // initialization checks and label validation is done in the corresponding function tests (below)
+    // initialization checks and label validation is done in the corresponding function tests (in test_utility.cpp)
 
     // check that out-degrees are within the allowed limit
     REQUIRE(validate_R(G, R));
@@ -72,60 +76,82 @@ TEST_CASE("filteredVamana function test")
     G.clear();
 }
 
-TEST_CASE("initialize_graph function test")
+// the  tests for filteredVamanaParallel and filteredVamanaParallelDistances are the same with filteredVamana
+TEST_CASE("filteredVamanaParallel and filteredVamanaParallelDistances test")
 {
     vector<vector<double>> coords = {
-        {0, 1.0, 2.0},
-        {1, 2.0, 3.0},
-        {2, 3.0, 4.0},
-    };
-
-    Graph G;
-    initialize_graph(G, coords);
-
-    // check that the graph is not empty
-    REQUIRE_FALSE(G.isEmpty());
-
-    // check that the graph contains the correct number of nodes
-    REQUIRE(G.getNodeCount() == static_cast<int>(coords.size()));
-
-    // check that each node has the expected label and coordinates
-    for (size_t i = 0; i < coords.size(); ++i)
-    {
-        Node *node = G.getNode(static_cast<int>(i));
-        REQUIRE(node != nullptr);
-        REQUIRE(node->getLabel() == static_cast<int>(coords[i][0]));
-
-        vector<double> expectedCoords(coords[i].begin() + 1, coords[i].end());
-        REQUIRE(node->getCoordinates() == expectedCoords);
-    }
-
-    G.clear();
-}
-
-TEST_CASE("compute_Fx function test in filteredVamana")
-{
-    vector<vector<double>> coords = {
-        {0, 1.0, 2.0},
+        {0, 1.0, 2.0}, // point 0 with label 0 and so on
         {1, 2.0, 3.0},
         {0, 1.5, 2.5},
-        {2, 5.0, 5.0}
-    };
-    // set<int> labels = {0, 1, 2};
-    Graph G;
-    initialize_graph(G, coords);
-    unordered_map<int, set<int>> Fx = compute_Fx(G);
+        {1, 3.0, 4.0},
+        {2, 5.0, 5.0}};
 
-    // check that Fx contains the correct number of entries
-    REQUIRE(static_cast<int>(Fx.size()) == G.getNodeCount());
+    double alpha = 1.2;
+    int L = 2;
+    int R = 2;
+    set<int> labels = {0, 1, 2};
+    int taph = 3;
+    map<int, Node *> st_f;
 
-    // check that each node has the correct label in Fx
-    for (const auto &[nodeId, nodePtr] : G.getAdjList())
+    Graph Gp = filteredVamanaParallel(coords, alpha, L, R, labels, taph, st_f);
+    Graph Gpd = filteredVamanaParallelDistances(coords, alpha, L, R, labels, taph, st_f);
+
+    // check that the graph is not empty
+    REQUIRE_FALSE(Gp.isEmpty());
+
+    // initialization checks and label validation is done in the corresponding function tests (in test_utility.cpp)
+
+    // check that out-degrees are within the allowed limit
+    REQUIRE(validate_R(Gp, R));
+    REQUIRE(validate_R(Gpd, R));
+
+    // check that medoids are correctly identified for each label
+    REQUIRE(st_f.size() == labels.size()); // ensure all labels have a medoid
+    for (int label : labels)
     {
-        REQUIRE(Fx.find(nodeId) != Fx.end());
-        int label = nodePtr->getLabel();
-        REQUIRE(Fx[nodeId] == set<int>{label});
+        REQUIRE(st_f.find(label) != st_f.end());
+        REQUIRE(st_f[label] != nullptr);
     }
 
-    G.clear();
+    // some example additional checks for specific connections
+    SECTION("Graphs contain expected edges")
+    {
+        // filteredVamanaParallel
+        Node *node0 = Gp.getNode(0);
+        REQUIRE(node0 != nullptr);
+
+        auto neighbors0 = node0->getNeighbors();
+        REQUIRE_FALSE(neighbors0.empty()); // should have neighbors
+
+        // example check: see if node 0 is connected to node 2 (both have label 0)
+        REQUIRE(find(neighbors0.begin(), neighbors0.end(), 2) != neighbors0.end());
+
+        // filteredVamanaParallelDistances
+        Node *node0d = Gpd.getNode(0);
+        REQUIRE(node0d != nullptr);
+
+        auto neighbors0d = node0d->getNeighbors();
+        REQUIRE_FALSE(neighbors0d.empty()); // should have neighbors
+
+        // example check: see if node 0 is connected to node 2 (both have label 0)
+        REQUIRE(find(neighbors0d.begin(), neighbors0d.end(), 2) != neighbors0d.end());
+    }
+
+    SECTION("Graphs properties after pruning")
+    {
+        // example check: node 3
+        
+        // filteredVamanaParallel
+        Node *node3 = Gp.getNode(3);
+        REQUIRE(node3 != nullptr);
+        REQUIRE(static_cast<int>(node3->getEdges().size()) <= R);
+
+        // filteredVamanaParallelDistances
+        Node *node3d = Gpd.getNode(3);
+        REQUIRE(node3d != nullptr);
+        REQUIRE(static_cast<int>(node3d->getEdges().size()) <= R);
+    }
+
+    Gp.clear();
+    Gpd.clear();
 }

@@ -5,7 +5,6 @@
 #include <random>
 #include <chrono>
 #include <algorithm>
-
 #include <unistd.h>
 
 // creates a graph of nodes with label f
@@ -139,7 +138,7 @@ void generate_label_based_graph(Graph &graph, const vector<vector<double>> &coor
 }
 
 // generates a specified number of random edges for each node in the graph
-void generate_random_edges(Graph &graph, int maxEdgesPerNode) 
+void generate_random_edges(Graph &graph, int maxEdgesPerNode)
 {
     srand(time(0));
 
@@ -161,7 +160,7 @@ void generate_random_edges(Graph &graph, int maxEdgesPerNode)
         {
             continue;
         }
-        
+
         vector<int> potentialNeighbors; // to store potential neighbors
 
         // collect potential neighbors (all other nodes that are not already connected)
@@ -189,6 +188,53 @@ void generate_random_edges(Graph &graph, int maxEdgesPerNode)
         for (int k = 0; k < maxEdgesPerNode && k < static_cast<int>(potentialNeighbors.size()); ++k)
         {
             graph.addEdge(current->getId(), potentialNeighbors[k]);
+        }
+    }
+}
+
+void connect_subgraphs(Graph &globalGraph, unordered_map<int, vector<Node *>> &PfMap)
+{
+    srand(time(0));
+
+    vector<int> labels;
+    for (const auto &entry : PfMap)
+    {
+        labels.push_back(entry.first);
+    }
+
+    if (labels.size() < 2)
+    {
+        cerr << "Error: Not enough subgraphs to connect." << endl;
+        return;
+    }
+
+    // shuffle labels to randomize connection order
+    random_device rd;
+    mt19937 gen(rd());
+    shuffle(labels.begin(), labels.end(), gen);
+
+    // do random connections making sure each subgraph is connected to at least one other subgraph
+    for (size_t i = 0; i < labels.size() - 1; ++i)
+    {
+        int label1 = labels[i];
+        int label2 = labels[i + 1];
+
+        const auto &nodes1 = PfMap[label1];
+        const auto &nodes2 = PfMap[label2];
+
+        if (nodes1.empty() || nodes2.empty())
+        {
+            continue; // skip if no nodes in either subgraph
+        }
+
+        // pick random nodes from each subgraph
+        Node *node1 = nodes1[rand() % nodes1.size()];
+        Node *node2 = nodes2[rand() % nodes2.size()];
+
+        if (!node1->edgeExists(node2->getId()))
+        {
+            globalGraph.addEdge(node1->getId(), node2->getId());
+            // cout << "Connecting node " << node1->getId() << " (label " << label1 << ") to node " << node2->getId() << " (label " << label2 << ")\n";
         }
     }
 }
