@@ -10,6 +10,7 @@
 #include <cassert>
 #include <cstdlib>
 #include <ctime>
+#include <omp.h>
 
 double euclidean_distance(vector<double> coords1, vector<double> coords2)
 {   
@@ -89,6 +90,133 @@ int findMedoid(const vector<vector<double>> &coords)
         {
             minTotalDistance = totalDistance;
             medoidIndex = i;
+        }
+    }
+
+    return medoidIndex;
+}
+
+int parallel_findMedoid(const vector<vector<double>> &coords)
+{
+    int medoidIndex = -1;
+    double minTotalDistance = numeric_limits<double>::max();
+    size_t n = coords.size();
+
+    // Precompute pair distances and store them in a distance matrix
+    vector<vector<double>> distance_matrix(n, vector<double>(n, 0.0));
+
+    // Parallel computation of the distance matrix
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < n; ++i)
+    {
+        for (size_t j = i + 1; j < n; ++j)
+        {
+            double dist = euclidean_distance(coords[i], coords[j]);
+            distance_matrix[i][j] = dist;
+            distance_matrix[j][i] = dist;
+        }
+    }
+
+    // Find the medoid
+    #pragma omp parallel
+    {
+        double localMinTotalDistance = numeric_limits<double>::max();
+        int localMedoidIndex = -1;
+
+        #pragma omp for schedule(static)
+        for (size_t i = 0; i < n; ++i)
+        {
+            double totalDistance = 0.0;
+            for (size_t j = 0; j < n; ++j)
+            {
+                if (i != j)
+                {
+                    totalDistance += distance_matrix[i][j];
+                    if (totalDistance >= localMinTotalDistance)
+                        break;
+                }
+            }
+
+            if (totalDistance < localMinTotalDistance)
+            {
+                localMinTotalDistance = totalDistance;
+                localMedoidIndex = i;
+            }
+        }
+
+        // Combine results from all threads
+        #pragma omp critical
+        {
+            if (localMinTotalDistance < minTotalDistance)
+            {
+                minTotalDistance = localMinTotalDistance;
+                medoidIndex = localMedoidIndex;
+            }
+        }
+    }
+
+    return medoidIndex;
+}
+
+int parallel_2_findMedoid(const vector<vector<double>> &coords)
+{
+    int medoidIndex = -1;
+    double minTotalDistance = numeric_limits<double>::max();
+    size_t n = coords.size();
+
+    // Precompute pair distances and store them in a distance matrix
+    vector<vector<double>> distance_matrix(n, vector<double>(n, 0.0));
+
+
+    #pragma omp_set_nested(1)
+    // Parallel computation of the distance matrix
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < n; ++i)
+    {
+        #pragma omp parallel for schedule(static)
+        for (size_t j = i + 1; j < n; ++j)
+        {
+            double dist = euclidean_distance(coords[i], coords[j]);
+            distance_matrix[i][j] = dist;
+            distance_matrix[j][i] = dist;
+        }
+    }
+
+    // Find the medoid
+    #pragma omp parallel
+    {
+        double localMinTotalDistance = numeric_limits<double>::max();
+        int localMedoidIndex = -1;
+
+        #pragma omp for schedule(static)
+        for (size_t i = 0; i < n; ++i)
+        {
+            double totalDistance = 0.0;
+            for (size_t j = 0; j < n; ++j)
+            {
+                if (i != j)
+                {
+                    totalDistance += distance_matrix[i][j];
+                    if (totalDistance >= localMinTotalDistance)
+                        break;
+                }
+            }
+
+            if (totalDistance < localMinTotalDistance)
+            {
+                localMinTotalDistance = totalDistance;
+                localMedoidIndex = i;
+            }
+        }
+
+        // Combine results from all threads
+        #pragma omp critical
+        {
+            if (localMinTotalDistance < minTotalDistance)
+            {
+                minTotalDistance = localMinTotalDistance;
+                medoidIndex = localMedoidIndex;
+            }
         }
     }
 

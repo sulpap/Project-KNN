@@ -1,7 +1,7 @@
 CC = g++
 # -Wall for all warnings
 # -Wextra for even more warnings
-CFLAGS = -Wall -O3 -Wextra -g -std=c++17 -pthread
+CFLAGS = -Wall -O3 -Wextra -g -std=c++17 -pthread -fopenmp
 
 SRCDIR = src
 OBJDIR = build
@@ -17,13 +17,15 @@ FIRST_MAIN_SRC = $(SRCDIR)/first_main.cpp
 
 FILTERED_MAIN_SRC = $(SRCDIR)/filtered_main.cpp
 FILTERED_MAIN_GRAPH_SRC = $(SRCDIR)/filtered_main_graph.cpp
+PARALLEL_FILTERED_MAIN_SRC = $(SRCDIR)/parallel_filtered_main.cpp
 
 STITCHED_MAIN_SRC = $(SRCDIR)/stitched_main.cpp
 STITCHED_MAIN_GRAPH_SRC = $(SRCDIR)/stitched_main_graph.cpp
+PARALLEL_STITCHED_MAIN_SRC = $(SRCDIR)/parallel_stitched_main.cpp
 
 CALC_GT_SRC = $(SRCDIR)/calculate_groundtruth.cpp
 
-COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(CALC_GT_SRC), $(SRCFILES))
+COMMON_SRC = $(filter-out $(FIRST_MAIN_SRC) $(FILTERED_MAIN_SRC) $(FILTERED_MAIN_GRAPH_SRC) $(PARALLEL_FILTERED_MAIN_SRC) $(STITCHED_MAIN_SRC) $(STITCHED_MAIN_GRAPH_SRC) $(PARALLEL_STITCHED_MAIN_SRC) $(CALC_GT_SRC), $(SRCFILES))
 
 # first (old) main
 FIRST_MAIN_OBJ = $(OBJDIR)/first_main.o
@@ -31,10 +33,12 @@ FIRST_MAIN_OBJ = $(OBJDIR)/first_main.o
 # filtered main
 FILTERED_MAIN_OBJ = $(OBJDIR)/filtered_main.o
 FILTERED_MAIN_GRAPH_OBJ = $(OBJDIR)/filtered_main_graph.o
+PARALLEL_FILTERED_MAIN_OBJ = $(OBJDIR)/parallel_filtered_main.o
 
 # stitched main
 STITCHED_MAIN_OBJ = $(OBJDIR)/stitched_main.o
 STITCHED_MAIN_GRAPH_OBJ = $(OBJDIR)/stitched_main_graph.o
+PARALLEL_STITCHED_MAIN_OBJ = $(OBJDIR)/parallel_stitched_main.o
 
 # calculate groundtruth main
 CALC_GT_OBJ = $(OBJDIR)/calculate_groundtruth.o
@@ -44,7 +48,7 @@ COMMON_OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(COMMON_SRC))
 
 TEST_OBJ = $(patsubst $(TESTDIR)/%.cpp, $(OBJDIR)/%.o, $(TESTFILES))
 
-all: $(BINDIR)/first_main $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/calculate_groundtruth # test
+all: $(BINDIR)/first_main $(BINDIR)/filtered_main $(BINDIR)/filtered_main_graph $(BINDIR)/parallel_filtered_main $(BINDIR)/stitched_main $(BINDIR)/stitched_main_graph $(BINDIR)/parallel_stitched_main $(BINDIR)/calculate_groundtruth # test
 
 # ----- Build main executables -----
 
@@ -59,11 +63,17 @@ $(BINDIR)/filtered_main: $(FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 $(BINDIR)/filtered_main_graph: $(FILTERED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
+$(BINDIR)/parallel_filtered_main: $(PARALLEL_FILTERED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
 # stitched
 $(BINDIR)/stitched_main: $(STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 $(BINDIR)/stitched_main_graph: $(STITCHED_MAIN_GRAPH_OBJ) $(COMMON_OBJ) | $(BINDIR)
+	$(CC) $(CFLAGS) -o $@ $^
+
+$(BINDIR)/parallel_stitched_main: $(PARALLEL_STITCHED_MAIN_OBJ) $(COMMON_OBJ) | $(BINDIR)
 	$(CC) $(CFLAGS) -o $@ $^
 
 # calculate_groundtruth
