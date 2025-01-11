@@ -3,6 +3,7 @@
 #include "../include/generate_graph.hpp"
 #include <vector>
 #include <algorithm>
+#include <unordered_set>
 
 using namespace std;
 
@@ -221,4 +222,66 @@ TEST_CASE("Test generate_random_edges basic functionality")
     }
 
     graph.clear();
+}
+
+TEST_CASE("Test connect_subgraphs basic functionality")
+{
+    Graph G;
+
+    // create subgraph 1
+    vector<Node *> subgraph1 = {
+        new Node(0, {1.0, 2.0, 3.0}, {}, 0),
+        new Node(1, {4.0, 5.0, 6.0}, {}, 0)};
+
+    // create subgraph 2
+    vector<Node *> subgraph2 = {
+        new Node(2, {7.0, 8.0, 9.0}, {}, 1),
+        new Node(3, {10.0, 11.0, 12.0}, {}, 1)};
+
+    // create subgraph 3
+    vector<Node *> subgraph3 = {
+        new Node(4, {13.0, 14.0, 15.0}, {}, 2),
+        new Node(5, {16.0, 17.0, 18.0}, {}, 2)};
+   
+
+    // add all nodes to the global graph
+    for (Node *node : subgraph1) {
+        G.addNode(node);
+    }
+    for (Node *node : subgraph2) {
+        G.addNode(node);
+    }    
+    for (Node *node : subgraph3) {
+        G.addNode(node);
+    }
+
+    // map subgraphs by their labels
+    unordered_map<int, vector<Node *>> PfMap = {
+        {0, subgraph1},
+        {1, subgraph2},
+        {2, subgraph3}};
+
+    connect_subgraphs(G, PfMap);
+
+    // check that the global graph connects the subgraphs --> there should be at least two edges between different subgraphs
+    int crossEdges = 0;
+    for (auto &[label, nodes] : PfMap)
+    {
+        for (Node *node : nodes)
+        {
+            for (auto edge : node->getEdges())
+            {
+                Node *neighbor = G.getNode(edge->getId());
+                REQUIRE(neighbor != nullptr); // Ensure neighbor exists
+                if (neighbor->getLabel() != node->getLabel())
+                {
+                    ++crossEdges;
+                }
+            }
+        }
+    }
+
+    REQUIRE(crossEdges >= 2); // at least two edges connect distinct subgraphs
+    
+    G.clear();
 }

@@ -16,6 +16,7 @@
 #include <cstring>
 #include <set>
 #include <cstdlib>
+#include <sys/resource.h> // for finding out memory usage
 
 #include <chrono>
 
@@ -61,6 +62,13 @@ bool parseInputFile(const char* filename, map<string, string>& params) {
     return true;
 }
 
+// function to count memory usage
+size_t getMemoryUsage() {
+    struct rusage usage;
+    getrusage(RUSAGE_SELF, &usage);
+    return usage.ru_maxrss; // returns in KB
+}
+
 int main(int argc, char* argv[]) {
     auto total_start = chrono::high_resolution_clock::now();
     auto start = chrono::high_resolution_clock::now();
@@ -92,6 +100,10 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> total_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_filtered_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_unfiltered_query_greedy_duration = chrono::duration<double>::zero();
+
+    size_t memoryBefore;
+    size_t memoryAfter;
+    size_t memoryUsed;
 
     int k = 0;
     int L = 0;
@@ -282,11 +294,17 @@ int main(int argc, char* argv[]) {
 
     if (argc != 6) {
         cout << "\nCalling FilteredVamana..." << endl;
+        memoryBefore = getMemoryUsage();
+
         start = chrono::high_resolution_clock::now();
         graph = filteredVamana(base, a, L, R, set_F, t, st_f);
         end = chrono::high_resolution_clock::now();
+
+        memoryAfter = getMemoryUsage();
         filtered_vamana_duration = end - start;
-        cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
+        memoryUsed = memoryAfter - memoryBefore;
+        cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds." << endl;
+        cout << "Memory used by FilteredVamana: " << memoryUsed / 1024.0 << " MB.\n" << endl; // convert KB to MB
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found

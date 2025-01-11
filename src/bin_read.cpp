@@ -168,7 +168,7 @@ vector<vector<int>> gtbin_read(const char* filename, int k) {
     assert(ifs.is_open());
 
     // Each line of ground truth file first contains the number of elements of the vector, and then the id points of such vector
-    // Ground truth file contains 5012 lines
+    // IMPORTANT! Ground truth file contains 5012 lines for smallscale and mediumscale dataset
 
     uint32_t N; // dimensions of first vector
     ifs.read((char *)&N, sizeof(uint32_t));         // N is an int

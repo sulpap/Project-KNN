@@ -34,15 +34,13 @@
 
 int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 {
-    // unordered_map<int, int> indexes; // <position, id>
-
     vector<vector<double>> actual_coords;
 
     for (Node *node : coords) {
         actual_coords.push_back(node->getCoordinates());
     }
 
-    generate_graph(graph, coords, R);
+    generate_graph_parallel(graph, coords, R);
 
     int medoidNodeId = findMedoid(actual_coords);
     // int medoidNodeId = parallel_findMedoid(actual_coords);

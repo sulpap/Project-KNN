@@ -40,7 +40,7 @@ TEST_CASE("Vamana function test")
 
     for (int i = 0; i < nodecount; ++i)
     {
-        Node *node = graph.getNode(0 * OFFSET + i);
+        Node *node = graph.getNode(i);
         // check degree does not exceed R
         REQUIRE(node->getEdges().size() <= static_cast<size_t>(R));
     }
