@@ -304,7 +304,7 @@ int main(int argc, char* argv[]) {
         filtered_vamana_duration = end - start;
         memoryUsed = memoryAfter - memoryBefore;
         cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds." << endl;
-        cout << "Memory used by FilteredVamana: " << memoryUsed / 1024.0 << " MB\n" << endl; // convert KB to MB
+        cout << "Memory used by FilteredVamana: " << memoryUsed / 1024.0 << " MB.\n" << endl; // convert KB to MB
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found

@@ -224,67 +224,64 @@ TEST_CASE("Test generate_random_edges basic functionality")
     graph.clear();
 }
 
-// TEST_CASE("Test connect_subgraphs basic functionality")
-// {
-//     Graph globalGraph;
-//     unordered_map<int, vector<Node *>> PfMap;
+TEST_CASE("Test connect_subgraphs basic functionality")
+{
+    Graph G;
 
-//     // create subgraph 0
-//     vector<Node *> subgraph0;
-//     subgraph0.push_back(new Node(0, {0.0, 0.0}, {}, 0));
-//     subgraph0.push_back(new Node(1, {1.0, 1.0}, {}, 0));
-//     PfMap[0] = subgraph0;
+    // create subgraph 1
+    vector<Node *> subgraph1 = {
+        new Node(0, {1.0, 2.0, 3.0}, {}, 0),
+        new Node(1, {4.0, 5.0, 6.0}, {}, 0)};
 
-//     // create subgraph 1
-//     vector<Node *> subgraph1;
-//     subgraph1.push_back(new Node(2, {2.0, 2.0}, {}, 1));
-//     subgraph1.push_back(new Node(3, {3.0, 3.0}, {}, 1));
-//     PfMap[1] = subgraph1;
+    // create subgraph 2
+    vector<Node *> subgraph2 = {
+        new Node(2, {7.0, 8.0, 9.0}, {}, 1),
+        new Node(3, {10.0, 11.0, 12.0}, {}, 1)};
 
-//     // create subgraph 2
-//     vector<Node *> subgraph2;
-//     subgraph2.push_back(new Node(4, {4.0, 4.0}, {}, 2));
-//     subgraph2.push_back(new Node(5, {5.0, 5.0}, {}, 2));
-//     PfMap[2] = subgraph2;
+    // create subgraph 3
+    vector<Node *> subgraph3 = {
+        new Node(4, {13.0, 14.0, 15.0}, {}, 2),
+        new Node(5, {16.0, 17.0, 18.0}, {}, 2)};
+   
 
-//     // add all nodes to the global graph
-//     for (const auto &entry : PfMap)
-//     {
-//         for (Node *node : entry.second)
-//         {
-//             globalGraph.addNode(node);
-//         }
-//     }
+    // add all nodes to the global graph
+    for (Node *node : subgraph1) {
+        G.addNode(node);
+    }
+    for (Node *node : subgraph2) {
+        G.addNode(node);
+    }    
+    for (Node *node : subgraph3) {
+        G.addNode(node);
+    }
 
-//     // call connect_subgraphs
-//     connect_subgraphs(globalGraph, PfMap);
+    // map subgraphs by their labels
+    unordered_map<int, vector<Node *>> PfMap = {
+        {0, subgraph1},
+        {1, subgraph2},
+        {2, subgraph3}};
 
-//     // check that subgraphs are connected
-//     for (size_t i = 0; i < PfMap.size() - 1; ++i)
-//     {
-//         const auto &nodes1 = PfMap[i];
-//         const auto &nodes2 = PfMap[i + 1];
+    connect_subgraphs(G, PfMap);
 
-//         bool isConnected = false;
+    // check that the global graph connects the subgraphs --> there should be at least two edges between different subgraphs
+    int crossEdges = 0;
+    for (auto &[label, nodes] : PfMap)
+    {
+        for (Node *node : nodes)
+        {
+            for (auto edge : node->getEdges())
+            {
+                Node *neighbor = G.getNode(edge->getId());
+                REQUIRE(neighbor != nullptr); // Ensure neighbor exists
+                if (neighbor->getLabel() != node->getLabel())
+                {
+                    ++crossEdges;
+                }
+            }
+        }
+    }
 
-//         for (Node *node1 : nodes1)
-//         {
-//             for (Node *node2 : nodes2)
-//             {
-//                 if (node1->edgeExists(node2->getId()) || node2->edgeExists(node1->getId()))
-//                 {
-//                     isConnected = true;
-//                     break;
-//                 }
-//             }
-//             if (isConnected)
-//             {
-//                 break;
-//             }
-//         }
-
-//         REQUIRE(isConnected); // ensure subgraph i is connected to subgraph i+1
-//     }
-
-//     globalGraph.clear();
-// }
+    REQUIRE(crossEdges >= 2); // at least two edges connect distinct subgraphs
+    
+    G.clear();
+}

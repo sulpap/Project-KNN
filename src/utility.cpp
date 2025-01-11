@@ -314,6 +314,44 @@ void initialize_graph(Graph &G, const vector<vector<double>> &coords)
     }
 }
 
+void initialize_graph_parallel(Graph &G, const vector<vector<double>> &coords)
+{
+    // create a local vector to hold nodes, reducing contention on the graph
+    vector<Node *> nodes(coords.size());
+
+    #pragma omp parallel for
+    for (size_t i = 0; i < coords.size(); i++)
+    {
+        if (coords[i].empty())
+        {
+            cerr << "Error: Empty coordinate vector at index " << i << endl;
+            continue;
+        }
+
+        // first element is the label
+        int label = static_cast<int>(coords[i][0]);
+
+        // remaining elements are the coordinates
+        vector<double> pointCoords(coords[i].begin() + 1, coords[i].end());
+
+        // create a new Node
+        nodes[i] = new Node(static_cast<int>(i), pointCoords, {}, label);
+    }
+
+    // add the nodes to the graph
+    #pragma omp parallel
+    for (size_t i = 0; i < nodes.size(); i++)
+    {
+        if (nodes[i] != nullptr)
+        {
+            #pragma omp critical
+            {
+                G.addNode(nodes[i]);
+            }
+        }
+    }
+}
+
 unordered_map<int, set<int>> computeFx(Graph &G)
 {
     // find each node's label and store it in Fx

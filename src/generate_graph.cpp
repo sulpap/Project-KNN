@@ -1,3 +1,5 @@
+/* Contains helper functions in populating the graphs */
+
 #include "../include/graph.hpp"
 #include "../include/generate_graph.hpp"
 #include <cstdlib>
@@ -50,6 +52,7 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
             }
         }
 
+        // randomly add edges until the node reaches adjusted_R edges or no more neighbors are available
         while (edgesAdded < adjusted_R && !potentialNeighbors.empty())
         {
             auto it = potentialNeighbors.begin();
@@ -68,6 +71,88 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
         if (edgesAdded < adjusted_R)
         {
             printf("Warning: Node %ld could only form %d edges.\n", i, edgesAdded);
+        }
+    }
+}
+
+#include <omp.h>
+
+void generate_graph_parallel(Graph &graph, vector<Node *> &coords, int R)
+{
+    srand(time(0)); 
+
+    size_t n = coords.size(); // number of points in the current graph
+    if (n == 0)
+    {
+        cerr << "Error [generate_graph]: No coordinates provided." << endl;
+        return; // avoid processing empty graphs
+    }
+
+    // adjust R if necessary
+    int adjusted_R = min(static_cast<int>(n) - 1, R);
+
+    // Step 1: Parallel addition of nodes
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        #pragma omp critical
+        {
+            graph.addNode(coords[i]);
+        }
+    }
+
+    // Step 2: Parallel edge creation
+    #pragma omp parallel for schedule(static)
+    for (size_t i = 0; i < coords.size(); ++i)
+    {
+        Node *current = graph.getNode(coords[i]->getId());
+        if (!current)
+        {
+            #pragma omp critical
+            {
+                cout << "Node with id: " << coords[i]->getId() << " does not exist in the graph.\n";
+            }
+            continue;
+        }
+
+        int edgesAdded = 0;
+        set<size_t> potentialNeighbors;
+
+        // add other nodes as potential neighbors
+        for (size_t j = 0; j < n; ++j)
+        {
+            if (j != i)
+            {
+                potentialNeighbors.insert(coords[j]->getId());
+            }
+        }
+
+        // randomly add edges until the node reaches adjusted_R edges or no more neighbors are available
+        while (edgesAdded < adjusted_R && !potentialNeighbors.empty())
+        {
+            auto it = potentialNeighbors.begin();
+            advance(it, rand() % potentialNeighbors.size()); // select a random neighbor
+
+            size_t randomNeighborId = *it;
+
+            #pragma omp critical
+            {
+                if (!current->edgeExists(randomNeighborId))
+                {
+                    graph.addEdge(coords[i]->getId(), randomNeighborId);
+                    edgesAdded++;
+                }
+            }
+
+            potentialNeighbors.erase(it); // remove the selected neighbor to avoid cycles!
+        }
+
+        if (edgesAdded < adjusted_R)
+        {
+            #pragma omp critical
+            {
+                printf("Warning: Node %ld could only form %d edges.\n", i, edgesAdded);
+            }
         }
     }
 }
