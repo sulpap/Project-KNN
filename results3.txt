@@ -1,0 +1,7 @@
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/filtered_main_graph 5 80 1.2 2 ./datasets/smallscale/dummy-data.bin
+Program 2: ./bin/filtered_main_graph 10 80 1.2 2 ./datasets/smallscale/dummy-data.bin
+
+Running ./bin/filtered_main_graph 5 80 1.2 2 ./datasets/smallscale/dummy-data.bin...

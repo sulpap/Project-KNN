@@ -2,8 +2,7 @@
 
 # Program to execute
 PROGRAMS=( \
-"./bin/parallel_stitched_main 100 stitched_graph_L=110_a=1.200000_R=96_R_stitched=98 stitched_map_L=110_a=1.200000_R=96_R_stitched=98 ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin" \
-"./bin/parallel_stitched_main 20 stitched_graph_L=40_a=1.200000_R=80_R_stitched=2 stitched_map_L=40_a=1.200000_R=80_R_stitched=2 ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=20.bin" \
+"./bin/filtered_main 20 40 80 1.2 2 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=20.bin" \
 )
 RESULTS_FILE="results.txt"
 TEMP_FILE="temp_output.txt"
@@ -16,6 +15,7 @@ total_recall_filtered=0
 average_recall_filtered=0
 total_recall_unfiltered=0
 average_recall_unfiltered=0
+inedx_time=0
 total_time_all=0
 total_time_filtered=0
 total_time_unfiltered=0
@@ -27,6 +27,7 @@ total_recall_filtered_sum=0
 average_recall_filtered_sum=0
 total_recall_unfiltered_sum=0
 average_recall_unfiltered_sum=0
+index_time_sum=0
 total_time_all_sum=0
 total_time_filtered_sum=0
 total_time_unfiltered_sum=0
@@ -50,6 +51,7 @@ for PROGRAM in "${PROGRAMS[@]}"; do
         average_recall_filtered=$(awk '/Average recall across FILTERED queries/ {print $NF}' "$TEMP_FILE" | sed 's/%//')
         total_recall_unfiltered=$(awk '/Total recall across UNFILTERED queries/ {print $NF}' "$TEMP_FILE" | sed 's/%//')
         average_recall_unfiltered=$(awk '/Average recall across UNFILTERED queries/ {print $NF}' "$TEMP_FILE" | sed 's/%//')
+        index_time=$(awk '/Index build time/ {print $(NF-4)}' "$TEMP_FILE")
         total_time_all=$(awk '/Total time FilteredGreadySearch calculation took for ALL queries/ {print $(NF-1)}' "$TEMP_FILE")
         total_time_filtered=$(awk '/Total time FilteredGreadySearch calculation took for FILTERED queries/ {print $(NF-1)}' "$TEMP_FILE")
         total_time_unfiltered=$(awk '/Total time FilteredGreadySearch calculation took for UNFILTERED queries/ {print $(NF-1)}' "$TEMP_FILE")
@@ -63,6 +65,7 @@ for PROGRAM in "${PROGRAMS[@]}"; do
         echo "Average Recall (Filtered): $average_recall_filtered%" >> "$RESULTS_FILE"
         echo "Total Recall (Unfiltered): $total_recall_unfiltered%" >> "$RESULTS_FILE"
         echo "Average Recall (Unfiltered): $average_recall_unfiltered%" >> "$RESULTS_FILE"
+        echo "Index Time: $index_time seconds" >> "$RESULTS_FILE"
         echo "Total Time (ALL): $total_time_all seconds" >> "$RESULTS_FILE"
         echo "Total Time (Filtered): $total_time_filtered seconds" >> "$RESULTS_FILE"
         echo "Total Time (Unfiltered): $total_time_unfiltered seconds" >> "$RESULTS_FILE"
@@ -76,6 +79,7 @@ for PROGRAM in "${PROGRAMS[@]}"; do
         average_recall_filtered_sum=$(echo "scale=10; $average_recall_filtered_sum + $average_recall_filtered" | bc)
         total_recall_unfiltered_sum=$(echo "scale=10; $total_recall_unfiltered_sum + $total_recall_unfiltered" | bc)
         average_recall_unfiltered_sum=$(echo "scale=10; $average_recall_unfiltered_sum + $average_recall_unfiltered" | bc)
+        index_time_sum=$(echo "scale=10; $index_time_sum + $index_time" | bc)
         total_time_all_sum=$(echo "scale=10; $total_time_all_sum + $total_time_all" | bc)
         total_time_filtered_sum=$(echo "scale=10; $total_time_filtered_sum + $total_time_filtered" | bc)
         total_time_unfiltered_sum=$(echo "scale=10; $total_time_unfiltered_sum + $total_time_unfiltered" | bc)
@@ -89,6 +93,7 @@ for PROGRAM in "${PROGRAMS[@]}"; do
     average_average_recall_filtered=$(echo "scale=2; $average_recall_filtered_sum / $RUNS" | bc)
     average_total_recall_unfiltered=$(echo "scale=2; $total_recall_unfiltered_sum / $RUNS" | bc)
     average_average_recall_unfiltered=$(echo "scale=2; $average_recall_unfiltered_sum / $RUNS" | bc)
+    average_index_time=$(echo "scale=2; $index_time_sum / $RUNS" | bc)
     average_total_time_all=$(echo "scale=2; $total_time_all_sum / $RUNS" | bc)
     average_total_time_filtered=$(echo "scale=2; $total_time_filtered_sum / $RUNS" | bc)
     average_total_time_unfiltered=$(echo "scale=2; $total_time_unfiltered_sum / $RUNS" | bc)
@@ -102,10 +107,12 @@ for PROGRAM in "${PROGRAMS[@]}"; do
     echo "Average Average Recall (Filtered): $average_average_recall_filtered%" >> "$RESULTS_FILE"
     echo "Average Total Recall (Unfiltered): $average_total_recall_unfiltered%" >> "$RESULTS_FILE"
     echo "Average Average Recall (Unfiltered): $average_average_recall_unfiltered%" >> "$RESULTS_FILE"
+    echo "Average Index Time: $average_index_time seconds" >> "$RESULTS_FILE"
     echo "Average Total Time (ALL): $average_total_time_all seconds" >> "$RESULTS_FILE"
     echo "Average Total Time (Filtered): $average_total_time_filtered seconds" >> "$RESULTS_FILE"
     echo "Average Total Time (Unfiltered): $average_total_time_unfiltered seconds" >> "$RESULTS_FILE"
     echo "Average Program Runtime: $average_program_runtime seconds" >> "$RESULTS_FILE"
+    echo >> "$RESULTS_FILE"
 done
 
 # Clean up
