@@ -86,7 +86,7 @@ Graph filteredVamanaParallel(vector<vector<double>> &coords, double a, int int_L
 {
     Graph G;
 
-    initialize_graph(G, coords);
+    initialize_graph_parallel(G, coords);
     // generate_random_edges(G, 1);
 
     st_f = FindMedoid(G, taph, F);
