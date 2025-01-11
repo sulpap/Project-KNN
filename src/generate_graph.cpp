@@ -8,6 +8,7 @@
 #include <chrono>
 #include <algorithm>
 #include <unistd.h>
+#include <omp.h>
 
 // creates a graph of nodes with label f
 void generate_graph(Graph &graph, vector<Node *> &coords, int R)
@@ -75,7 +76,6 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
     }
 }
 
-#include <omp.h>
 
 void generate_graph_parallel(Graph &graph, vector<Node *> &coords, int R)
 {
