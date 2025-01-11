@@ -17,6 +17,7 @@ int findMedoid_random(const vector<vector<double>> &coords);
 int findMedoidInSubset(const vector<vector<double>> &coords);
 vector<vector<double>> convert_to_double(const vector<vector<float>> &float_vector);
 void initialize_graph(Graph &G, const vector<vector<double>> &coords);
+void initialize_graph_parallel(Graph &G, const vector<vector<double>> &coords);
 unordered_map<int, set<int>> computeFx(Graph &graph);
 
 #endif

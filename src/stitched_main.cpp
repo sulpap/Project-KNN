@@ -304,8 +304,8 @@ int main(int argc, char* argv[]) {
         memoryAfter = getMemoryUsage();
         stitched_vamana_duration = end - start;
         memoryUsed = memoryAfter - memoryBefore;
-        cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
-        cout << "Memory used by StitchedVamana: " << memoryUsed / 1024.0 << " MB\n" << endl; // convert KB to MB
+        cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds." << endl;
+        cout << "Memory used by StitchedVamana: " << memoryUsed / 1024.0 << " MB.\n" << endl; // convert KB to MB
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found
