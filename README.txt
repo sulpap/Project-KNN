@@ -24,7 +24,8 @@ Makefile:
                                         -./build/  (Αντικειμενικά)
     Προσοχή: ΔΕΝ διαγράφει τα αρχεία graphs, maps και groundtruth(gt) που δημιουργούνται στο ./datasets/smallscale
 
-Όλες οι main δουλεύουν όπως οι original μαινσ, απλώς έχουν διαφορετικές υλοποιήσεις.
+ΣΗΜΑΝΤΙΚΟ!!!!
+Όλες οι main δουλεύουν όπως οι original mains, απλώς έχουν διαφορετικές υλοποιήσεις.
 
 calculate_groundtruth:
 Είναι η main που υπολογίζει το groundtruth για ένα k. Το αρχείο ονομάζεται gt_k=x.bin (πχ, για k = 100: gt_k=100.bin) και αποθηκεύεται στο ./datasets/smallscale/. Πρέπει να δίνεται το groundtruth με το path στις main.
