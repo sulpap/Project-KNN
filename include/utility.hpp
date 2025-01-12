@@ -14,7 +14,7 @@ int findMedoid(const vector<vector<double>> &coords);
 int parallel_findMedoid(const vector<vector<double>> &coords);
 int parallel_2_findMedoid(const vector<vector<double>> &coords);
 int findMedoid_random(const vector<vector<double>> &coords);
-int findMedoidInSubset(const vector<vector<double>> &coords);
+int findMedoidInSubset(const vector<vector<double>> &coords, size_t subsetSize);
 vector<vector<double>> convert_to_double(const vector<vector<float>> &float_vector);
 void initialize_graph(Graph &G, const vector<vector<double>> &coords);
 void initialize_graph_parallel(Graph &G, const vector<vector<double>> &coords);

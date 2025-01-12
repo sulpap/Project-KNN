@@ -97,6 +97,7 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> average_query_greedy_duration;
     chrono::duration<double> average_filtered_query_greedy_duration;
     chrono::duration<double> average_unfiltered_query_greedy_duration;
+    chrono::duration<double> total_query_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_filtered_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_unfiltered_query_greedy_duration = chrono::duration<double>::zero();
@@ -363,6 +364,8 @@ int main(int argc, char* argv[]) {
 
     int queries_size = static_cast<int>(queries.size());
 
+    auto total_query_duration_start = chrono::high_resolution_clock::now();
+
     for(int i = 0; i < queries_size ; i++) {
     // for(int i = 0; i < 100; i++) {
         vector<double> query = queries[i];
@@ -470,6 +473,10 @@ int main(int argc, char* argv[]) {
         }
     }
 
+    auto total_query_duration_end = chrono::high_resolution_clock::now();
+
+    total_query_duration = total_query_duration_end - total_query_duration_start;
+
     cout << "\n\nArguments:\n";
     cout << "\t- k: " << k << "\n";
     if (argc != 6) {
@@ -535,6 +542,7 @@ int main(int argc, char* argv[]) {
         cout << "\t- Graph loading time: " << load_graph_duration.count() << " seconds.\n";
         cout << "\t- Map loading time: " << load_map_duration.count() << " seconds.\n";
     }
+    cout << "\t- Total time Query calculation took for ALL queries: " << total_query_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Total time FilteredGreadySearch calculation took for UNFILTERED queries (with the calculation of their starting nodes): " << total_unfiltered_query_greedy_duration.count() << " seconds.\n";
