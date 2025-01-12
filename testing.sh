@@ -3,6 +3,12 @@
 #TEST 1 (filteredVamana serial vs parallel vs parallel distances)
 
 # Program to execute
+
+# Get current time in seconds since the Unix epoch
+current_time_start=$(date +%s)
+
+test_1_start=$(date +%s)
+
 PROGRAMS=( \
 "./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin" \
 "./bin/parallel_filtered_main_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin" \
@@ -256,9 +262,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_1_finish=$(date +%s)
+test_1_time_diff=$(echo "$test_1_finish-test_1_start" | bc)
+echo "Test 1 took $test_1_time_diff seconds."
 echo
 
 #TEST 2 (stitchedVamana serial vs parallel vs medoid_parallel_1 vs medoid_parallel_2 vs medoid_random vs medoid_subset vs generate_graph_parallel)
+
+test_2_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -517,9 +528,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_2_finish=$(date +%s)
+test_2_time_diff=$(echo "$test_2_finish-test_2_start" | bc)
+echo "Test 2 took $test_2_time_diff seconds."
 echo
 
 #TEST 3 (filtered_main vs parallel_filtered_main (Mostly for Query time))
+
+test_3_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -773,9 +789,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_3_finish=$(date +%s)
+test_3_time_diff=$(echo "$test_3_finish-test_3_start" | bc)
+echo "Test 3 took $test_3_time_diff seconds."
 echo
 
 #TEST 4 (stitched_main vs parallel_stitched_main (Mostly for Query time))
+
+test_4_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -1029,9 +1050,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_4_finish=$(date +%s)
+test_4_time_diff=$(echo "$test_4_finish-test_4_start" | bc)
+echo "Test 4 took $test_4_time_diff seconds."
 echo
 
 #TEST 5 (parallel_filtered_main different L)
+
+test_5_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -1289,9 +1315,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_5_finish=$(date +%s)
+test_5_time_diff=$(echo "$test_5_finish-test_5_start" | bc)
+echo "Test 5 took $test_5_time_diff seconds."
 echo
 
 #TEST 6 (parallel_filtered_main different k)
+
+test_6_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -1548,9 +1579,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_6_finish=$(date +%s)
+test_6_time_diff=$(echo "$test_6_finish-test_6_start" | bc)
+echo "Test 6 took $test_6_time_diff seconds."
 echo
 
 #TEST 7 (parallel_filtered_main different R)
+
+test_7_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -1808,9 +1844,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_7_finish=$(date +%s)
+test_7_time_diff=$(echo "$test_7_finish-test_7_start" | bc)
+echo "Test 7 took $test_7_time_diff seconds."
 echo
 
 #TEST 8 (parallel_filtered_main different a)
+
+test_8_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -2069,9 +2110,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_8_finish=$(date +%s)
+test_8_time_diff=$(echo "$test_8_finish-test_8_start" | bc)
+echo "Test 8 took $test_8_time_diff seconds."
 echo
 
 #TEST 9 (parallel_stitched_main different L)
+
+test_9_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -2329,9 +2375,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_9_finish=$(date +%s)
+test_9_time_diff=$(echo "$test_9_finish-test_9_start" | bc)
+echo "Test 9 took $test_9_time_diff seconds."
 echo
 
 #TEST 10 (parallel_stitched_main different k)
+
+test_10_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -2588,9 +2639,14 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_10_finish=$(date +%s)
+test_10_time_diff=$(echo "$test_10_finish-test_10_start" | bc)
+echo "Test 10 took $test_10_time_diff seconds."
 echo
 
 #TEST 11 (parallel_stitched_main different R)
+
+test_11_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -2848,9 +2904,13 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_11_finish=$(date +%s)
+test_11_time_diff=$(echo "$test_11_finish-test_11_start" | bc)
+echo "Test 11 took $test_11_time_diff seconds."
 echo
 
 #TEST 12 (parallel_stitched_main different a)
+test_12_start=$(date +%s)
 
 # Program to execute
 PROGRAMS=( \
@@ -3109,10 +3169,16 @@ done
 
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
+test_12_finish=$(date +%s)
+test_12_time_diff=$(echo "$test_12_finish-test_12_start" | bc)
+echo "Test 12 took $test_12_time_diff seconds."
 echo
-
 
 # Clean up
 rm "$TEMP_FILE"
 
 echo "Results saved to $RESULTS_FILE"
+current_time_finish=$(date +%s)
+
+time_diff=$(echo "$current_time_finish-$current_time_start" | bc)
+echo "Testing took $time_diff seconds."
