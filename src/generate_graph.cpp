@@ -76,7 +76,6 @@ void generate_graph(Graph &graph, vector<Node *> &coords, int R)
     }
 }
 
-
 void generate_graph_parallel(Graph &graph, vector<Node *> &coords, int R)
 {
     srand(time(0)); 
