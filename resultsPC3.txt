@@ -1,0 +1,3615 @@
+Test 1 (filteredVamana serial vs parallel vs parallel distances)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_filtered_main_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 3: ./bin/parallel_filtered_main_parallel_distances 100 110 69 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/3: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5655%
+Average Recall (ALL): 99.5928%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.1928%
+Average Recall (Unfiltered): 99.1928%
+Index Time: 45.1556 seconds
+Total Query Time (ALL): 7.65268 seconds
+Average FGS Time (ALL): 0.0121643 seconds
+Average FGS Time (Filtered): 0.00165802 seconds
+Average FGS Time (Unfiltered): 0.022587 seconds
+Program Runtime: 52.8375 seconds
+
+Run 2:
+Total Recall (ALL): 99.5672%
+Average Recall (ALL): 99.5944%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.1952%
+Average Recall (Unfiltered): 99.1952%
+Index Time: 49.4734 seconds
+Total Query Time (ALL): 8.00368 seconds
+Average FGS Time (ALL): 0.0127076 seconds
+Average FGS Time (Filtered): 0.0017385 seconds
+Average FGS Time (Unfiltered): 0.0235894 seconds
+Program Runtime: 57.5262 seconds
+
+Run 3:
+Total Recall (ALL): 99.5604%
+Average Recall (ALL): 99.588%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.182%
+Average Recall (Unfiltered): 99.182%
+Index Time: 44.0325 seconds
+Total Query Time (ALL): 7.59173 seconds
+Average FGS Time (ALL): 0.01206 seconds
+Average FGS Time (Filtered): 0.00163212 seconds
+Average FGS Time (Unfiltered): 0.0224051 seconds
+Program Runtime: 51.6702 seconds
+
+Run 4:
+Total Recall (ALL): 99.5651%
+Average Recall (ALL): 99.5924%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.1904%
+Average Recall (Unfiltered): 99.1904%
+Index Time: 46.0338 seconds
+Total Query Time (ALL): 7.65884 seconds
+Average FGS Time (ALL): 0.0121672 seconds
+Average FGS Time (Filtered): 0.00165538 seconds
+Average FGS Time (Unfiltered): 0.0225955 seconds
+Program Runtime: 53.744 seconds
+
+Run 5:
+Total Recall (ALL): 99.5574%
+Average Recall (ALL): 99.5852%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.1753%
+Average Recall (Unfiltered): 99.1753%
+Index Time: 46.8353 seconds
+Total Query Time (ALL): 7.65574 seconds
+Average FGS Time (ALL): 0.0121571 seconds
+Average FGS Time (Filtered): 0.00163181 seconds
+Average FGS Time (Unfiltered): 0.0225987 seconds
+Program Runtime: 54.534 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.5631200000 seconds
+Average Average Recall (ALL): 99.5905600000 seconds
+Average Total Recall (FILTERED): 99.9967800000 seconds
+Average Average Recall (FILTERED): 99.9972000000 seconds
+Average Total Recall (UNFILTERED): 99.1871400000 seconds
+Average Average Recall (UNFILTERED): 99.1871400000 seconds
+Average Index Time: 46.3061200000 seconds
+Average Total Query Time (ALL): 7.7125340000 seconds
+Average Average FGS Time (ALL): .0122512400 seconds
+Average Average FGS Time (FILTERED): .0016631660 seconds
+Average Average FGS Time (UNFILTERED): .0227551400 seconds
+Average Runtime: 54.0623800000 seconds
+
+Running Program 2/3: ./bin/parallel_filtered_main_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5819%
+Average Recall (ALL): 99.6081%
+Total Recall (Filtered): 99.995%
+Average Recall (Filtered): 99.9956%
+Total Recall (Unfiltered): 99.2238%
+Average Recall (Unfiltered): 99.2238%
+Index Time: 98.7785 seconds
+Total Query Time (ALL): 7.60025 seconds
+Average FGS Time (ALL): 0.0120653 seconds
+Average FGS Time (Filtered): 0.00164589 seconds
+Average FGS Time (Unfiltered): 0.0224019 seconds
+Program Runtime: 106.416 seconds
+
+Run 2:
+Total Recall (ALL): 99.5744%
+Average Recall (ALL): 99.6012%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.2087%
+Average Recall (Unfiltered): 99.2087%
+Index Time: 96.8259 seconds
+Total Query Time (ALL): 7.5779 seconds
+Average FGS Time (ALL): 0.0120418 seconds
+Average FGS Time (Filtered): 0.00163285 seconds
+Average FGS Time (Unfiltered): 0.0223681 seconds
+Program Runtime: 104.437 seconds
+
+Run 3:
+Total Recall (ALL): 99.5787%
+Average Recall (ALL): 99.6051%
+Total Recall (Filtered): 99.9945%
+Average Recall (Filtered): 99.9952%
+Total Recall (Unfiltered): 99.2182%
+Average Recall (Unfiltered): 99.2182%
+Index Time: 98.7632 seconds
+Total Query Time (ALL): 7.55545 seconds
+Average FGS Time (ALL): 0.0120015 seconds
+Average FGS Time (Filtered): 0.00161326 seconds
+Average FGS Time (Unfiltered): 0.0223072 seconds
+Program Runtime: 106.371 seconds
+
+Run 4:
+Total Recall (ALL): 99.5599%
+Average Recall (ALL): 99.5876%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.1824%
+Average Recall (Unfiltered): 99.1824%
+Index Time: 97.7077 seconds
+Total Query Time (ALL): 7.56557 seconds
+Average FGS Time (ALL): 0.0120227 seconds
+Average FGS Time (Filtered): 0.00163153 seconds
+Average FGS Time (Unfiltered): 0.0223313 seconds
+Program Runtime: 105.321 seconds
+
+Run 5:
+Total Recall (ALL): 99.5572%
+Average Recall (ALL): 99.585%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.1765%
+Average Recall (Unfiltered): 99.1765%
+Index Time: 100.323 seconds
+Total Query Time (ALL): 7.60325 seconds
+Average FGS Time (ALL): 0.0120611 seconds
+Average FGS Time (Filtered): 0.00164342 seconds
+Average FGS Time (Unfiltered): 0.022396 seconds
+Program Runtime: 107.972 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.5704200000 seconds
+Average Average Recall (ALL): 99.5974000000 seconds
+Average Total Recall (FILTERED): 99.9955000000 seconds
+Average Average Recall (FILTERED): 99.9960800000 seconds
+Average Total Recall (UNFILTERED): 99.2019200000 seconds
+Average Average Recall (UNFILTERED): 99.2019200000 seconds
+Average Index Time: 98.4796600000 seconds
+Average Total Query Time (ALL): 7.5804840000 seconds
+Average Average FGS Time (ALL): .0120384800 seconds
+Average Average FGS Time (FILTERED): .0016333900 seconds
+Average Average FGS Time (UNFILTERED): .0223609000 seconds
+Average Runtime: 106.1034000000 seconds
+
+Running Program 3/3: ./bin/parallel_filtered_main_parallel_distances 100 110 69 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.4294%
+Average Recall (ALL): 99.4653%
+Total Recall (Filtered): 99.9922%
+Average Recall (Filtered): 99.9932%
+Total Recall (Unfiltered): 98.9416%
+Average Recall (Unfiltered): 98.9416%
+Index Time: 97.7816 seconds
+Total Query Time (ALL): 7.28523 seconds
+Average FGS Time (ALL): 0.0111397 seconds
+Average FGS Time (Filtered): 0.00148715 seconds
+Average FGS Time (Unfiltered): 0.0207155 seconds
+Program Runtime: 105.11 seconds
+
+Run 2:
+Total Recall (ALL): 99.4135%
+Average Recall (ALL): 99.4503%
+Total Recall (Filtered): 99.9917%
+Average Recall (Filtered): 99.9928%
+Total Recall (Unfiltered): 98.9122%
+Average Recall (Unfiltered): 98.9122%
+Index Time: 92.5457 seconds
+Total Query Time (ALL): 7.27951 seconds
+Average FGS Time (ALL): 0.0110603 seconds
+Average FGS Time (Filtered): 0.00145761 seconds
+Average FGS Time (Unfiltered): 0.0205866 seconds
+Program Runtime: 99.8573 seconds
+
+Run 3:
+Total Recall (ALL): 99.4056%
+Average Recall (ALL): 99.4429%
+Total Recall (Filtered): 99.9922%
+Average Recall (Filtered): 99.9932%
+Total Recall (Unfiltered): 98.8971%
+Average Recall (Unfiltered): 98.8971%
+Index Time: 97.9625 seconds
+Total Query Time (ALL): 7.27217 seconds
+Average FGS Time (ALL): 0.0111027 seconds
+Average FGS Time (Filtered): 0.00147272 seconds
+Average FGS Time (Unfiltered): 0.0206562 seconds
+Program Runtime: 105.274 seconds
+
+Run 4:
+Total Recall (ALL): 99.4137%
+Average Recall (ALL): 99.4505%
+Total Recall (Filtered): 99.994%
+Average Recall (Filtered): 99.9948%
+Total Recall (Unfiltered): 98.9106%
+Average Recall (Unfiltered): 98.9106%
+Index Time: 96.7325 seconds
+Total Query Time (ALL): 7.2843 seconds
+Average FGS Time (ALL): 0.0111446 seconds
+Average FGS Time (Filtered): 0.00147859 seconds
+Average FGS Time (Unfiltered): 0.0207337 seconds
+Program Runtime: 104.06 seconds
+
+Run 5:
+Total Recall (ALL): 99.4269%
+Average Recall (ALL): 99.4629%
+Total Recall (Filtered): 99.9936%
+Average Recall (Filtered): 99.9944%
+Total Recall (Unfiltered): 98.9356%
+Average Recall (Unfiltered): 98.9356%
+Index Time: 98.8561 seconds
+Total Query Time (ALL): 7.26267 seconds
+Average FGS Time (ALL): 0.0110739 seconds
+Average FGS Time (Filtered): 0.00146082 seconds
+Average FGS Time (Unfiltered): 0.0206106 seconds
+Program Runtime: 106.162 seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL): 99.4178200000 seconds
+Average Average Recall (ALL): 99.4543800000 seconds
+Average Total Recall (FILTERED): 99.9927400000 seconds
+Average Average Recall (FILTERED): 99.9936800000 seconds
+Average Total Recall (UNFILTERED): 98.9194200000 seconds
+Average Average Recall (UNFILTERED): 98.9194200000 seconds
+Average Index Time: 96.7756800000 seconds
+Average Total Query Time (ALL): 7.2767760000 seconds
+Average Average FGS Time (ALL): .0111042400 seconds
+Average Average FGS Time (FILTERED): .0014713780 seconds
+Average Average FGS Time (UNFILTERED): .0206605200 seconds
+Average Runtime: 104.0926600000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.5631200000 %
+Average Average Recall (ALL): 99.5905600000 %
+Average Total Recall (FILTERED): 99.9967800000 %
+Average Average Recall (FILTERED): 99.9972000000 %
+Average Total Recall (UNFILTERED): 99.1871400000 %
+Average Average Recall (UNFILTERED): 99.1871400000 %
+Average Index Time: 46.3061200000 seconds
+Average Total Query Time (ALL): 7.7125340000 seconds
+Average Average FGS Time (ALL): .0122512400 seconds
+Average Average FGS Time (FILTERED): .0016631660 seconds
+Average Average FGS Time (UNFILTERED): .0227551400 seconds
+Average Runtime: 54.0623800000 seconds
+
+Program 2:
+-.00700% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5704200000
+-.00600% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.5974000000
+.00200% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9955000000
+.00200% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9960800000
+-.01400% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2019200000
+-.01400% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2019200000
+-112.67000% faster Average Index Time than the Base Program with Average Index Time: 98.4796600000
+1.71300% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.5804840000
+1.73700% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0120384800
+1.79100% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016333900
+1.73300% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0223609000
+-96.26100% faster Average Runtime than the Base Program with Average Runtime: 106.1034000000
+
+Program 3:
+.14600% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.4178200000
+.13700% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.4543800000
+.00500% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9927400000
+.00400% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9936800000
+.27000% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 98.9194200000
+.27000% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 98.9194200000
+-108.99100% faster Average Index Time than the Base Program with Average Index Time: 96.7756800000
+5.65000% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.2767760000
+9.36300% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0111042400
+11.53200% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0014713780
+9.20600% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0206605200
+-92.54100% faster Average Runtime than the Base Program with Average Runtime: 104.0926600000
+
+
+Test 2 (stitchedVamana serial vs parallel vs medoid_parallel_1 vs medoid_parallel_2 vs medoid_random vs medoid_subset vs generate_graph_parallel)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_stitched_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_stitched_main_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 3: ./bin/parallel_stitched_main_medoid_parallel_1 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 4: ./bin/parallel_stitched_main_medoid_parallel_2 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 5: ./bin/parallel_stitched_main_medoid_random 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 6: ./bin/parallel_stitched_main_medoid_subset 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 7: ./bin/parallel_stitched_main_generate_graph_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/7: ./bin/parallel_stitched_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5993%
+Average Recall (ALL): 99.6245%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2532%
+Average Recall (Unfiltered): 99.2532%
+Index Time: 56.7958 seconds
+Total Query Time (ALL): 7.37433 seconds
+Average FGS Time (ALL): 0.0117119 seconds
+Average FGS Time (Filtered): 0.0015704 seconds
+Average FGS Time (Unfiltered): 0.0217729 seconds
+Program Runtime: 64.203 seconds
+
+Run 2:
+Total Recall (ALL): 99.6012%
+Average Recall (ALL): 99.6263%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2568%
+Average Recall (Unfiltered): 99.2568%
+Index Time: 56.7856 seconds
+Total Query Time (ALL): 7.36067 seconds
+Average FGS Time (ALL): 0.011685 seconds
+Average FGS Time (Filtered): 0.00157025 seconds
+Average FGS Time (Unfiltered): 0.0217193 seconds
+Program Runtime: 64.1875 seconds
+
+Run 3:
+Total Recall (ALL): 99.6053%
+Average Recall (ALL): 99.6301%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.2639%
+Average Recall (Unfiltered): 99.2639%
+Index Time: 53.6812 seconds
+Total Query Time (ALL): 7.34379 seconds
+Average FGS Time (ALL): 0.011669 seconds
+Average FGS Time (Filtered): 0.00157607 seconds
+Average FGS Time (Unfiltered): 0.0216817 seconds
+Program Runtime: 61.0665 seconds
+
+Run 4:
+Total Recall (ALL): 99.6142%
+Average Recall (ALL): 99.6385%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2814%
+Average Recall (Unfiltered): 99.2814%
+Index Time: 54.7693 seconds
+Total Query Time (ALL): 7.34262 seconds
+Average FGS Time (ALL): 0.011665 seconds
+Average FGS Time (Filtered): 0.00156956 seconds
+Average FGS Time (Unfiltered): 0.0216801 seconds
+Program Runtime: 62.1478 seconds
+
+Run 5:
+Total Recall (ALL): 99.5898%
+Average Recall (ALL): 99.6155%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2357%
+Average Recall (Unfiltered): 99.2357%
+Index Time: 53.4007 seconds
+Total Query Time (ALL): 7.40426 seconds
+Average FGS Time (ALL): 0.0117633 seconds
+Average FGS Time (Filtered): 0.00159603 seconds
+Average FGS Time (Unfiltered): 0.0218498 seconds
+Program Runtime: 60.8365 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.6019600000 seconds
+Average Average Recall (ALL): 99.6269800000 seconds
+Average Total Recall (FILTERED): 99.9985400000 seconds
+Average Average Recall (FILTERED): 99.9987200000 seconds
+Average Total Recall (UNFILTERED): 99.2582000000 seconds
+Average Average Recall (UNFILTERED): 99.2582000000 seconds
+Average Index Time: 55.0865200000 seconds
+Average Total Query Time (ALL): 7.3651340000 seconds
+Average Average FGS Time (ALL): .0116988400 seconds
+Average Average FGS Time (FILTERED): .0015764620 seconds
+Average Average FGS Time (UNFILTERED): .0217407600 seconds
+Average Runtime: 62.4882600000 seconds
+
+Running Program 2/7: ./bin/parallel_stitched_main_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6027%
+Average Recall (ALL): 99.6277%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.2607%
+Average Recall (Unfiltered): 99.2607%
+Index Time: 33.0873 seconds
+Total Query Time (ALL): 7.83321 seconds
+Average FGS Time (ALL): 0.0124439 seconds
+Average FGS Time (Filtered): 0.00168403 seconds
+Average FGS Time (Unfiltered): 0.0231182 seconds
+Program Runtime: 40.9552 seconds
+
+Run 2:
+Total Recall (ALL): 99.6123%
+Average Recall (ALL): 99.6367%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.277%
+Average Recall (Unfiltered): 99.277%
+Index Time: 35.7743 seconds
+Total Query Time (ALL): 7.69087 seconds
+Average FGS Time (ALL): 0.0122188 seconds
+Average FGS Time (Filtered): 0.00166215 seconds
+Average FGS Time (Unfiltered): 0.0226916 seconds
+Program Runtime: 43.4992 seconds
+
+Run 3:
+Total Recall (ALL): 99.6064%
+Average Recall (ALL): 99.6311%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2667%
+Average Recall (Unfiltered): 99.2667%
+Index Time: 35.7718 seconds
+Total Query Time (ALL): 7.84096 seconds
+Average FGS Time (ALL): 0.0124536 seconds
+Average FGS Time (Filtered): 0.00168666 seconds
+Average FGS Time (Unfiltered): 0.0231349 seconds
+Program Runtime: 43.662 seconds
+
+Run 4:
+Total Recall (ALL): 99.6006%
+Average Recall (ALL): 99.6257%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.256%
+Average Recall (Unfiltered): 99.256%
+Index Time: 33.2453 seconds
+Total Query Time (ALL): 7.77032 seconds
+Average FGS Time (ALL): 0.0123446 seconds
+Average FGS Time (Filtered): 0.00166723 seconds
+Average FGS Time (Unfiltered): 0.0229371 seconds
+Program Runtime: 41.0476 seconds
+
+Run 5:
+Total Recall (ALL): 99.5859%
+Average Recall (ALL): 99.6119%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2285%
+Average Recall (Unfiltered): 99.2285%
+Index Time: 33.5251 seconds
+Total Query Time (ALL): 7.79642 seconds
+Average FGS Time (ALL): 0.0123834 seconds
+Average FGS Time (Filtered): 0.00168108 seconds
+Average FGS Time (Unfiltered): 0.0230007 seconds
+Program Runtime: 41.3609 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.6015800000 seconds
+Average Average Recall (ALL): 99.6266200000 seconds
+Average Total Recall (FILTERED): 99.9981800000 seconds
+Average Average Recall (FILTERED): 99.9984000000 seconds
+Average Total Recall (UNFILTERED): 99.2577800000 seconds
+Average Average Recall (UNFILTERED): 99.2577800000 seconds
+Average Index Time: 34.2807600000 seconds
+Average Total Query Time (ALL): 7.7863560000 seconds
+Average Average FGS Time (ALL): .0123688600 seconds
+Average Average FGS Time (FILTERED): .0016762300 seconds
+Average Average FGS Time (UNFILTERED): .0229765000 seconds
+Average Runtime: 42.1049800000 seconds
+
+Running Program 3/7: ./bin/parallel_stitched_main_medoid_parallel_1 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6034%
+Average Recall (ALL): 99.6283%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2607%
+Average Recall (Unfiltered): 99.2607%
+Index Time: 56.9808 seconds
+Total Query Time (ALL): 7.34735 seconds
+Average FGS Time (ALL): 0.0116703 seconds
+Average FGS Time (Filtered): 0.00158169 seconds
+Average FGS Time (Unfiltered): 0.0216786 seconds
+Program Runtime: 64.3699 seconds
+
+Run 2:
+Total Recall (ALL): 99.5968%
+Average Recall (ALL): 99.6221%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2488%
+Average Recall (Unfiltered): 99.2488%
+Index Time: 56.8229 seconds
+Total Query Time (ALL): 7.35549 seconds
+Average FGS Time (ALL): 0.0116919 seconds
+Average FGS Time (Filtered): 0.00158941 seconds
+Average FGS Time (Unfiltered): 0.021714 seconds
+Program Runtime: 64.2268 seconds
+
+Run 3:
+Total Recall (ALL): 99.5861%
+Average Recall (ALL): 99.6121%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2289%
+Average Recall (Unfiltered): 99.2289%
+Index Time: 57.2025 seconds
+Total Query Time (ALL): 7.36277 seconds
+Average FGS Time (ALL): 0.0116978 seconds
+Average FGS Time (Filtered): 0.00158727 seconds
+Average FGS Time (Unfiltered): 0.021728 seconds
+Program Runtime: 64.6171 seconds
+
+Run 4:
+Total Recall (ALL): 99.5849%
+Average Recall (ALL): 99.6109%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2262%
+Average Recall (Unfiltered): 99.2262%
+Index Time: 59.327 seconds
+Total Query Time (ALL): 7.37834 seconds
+Average FGS Time (ALL): 0.0117206 seconds
+Average FGS Time (Filtered): 0.00157617 seconds
+Average FGS Time (Unfiltered): 0.0217845 seconds
+Program Runtime: 66.7368 seconds
+
+Run 5:
+Total Recall (ALL): 99.5978%
+Average Recall (ALL): 99.6231%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2512%
+Average Recall (Unfiltered): 99.2512%
+Index Time: 57.2804 seconds
+Total Query Time (ALL): 7.35552 seconds
+Average FGS Time (ALL): 0.0116732 seconds
+Average FGS Time (Filtered): 0.00157367 seconds
+Average FGS Time (Unfiltered): 0.0216924 seconds
+Program Runtime: 64.6777 seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL): 99.5938000000 seconds
+Average Average Recall (ALL): 99.6193000000 seconds
+Average Total Recall (FILTERED): 99.9982600000 seconds
+Average Average Recall (FILTERED): 99.9984800000 seconds
+Average Total Recall (UNFILTERED): 99.2431600000 seconds
+Average Average Recall (UNFILTERED): 99.2431600000 seconds
+Average Index Time: 57.5227200000 seconds
+Average Total Query Time (ALL): 7.3598940000 seconds
+Average Average FGS Time (ALL): .0116907600 seconds
+Average Average FGS Time (FILTERED): .0015816420 seconds
+Average Average FGS Time (UNFILTERED): .0217195000 seconds
+Average Runtime: 64.9256600000 seconds
+
+Running Program 4/7: ./bin/parallel_stitched_main_medoid_parallel_2 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5968%
+Average Recall (ALL): 99.6221%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2488%
+Average Recall (Unfiltered): 99.2488%
+Index Time: 57.0855 seconds
+Total Query Time (ALL): 7.4374 seconds
+Average FGS Time (ALL): 0.0118075 seconds
+Average FGS Time (Filtered): 0.00160874 seconds
+Average FGS Time (Unfiltered): 0.0219252 seconds
+Program Runtime: 64.5711 seconds
+
+Run 2:
+Total Recall (ALL): 99.5912%
+Average Recall (ALL): 99.6169%
+Total Recall (Filtered): 99.9995%
+Average Recall (Filtered): 99.9996%
+Total Recall (Unfiltered): 99.2373%
+Average Recall (Unfiltered): 99.2373%
+Index Time: 56.987 seconds
+Total Query Time (ALL): 7.42092 seconds
+Average FGS Time (ALL): 0.011789 seconds
+Average FGS Time (Filtered): 0.00161398 seconds
+Average FGS Time (Unfiltered): 0.0218831 seconds
+Program Runtime: 64.4486 seconds
+
+Run 3:
+Total Recall (ALL): 99.6125%
+Average Recall (ALL): 99.6369%
+Total Recall (Filtered): 99.9995%
+Average Recall (Filtered): 99.9996%
+Total Recall (Unfiltered): 99.277%
+Average Recall (Unfiltered): 99.277%
+Index Time: 56.1161 seconds
+Total Query Time (ALL): 7.37885 seconds
+Average FGS Time (ALL): 0.0117176 seconds
+Average FGS Time (Filtered): 0.00158002 seconds
+Average FGS Time (Unfiltered): 0.0217746 seconds
+Program Runtime: 63.5374 seconds
+
+Run 4:
+Total Recall (ALL): 99.5874%
+Average Recall (ALL): 99.6133%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2313%
+Average Recall (Unfiltered): 99.2313%
+Index Time: 63.5802 seconds
+Total Query Time (ALL): 7.35243 seconds
+Average FGS Time (ALL): 0.0116825 seconds
+Average FGS Time (Filtered): 0.00156949 seconds
+Average FGS Time (Unfiltered): 0.0217151 seconds
+Program Runtime: 70.9692 seconds
+
+Run 5:
+Total Recall (ALL): 99.6025%
+Average Recall (ALL): 99.6275%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2595%
+Average Recall (Unfiltered): 99.2595%
+Index Time: 56.9898 seconds
+Total Query Time (ALL): 7.3717 seconds
+Average FGS Time (ALL): 0.0117041 seconds
+Average FGS Time (Filtered): 0.00159329 seconds
+Average FGS Time (Unfiltered): 0.0217346 seconds
+Program Runtime: 64.4126 seconds
+
+Average Results for Program 4:
+Average Total Recall (ALL): 99.5980800000 seconds
+Average Average Recall (ALL): 99.6233400000 seconds
+Average Total Recall (FILTERED): 99.9987200000 seconds
+Average Average Recall (FILTERED): 99.9988800000 seconds
+Average Total Recall (UNFILTERED): 99.2507800000 seconds
+Average Average Recall (UNFILTERED): 99.2507800000 seconds
+Average Index Time: 58.1517200000 seconds
+Average Total Query Time (ALL): 7.3922600000 seconds
+Average Average FGS Time (ALL): .0117401400 seconds
+Average Average FGS Time (FILTERED): .0015931040 seconds
+Average Average FGS Time (UNFILTERED): .0218065200 seconds
+Average Runtime: 65.5877800000 seconds
+
+Running Program 5/7: ./bin/parallel_stitched_main_medoid_random 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6036%
+Average Recall (ALL): 99.6285%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2619%
+Average Recall (Unfiltered): 99.2619%
+Index Time: 55.0291 seconds
+Total Query Time (ALL): 7.46251 seconds
+Average FGS Time (ALL): 0.0118549 seconds
+Average FGS Time (Filtered): 0.00160048 seconds
+Average FGS Time (Unfiltered): 0.0220277 seconds
+Program Runtime: 62.5244 seconds
+
+Run 2:
+Total Recall (ALL): 99.5959%
+Average Recall (ALL): 99.6213%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.248%
+Average Recall (Unfiltered): 99.248%
+Index Time: 55.6422 seconds
+Total Query Time (ALL): 8.14393 seconds
+Average FGS Time (ALL): 0.0129289 seconds
+Average FGS Time (Filtered): 0.00177344 seconds
+Average FGS Time (Unfiltered): 0.0239956 seconds
+Program Runtime: 63.8296 seconds
+
+Run 3:
+Total Recall (ALL): 99.6104%
+Average Recall (ALL): 99.6349%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2738%
+Average Recall (Unfiltered): 99.2738%
+Index Time: 53.9195 seconds
+Total Query Time (ALL): 7.42091 seconds
+Average FGS Time (ALL): 0.0117912 seconds
+Average FGS Time (Filtered): 0.0015976 seconds
+Average FGS Time (Unfiltered): 0.0219038 seconds
+Program Runtime: 61.3711 seconds
+
+Run 4:
+Total Recall (ALL): 99.6019%
+Average Recall (ALL): 99.6269%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.2576%
+Average Recall (Unfiltered): 99.2576%
+Index Time: 54.6119 seconds
+Total Query Time (ALL): 7.36137 seconds
+Average FGS Time (ALL): 0.0116895 seconds
+Average FGS Time (Filtered): 0.0015987 seconds
+Average FGS Time (Unfiltered): 0.0217001 seconds
+Program Runtime: 62.0156 seconds
+
+Run 5:
+Total Recall (ALL): 99.6055%
+Average Recall (ALL): 99.6303%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2655%
+Average Recall (Unfiltered): 99.2655%
+Index Time: 59.749 seconds
+Total Query Time (ALL): 8.19054 seconds
+Average FGS Time (ALL): 0.0130104 seconds
+Average FGS Time (Filtered): 0.00176328 seconds
+Average FGS Time (Unfiltered): 0.0241681 seconds
+Program Runtime: 67.9786 seconds
+
+Average Results for Program 5:
+Average Total Recall (ALL): 99.6034600000 seconds
+Average Average Recall (ALL): 99.6283800000 seconds
+Average Total Recall (FILTERED): 99.9980600000 seconds
+Average Average Recall (FILTERED): 99.9983200000 seconds
+Average Total Recall (UNFILTERED): 99.2613600000 seconds
+Average Average Recall (UNFILTERED): 99.2613600000 seconds
+Average Index Time: 55.7903400000 seconds
+Average Total Query Time (ALL): 7.7158520000 seconds
+Average Average FGS Time (ALL): .0122549800 seconds
+Average Average FGS Time (FILTERED): .0016667000 seconds
+Average Average FGS Time (UNFILTERED): .0227590600 seconds
+Average Runtime: 63.5438600000 seconds
+
+Running Program 6/7: ./bin/parallel_stitched_main_medoid_subset 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 2:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 3:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 4:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 5:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Average Results for Program 6:
+Average Total Recall (ALL):  seconds
+Average Average Recall (ALL):  seconds
+Average Total Recall (FILTERED):  seconds
+Average Average Recall (FILTERED):  seconds
+Average Total Recall (UNFILTERED):  seconds
+Average Average Recall (UNFILTERED):  seconds
+Average Index Time:  seconds
+Average Total Query Time (ALL):  seconds
+Average Average FGS Time (ALL):  seconds
+Average Average FGS Time (FILTERED):  seconds
+Average Average FGS Time (UNFILTERED):  seconds
+Average Runtime:  seconds
+
+Running Program 7/7: ./bin/parallel_stitched_main_generate_graph_parallel 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.603%
+Average Recall (ALL): 99.6279%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2599%
+Average Recall (Unfiltered): 99.2599%
+Index Time: 51.7412 seconds
+Total Query Time (ALL): 7.36558 seconds
+Average FGS Time (ALL): 0.011697 seconds
+Average FGS Time (Filtered): 0.00156517 seconds
+Average FGS Time (Unfiltered): 0.0217482 seconds
+Program Runtime: 59.1388 seconds
+
+Run 2:
+Total Recall (ALL): 99.5993%
+Average Recall (ALL): 99.6245%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2532%
+Average Recall (Unfiltered): 99.2532%
+Index Time: 52.2004 seconds
+Total Query Time (ALL): 7.33353 seconds
+Average FGS Time (ALL): 0.0116527 seconds
+Average FGS Time (Filtered): 0.00157856 seconds
+Average FGS Time (Unfiltered): 0.0216468 seconds
+Program Runtime: 59.5701 seconds
+
+Run 3:
+Total Recall (ALL): 99.6004%
+Average Recall (ALL): 99.6255%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2552%
+Average Recall (Unfiltered): 99.2552%
+Index Time: 52.2644 seconds
+Total Query Time (ALL): 7.33279 seconds
+Average FGS Time (ALL): 0.0116362 seconds
+Average FGS Time (Filtered): 0.00156953 seconds
+Average FGS Time (Unfiltered): 0.0216229 seconds
+Program Runtime: 59.646 seconds
+
+Run 4:
+Total Recall (ALL): 99.6038%
+Average Recall (ALL): 99.6287%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2619%
+Average Recall (Unfiltered): 99.2619%
+Index Time: 51.9174 seconds
+Total Query Time (ALL): 7.39501 seconds
+Average FGS Time (ALL): 0.0117381 seconds
+Average FGS Time (Filtered): 0.00158557 seconds
+Average FGS Time (Unfiltered): 0.02181 seconds
+Program Runtime: 59.3579 seconds
+
+Run 5:
+Total Recall (ALL): 99.5908%
+Average Recall (ALL): 99.6165%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.2369%
+Average Recall (Unfiltered): 99.2369%
+Index Time: 50.5958 seconds
+Total Query Time (ALL): 7.34063 seconds
+Average FGS Time (ALL): 0.0116613 seconds
+Average FGS Time (Filtered): 0.0015708 seconds
+Average FGS Time (Unfiltered): 0.0216715 seconds
+Program Runtime: 57.98 seconds
+
+Average Results for Program 7:
+Average Total Recall (ALL): 99.5994600000 seconds
+Average Average Recall (ALL): 99.6246200000 seconds
+Average Total Recall (FILTERED): 99.9986200000 seconds
+Average Average Recall (FILTERED): 99.9988000000 seconds
+Average Total Recall (UNFILTERED): 99.2534200000 seconds
+Average Average Recall (UNFILTERED): 99.2534200000 seconds
+Average Index Time: 51.7438400000 seconds
+Average Total Query Time (ALL): 7.3535080000 seconds
+Average Average FGS Time (ALL): .0116770600 seconds
+Average Average FGS Time (FILTERED): .0015739260 seconds
+Average Average FGS Time (UNFILTERED): .0216998800 seconds
+Average Runtime: 59.1385600000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.6019600000 %
+Average Average Recall (ALL): 99.6269800000 %
+Average Total Recall (FILTERED): 99.9985400000 %
+Average Average Recall (FILTERED): 99.9987200000 %
+Average Total Recall (UNFILTERED): 99.2582000000 %
+Average Average Recall (UNFILTERED): 99.2582000000 %
+Average Index Time: 55.0865200000 seconds
+Average Total Query Time (ALL): 7.3651340000 seconds
+Average Average FGS Time (ALL): .0116988400 seconds
+Average Average FGS Time (FILTERED): .0015764620 seconds
+Average Average FGS Time (UNFILTERED): .0217407600 seconds
+Average Runtime: 62.4882600000 seconds
+
+Program 2:
+.00100% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6015800000
+.00100% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6266200000
+.00100% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9981800000
+.00100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9984000000
+.00100% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2577800000
+.00100% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2577800000
+37.77000% faster Average Index Time than the Base Program with Average Index Time: 34.2807600000
+-5.71900% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.7863560000
+-5.72700% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0123688600
+-6.32800% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016762300
+-5.68300% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0229765000
+32.62000% faster Average Runtime than the Base Program with Average Runtime: 42.1049800000
+
+Program 3:
+.00900% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5938000000
+.00800% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6193000000
+.00100% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9982600000
+.00100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9984800000
+.01600% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2431600000
+.01600% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2431600000
+-4.42200% faster Average Index Time than the Base Program with Average Index Time: 57.5227200000
+.07200% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.3598940000
+.07000% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0116907600
+-.32800% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0015816420
+.09800% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0217195000
+-3.90000% faster Average Runtime than the Base Program with Average Runtime: 64.9256600000
+
+Program 4:
+.00400% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5980800000
+.00400% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6233400000
+0% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9987200000
+0% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9988800000
+.00800% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2507800000
+.00800% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2507800000
+-5.56400% faster Average Index Time than the Base Program with Average Index Time: 58.1517200000
+-.36800% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.3922600000
+-.35300% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0117401400
+-1.05500% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0015931040
+-.30200% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0218065200
+-4.96000% faster Average Runtime than the Base Program with Average Runtime: 65.5877800000
+
+Program 5:
+-.00100% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6034600000
+-.00100% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6283800000
+.00100% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9980600000
+.00100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9983200000
+-.00300% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2613600000
+-.00300% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2613600000
+-1.27700% faster Average Index Time than the Base Program with Average Index Time: 55.7903400000
+-4.76100% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.7158520000
+-4.75300% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0122549800
+-5.72400% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016667000
+-4.68300% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0227590600
+-1.68900% faster Average Runtime than the Base Program with Average Runtime: 63.5438600000
+
+Program 6:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 
+% faster Average Index Time than the Base Program with Average Index Time: 
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): 
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): 
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): 
+% faster Average Runtime than the Base Program with Average Runtime: 
+
+Program 7:
+.00300% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5994600000
+.00300% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6246200000
+0% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9986200000
+0% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9988000000
+.00500% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2534200000
+.00500% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2534200000
+6.06900% faster Average Index Time than the Base Program with Average Index Time: 51.7438400000
+.15800% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.3535080000
+.18700% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0116770600
+.16100% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0015739260
+.18900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0216998800
+5.36100% faster Average Runtime than the Base Program with Average Runtime: 59.1385600000
+
+
+Test 3 (filtered_main vs parallel_filtered_main (Mostly for Query time))
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/2: ./bin/filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5538%
+Average Recall (ALL): 99.5818%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.1689%
+Average Recall (Unfiltered): 99.1689%
+Index Time: 44.2946 seconds
+Total Query Time (ALL): 51.4158 seconds
+Average FGS Time (ALL): 0.0102159 seconds
+Average FGS Time (Filtered): 0.00137183 seconds
+Average FGS Time (Unfiltered): 0.0189896 seconds
+Program Runtime: 95.7468 seconds
+
+Run 2:
+Total Recall (ALL): 99.5642%
+Average Recall (ALL): 99.5916%
+Total Recall (Filtered): 99.995%
+Average Recall (Filtered): 99.9956%
+Total Recall (Unfiltered): 99.1908%
+Average Recall (Unfiltered): 99.1908%
+Index Time: 45.7689 seconds
+Total Query Time (ALL): 51.7602 seconds
+Average FGS Time (ALL): 0.0102855 seconds
+Average FGS Time (Filtered): 0.00138198 seconds
+Average FGS Time (Unfiltered): 0.0191183 seconds
+Program Runtime: 97.5702 seconds
+
+Run 3:
+Total Recall (ALL): 99.5755%
+Average Recall (ALL): 99.6022%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2091%
+Average Recall (Unfiltered): 99.2091%
+Index Time: 44.8322 seconds
+Total Query Time (ALL): 57.654 seconds
+Average FGS Time (ALL): 0.0114541 seconds
+Average FGS Time (Filtered): 0.00152405 seconds
+Average FGS Time (Unfiltered): 0.0213053 seconds
+Program Runtime: 102.522 seconds
+
+Run 4:
+Total Recall (ALL): 99.574%
+Average Recall (ALL): 99.6008%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.2075%
+Average Recall (Unfiltered): 99.2075%
+Index Time: 44.622 seconds
+Total Query Time (ALL): 51.1466 seconds
+Average FGS Time (ALL): 0.0101622 seconds
+Average FGS Time (Filtered): 0.00137411 seconds
+Average FGS Time (Unfiltered): 0.0188804 seconds
+Program Runtime: 95.7954 seconds
+
+Run 5:
+Total Recall (ALL): 99.5631%
+Average Recall (ALL): 99.5906%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.1876%
+Average Recall (Unfiltered): 99.1876%
+Index Time: 43.7356 seconds
+Total Query Time (ALL): 52.0173 seconds
+Average FGS Time (ALL): 0.0103309 seconds
+Average FGS Time (Filtered): 0.00138686 seconds
+Average FGS Time (Unfiltered): 0.0192038 seconds
+Program Runtime: 95.7864 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.5661200000 seconds
+Average Average Recall (ALL): 99.5934000000 seconds
+Average Total Recall (FILTERED): 99.9968000000 seconds
+Average Average Recall (FILTERED): 99.9972000000 seconds
+Average Total Recall (UNFILTERED): 99.1927800000 seconds
+Average Average Recall (UNFILTERED): 99.1927800000 seconds
+Average Index Time: 44.6506600000 seconds
+Average Total Query Time (ALL): 52.7987800000 seconds
+Average Average FGS Time (ALL): .0104897200 seconds
+Average Average FGS Time (FILTERED): .0014077660 seconds
+Average Average FGS Time (UNFILTERED): .0194994800 seconds
+Average Runtime: 97.4841600000 seconds
+
+Running Program 2/2: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5614%
+Average Recall (ALL): 99.589%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.184%
+Average Recall (Unfiltered): 99.184%
+Index Time: 45.1836 seconds
+Total Query Time (ALL): 7.65197 seconds
+Average FGS Time (ALL): 0.0121503 seconds
+Average FGS Time (Filtered): 0.00163739 seconds
+Average FGS Time (Unfiltered): 0.0225796 seconds
+Program Runtime: 52.8808 seconds
+
+Run 2:
+Total Recall (ALL): 99.5712%
+Average Recall (ALL): 99.5982%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.2027%
+Average Recall (Unfiltered): 99.2027%
+Index Time: 44.783 seconds
+Total Query Time (ALL): 7.66799 seconds
+Average FGS Time (ALL): 0.0121836 seconds
+Average FGS Time (Filtered): 0.00164391 seconds
+Average FGS Time (Unfiltered): 0.0226395 seconds
+Program Runtime: 52.4895 seconds
+
+Run 3:
+Total Recall (ALL): 99.5653%
+Average Recall (ALL): 99.5926%
+Total Recall (Filtered): 99.9959%
+Average Recall (Filtered): 99.9964%
+Total Recall (Unfiltered): 99.192%
+Average Recall (Unfiltered): 99.192%
+Index Time: 44.2194 seconds
+Total Query Time (ALL): 7.63658 seconds
+Average FGS Time (ALL): 0.0121283 seconds
+Average FGS Time (Filtered): 0.00164694 seconds
+Average FGS Time (Unfiltered): 0.0225264 seconds
+Program Runtime: 51.8915 seconds
+
+Run 4:
+Total Recall (ALL): 99.5876%
+Average Recall (ALL): 99.6135%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.2325%
+Average Recall (Unfiltered): 99.2325%
+Index Time: 47.3897 seconds
+Total Query Time (ALL): 7.65631 seconds
+Average FGS Time (ALL): 0.0121676 seconds
+Average FGS Time (Filtered): 0.00164946 seconds
+Average FGS Time (Unfiltered): 0.0226021 seconds
+Program Runtime: 55.0936 seconds
+
+Run 5:
+Total Recall (ALL): 99.5761%
+Average Recall (ALL): 99.6028%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.2114%
+Average Recall (Unfiltered): 99.2114%
+Index Time: 43.1504 seconds
+Total Query Time (ALL): 7.61871 seconds
+Average FGS Time (ALL): 0.012106 seconds
+Average FGS Time (Filtered): 0.00165277 seconds
+Average FGS Time (Unfiltered): 0.0224761 seconds
+Program Runtime: 50.8105 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.5723200000 seconds
+Average Average Recall (ALL): 99.5992200000 seconds
+Average Total Recall (FILTERED): 99.9966000000 seconds
+Average Average Recall (FILTERED): 99.9970400000 seconds
+Average Total Recall (UNFILTERED): 99.2045200000 seconds
+Average Average Recall (UNFILTERED): 99.2045200000 seconds
+Average Index Time: 44.9452200000 seconds
+Average Total Query Time (ALL): 7.6463120000 seconds
+Average Average FGS Time (ALL): .0121471600 seconds
+Average Average FGS Time (FILTERED): .0016460940 seconds
+Average Average FGS Time (UNFILTERED): .0225647400 seconds
+Average Runtime: 52.6331800000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.5661200000 %
+Average Average Recall (ALL): 99.5934000000 %
+Average Total Recall (FILTERED): 99.9968000000 %
+Average Average Recall (FILTERED): 99.9972000000 %
+Average Total Recall (UNFILTERED): 99.1927800000 %
+Average Average Recall (UNFILTERED): 99.1927800000 %
+Average Index Time: 44.6506600000 seconds
+Average Total Query Time (ALL): 52.7987800000 seconds
+Average Average FGS Time (ALL): .0104897200 seconds
+Average Average FGS Time (FILTERED): .0014077660 seconds
+Average Average FGS Time (UNFILTERED): .0194994800 seconds
+Average Runtime: 97.4841600000 seconds
+
+Program 2:
+-.00600% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5723200000
+-.00500% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.5992200000
+.00100% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9966000000
+.00100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9970400000
+-.01100% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2045200000
+-.01100% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2045200000
+-.65900% faster Average Index Time than the Base Program with Average Index Time: 44.9452200000
+85.51900% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.6463120000
+-15.80000% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0121471600
+-16.92900% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016460940
+-15.71900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0225647400
+46.00900% faster Average Runtime than the Base Program with Average Runtime: 52.6331800000
+
+
+Test 4 (stitched_main vs parallel_stitched_main (Mostly for Query time))
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/stitched_main 100 110 96 1.2 98 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_stitched_main 100 110 96 1.2 98 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/2: ./bin/stitched_main 100 110 96 1.2 98 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5981%
+Average Recall (ALL): 99.6233%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.2504%
+Average Recall (Unfiltered): 99.2504%
+Index Time: 55.5676 seconds
+Total Query Time (ALL): 48.6302 seconds
+Average FGS Time (ALL): 0.0096542 seconds
+Average FGS Time (Filtered): 0.0012965 seconds
+Average FGS Time (Unfiltered): 0.0179455 seconds
+Program Runtime: 104.234 seconds
+
+Run 2:
+Total Recall (ALL): 99.5872%
+Average Recall (ALL): 99.6131%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2313%
+Average Recall (Unfiltered): 99.2313%
+Index Time: 55.0982 seconds
+Total Query Time (ALL): 50.5592 seconds
+Average FGS Time (ALL): 0.0100403 seconds
+Average FGS Time (Filtered): 0.00134583 seconds
+Average FGS Time (Unfiltered): 0.0186657 seconds
+Program Runtime: 105.699 seconds
+
+Run 3:
+Total Recall (ALL): 99.6023%
+Average Recall (ALL): 99.6273%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2587%
+Average Recall (Unfiltered): 99.2587%
+Index Time: 55.8615 seconds
+Total Query Time (ALL): 50.2396 seconds
+Average FGS Time (ALL): 0.00997519 seconds
+Average FGS Time (Filtered): 0.00134541 seconds
+Average FGS Time (Unfiltered): 0.0185364 seconds
+Program Runtime: 106.132 seconds
+
+Run 4:
+Total Recall (ALL): 99.603%
+Average Recall (ALL): 99.6279%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2603%
+Average Recall (Unfiltered): 99.2603%
+Index Time: 54.3257 seconds
+Total Query Time (ALL): 50.3747 seconds
+Average FGS Time (ALL): 0.0100041 seconds
+Average FGS Time (Filtered): 0.00133687 seconds
+Average FGS Time (Unfiltered): 0.0186024 seconds
+Program Runtime: 104.732 seconds
+
+Run 5:
+Total Recall (ALL): 99.6012%
+Average Recall (ALL): 99.6263%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.2579%
+Average Recall (Unfiltered): 99.2579%
+Index Time: 53.9852 seconds
+Total Query Time (ALL): 51.9879 seconds
+Average FGS Time (ALL): 0.0103319 seconds
+Average FGS Time (Filtered): 0.00139668 seconds
+Average FGS Time (Unfiltered): 0.0191961 seconds
+Program Runtime: 106.001 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.5983600000 seconds
+Average Average Recall (ALL): 99.6235800000 seconds
+Average Total Recall (FILTERED): 99.9981600000 seconds
+Average Average Recall (FILTERED): 99.9984000000 seconds
+Average Total Recall (UNFILTERED): 99.2517200000 seconds
+Average Average Recall (UNFILTERED): 99.2517200000 seconds
+Average Index Time: 54.9676400000 seconds
+Average Total Query Time (ALL): 50.3583200000 seconds
+Average Average FGS Time (ALL): .0100011380 seconds
+Average Average FGS Time (FILTERED): .0013442580 seconds
+Average Average FGS Time (UNFILTERED): .0185892200 seconds
+Average Runtime: 105.3596000000 seconds
+
+Running Program 2/2: ./bin/parallel_stitched_main 100 110 96 1.2 98 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6036%
+Average Recall (ALL): 99.6285%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2615%
+Average Recall (Unfiltered): 99.2615%
+Index Time: 54.2772 seconds
+Total Query Time (ALL): 7.39789 seconds
+Average FGS Time (ALL): 0.0117474 seconds
+Average FGS Time (Filtered): 0.00158384 seconds
+Average FGS Time (Unfiltered): 0.0218301 seconds
+Program Runtime: 61.7238 seconds
+
+Run 2:
+Total Recall (ALL): 99.5983%
+Average Recall (ALL): 99.6235%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.252%
+Average Recall (Unfiltered): 99.252%
+Index Time: 55.522 seconds
+Total Query Time (ALL): 7.50379 seconds
+Average FGS Time (ALL): 0.0119162 seconds
+Average FGS Time (Filtered): 0.0016205 seconds
+Average FGS Time (Unfiltered): 0.0221301 seconds
+Program Runtime: 63.0738 seconds
+
+Run 3:
+Total Recall (ALL): 99.6121%
+Average Recall (ALL): 99.6365%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.277%
+Average Recall (Unfiltered): 99.277%
+Index Time: 57.9822 seconds
+Total Query Time (ALL): 7.4603 seconds
+Average FGS Time (ALL): 0.0118435 seconds
+Average FGS Time (Filtered): 0.00158521 seconds
+Average FGS Time (Unfiltered): 0.0220203 seconds
+Program Runtime: 65.4733 seconds
+
+Run 4:
+Total Recall (ALL): 99.603%
+Average Recall (ALL): 99.6279%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2603%
+Average Recall (Unfiltered): 99.2603%
+Index Time: 56.4765 seconds
+Total Query Time (ALL): 7.35225 seconds
+Average FGS Time (ALL): 0.0116681 seconds
+Average FGS Time (Filtered): 0.00157112 seconds
+Average FGS Time (Unfiltered): 0.0216849 seconds
+Program Runtime: 63.8602 seconds
+
+Run 5:
+Total Recall (ALL): 99.5942%
+Average Recall (ALL): 99.6197%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2436%
+Average Recall (Unfiltered): 99.2436%
+Index Time: 54.2346 seconds
+Total Query Time (ALL): 7.39617 seconds
+Average FGS Time (ALL): 0.0117461 seconds
+Average FGS Time (Filtered): 0.00158683 seconds
+Average FGS Time (Unfiltered): 0.0218247 seconds
+Program Runtime: 61.6607 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.6022400000 seconds
+Average Average Recall (ALL): 99.6272200000 seconds
+Average Total Recall (FILTERED): 99.9982600000 seconds
+Average Average Recall (FILTERED): 99.9984800000 seconds
+Average Total Recall (UNFILTERED): 99.2588800000 seconds
+Average Average Recall (UNFILTERED): 99.2588800000 seconds
+Average Index Time: 55.6985000000 seconds
+Average Total Query Time (ALL): 7.4220800000 seconds
+Average Average FGS Time (ALL): .0117842600 seconds
+Average Average FGS Time (FILTERED): .0015895000 seconds
+Average Average FGS Time (UNFILTERED): .0218980200 seconds
+Average Runtime: 63.1583600000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.5983600000 %
+Average Average Recall (ALL): 99.6235800000 %
+Average Total Recall (FILTERED): 99.9981600000 %
+Average Average Recall (FILTERED): 99.9984000000 %
+Average Total Recall (UNFILTERED): 99.2517200000 %
+Average Average Recall (UNFILTERED): 99.2517200000 %
+Average Index Time: 54.9676400000 seconds
+Average Total Query Time (ALL): 50.3583200000 seconds
+Average Average FGS Time (ALL): .0100011380 seconds
+Average Average FGS Time (FILTERED): .0013442580 seconds
+Average Average FGS Time (UNFILTERED): .0185892200 seconds
+Average Runtime: 105.3596000000 seconds
+
+Program 2:
+-.00300% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6022400000
+-.00300% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6272200000
+0% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9982600000
+0% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9984800000
+-.00700% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2588800000
+-.00700% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2588800000
+-1.32900% faster Average Index Time than the Base Program with Average Index Time: 55.6985000000
+85.26200% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.4220800000
+-17.82900% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0117842600
+-18.24300% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0015895000
+-17.79900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0218980200
+40.05500% faster Average Runtime than the Base Program with Average Runtime: 63.1583600000
+
+
+Test 5 (parallel_filtered_main different L)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_filtered_main 100 50 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_filtered_main 100 70 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 3: ./bin/parallel_filtered_main 100 90 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 4: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 5: ./bin/parallel_filtered_main 100 130 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 6: ./bin/parallel_filtered_main 100 150 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/6: ./bin/parallel_filtered_main 100 50 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 2:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 3:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 4:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 5:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL):  seconds
+Average Average Recall (ALL):  seconds
+Average Total Recall (FILTERED):  seconds
+Average Average Recall (FILTERED):  seconds
+Average Total Recall (UNFILTERED):  seconds
+Average Average Recall (UNFILTERED):  seconds
+Average Index Time:  seconds
+Average Total Query Time (ALL):  seconds
+Average Average FGS Time (ALL):  seconds
+Average Average FGS Time (FILTERED):  seconds
+Average Average FGS Time (UNFILTERED):  seconds
+Average Runtime:  seconds
+
+Running Program 2/6: ./bin/parallel_filtered_main 100 70 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 2:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 3:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 4:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 5:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL):  seconds
+Average Average Recall (ALL):  seconds
+Average Total Recall (FILTERED):  seconds
+Average Average Recall (FILTERED):  seconds
+Average Total Recall (UNFILTERED):  seconds
+Average Average Recall (UNFILTERED):  seconds
+Average Index Time:  seconds
+Average Total Query Time (ALL):  seconds
+Average Average FGS Time (ALL):  seconds
+Average Average FGS Time (FILTERED):  seconds
+Average Average FGS Time (UNFILTERED):  seconds
+Average Runtime:  seconds
+
+Running Program 3/6: ./bin/parallel_filtered_main 100 90 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 2:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 3:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 4:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Run 5:
+Total Recall (ALL): %
+Average Recall (ALL): %
+Total Recall (Filtered): %
+Average Recall (Filtered): %
+Total Recall (Unfiltered): %
+Average Recall (Unfiltered): %
+Index Time:  seconds
+Total Query Time (ALL):  seconds
+Average FGS Time (ALL):  seconds
+Average FGS Time (Filtered):  seconds
+Average FGS Time (Unfiltered):  seconds
+Program Runtime:  seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL):  seconds
+Average Average Recall (ALL):  seconds
+Average Total Recall (FILTERED):  seconds
+Average Average Recall (FILTERED):  seconds
+Average Total Recall (UNFILTERED):  seconds
+Average Average Recall (UNFILTERED):  seconds
+Average Index Time:  seconds
+Average Total Query Time (ALL):  seconds
+Average Average FGS Time (ALL):  seconds
+Average Average FGS Time (FILTERED):  seconds
+Average Average FGS Time (UNFILTERED):  seconds
+Average Runtime:  seconds
+
+Running Program 4/6: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5563%
+Average Recall (ALL): 99.5842%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.1741%
+Average Recall (Unfiltered): 99.1741%
+Index Time: 44.8924 seconds
+Total Query Time (ALL): 7.75171 seconds
+Average FGS Time (ALL): 0.0123162 seconds
+Average FGS Time (Filtered): 0.00166139 seconds
+Average FGS Time (Unfiltered): 0.0228863 seconds
+Program Runtime: 52.6953 seconds
+
+Run 2:
+Total Recall (ALL): 99.5719%
+Average Recall (ALL): 99.5988%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.2019%
+Average Recall (Unfiltered): 99.2019%
+Index Time: 46.5828 seconds
+Total Query Time (ALL): 7.66337 seconds
+Average FGS Time (ALL): 0.012174 seconds
+Average FGS Time (Filtered): 0.00163827 seconds
+Average FGS Time (Unfiltered): 0.022626 seconds
+Program Runtime: 54.2833 seconds
+
+Run 3:
+Total Recall (ALL): 99.547%
+Average Recall (ALL): 99.5754%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.1566%
+Average Recall (Unfiltered): 99.1566%
+Index Time: 46.1574 seconds
+Total Query Time (ALL): 7.65307 seconds
+Average FGS Time (ALL): 0.012163 seconds
+Average FGS Time (Filtered): 0.00164319 seconds
+Average FGS Time (Unfiltered): 0.0225992 seconds
+Program Runtime: 53.8547 seconds
+
+Run 4:
+Total Recall (ALL): 99.5685%
+Average Recall (ALL): 99.5956%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.1971%
+Average Recall (Unfiltered): 99.1971%
+Index Time: 44.7685 seconds
+Total Query Time (ALL): 7.79008 seconds
+Average FGS Time (ALL): 0.012367 seconds
+Average FGS Time (Filtered): 0.00166406 seconds
+Average FGS Time (Unfiltered): 0.0229849 seconds
+Program Runtime: 52.6022 seconds
+
+Run 5:
+Total Recall (ALL): 99.5787%
+Average Recall (ALL): 99.6051%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.2158%
+Average Recall (Unfiltered): 99.2158%
+Index Time: 49.4273 seconds
+Total Query Time (ALL): 7.85681 seconds
+Average FGS Time (ALL): 0.0124821 seconds
+Average FGS Time (Filtered): 0.00169033 seconds
+Average FGS Time (Unfiltered): 0.0231881 seconds
+Program Runtime: 57.3213 seconds
+
+Average Results for Program 4:
+Average Total Recall (ALL): 99.5644800000 seconds
+Average Average Recall (ALL): 99.5918200000 seconds
+Average Total Recall (FILTERED): 99.9974000000 seconds
+Average Average Recall (FILTERED): 99.9977600000 seconds
+Average Total Recall (UNFILTERED): 99.1891000000 seconds
+Average Average Recall (UNFILTERED): 99.1891000000 seconds
+Average Index Time: 46.3656800000 seconds
+Average Total Query Time (ALL): 7.7430080000 seconds
+Average Average FGS Time (ALL): .0123004600 seconds
+Average Average FGS Time (FILTERED): .0016594480 seconds
+Average Average FGS Time (UNFILTERED): .0228569000 seconds
+Average Runtime: 54.1513600000 seconds
+
+Running Program 5/6: ./bin/parallel_filtered_main 100 130 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.7252%
+Average Recall (ALL): 99.7424%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.4881%
+Average Recall (Unfiltered): 99.4881%
+Index Time: 60.2219 seconds
+Total Query Time (ALL): 9.31853 seconds
+Average FGS Time (ALL): 0.0148161 seconds
+Average FGS Time (Filtered): 0.00207995 seconds
+Average FGS Time (Unfiltered): 0.0274509 seconds
+Program Runtime: 69.5702 seconds
+
+Run 2:
+Total Recall (ALL): 99.7254%
+Average Recall (ALL): 99.7426%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.4881%
+Average Recall (Unfiltered): 99.4881%
+Index Time: 60.2759 seconds
+Total Query Time (ALL): 9.31047 seconds
+Average FGS Time (ALL): 0.0148022 seconds
+Average FGS Time (Filtered): 0.00204717 seconds
+Average FGS Time (Unfiltered): 0.0274559 seconds
+Program Runtime: 69.6241 seconds
+
+Run 3:
+Total Recall (ALL): 99.736%
+Average Recall (ALL): 99.7526%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.5079%
+Average Recall (Unfiltered): 99.5079%
+Index Time: 60.0668 seconds
+Total Query Time (ALL): 9.31059 seconds
+Average FGS Time (ALL): 0.0148059 seconds
+Average FGS Time (Filtered): 0.00207525 seconds
+Average FGS Time (Unfiltered): 0.0274353 seconds
+Program Runtime: 69.4246 seconds
+
+Run 4:
+Total Recall (ALL): 99.7132%
+Average Recall (ALL): 99.7312%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.4654%
+Average Recall (Unfiltered): 99.4654%
+Index Time: 61.3268 seconds
+Total Query Time (ALL): 9.31667 seconds
+Average FGS Time (ALL): 0.0148026 seconds
+Average FGS Time (Filtered): 0.00207892 seconds
+Average FGS Time (Unfiltered): 0.0274251 seconds
+Program Runtime: 70.6858 seconds
+
+Run 5:
+Total Recall (ALL): 99.7277%
+Average Recall (ALL): 99.7448%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.4932%
+Average Recall (Unfiltered): 99.4932%
+Index Time: 57.5218 seconds
+Total Query Time (ALL): 9.4638 seconds
+Average FGS Time (ALL): 0.0150389 seconds
+Average FGS Time (Filtered): 0.00209374 seconds
+Average FGS Time (Unfiltered): 0.0278811 seconds
+Program Runtime: 67.0328 seconds
+
+Average Results for Program 5:
+Average Total Recall (ALL): 99.7255000000 seconds
+Average Average Recall (ALL): 99.7427200000 seconds
+Average Total Recall (FILTERED): 99.9988200000 seconds
+Average Average Recall (FILTERED): 99.9989600000 seconds
+Average Total Recall (UNFILTERED): 99.4885400000 seconds
+Average Average Recall (UNFILTERED): 99.4885400000 seconds
+Average Index Time: 59.8826400000 seconds
+Average Total Query Time (ALL): 9.3440120000 seconds
+Average Average FGS Time (ALL): .0148531400 seconds
+Average Average FGS Time (FILTERED): .0020750060 seconds
+Average Average FGS Time (UNFILTERED): .0275296600 seconds
+Average Runtime: 69.2675000000 seconds
+
+Running Program 6/6: ./bin/parallel_filtered_main 100 150 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.8144%
+Average Recall (ALL): 99.826%
+Total Recall (Filtered): 99.9995%
+Average Recall (Filtered): 99.9996%
+Total Recall (Unfiltered): 99.6538%
+Average Recall (Unfiltered): 99.6538%
+Index Time: 76.727 seconds
+Total Query Time (ALL): 11.2032 seconds
+Average FGS Time (ALL): 0.0178174 seconds
+Average FGS Time (Filtered): 0.00256833 seconds
+Average FGS Time (Unfiltered): 0.0329452 seconds
+Program Runtime: 87.9646 seconds
+
+Run 2:
+Total Recall (ALL): 99.8222%
+Average Recall (ALL): 99.8334%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6689%
+Average Recall (Unfiltered): 99.6689%
+Index Time: 76.4377 seconds
+Total Query Time (ALL): 11.2051 seconds
+Average FGS Time (ALL): 0.0178193 seconds
+Average FGS Time (Filtered): 0.00253401 seconds
+Average FGS Time (Unfiltered): 0.032983 seconds
+Program Runtime: 87.6882 seconds
+
+Run 3:
+Total Recall (ALL): 99.8267%
+Average Recall (ALL): 99.8376%
+Total Recall (Filtered): 99.9995%
+Average Recall (Filtered): 99.9996%
+Total Recall (Unfiltered): 99.6769%
+Average Recall (Unfiltered): 99.6769%
+Index Time: 73.682 seconds
+Total Query Time (ALL): 11.2 seconds
+Average FGS Time (ALL): 0.0178141 seconds
+Average FGS Time (Filtered): 0.00254258 seconds
+Average FGS Time (Unfiltered): 0.0329642 seconds
+Program Runtime: 84.917 seconds
+
+Run 4:
+Total Recall (ALL): 99.8167%
+Average Recall (ALL): 99.8282%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6586%
+Average Recall (Unfiltered): 99.6586%
+Index Time: 79.9521 seconds
+Total Query Time (ALL): 11.4246 seconds
+Average FGS Time (ALL): 0.0181629 seconds
+Average FGS Time (Filtered): 0.00259348 seconds
+Average FGS Time (Unfiltered): 0.0336087 seconds
+Program Runtime: 91.4243 seconds
+
+Run 5:
+Total Recall (ALL): 99.8288%
+Average Recall (ALL): 99.8396%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6812%
+Average Recall (Unfiltered): 99.6812%
+Index Time: 86.4693 seconds
+Total Query Time (ALL): 11.5186 seconds
+Average FGS Time (ALL): 0.0183165 seconds
+Average FGS Time (Filtered): 0.00263472 seconds
+Average FGS Time (Unfiltered): 0.0338736 seconds
+Program Runtime: 98.0295 seconds
+
+Average Results for Program 6:
+Average Total Recall (ALL): 99.8217600000 seconds
+Average Average Recall (ALL): 99.8329600000 seconds
+Average Total Recall (FILTERED): 99.9992600000 seconds
+Average Average Recall (FILTERED): 99.9993600000 seconds
+Average Total Recall (UNFILTERED): 99.6678800000 seconds
+Average Average Recall (UNFILTERED): 99.6678800000 seconds
+Average Index Time: 78.6536200000 seconds
+Average Total Query Time (ALL): 11.3103000000 seconds
+Average Average FGS Time (ALL): .0179860400 seconds
+Average Average FGS Time (FILTERED): .0025746240 seconds
+Average Average FGS Time (UNFILTERED): .0332749400 seconds
+Average Runtime: 90.0047200000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL):  %
+Average Average Recall (ALL):  %
+Average Total Recall (FILTERED):  %
+Average Average Recall (FILTERED):  %
+Average Total Recall (UNFILTERED):  %
+Average Average Recall (UNFILTERED):  %
+Average Index Time:  seconds
+Average Total Query Time (ALL):  seconds
+Average Average FGS Time (ALL):  seconds
+Average Average FGS Time (FILTERED):  seconds
+Average Average FGS Time (UNFILTERED):  seconds
+Average Runtime:  seconds
+
+Program 2:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 
+% faster Average Index Time than the Base Program with Average Index Time: 
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): 
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): 
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): 
+% faster Average Runtime than the Base Program with Average Runtime: 
+
+Program 3:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 
+% faster Average Index Time than the Base Program with Average Index Time: 
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): 
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): 
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): 
+% faster Average Runtime than the Base Program with Average Runtime: 
+
+Program 4:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5644800000
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.5918200000
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9974000000
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9977600000
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.1891000000
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.1891000000
+% faster Average Index Time than the Base Program with Average Index Time: 46.3656800000
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.7430080000
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0123004600
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016594480
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0228569000
+% faster Average Runtime than the Base Program with Average Runtime: 54.1513600000
+
+Program 5:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.7255000000
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.7427200000
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9988200000
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9989600000
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.4885400000
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.4885400000
+% faster Average Index Time than the Base Program with Average Index Time: 59.8826400000
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 9.3440120000
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0148531400
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0020750060
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0275296600
+% faster Average Runtime than the Base Program with Average Runtime: 69.2675000000
+
+Program 6:
+% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.8217600000
+% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.8329600000
+% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9992600000
+% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9993600000
+% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.6678800000
+% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.6678800000
+% faster Average Index Time than the Base Program with Average Index Time: 78.6536200000
+% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 11.3103000000
+% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0179860400
+% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0025746240
+% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0332749400
+% faster Average Runtime than the Base Program with Average Runtime: 90.0047200000
+
+
+Test 6 (parallel_filtered_main different k)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_filtered_main 20 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=20.bin
+Program 2: ./bin/parallel_filtered_main 40 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=40.bin
+Program 3: ./bin/parallel_filtered_main 60 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=60.bin
+Program 4: ./bin/parallel_filtered_main 80 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=80.bin
+Program 5: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/5: ./bin/parallel_filtered_main 20 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=20.bin
+Run 1:
+Total Recall (ALL): 99.9507%
+Average Recall (ALL): 99.9521%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.9046%
+Average Recall (Unfiltered): 99.9046%
+Index Time: 49.545 seconds
+Total Query Time (ALL): 7.7095 seconds
+Average FGS Time (ALL): 0.0122474 seconds
+Average FGS Time (Filtered): 0.00166454 seconds
+Average FGS Time (Unfiltered): 0.0227462 seconds
+Program Runtime: 57.284 seconds
+
+Run 2:
+Total Recall (ALL): 99.9456%
+Average Recall (ALL): 99.9471%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.8947%
+Average Recall (Unfiltered): 99.8947%
+Index Time: 45.5583 seconds
+Total Query Time (ALL): 8.01999 seconds
+Average FGS Time (ALL): 0.0127379 seconds
+Average FGS Time (Filtered): 0.00172248 seconds
+Average FGS Time (Unfiltered): 0.0236658 seconds
+Program Runtime: 53.6301 seconds
+
+Run 3:
+Total Recall (ALL): 99.9589%
+Average Recall (ALL): 99.9601%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.9205%
+Average Recall (Unfiltered): 99.9205%
+Index Time: 47.8038 seconds
+Total Query Time (ALL): 7.6448 seconds
+Average FGS Time (ALL): 0.0121535 seconds
+Average FGS Time (Filtered): 0.00165283 seconds
+Average FGS Time (Unfiltered): 0.0225707 seconds
+Program Runtime: 55.4761 seconds
+
+Run 4:
+Total Recall (ALL): 99.9631%
+Average Recall (ALL): 99.9641%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.9285%
+Average Recall (Unfiltered): 99.9285%
+Index Time: 48.1293 seconds
+Total Query Time (ALL): 7.61151 seconds
+Average FGS Time (ALL): 0.0120979 seconds
+Average FGS Time (Filtered): 0.00163186 seconds
+Average FGS Time (Unfiltered): 0.0224807 seconds
+Program Runtime: 55.7717 seconds
+
+Run 5:
+Total Recall (ALL): 99.9559%
+Average Recall (ALL): 99.9571%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.9145%
+Average Recall (Unfiltered): 99.9145%
+Index Time: 48.9472 seconds
+Total Query Time (ALL): 7.95542 seconds
+Average FGS Time (ALL): 0.0126367 seconds
+Average FGS Time (Filtered): 0.00168692 seconds
+Average FGS Time (Unfiltered): 0.0234995 seconds
+Program Runtime: 56.9474 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.9548400000 seconds
+Average Average Recall (ALL): 99.9561000000 seconds
+Average Total Recall (FILTERED): 100.0000000000 seconds
+Average Average Recall (FILTERED): 100.0000000000 seconds
+Average Total Recall (UNFILTERED): 99.9125600000 seconds
+Average Average Recall (UNFILTERED): 99.9125600000 seconds
+Average Index Time: 47.9967200000 seconds
+Average Total Query Time (ALL): 7.7882440000 seconds
+Average Average FGS Time (ALL): .0123746800 seconds
+Average Average FGS Time (FILTERED): .0016717260 seconds
+Average Average FGS Time (UNFILTERED): .0229925800 seconds
+Average Runtime: 55.8218600000 seconds
+
+Running Program 2/5: ./bin/parallel_filtered_main 40 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=40.bin
+Run 1:
+Total Recall (ALL): 99.8814%
+Average Recall (ALL): 99.8868%
+Total Recall (Filtered): 99.9989%
+Average Recall (Filtered): 99.999%
+Total Recall (Unfiltered): 99.7754%
+Average Recall (Unfiltered): 99.7754%
+Index Time: 49.795 seconds
+Total Query Time (ALL): 7.79737 seconds
+Average FGS Time (ALL): 0.0123911 seconds
+Average FGS Time (Filtered): 0.00167698 seconds
+Average FGS Time (Unfiltered): 0.02302 seconds
+Program Runtime: 57.6238 seconds
+
+Run 2:
+Total Recall (ALL): 99.8772%
+Average Recall (ALL): 99.8828%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.7665%
+Average Recall (Unfiltered): 99.7665%
+Index Time: 44.0774 seconds
+Total Query Time (ALL): 7.59219 seconds
+Average FGS Time (ALL): 0.0120662 seconds
+Average FGS Time (Filtered): 0.0016341 seconds
+Average FGS Time (Unfiltered): 0.0224155 seconds
+Program Runtime: 51.7025 seconds
+
+Run 3:
+Total Recall (ALL): 99.8814%
+Average Recall (ALL): 99.8868%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.7744%
+Average Recall (Unfiltered): 99.7744%
+Index Time: 43.2687 seconds
+Total Query Time (ALL): 7.55312 seconds
+Average FGS Time (ALL): 0.0119932 seconds
+Average FGS Time (Filtered): 0.00163063 seconds
+Average FGS Time (Unfiltered): 0.0222734 seconds
+Program Runtime: 50.8638 seconds
+
+Run 4:
+Total Recall (ALL): 99.8631%
+Average Recall (ALL): 99.8693%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.7397%
+Average Recall (Unfiltered): 99.7397%
+Index Time: 47.3357 seconds
+Total Query Time (ALL): 7.6215 seconds
+Average FGS Time (ALL): 0.012113 seconds
+Average FGS Time (Filtered): 0.00163453 seconds
+Average FGS Time (Unfiltered): 0.0225082 seconds
+Program Runtime: 55.0022 seconds
+
+Run 5:
+Total Recall (ALL): 99.8856%
+Average Recall (ALL): 99.8908%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.7824%
+Average Recall (Unfiltered): 99.7824%
+Index Time: 46.642 seconds
+Total Query Time (ALL): 7.58642 seconds
+Average FGS Time (ALL): 0.0120545 seconds
+Average FGS Time (Filtered): 0.00163389 seconds
+Average FGS Time (Unfiltered): 0.0223923 seconds
+Program Runtime: 54.2713 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.8777400000 seconds
+Average Average Recall (ALL): 99.8833000000 seconds
+Average Total Recall (FILTERED): 99.9997800000 seconds
+Average Average Recall (FILTERED): 99.9998000000 seconds
+Average Total Recall (UNFILTERED): 99.7676800000 seconds
+Average Average Recall (UNFILTERED): 99.7676800000 seconds
+Average Index Time: 46.2237600000 seconds
+Average Total Query Time (ALL): 7.6301200000 seconds
+Average Average FGS Time (ALL): .0121236000 seconds
+Average Average FGS Time (FILTERED): .0016420260 seconds
+Average Average FGS Time (UNFILTERED): .0225218800 seconds
+Average Runtime: 53.8927200000 seconds
+
+Running Program 3/5: ./bin/parallel_filtered_main 60 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=60.bin
+Run 1:
+Total Recall (ALL): 99.7893%
+Average Recall (ALL): 99.8008%
+Total Recall (Filtered): 99.9993%
+Average Recall (Filtered): 99.9993%
+Total Recall (Unfiltered): 99.6039%
+Average Recall (Unfiltered): 99.6039%
+Index Time: 45.5033 seconds
+Total Query Time (ALL): 7.62241 seconds
+Average FGS Time (ALL): 0.0121155 seconds
+Average FGS Time (Filtered): 0.00162603 seconds
+Average FGS Time (Unfiltered): 0.0225216 seconds
+Program Runtime: 53.1569 seconds
+
+Run 2:
+Total Recall (ALL): 99.7836%
+Average Recall (ALL): 99.7955%
+Total Recall (Filtered): 99.997%
+Average Recall (Filtered): 99.9973%
+Total Recall (Unfiltered): 99.5953%
+Average Recall (Unfiltered): 99.5953%
+Index Time: 43.4482 seconds
+Total Query Time (ALL): 7.62454 seconds
+Average FGS Time (ALL): 0.012118 seconds
+Average FGS Time (Filtered): 0.00162341 seconds
+Average FGS Time (Unfiltered): 0.0225293 seconds
+Program Runtime: 51.1077 seconds
+
+Run 3:
+Total Recall (ALL): 99.7646%
+Average Recall (ALL): 99.7775%
+Total Recall (Filtered): 100%
+Average Recall (Filtered): 100%
+Total Recall (Unfiltered): 99.5568%
+Average Recall (Unfiltered): 99.5568%
+Index Time: 44.5028 seconds
+Total Query Time (ALL): 7.61264 seconds
+Average FGS Time (ALL): 0.0121014 seconds
+Average FGS Time (Filtered): 0.00164527 seconds
+Average FGS Time (Unfiltered): 0.0224744 seconds
+Program Runtime: 52.1564 seconds
+
+Run 4:
+Total Recall (ALL): 99.7847%
+Average Recall (ALL): 99.7965%
+Total Recall (Filtered): 99.9985%
+Average Recall (Filtered): 99.9987%
+Total Recall (Unfiltered): 99.5959%
+Average Recall (Unfiltered): 99.5959%
+Index Time: 45.2627 seconds
+Total Query Time (ALL): 7.62995 seconds
+Average FGS Time (ALL): 0.0121294 seconds
+Average FGS Time (Filtered): 0.00165321 seconds
+Average FGS Time (Unfiltered): 0.0225223 seconds
+Program Runtime: 52.9347 seconds
+
+Run 5:
+Total Recall (ALL): 99.7664%
+Average Recall (ALL): 99.7792%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.5621%
+Average Recall (Unfiltered): 99.5622%
+Index Time: 44.8914 seconds
+Total Query Time (ALL): 7.59539 seconds
+Average FGS Time (ALL): 0.0120659 seconds
+Average FGS Time (Filtered): 0.0016378 seconds
+Average FGS Time (Unfiltered): 0.0224112 seconds
+Program Runtime: 52.5238 seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL): 99.7777200000 seconds
+Average Average Recall (ALL): 99.7899000000 seconds
+Average Total Recall (FILTERED): 99.9985000000 seconds
+Average Average Recall (FILTERED): 99.9986600000 seconds
+Average Total Recall (UNFILTERED): 99.5828000000 seconds
+Average Average Recall (UNFILTERED): 99.5828200000 seconds
+Average Index Time: 44.7216800000 seconds
+Average Total Query Time (ALL): 7.6169860000 seconds
+Average Average FGS Time (ALL): .0121060400 seconds
+Average Average FGS Time (FILTERED): .0016371440 seconds
+Average Average FGS Time (UNFILTERED): .0224917600 seconds
+Average Runtime: 52.3759000000 seconds
+
+Running Program 4/5: ./bin/parallel_filtered_main 80 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=80.bin
+Run 1:
+Total Recall (ALL): 99.6897%
+Average Recall (ALL): 99.7082%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.4207%
+Average Recall (Unfiltered): 99.4207%
+Index Time: 41.3453 seconds
+Total Query Time (ALL): 7.63997 seconds
+Average FGS Time (ALL): 0.0121324 seconds
+Average FGS Time (Filtered): 0.00162914 seconds
+Average FGS Time (Unfiltered): 0.0225522 seconds
+Program Runtime: 49.0244 seconds
+
+Run 2:
+Total Recall (ALL): 99.6664%
+Average Recall (ALL): 99.6863%
+Total Recall (Filtered): 99.9983%
+Average Recall (Filtered): 99.9985%
+Total Recall (Unfiltered): 99.3765%
+Average Recall (Unfiltered): 99.3765%
+Index Time: 47.0968 seconds
+Total Query Time (ALL): 8.10287 seconds
+Average FGS Time (ALL): 0.0128731 seconds
+Average FGS Time (Filtered): 0.00173359 seconds
+Average FGS Time (Unfiltered): 0.0239241 seconds
+Program Runtime: 55.2544 seconds
+
+Run 3:
+Total Recall (ALL): 99.6674%
+Average Recall (ALL): 99.6872%
+Total Recall (Filtered): 99.996%
+Average Recall (Filtered): 99.9965%
+Total Recall (Unfiltered): 99.3805%
+Average Recall (Unfiltered): 99.3805%
+Index Time: 47.4064 seconds
+Total Query Time (ALL): 7.6745 seconds
+Average FGS Time (ALL): 0.0121945 seconds
+Average FGS Time (Filtered): 0.00162548 seconds
+Average FGS Time (Unfiltered): 0.0226795 seconds
+Program Runtime: 55.1168 seconds
+
+Run 4:
+Total Recall (ALL): 99.6905%
+Average Recall (ALL): 99.7089%
+Total Recall (Filtered): 99.9994%
+Average Recall (Filtered): 99.9995%
+Total Recall (Unfiltered): 99.4207%
+Average Recall (Unfiltered): 99.4207%
+Index Time: 45.3041 seconds
+Total Query Time (ALL): 7.62717 seconds
+Average FGS Time (ALL): 0.012123 seconds
+Average FGS Time (Filtered): 0.00165695 seconds
+Average FGS Time (Unfiltered): 0.0225058 seconds
+Program Runtime: 52.9612 seconds
+
+Run 5:
+Total Recall (ALL): 99.677%
+Average Recall (ALL): 99.6962%
+Total Recall (Filtered): 99.9989%
+Average Recall (Filtered): 99.999%
+Total Recall (Unfiltered): 99.3959%
+Average Recall (Unfiltered): 99.3959%
+Index Time: 42.8215 seconds
+Total Query Time (ALL): 7.60078 seconds
+Average FGS Time (ALL): 0.0120595 seconds
+Average FGS Time (Filtered): 0.00160685 seconds
+Average FGS Time (Unfiltered): 0.0224291 seconds
+Program Runtime: 50.4696 seconds
+
+Average Results for Program 4:
+Average Total Recall (ALL): 99.6782000000 seconds
+Average Average Recall (ALL): 99.6973600000 seconds
+Average Total Recall (FILTERED): 99.9980600000 seconds
+Average Average Recall (FILTERED): 99.9983000000 seconds
+Average Total Recall (UNFILTERED): 99.3988600000 seconds
+Average Average Recall (UNFILTERED): 99.3988600000 seconds
+Average Index Time: 44.7948200000 seconds
+Average Total Query Time (ALL): 7.7290580000 seconds
+Average Average FGS Time (ALL): .0122765000 seconds
+Average Average FGS Time (FILTERED): .0016504020 seconds
+Average Average FGS Time (UNFILTERED): .0228181400 seconds
+Average Runtime: 52.5652800000 seconds
+
+Running Program 5/5: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5691%
+Average Recall (ALL): 99.5962%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.1979%
+Average Recall (Unfiltered): 99.1979%
+Index Time: 43.1768 seconds
+Total Query Time (ALL): 7.63466 seconds
+Average FGS Time (ALL): 0.0121211 seconds
+Average FGS Time (Filtered): 0.0016322 seconds
+Average FGS Time (Unfiltered): 0.0225265 seconds
+Program Runtime: 50.8464 seconds
+
+Run 2:
+Total Recall (ALL): 99.5623%
+Average Recall (ALL): 99.5898%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.1868%
+Average Recall (Unfiltered): 99.1868%
+Index Time: 45.1847 seconds
+Total Query Time (ALL): 7.63255 seconds
+Average FGS Time (ALL): 0.0121216 seconds
+Average FGS Time (Filtered): 0.00163146 seconds
+Average FGS Time (Unfiltered): 0.0225284 seconds
+Program Runtime: 52.8512 seconds
+
+Run 3:
+Total Recall (ALL): 99.5793%
+Average Recall (ALL): 99.6057%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.2178%
+Average Recall (Unfiltered): 99.2178%
+Index Time: 46.3451 seconds
+Total Query Time (ALL): 7.63995 seconds
+Average FGS Time (ALL): 0.0121385 seconds
+Average FGS Time (Filtered): 0.00163165 seconds
+Average FGS Time (Unfiltered): 0.0225619 seconds
+Program Runtime: 54.0314 seconds
+
+Run 4:
+Total Recall (ALL): 99.5642%
+Average Recall (ALL): 99.5916%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.1888%
+Average Recall (Unfiltered): 99.1888%
+Index Time: 45.3045 seconds
+Total Query Time (ALL): 7.65135 seconds
+Average FGS Time (ALL): 0.0121511 seconds
+Average FGS Time (Filtered): 0.00165778 seconds
+Average FGS Time (Unfiltered): 0.022561 seconds
+Program Runtime: 52.9914 seconds
+
+Run 5:
+Total Recall (ALL): 99.5736%
+Average Recall (ALL): 99.6004%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.2055%
+Average Recall (Unfiltered): 99.2055%
+Index Time: 45.7691 seconds
+Total Query Time (ALL): 7.63733 seconds
+Average FGS Time (ALL): 0.0121274 seconds
+Average FGS Time (Filtered): 0.00163822 seconds
+Average FGS Time (Unfiltered): 0.0225333 seconds
+Program Runtime: 53.4544 seconds
+
+Average Results for Program 5:
+Average Total Recall (ALL): 99.5697000000 seconds
+Average Average Recall (ALL): 99.5967400000 seconds
+Average Total Recall (FILTERED): 99.9968600000 seconds
+Average Average Recall (FILTERED): 99.9972800000 seconds
+Average Total Recall (UNFILTERED): 99.1993600000 seconds
+Average Average Recall (UNFILTERED): 99.1993600000 seconds
+Average Index Time: 45.1560400000 seconds
+Average Total Query Time (ALL): 7.6391680000 seconds
+Average Average FGS Time (ALL): .0121319400 seconds
+Average Average FGS Time (FILTERED): .0016382620 seconds
+Average Average FGS Time (UNFILTERED): .0225422200 seconds
+Average Runtime: 52.8349600000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.9548400000 %
+Average Average Recall (ALL): 99.9561000000 %
+Average Total Recall (FILTERED): 100.0000000000 %
+Average Average Recall (FILTERED): 100.0000000000 %
+Average Total Recall (UNFILTERED): 99.9125600000 %
+Average Average Recall (UNFILTERED): 99.9125600000 %
+Average Index Time: 47.9967200000 seconds
+Average Total Query Time (ALL): 7.7882440000 seconds
+Average Average FGS Time (ALL): .0123746800 seconds
+Average Average FGS Time (FILTERED): .0016717260 seconds
+Average Average FGS Time (UNFILTERED): .0229925800 seconds
+Average Runtime: 55.8218600000 seconds
+
+Program 2:
+.07800% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.8777400000
+.07300% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.8833000000
+.00100% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9997800000
+.00100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9998000000
+.14600% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.7676800000
+.14600% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.7676800000
+3.69400% faster Average Index Time than the Base Program with Average Index Time: 46.2237600000
+2.03100% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.6301200000
+2.02900% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0121236000
+1.77700% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016420260
+2.04800% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0225218800
+3.45600% faster Average Runtime than the Base Program with Average Runtime: 53.8927200000
+
+Program 3:
+.17800% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.7777200000
+.16700% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.7899000000
+.00200% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9985000000
+.00200% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9986600000
+.33100% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.5828000000
+.33100% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.5828200000
+6.82400% faster Average Index Time than the Base Program with Average Index Time: 44.7216800000
+2.19900% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.6169860000
+2.17100% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0121060400
+2.06900% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016371440
+2.17900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0224917600
+6.17400% faster Average Runtime than the Base Program with Average Runtime: 52.3759000000
+
+Program 4:
+.27700% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6782000000
+.25900% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6973600000
+.00200% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9980600000
+.00200% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9983000000
+.51500% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.3988600000
+.51500% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.3988600000
+6.67200% faster Average Index Time than the Base Program with Average Index Time: 44.7948200000
+.76000% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.7290580000
+.79400% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0122765000
+1.27600% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016504020
+.75900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0228181400
+5.83400% faster Average Runtime than the Base Program with Average Runtime: 52.5652800000
+
+Program 5:
+.38600% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5697000000
+.36000% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.5967400000
+.00400% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9968600000
+.00300% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9972800000
+.71400% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.1993600000
+.71400% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.1993600000
+5.91900% faster Average Index Time than the Base Program with Average Index Time: 45.1560400000
+1.91500% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.6391680000
+1.96200% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0121319400
+2.00200% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016382620
+1.95900% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0225422200
+5.35100% faster Average Runtime than the Base Program with Average Runtime: 52.8349600000
+
+
+Test 7 (parallel_filtered_main different R)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_filtered_main 100 110 50 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_filtered_main 100 110 70 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 3: ./bin/parallel_filtered_main 100 110 90 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 4: ./bin/parallel_filtered_main 100 110 110 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 5: ./bin/parallel_filtered_main 100 110 130 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 6: ./bin/parallel_filtered_main 100 110 150 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/6: ./bin/parallel_filtered_main 100 110 50 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.1433%
+Average Recall (ALL): 99.1971%
+Total Recall (Filtered): 99.9817%
+Average Recall (Filtered): 99.984%
+Total Recall (Unfiltered): 98.4165%
+Average Recall (Unfiltered): 98.4165%
+Index Time: 69.0532 seconds
+Total Query Time (ALL): 6.00639 seconds
+Average FGS Time (ALL): 0.0095367 seconds
+Average FGS Time (Filtered): 0.00123755 seconds
+Average FGS Time (Unfiltered): 0.0177699 seconds
+Program Runtime: 75.0867 seconds
+
+Run 2:
+Total Recall (ALL): 99.1192%
+Average Recall (ALL): 99.1746%
+Total Recall (Filtered): 99.984%
+Average Recall (Filtered): 99.986%
+Total Recall (Unfiltered): 98.3696%
+Average Recall (Unfiltered): 98.3696%
+Index Time: 71.0392 seconds
+Total Query Time (ALL): 6.02923 seconds
+Average FGS Time (ALL): 0.00956922 seconds
+Average FGS Time (Filtered): 0.00124621 seconds
+Average FGS Time (Unfiltered): 0.0178261 seconds
+Program Runtime: 77.0962 seconds
+
+Run 3:
+Total Recall (ALL): 99.1212%
+Average Recall (ALL): 99.1764%
+Total Recall (Filtered): 99.984%
+Average Recall (Filtered): 99.986%
+Total Recall (Unfiltered): 98.3732%
+Average Recall (Unfiltered): 98.3732%
+Index Time: 70.1405 seconds
+Total Query Time (ALL): 6.02016 seconds
+Average FGS Time (ALL): 0.00954588 seconds
+Average FGS Time (Filtered): 0.00123866 seconds
+Average FGS Time (Unfiltered): 0.0177871 seconds
+Program Runtime: 76.1949 seconds
+
+Run 4:
+Total Recall (ALL): 99.1388%
+Average Recall (ALL): 99.1929%
+Total Recall (Filtered): 99.9853%
+Average Recall (Filtered): 99.9872%
+Total Recall (Unfiltered): 98.405%
+Average Recall (Unfiltered): 98.405%
+Index Time: 69.7772 seconds
+Total Query Time (ALL): 6.96752 seconds
+Average FGS Time (ALL): 0.0110695 seconds
+Average FGS Time (Filtered): 0.00143967 seconds
+Average FGS Time (Unfiltered): 0.0206228 seconds
+Program Runtime: 76.7811 seconds
+
+Run 5:
+Total Recall (ALL): 99.1316%
+Average Recall (ALL): 99.1861%
+Total Recall (Filtered): 99.9812%
+Average Recall (Filtered): 99.9836%
+Total Recall (Unfiltered): 98.3951%
+Average Recall (Unfiltered): 98.3951%
+Index Time: 75.1346 seconds
+Total Query Time (ALL): 6.01404 seconds
+Average FGS Time (ALL): 0.00954653 seconds
+Average FGS Time (Filtered): 0.00123855 seconds
+Average FGS Time (Unfiltered): 0.0177885 seconds
+Program Runtime: 81.1859 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 99.1308200000 seconds
+Average Average Recall (ALL): 99.1854200000 seconds
+Average Total Recall (FILTERED): 99.9832400000 seconds
+Average Average Recall (FILTERED): 99.9853600000 seconds
+Average Total Recall (UNFILTERED): 98.3918800000 seconds
+Average Average Recall (UNFILTERED): 98.3918800000 seconds
+Average Index Time: 71.0289400000 seconds
+Average Total Query Time (ALL): 6.2074680000 seconds
+Average Average FGS Time (ALL): .0098535660 seconds
+Average Average FGS Time (FILTERED): .0012801280 seconds
+Average Average FGS Time (UNFILTERED): .0183588800 seconds
+Average Runtime: 77.2689600000 seconds
+
+Running Program 2/6: ./bin/parallel_filtered_main 100 110 70 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.4199%
+Average Recall (ALL): 99.4563%
+Total Recall (Filtered): 99.994%
+Average Recall (Filtered): 99.9948%
+Total Recall (Unfiltered): 98.9221%
+Average Recall (Unfiltered): 98.9221%
+Index Time: 67.8429 seconds
+Total Query Time (ALL): 6.87776 seconds
+Average FGS Time (ALL): 0.0109198 seconds
+Average FGS Time (Filtered): 0.00144744 seconds
+Average FGS Time (Unfiltered): 0.0203168 seconds
+Program Runtime: 74.7578 seconds
+
+Run 2:
+Total Recall (ALL): 99.4365%
+Average Recall (ALL): 99.4719%
+Total Recall (Filtered): 99.9913%
+Average Recall (Filtered): 99.9924%
+Total Recall (Unfiltered): 98.9555%
+Average Recall (Unfiltered): 98.9555%
+Index Time: 68.7325 seconds
+Total Query Time (ALL): 6.8976 seconds
+Average FGS Time (ALL): 0.0109579 seconds
+Average FGS Time (Filtered): 0.00145451 seconds
+Average FGS Time (Unfiltered): 0.0203857 seconds
+Program Runtime: 75.682 seconds
+
+Run 3:
+Total Recall (ALL): 99.4301%
+Average Recall (ALL): 99.4659%
+Total Recall (Filtered): 99.9945%
+Average Recall (Filtered): 99.9952%
+Total Recall (Unfiltered): 98.9408%
+Average Recall (Unfiltered): 98.9408%
+Index Time: 68.0694 seconds
+Total Query Time (ALL): 6.9167 seconds
+Average FGS Time (ALL): 0.0109835 seconds
+Average FGS Time (Filtered): 0.00144986 seconds
+Average FGS Time (Unfiltered): 0.0204414 seconds
+Program Runtime: 75.0135 seconds
+
+Run 4:
+Total Recall (ALL): 99.4194%
+Average Recall (ALL): 99.4559%
+Total Recall (Filtered): 99.994%
+Average Recall (Filtered): 99.9948%
+Total Recall (Unfiltered): 98.9213%
+Average Recall (Unfiltered): 98.9213%
+Index Time: 67.9931 seconds
+Total Query Time (ALL): 6.96276 seconds
+Average FGS Time (ALL): 0.0110576 seconds
+Average FGS Time (Filtered): 0.00147904 seconds
+Average FGS Time (Unfiltered): 0.02056 seconds
+Program Runtime: 74.9855 seconds
+
+Run 5:
+Total Recall (ALL): 99.4284%
+Average Recall (ALL): 99.4643%
+Total Recall (Filtered): 99.9959%
+Average Recall (Filtered): 99.9964%
+Total Recall (Unfiltered): 98.9364%
+Average Recall (Unfiltered): 98.9364%
+Index Time: 74.9885 seconds
+Total Query Time (ALL): 6.95599 seconds
+Average FGS Time (ALL): 0.0110497 seconds
+Average FGS Time (Filtered): 0.00146932 seconds
+Average FGS Time (Unfiltered): 0.0205539 seconds
+Program Runtime: 81.9968 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 99.4268600000 seconds
+Average Average Recall (ALL): 99.4628600000 seconds
+Average Total Recall (FILTERED): 99.9939400000 seconds
+Average Average Recall (FILTERED): 99.9947200000 seconds
+Average Total Recall (UNFILTERED): 98.9352200000 seconds
+Average Average Recall (UNFILTERED): 98.9352200000 seconds
+Average Index Time: 69.5252800000 seconds
+Average Total Query Time (ALL): 6.9221620000 seconds
+Average Average FGS Time (ALL): .0109937000 seconds
+Average Average FGS Time (FILTERED): .0014600340 seconds
+Average Average FGS Time (UNFILTERED): .0204515600 seconds
+Average Runtime: 76.4871200000 seconds
+
+Running Program 3/6: ./bin/parallel_filtered_main 100 110 90 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5717%
+Average Recall (ALL): 99.5986%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.2023%
+Average Recall (Unfiltered): 99.2023%
+Index Time: 50.1294 seconds
+Total Query Time (ALL): 7.58984 seconds
+Average FGS Time (ALL): 0.0120524 seconds
+Average FGS Time (Filtered): 0.00161613 seconds
+Average FGS Time (Unfiltered): 0.0224056 seconds
+Program Runtime: 57.7606 seconds
+
+Run 2:
+Total Recall (ALL): 99.5372%
+Average Recall (ALL): 99.5662%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.1399%
+Average Recall (Unfiltered): 99.1399%
+Index Time: 52.5707 seconds
+Total Query Time (ALL): 7.5649 seconds
+Average FGS Time (ALL): 0.0120047 seconds
+Average FGS Time (Filtered): 0.00161358 seconds
+Average FGS Time (Unfiltered): 0.0223131 seconds
+Program Runtime: 60.1823 seconds
+
+Run 3:
+Total Recall (ALL): 99.5478%
+Average Recall (ALL): 99.5762%
+Total Recall (Filtered): 99.9945%
+Average Recall (Filtered): 99.9952%
+Total Recall (Unfiltered): 99.1606%
+Average Recall (Unfiltered): 99.1606%
+Index Time: 51.93 seconds
+Total Query Time (ALL): 7.55347 seconds
+Average FGS Time (ALL): 0.0119925 seconds
+Average FGS Time (Filtered): 0.00162042 seconds
+Average FGS Time (Unfiltered): 0.0222822 seconds
+Program Runtime: 59.5241 seconds
+
+Run 4:
+Total Recall (ALL): 99.5361%
+Average Recall (ALL): 99.5652%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.1379%
+Average Recall (Unfiltered): 99.1379%
+Index Time: 51.116 seconds
+Total Query Time (ALL): 7.62586 seconds
+Average FGS Time (ALL): 0.012122 seconds
+Average FGS Time (Filtered): 0.00162867 seconds
+Average FGS Time (Unfiltered): 0.022532 seconds
+Program Runtime: 58.7816 seconds
+
+Run 5:
+Total Recall (ALL): 99.5523%
+Average Recall (ALL): 99.5804%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.1669%
+Average Recall (Unfiltered): 99.1669%
+Index Time: 52.5249 seconds
+Total Query Time (ALL): 7.59415 seconds
+Average FGS Time (ALL): 0.0120686 seconds
+Average FGS Time (Filtered): 0.00161013 seconds
+Average FGS Time (Unfiltered): 0.0224439 seconds
+Program Runtime: 60.162 seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL): 99.5490200000 seconds
+Average Average Recall (ALL): 99.5773200000 seconds
+Average Total Recall (FILTERED): 99.9959600000 seconds
+Average Average Recall (FILTERED): 99.9964800000 seconds
+Average Total Recall (UNFILTERED): 99.1615200000 seconds
+Average Average Recall (UNFILTERED): 99.1615200000 seconds
+Average Index Time: 51.6542000000 seconds
+Average Total Query Time (ALL): 7.5856440000 seconds
+Average Average FGS Time (ALL): .0120480400 seconds
+Average Average FGS Time (FILTERED): .0016177860 seconds
+Average Average FGS Time (UNFILTERED): .0223953600 seconds
+Average Runtime: 59.2821200000 seconds
+
+Running Program 4/6: ./bin/parallel_filtered_main 100 110 110 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6161%
+Average Recall (ALL): 99.6403%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.2866%
+Average Recall (Unfiltered): 99.2866%
+Index Time: 40.4988 seconds
+Total Query Time (ALL): 7.88612 seconds
+Average FGS Time (ALL): 0.0125283 seconds
+Average FGS Time (Filtered): 0.00169985 seconds
+Average FGS Time (Unfiltered): 0.0232706 seconds
+Program Runtime: 48.4274 seconds
+
+Run 2:
+Total Recall (ALL): 99.5976%
+Average Recall (ALL): 99.6229%
+Total Recall (Filtered): 99.9995%
+Average Recall (Filtered): 99.9996%
+Total Recall (Unfiltered): 99.2492%
+Average Recall (Unfiltered): 99.2492%
+Index Time: 38.2447 seconds
+Total Query Time (ALL): 7.97374 seconds
+Average FGS Time (ALL): 0.012673 seconds
+Average FGS Time (Filtered): 0.00172198 seconds
+Average FGS Time (Unfiltered): 0.0235369 seconds
+Program Runtime: 46.2554 seconds
+
+Run 3:
+Total Recall (ALL): 99.6025%
+Average Recall (ALL): 99.6275%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.2603%
+Average Recall (Unfiltered): 99.2603%
+Index Time: 36.7532 seconds
+Total Query Time (ALL): 8.08888 seconds
+Average FGS Time (ALL): 0.0128488 seconds
+Average FGS Time (Filtered): 0.00175378 seconds
+Average FGS Time (Unfiltered): 0.0238557 seconds
+Program Runtime: 44.8916 seconds
+
+Run 4:
+Total Recall (ALL): 99.6168%
+Average Recall (ALL): 99.6409%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.2874%
+Average Recall (Unfiltered): 99.2874%
+Index Time: 36.6232 seconds
+Total Query Time (ALL): 8.38839 seconds
+Average FGS Time (ALL): 0.0133315 seconds
+Average FGS Time (Filtered): 0.00180357 seconds
+Average FGS Time (Unfiltered): 0.0247679 seconds
+Program Runtime: 45.06 seconds
+
+Run 5:
+Total Recall (ALL): 99.6219%
+Average Recall (ALL): 99.6457%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.2969%
+Average Recall (Unfiltered): 99.2969%
+Index Time: 38.6059 seconds
+Total Query Time (ALL): 8.17411 seconds
+Average FGS Time (ALL): 0.0129728 seconds
+Average FGS Time (Filtered): 0.00176118 seconds
+Average FGS Time (Unfiltered): 0.0240953 seconds
+Program Runtime: 46.8102 seconds
+
+Average Results for Program 4:
+Average Total Recall (ALL): 99.6109800000 seconds
+Average Average Recall (ALL): 99.6354600000 seconds
+Average Total Recall (FILTERED): 99.9973200000 seconds
+Average Average Recall (FILTERED): 99.9976800000 seconds
+Average Total Recall (UNFILTERED): 99.2760800000 seconds
+Average Average Recall (UNFILTERED): 99.2760800000 seconds
+Average Index Time: 38.1451600000 seconds
+Average Total Query Time (ALL): 8.1022480000 seconds
+Average Average FGS Time (ALL): .0128708800 seconds
+Average Average FGS Time (FILTERED): .0017480720 seconds
+Average Average FGS Time (UNFILTERED): .0239052800 seconds
+Average Runtime: 46.2889200000 seconds
+
+Running Program 5/6: ./bin/parallel_filtered_main 100 110 130 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.6485%
+Average Recall (ALL): 99.6706%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.3462%
+Average Recall (Unfiltered): 99.3462%
+Index Time: 30.8799 seconds
+Total Query Time (ALL): 8.1284 seconds
+Average FGS Time (ALL): 0.0129201 seconds
+Average FGS Time (Filtered): 0.00178494 seconds
+Average FGS Time (Unfiltered): 0.0239667 seconds
+Program Runtime: 39.0449 seconds
+
+Run 2:
+Total Recall (ALL): 99.6417%
+Average Recall (ALL): 99.6642%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.3343%
+Average Recall (Unfiltered): 99.3343%
+Index Time: 30.9688 seconds
+Total Query Time (ALL): 8.27936 seconds
+Average FGS Time (ALL): 0.013161 seconds
+Average FGS Time (Filtered): 0.00178463 seconds
+Average FGS Time (Unfiltered): 0.0244469 seconds
+Program Runtime: 39.2925 seconds
+
+Run 3:
+Total Recall (ALL): 99.6477%
+Average Recall (ALL): 99.6698%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.3434%
+Average Recall (Unfiltered): 99.3434%
+Index Time: 30.3434 seconds
+Total Query Time (ALL): 8.14829 seconds
+Average FGS Time (ALL): 0.0129486 seconds
+Average FGS Time (Filtered): 0.00178018 seconds
+Average FGS Time (Unfiltered): 0.0240283 seconds
+Program Runtime: 38.5236 seconds
+
+Run 4:
+Total Recall (ALL): 99.6449%
+Average Recall (ALL): 99.6672%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.3382%
+Average Recall (Unfiltered): 99.3382%
+Index Time: 28.0969 seconds
+Total Query Time (ALL): 8.18207 seconds
+Average FGS Time (ALL): 0.0130083 seconds
+Average FGS Time (Filtered): 0.001804 seconds
+Average FGS Time (Unfiltered): 0.0241236 seconds
+Program Runtime: 36.3299 seconds
+
+Run 5:
+Total Recall (ALL): 99.6279%
+Average Recall (ALL): 99.6512%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.306%
+Average Recall (Unfiltered): 99.306%
+Index Time: 30.3331 seconds
+Total Query Time (ALL): 8.11501 seconds
+Average FGS Time (ALL): 0.012899 seconds
+Average FGS Time (Filtered): 0.00176714 seconds
+Average FGS Time (Unfiltered): 0.0239424 seconds
+Program Runtime: 38.4978 seconds
+
+Average Results for Program 5:
+Average Total Recall (ALL): 99.6421400000 seconds
+Average Average Recall (ALL): 99.6646000000 seconds
+Average Total Recall (FILTERED): 99.9979600000 seconds
+Average Average Recall (FILTERED): 99.9982400000 seconds
+Average Total Recall (UNFILTERED): 99.3336200000 seconds
+Average Average Recall (UNFILTERED): 99.3336200000 seconds
+Average Index Time: 30.1244200000 seconds
+Average Total Query Time (ALL): 8.1706260000 seconds
+Average Average FGS Time (ALL): .0129874000 seconds
+Average Average FGS Time (FILTERED): .0017841780 seconds
+Average Average FGS Time (UNFILTERED): .0241015800 seconds
+Average Runtime: 38.3377400000 seconds
+
+Running Program 6/6: ./bin/parallel_filtered_main 100 110 150 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.664%
+Average Recall (ALL): 99.6852%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.374%
+Average Recall (Unfiltered): 99.374%
+Index Time: 26.3861 seconds
+Total Query Time (ALL): 8.33149 seconds
+Average FGS Time (ALL): 0.0132416 seconds
+Average FGS Time (Filtered): 0.00183579 seconds
+Average FGS Time (Unfiltered): 0.0245567 seconds
+Program Runtime: 34.7526 seconds
+
+Run 2:
+Total Recall (ALL): 99.6713%
+Average Recall (ALL): 99.6919%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.3879%
+Average Recall (Unfiltered): 99.3879%
+Index Time: 25.3612 seconds
+Total Query Time (ALL): 8.32705 seconds
+Average FGS Time (ALL): 0.0132225 seconds
+Average FGS Time (Filtered): 0.00178717 seconds
+Average FGS Time (Unfiltered): 0.024567 seconds
+Program Runtime: 33.7347 seconds
+
+Run 3:
+Total Recall (ALL): 99.6726%
+Average Recall (ALL): 99.6931%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.3895%
+Average Recall (Unfiltered): 99.3895%
+Index Time: 25.0501 seconds
+Total Query Time (ALL): 8.37106 seconds
+Average FGS Time (ALL): 0.0133078 seconds
+Average FGS Time (Filtered): 0.00182042 seconds
+Average FGS Time (Unfiltered): 0.0247039 seconds
+Program Runtime: 33.4703 seconds
+
+Run 4:
+Total Recall (ALL): 99.6764%
+Average Recall (ALL): 99.6967%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.3971%
+Average Recall (Unfiltered): 99.3971%
+Index Time: 25.4901 seconds
+Total Query Time (ALL): 8.29532 seconds
+Average FGS Time (ALL): 0.0131711 seconds
+Average FGS Time (Filtered): 0.00179962 seconds
+Average FGS Time (Unfiltered): 0.0244523 seconds
+Program Runtime: 33.8235 seconds
+
+Run 5:
+Total Recall (ALL): 99.6551%
+Average Recall (ALL): 99.6768%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.3569%
+Average Recall (Unfiltered): 99.3569%
+Index Time: 26.9601 seconds
+Total Query Time (ALL): 8.36974 seconds
+Average FGS Time (ALL): 0.013281 seconds
+Average FGS Time (Filtered): 0.00183575 seconds
+Average FGS Time (Unfiltered): 0.0246354 seconds
+Program Runtime: 35.3656 seconds
+
+Average Results for Program 6:
+Average Total Recall (ALL): 99.6678800000 seconds
+Average Average Recall (ALL): 99.6887400000 seconds
+Average Total Recall (FILTERED): 99.9987200000 seconds
+Average Average Recall (FILTERED): 99.9988800000 seconds
+Average Total Recall (UNFILTERED): 99.3810800000 seconds
+Average Average Recall (UNFILTERED): 99.3810800000 seconds
+Average Index Time: 25.8495200000 seconds
+Average Total Query Time (ALL): 8.3389320000 seconds
+Average Average FGS Time (ALL): .0132448000 seconds
+Average Average FGS Time (FILTERED): .0018157500 seconds
+Average Average FGS Time (UNFILTERED): .0245830600 seconds
+Average Runtime: 34.2293400000 seconds
+
+Performance Comparison:
+Base Program (Program 1):
+Average Total Recall (ALL): 99.1308200000 %
+Average Average Recall (ALL): 99.1854200000 %
+Average Total Recall (FILTERED): 99.9832400000 %
+Average Average Recall (FILTERED): 99.9853600000 %
+Average Total Recall (UNFILTERED): 98.3918800000 %
+Average Average Recall (UNFILTERED): 98.3918800000 %
+Average Index Time: 71.0289400000 seconds
+Average Total Query Time (ALL): 6.2074680000 seconds
+Average Average FGS Time (ALL): .0098535660 seconds
+Average Average FGS Time (FILTERED): .0012801280 seconds
+Average Average FGS Time (UNFILTERED): .0183588800 seconds
+Average Runtime: 77.2689600000 seconds
+
+Program 2:
+-.29800% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.4268600000
+-.27900% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.4628600000
+-.01000% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9939400000
+-.00900% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9947200000
+-.55200% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 98.9352200000
+-.55200% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 98.9352200000
+2.11700% faster Average Index Time than the Base Program with Average Index Time: 69.5252800000
+-11.51300% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 6.9221620000
+-11.57000% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0109937000
+-14.05300% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0014600340
+-11.39800% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0204515600
+1.01200% faster Average Runtime than the Base Program with Average Runtime: 76.4871200000
+
+Program 3:
+-.42100% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.5490200000
+-.39500% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.5773200000
+-.01200% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9959600000
+-.01100% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9964800000
+-.78200% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.1615200000
+-.78200% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.1615200000
+27.27800% faster Average Index Time than the Base Program with Average Index Time: 51.6542000000
+-22.20100% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 7.5856440000
+-22.27000% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0120480400
+-26.37600% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0016177860
+-21.98600% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0223953600
+23.27900% faster Average Runtime than the Base Program with Average Runtime: 59.2821200000
+
+Program 4:
+-.48400% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6109800000
+-.45300% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6354600000
+-.01400% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9973200000
+-.01200% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9976800000
+-.89800% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.2760800000
+-.89800% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.2760800000
+46.29700% faster Average Index Time than the Base Program with Average Index Time: 38.1451600000
+-30.52400% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 8.1022480000
+-30.62100% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0128708800
+-36.55400% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0017480720
+-30.21000% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0239052800
+40.09400% faster Average Runtime than the Base Program with Average Runtime: 46.2889200000
+
+Program 5:
+-.51500% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6421400000
+-.48300% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6646000000
+-.01400% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9979600000
+-.01200% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9982400000
+-.95700% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.3336200000
+-.95700% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.3336200000
+57.58900% faster Average Index Time than the Base Program with Average Index Time: 30.1244200000
+-31.62500% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 8.1706260000
+-31.80400% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0129874000
+-39.37400% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0017841780
+-31.28000% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0241015800
+50.38500% faster Average Runtime than the Base Program with Average Runtime: 38.3377400000
+
+Program 6:
+-.54100% better Average Total Recall (ALL) than the Base Program with Average Total Recall (ALL): 99.6678800000
+-.50700% better Average Average Recall (ALL) than the Base Program with Average Average Recall (ALL): 99.6887400000
+-.01500% better Average Total Recall (FILTERED) than the Base Program with Average Total Recall (FILTERED): 99.9987200000
+-.01300% better Average Average Recall (FILTERED) than the Base Program with Average Average Recall (FILTERED): 99.9988800000
+-1.00500% better Average Total Recall (UNFILTERED) than the Base Program with Average Total Recall (UNFILTERED): 99.3810800000
+-1.00500% better Average Average Recall (UNFILTERED) than the Base Program with Average Average Recall (UNFILTERED): 99.3810800000
+63.60800% faster Average Index Time than the Base Program with Average Index Time: 25.8495200000
+-34.33700% better Average Total Query Time (ALL) than the Base Program with Average Total Query Time (ALL): 8.3389320000
+-34.41600% better Average Average FGS Time (ALL) than the Base Program with Average Average FGS Time (ALL): .0132448000
+-41.84100% better Average Average FGS Time (FILTERED) than the Base Program with Average Average FGS Time (FILTERED): .0018157500
+-33.90200% better Average Average FGS Time (UNFILTERED) than the Base Program with Average Average FGS Time (UNFILTERED): .0245830600
+55.70200% faster Average Runtime than the Base Program with Average Runtime: 34.2293400000
+
+
+Test 8 (parallel_filtered_main different a)
+Run Results:
+
+Programs are:
+Base Program (Program 1): ./bin/parallel_filtered_main 100 110 96 0.8 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 2: ./bin/parallel_filtered_main 100 110 96 1.0 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 3: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 4: ./bin/parallel_filtered_main 100 110 96 1.4 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 5: ./bin/parallel_filtered_main 100 110 96 1.6 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 6: ./bin/parallel_filtered_main 100 110 96 1.8 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Program 7: ./bin/parallel_filtered_main 100 110 96 2.0 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+
+Running Program 1/7: ./bin/parallel_filtered_main 100 110 96 0.8 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 61.0933%
+Average Recall (ALL): 61.2344%
+Total Recall (Filtered): 72.7096%
+Average Recall (Filtered): 71.5277%
+Total Recall (Unfiltered): 51.0231%
+Average Recall (Unfiltered): 51.0231%
+Index Time: 3.11676 seconds
+Total Query Time (ALL): 1.66666 seconds
+Average FGS Time (ALL): 0.00261982 seconds
+Average FGS Time (Filtered): 0.000370441 seconds
+Average FGS Time (Unfiltered): 0.00485132 seconds
+Program Runtime: 4.7954 seconds
+
+Run 2:
+Total Recall (ALL): 58.7512%
+Average Recall (ALL): 60.5018%
+Total Recall (Filtered): 69.8166%
+Average Recall (Filtered): 71.936%
+Total Recall (Unfiltered): 49.1586%
+Average Recall (Unfiltered): 49.1586%
+Index Time: 3.23088 seconds
+Total Query Time (ALL): 1.54952 seconds
+Average FGS Time (ALL): 0.00243593 seconds
+Average FGS Time (Filtered): 0.000363515 seconds
+Average FGS Time (Unfiltered): 0.00449188 seconds
+Program Runtime: 4.79395 seconds
+
+Run 3:
+Total Recall (ALL): 60.7296%
+Average Recall (ALL): 62.0824%
+Total Recall (Filtered): 72.0443%
+Average Recall (Filtered): 73.3334%
+Total Recall (Unfiltered): 50.9209%
+Average Recall (Unfiltered): 50.9209%
+Index Time: 3.19014 seconds
+Total Query Time (ALL): 1.60255 seconds
+Average FGS Time (ALL): 0.00251911 seconds
+Average FGS Time (Filtered): 0.00035067 seconds
+Average FGS Time (Unfiltered): 0.0046703 seconds
+Program Runtime: 4.81614 seconds
+
+Run 4:
+Total Recall (ALL): 54.9891%
+Average Recall (ALL): 56.2356%
+Total Recall (Filtered): 61.2178%
+Average Recall (Filtered): 62.9351%
+Total Recall (Unfiltered): 49.5894%
+Average Recall (Unfiltered): 49.5894%
+Index Time: 3.06492 seconds
+Total Query Time (ALL): 1.64489 seconds
+Average FGS Time (ALL): 0.00258694 seconds
+Average FGS Time (Filtered): 0.0003475 seconds
+Average FGS Time (Unfiltered): 0.00480857 seconds
+Program Runtime: 4.72704 seconds
+
+Run 5:
+Total Recall (ALL): 59.187%
+Average Recall (ALL): 61.1095%
+Total Recall (Filtered): 69.5727%
+Average Recall (Filtered): 72.1229%
+Total Recall (Unfiltered): 50.1836%
+Average Recall (Unfiltered): 50.1836%
+Index Time: 3.13408 seconds
+Total Query Time (ALL): 1.59379 seconds
+Average FGS Time (ALL): 0.00250527 seconds
+Average FGS Time (Filtered): 0.000361611 seconds
+Average FGS Time (Unfiltered): 0.00463188 seconds
+Program Runtime: 4.75186 seconds
+
+Average Results for Program 1:
+Average Total Recall (ALL): 58.9500400000 seconds
+Average Average Recall (ALL): 60.2327400000 seconds
+Average Total Recall (FILTERED): 69.0722000000 seconds
+Average Average Recall (FILTERED): 70.3710200000 seconds
+Average Total Recall (UNFILTERED): 50.1751200000 seconds
+Average Average Recall (UNFILTERED): 50.1751200000 seconds
+Average Index Time: 3.1473560000 seconds
+Average Total Query Time (ALL): 1.6114820000 seconds
+Average Average FGS Time (ALL): .0025334140 seconds
+Average Average FGS Time (FILTERED): .0003587474 seconds
+Average Average FGS Time (UNFILTERED): .0046907900 seconds
+Average Runtime: 4.7768780000 seconds
+
+Running Program 2/7: ./bin/parallel_filtered_main 100 110 96 1.0 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 96.5181%
+Average Recall (ALL): 96.7368%
+Total Recall (Filtered): 99.9023%
+Average Recall (Filtered): 99.9147%
+Total Recall (Unfiltered): 93.5843%
+Average Recall (Unfiltered): 93.5843%
+Index Time: 6.46432 seconds
+Total Query Time (ALL): 3.60858 seconds
+Average FGS Time (ALL): 0.00571135 seconds
+Average FGS Time (Filtered): 0.000736312 seconds
+Average FGS Time (Unfiltered): 0.0106468 seconds
+Program Runtime: 10.0918 seconds
+
+Run 2:
+Total Recall (ALL): 96.4874%
+Average Recall (ALL): 96.7081%
+Total Recall (Filtered): 99.8996%
+Average Recall (Filtered): 99.9123%
+Total Recall (Unfiltered): 93.5294%
+Average Recall (Unfiltered): 93.5294%
+Index Time: 6.46034 seconds
+Total Query Time (ALL): 3.60464 seconds
+Average FGS Time (ALL): 0.00570486 seconds
+Average FGS Time (Filtered): 0.000738049 seconds
+Average FGS Time (Unfiltered): 0.0106322 seconds
+Program Runtime: 10.0946 seconds
+
+Run 3:
+Total Recall (ALL): 96.4719%
+Average Recall (ALL): 96.6935%
+Total Recall (Filtered): 99.9156%
+Average Recall (Filtered): 99.9263%
+Total Recall (Unfiltered): 93.4865%
+Average Recall (Unfiltered): 93.4865%
+Index Time: 6.50018 seconds
+Total Query Time (ALL): 3.58663 seconds
+Average FGS Time (ALL): 0.00567818 seconds
+Average FGS Time (Filtered): 0.000740596 seconds
+Average FGS Time (Unfiltered): 0.0105765 seconds
+Program Runtime: 10.1091 seconds
+
+Run 4:
+Total Recall (ALL): 96.5502%
+Average Recall (ALL): 96.767%
+Total Recall (Filtered): 99.8978%
+Average Recall (Filtered): 99.9107%
+Total Recall (Unfiltered): 93.6483%
+Average Recall (Unfiltered): 93.6483%
+Index Time: 6.4599 seconds
+Total Query Time (ALL): 3.57963 seconds
+Average FGS Time (ALL): 0.00566825 seconds
+Average FGS Time (Filtered): 0.000732844 seconds
+Average FGS Time (Unfiltered): 0.0105644 seconds
+Program Runtime: 10.0702 seconds
+
+Run 5:
+Total Recall (ALL): 96.5562%
+Average Recall (ALL): 96.7725%
+Total Recall (Filtered): 99.8913%
+Average Recall (Filtered): 99.905%
+Total Recall (Unfiltered): 93.6649%
+Average Recall (Unfiltered): 93.6649%
+Index Time: 6.46166 seconds
+Total Query Time (ALL): 3.57921 seconds
+Average FGS Time (ALL): 0.0056639 seconds
+Average FGS Time (Filtered): 0.000741651 seconds
+Average FGS Time (Unfiltered): 0.010547 seconds
+Program Runtime: 10.0642 seconds
+
+Average Results for Program 2:
+Average Total Recall (ALL): 96.5167600000 seconds
+Average Average Recall (ALL): 96.7355800000 seconds
+Average Total Recall (FILTERED): 99.9013200000 seconds
+Average Average Recall (FILTERED): 99.9138000000 seconds
+Average Total Recall (UNFILTERED): 93.5826800000 seconds
+Average Average Recall (UNFILTERED): 93.5826800000 seconds
+Average Index Time: 6.4692800000 seconds
+Average Total Query Time (ALL): 3.5917380000 seconds
+Average Average FGS Time (ALL): .0056853080 seconds
+Average Average FGS Time (FILTERED): .0007378904 seconds
+Average Average FGS Time (UNFILTERED): .0105933800 seconds
+Average Runtime: 10.0859800000 seconds
+
+Running Program 3/7: ./bin/parallel_filtered_main 100 110 96 1.2 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.5521%
+Average Recall (ALL): 99.5802%
+Total Recall (Filtered): 99.9959%
+Average Recall (Filtered): 99.9964%
+Total Recall (Unfiltered): 99.1673%
+Average Recall (Unfiltered): 99.1673%
+Index Time: 45.6935 seconds
+Total Query Time (ALL): 7.65414 seconds
+Average FGS Time (ALL): 0.0121635 seconds
+Average FGS Time (Filtered): 0.0016716 seconds
+Average FGS Time (Unfiltered): 0.022572 seconds
+Program Runtime: 53.378 seconds
+
+Run 2:
+Total Recall (ALL): 99.5757%
+Average Recall (ALL): 99.6024%
+Total Recall (Filtered): 99.9954%
+Average Recall (Filtered): 99.996%
+Total Recall (Unfiltered): 99.2118%
+Average Recall (Unfiltered): 99.2118%
+Index Time: 45.4278 seconds
+Total Query Time (ALL): 7.65654 seconds
+Average FGS Time (ALL): 0.0121681 seconds
+Average FGS Time (Filtered): 0.00166129 seconds
+Average FGS Time (Unfiltered): 0.0225915 seconds
+Program Runtime: 53.1268 seconds
+
+Run 3:
+Total Recall (ALL): 99.5491%
+Average Recall (ALL): 99.5774%
+Total Recall (Filtered): 99.9963%
+Average Recall (Filtered): 99.9968%
+Total Recall (Unfiltered): 99.1614%
+Average Recall (Unfiltered): 99.1614%
+Index Time: 45.2557 seconds
+Total Query Time (ALL): 7.59301 seconds
+Average FGS Time (ALL): 0.0120603 seconds
+Average FGS Time (Filtered): 0.00162274 seconds
+Average FGS Time (Unfiltered): 0.0224149 seconds
+Program Runtime: 52.8791 seconds
+
+Run 4:
+Total Recall (ALL): 99.5759%
+Average Recall (ALL): 99.6026%
+Total Recall (Filtered): 99.9968%
+Average Recall (Filtered): 99.9972%
+Total Recall (Unfiltered): 99.2111%
+Average Recall (Unfiltered): 99.2111%
+Index Time: 43.5123 seconds
+Total Query Time (ALL): 7.66127 seconds
+Average FGS Time (ALL): 0.0121677 seconds
+Average FGS Time (Filtered): 0.00164272 seconds
+Average FGS Time (Unfiltered): 0.022609 seconds
+Program Runtime: 51.2109 seconds
+
+Run 5:
+Total Recall (ALL): 99.5593%
+Average Recall (ALL): 99.587%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.1785%
+Average Recall (Unfiltered): 99.1785%
+Index Time: 45.1944 seconds
+Total Query Time (ALL): 7.66743 seconds
+Average FGS Time (ALL): 0.0121898 seconds
+Average FGS Time (Filtered): 0.00164558 seconds
+Average FGS Time (Unfiltered): 0.0226503 seconds
+Program Runtime: 52.8997 seconds
+
+Average Results for Program 3:
+Average Total Recall (ALL): 99.5624200000 seconds
+Average Average Recall (ALL): 99.5899200000 seconds
+Average Total Recall (FILTERED): 99.9966000000 seconds
+Average Average Recall (FILTERED): 99.9970400000 seconds
+Average Total Recall (UNFILTERED): 99.1860200000 seconds
+Average Average Recall (UNFILTERED): 99.1860200000 seconds
+Average Index Time: 45.0167400000 seconds
+Average Total Query Time (ALL): 7.6464780000 seconds
+Average Average FGS Time (ALL): .0121498800 seconds
+Average Average FGS Time (FILTERED): .0016487860 seconds
+Average Average FGS Time (UNFILTERED): .0225675400 seconds
+Average Runtime: 52.6989000000 seconds
+
+Running Program 4/7: ./bin/parallel_filtered_main 100 110 96 1.4 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.7854%
+Average Recall (ALL): 99.7989%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6002%
+Average Recall (Unfiltered): 99.6002%
+Index Time: 573.661 seconds
+Total Query Time (ALL): 10.124 seconds
+Average FGS Time (ALL): 0.0160898 seconds
+Average FGS Time (Filtered): 0.00212586 seconds
+Average FGS Time (Unfiltered): 0.0299427 seconds
+Program Runtime: 583.846 seconds
+
+Run 2:
+Total Recall (ALL): 99.7854%
+Average Recall (ALL): 99.7989%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.6006%
+Average Recall (Unfiltered): 99.6006%
+Index Time: 666.56 seconds
+Total Query Time (ALL): 18.9798 seconds
+Average FGS Time (ALL): 0.0301776 seconds
+Average FGS Time (Filtered): 0.00399125 seconds
+Average FGS Time (Unfiltered): 0.0561559 seconds
+Program Runtime: 685.685 seconds
+
+Run 3:
+Total Recall (ALL): 99.7799%
+Average Recall (ALL): 99.7937%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.591%
+Average Recall (Unfiltered): 99.591%
+Index Time: 617.451 seconds
+Total Query Time (ALL): 12.2711 seconds
+Average FGS Time (ALL): 0.0195022 seconds
+Average FGS Time (Filtered): 0.00258124 seconds
+Average FGS Time (Unfiltered): 0.0362886 seconds
+Program Runtime: 629.804 seconds
+
+Run 4:
+Total Recall (ALL): 99.7907%
+Average Recall (ALL): 99.8039%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6101%
+Average Recall (Unfiltered): 99.6101%
+Index Time: 696.768 seconds
+Total Query Time (ALL): 10.0897 seconds
+Average FGS Time (ALL): 0.0160445 seconds
+Average FGS Time (Filtered): 0.00215198 seconds
+Average FGS Time (Unfiltered): 0.0298267 seconds
+Program Runtime: 706.908 seconds
+
+Run 5:
+Total Recall (ALL): 99.7867%
+Average Recall (ALL): 99.8001%
+Total Recall (Filtered): 99.9977%
+Average Recall (Filtered): 99.998%
+Total Recall (Unfiltered): 99.6037%
+Average Recall (Unfiltered): 99.6037%
+Index Time: 588.395 seconds
+Total Query Time (ALL): 10.1678 seconds
+Average FGS Time (ALL): 0.0161665 seconds
+Average FGS Time (Filtered): 0.00213986 seconds
+Average FGS Time (Unfiltered): 0.0300816 seconds
+Program Runtime: 598.621 seconds
+
+Average Results for Program 4:
+Average Total Recall (ALL): 99.7856200000 seconds
+Average Average Recall (ALL): 99.7991000000 seconds
+Average Total Recall (FILTERED): 99.9984400000 seconds
+Average Average Recall (FILTERED): 99.9986400000 seconds
+Average Total Recall (UNFILTERED): 99.6011200000 seconds
+Average Average Recall (UNFILTERED): 99.6011200000 seconds
+Average Index Time: 628.5670000000 seconds
+Average Total Query Time (ALL): 12.3264800000 seconds
+Average Average FGS Time (ALL): .0195961200 seconds
+Average Average FGS Time (FILTERED): .0025980380 seconds
+Average Average FGS Time (UNFILTERED): .0364591000 seconds
+Average Runtime: 640.9728000000 seconds
+
+Running Program 5/7: ./bin/parallel_filtered_main 100 110 96 1.6 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.8178%
+Average Recall (ALL): 99.8292%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.661%
+Average Recall (Unfiltered): 99.661%
+Index Time: 809.359 seconds
+Total Query Time (ALL): 10.4717 seconds
+Average FGS Time (ALL): 0.0166539 seconds
+Average FGS Time (Filtered): 0.00217163 seconds
+Average FGS Time (Unfiltered): 0.0310211 seconds
+Program Runtime: 819.888 seconds
+
+Run 2:
+Total Recall (ALL): 99.811%
+Average Recall (ALL): 99.8228%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.6487%
+Average Recall (Unfiltered): 99.6487%
+Index Time: 821.25 seconds
+Total Query Time (ALL): 10.458 seconds
+Average FGS Time (ALL): 0.016616 seconds
+Average FGS Time (Filtered): 0.00216841 seconds
+Average FGS Time (Unfiltered): 0.0309487 seconds
+Program Runtime: 831.773 seconds
+
+Run 3:
+Total Recall (ALL): 99.8099%
+Average Recall (ALL): 99.8218%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.6467%
+Average Recall (Unfiltered): 99.6467%
+Index Time: 809.258 seconds
+Total Query Time (ALL): 10.465 seconds
+Average FGS Time (ALL): 0.0166305 seconds
+Average FGS Time (Filtered): 0.00216104 seconds
+Average FGS Time (Unfiltered): 0.0309849 seconds
+Program Runtime: 819.782 seconds
+
+Run 4:
+Total Recall (ALL): 99.8118%
+Average Recall (ALL): 99.8236%
+Total Recall (Filtered): 99.9982%
+Average Recall (Filtered): 99.9984%
+Total Recall (Unfiltered): 99.6502%
+Average Recall (Unfiltered): 99.6502%
+Index Time: 828.842 seconds
+Total Query Time (ALL): 10.5069 seconds
+Average FGS Time (ALL): 0.0167055 seconds
+Average FGS Time (Filtered): 0.00216926 seconds
+Average FGS Time (Unfiltered): 0.0311261 seconds
+Program Runtime: 839.406 seconds
+
+Run 5:
+Total Recall (ALL): 99.811%
+Average Recall (ALL): 99.8228%
+Total Recall (Filtered): 99.9986%
+Average Recall (Filtered): 99.9988%
+Total Recall (Unfiltered): 99.6483%
+Average Recall (Unfiltered): 99.6483%
+Index Time: 817.535 seconds
+Total Query Time (ALL): 11.4877 seconds
+Average FGS Time (ALL): 0.0182624 seconds
+Average FGS Time (Filtered): 0.0023723 seconds
+Average FGS Time (Unfiltered): 0.0340262 seconds
+Program Runtime: 829.098 seconds
+
+Average Results for Program 5:
+Average Total Recall (ALL): 99.8123000000 seconds
+Average Average Recall (ALL): 99.8240400000 seconds
+Average Total Recall (FILTERED): 99.9983600000 seconds
+Average Average Recall (FILTERED): 99.9985600000 seconds
+Average Total Recall (UNFILTERED): 99.6509800000 seconds
+Average Average Recall (UNFILTERED): 99.6509800000 seconds
+Average Index Time: 817.2488000000 seconds
+Average Total Query Time (ALL): 10.6778600000 seconds
+Average Average FGS Time (ALL): .0169736600 seconds
+Average Average FGS Time (FILTERED): .0022085280 seconds
+Average Average FGS Time (UNFILTERED): .0316214000 seconds
+Average Runtime: 827.9894000000 seconds
+
+Running Program 6/7: ./bin/parallel_filtered_main 100 110 96 1.8 55 ./datasets/smallscale/dummy-data.bin ./datasets/smallscale/dummy-queries.bin ./datasets/smallscale/gt_k=100.bin
+Run 1:
+Total Recall (ALL): 99.8001%
+Average Recall (ALL): 99.8127%
+Total Recall (Filtered): 99.9991%
+Average Recall (Filtered): 99.9992%
+Total Recall (Unfiltered): 99.6276%
+Average Recall (Unfiltered): 99.6276%
+Index Time: 858.815 seconds
+Total Query Time (ALL): 10.4674 seconds
+Average FGS Time (ALL): 0.0166516 seconds
+Average FGS Time (Filtered): 0.00216953 seconds
+Average FGS Time (Unfiltered): 0.0310185 seconds
+Program Runtime: 869.33 seconds
+
+Run 2:
+Total Recall (ALL): 99.8086%
+Average Recall (ALL): 99.8206%
+Total Recall (Filtered): 99.9972%
+Average Recall (Filtered): 99.9976%
+Total Recall (Unfiltered): 99.6451%
+Average Recall (Unfiltered): 99.6451%
+Index Time: 842.396 seconds
+Total Query Time (ALL): 10.4756 seconds
+Average FGS Time (ALL): 0.0166567 seconds
+Average FGS Time (Filtered): 0.00214293 seconds
+Average FGS Time (Unfiltered): 0.0310551 seconds
+Program Runtime: 852.934 seconds
+
