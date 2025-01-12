@@ -40,7 +40,7 @@ int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
         actual_coords.push_back(node->getCoordinates());
     }
 
-    generate_graph_parallel(graph, coords, R);
+    generate_graph(graph, coords, R);
 
     int medoidNodeId = findMedoid(actual_coords);
     // int medoidNodeId = parallel_findMedoid(actual_coords);
