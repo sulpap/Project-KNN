@@ -263,7 +263,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_1_finish=$(date +%s)
-test_1_time_diff=$(echo "$test_1_finish-test_1_start" | bc)
+test_1_time_diff=$(echo "$test_1_finish-$test_1_start" | bc)
 echo "Test 1 took $test_1_time_diff seconds."
 echo
 
@@ -529,7 +529,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_2_finish=$(date +%s)
-test_2_time_diff=$(echo "$test_2_finish-test_2_start" | bc)
+test_2_time_diff=$(echo "$test_2_finish-$test_2_start" | bc)
 echo "Test 2 took $test_2_time_diff seconds."
 echo
 
@@ -790,7 +790,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_3_finish=$(date +%s)
-test_3_time_diff=$(echo "$test_3_finish-test_3_start" | bc)
+test_3_time_diff=$(echo "$test_3_finish-$test_3_start" | bc)
 echo "Test 3 took $test_3_time_diff seconds."
 echo
 
@@ -1051,7 +1051,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_4_finish=$(date +%s)
-test_4_time_diff=$(echo "$test_4_finish-test_4_start" | bc)
+test_4_time_diff=$(echo "$test_4_finish-$test_4_start" | bc)
 echo "Test 4 took $test_4_time_diff seconds."
 echo
 
@@ -1316,7 +1316,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_5_finish=$(date +%s)
-test_5_time_diff=$(echo "$test_5_finish-test_5_start" | bc)
+test_5_time_diff=$(echo "$test_5_finish-$test_5_start" | bc)
 echo "Test 5 took $test_5_time_diff seconds."
 echo
 
@@ -1580,7 +1580,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_6_finish=$(date +%s)
-test_6_time_diff=$(echo "$test_6_finish-test_6_start" | bc)
+test_6_time_diff=$(echo "$test_6_finish-$test_6_start" | bc)
 echo "Test 6 took $test_6_time_diff seconds."
 echo
 
@@ -1845,7 +1845,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_7_finish=$(date +%s)
-test_7_time_diff=$(echo "$test_7_finish-test_7_start" | bc)
+test_7_time_diff=$(echo "$test_7_finish-$test_7_start" | bc)
 echo "Test 7 took $test_7_time_diff seconds."
 echo
 
@@ -2111,7 +2111,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_8_finish=$(date +%s)
-test_8_time_diff=$(echo "$test_8_finish-test_8_start" | bc)
+test_8_time_diff=$(echo "$test_8_finish-$test_8_start" | bc)
 echo "Test 8 took $test_8_time_diff seconds."
 echo
 
@@ -2376,7 +2376,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_9_finish=$(date +%s)
-test_9_time_diff=$(echo "$test_9_finish-test_9_start" | bc)
+test_9_time_diff=$(echo "$test_9_finish-$test_9_start" | bc)
 echo "Test 9 took $test_9_time_diff seconds."
 echo
 
@@ -2640,7 +2640,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_10_finish=$(date +%s)
-test_10_time_diff=$(echo "$test_10_finish-test_10_start" | bc)
+test_10_time_diff=$(echo "$test_10_finish-$test_10_start" | bc)
 echo "Test 10 took $test_10_time_diff seconds."
 echo
 
@@ -2905,7 +2905,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_11_finish=$(date +%s)
-test_11_time_diff=$(echo "$test_11_finish-test_11_start" | bc)
+test_11_time_diff=$(echo "$test_11_finish-$test_11_start" | bc)
 echo "Test 11 took $test_11_time_diff seconds."
 echo
 
@@ -3170,7 +3170,7 @@ done
 echo >> "$RESULTS_FILE"
 echo >> "$RESULTS_FILE"
 test_12_finish=$(date +%s)
-test_12_time_diff=$(echo "$test_12_finish-test_12_start" | bc)
+test_12_time_diff=$(echo "$test_12_finish-$test_12_start" | bc)
 echo "Test 12 took $test_12_time_diff seconds."
 echo
 
