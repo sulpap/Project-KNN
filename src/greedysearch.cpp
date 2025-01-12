@@ -109,3 +109,66 @@ void GreedySearch(Node* start_node, vector<double> &queryCoords, int k, int L, s
 
     return;
 }
+
+void GreedySearchIndex(Node* start_node, Node* query_node, int k, int L, set<Node*> &L_set, set<Node*> &V_set, unordered_map<pair<Node*, Node*>, double, PairHash>& nodePairMap) {
+
+    // All the elements in a set have unique values
+    // by default set is sorted in ascending order
+    assert(L_set.empty() == true);      // given L_set should be empty
+    assert(V_set.empty() == true);      // given V_set should be empty
+    assert(L >= k);
+    assert(start_node != NULL);
+    assert(query_node->getCoordinates().size() > 0);
+
+    unordered_map<Node*, double> nodeMap;           // Main storage
+    set<pair<double, Node*>, Compare> sortedSet;    // Secondary sorted viewm of main storage
+    set<pair<double, Node*>, Compare> LminusV;
+
+
+    // Create an order-independent key
+    pair<Node*, Node*> key = {min(start_node, query_node), max(start_node, query_node)};        // The hash and key use min and max to ensure that {node1, node2} is treated the same as {node2, node1}. This eliminates the need to insert the symmetric pair manually.
+    assert(nodePairMap.find(key) != nodePairMap.end());     // assert if key doesn't exist
+    double dist = nodePairMap[key];                         // already precomputed!  
+    insert(nodeMap, sortedSet, start_node, dist, L);                            // Initialization of L_set
+    // V_set is empty
+
+    // L\V = {start} \ {} = {start}
+    LminusV.emplace(dist, start_node);                            // Inserts a new pair in the set, if unique. This new pair is constructed in place using args as the arguments for its construction.
+
+    while(LminusV.empty() == false) {       // while LminusV != {}        
+
+        auto first_pair = *LminusV.begin();                     // LminusV is sorted based on distance in descending order. Therefore, first element of LminusV is the min we are looking for
+        Node* p_star = first_pair.second;                       // The 'Node*'        
+
+        // Update V_set [V = V U p*]
+        V_set.insert(p_star);                                   // if p_star is already in V_set, p_set won't be inserted in V
+
+        
+        // Update L_set [ L = L U Nout(p*) ]
+        list<Node*> p_star_out = p_star->getEdges();            // out-neighbors of p*
+        for(auto node : p_star_out) {                           // Insert all of out-neighbors of p* into L set
+
+            pair<Node*, Node*> key = {min(node, query_node), max(node, query_node)};        // Create an order-independent key
+            assert(nodePairMap.find(key) != nodePairMap.end());                             // assert if key doesn't exist
+            double dist = nodePairMap[key];                 // already precomputed!
+            insert(nodeMap, sortedSet, node, dist, L);
+        }
+
+        // Update of L to retain top L elements of vector happens immediately whenever we insert an element in "L set"
+
+        LminusV = set_difference(sortedSet, V_set);
+    }
+
+    // We update L to retain top k elements of vector
+    int my_k = k;
+    if(static_cast<int>(sortedSet.size()) < k) {
+        my_k = sortedSet.size();
+    }
+
+    int i = 0;
+    for (auto it = sortedSet.begin(); i < my_k; ++it, ++i) {
+        L_set.insert(it->second);  // `it->second` is the node
+    }
+
+    return;
+}
