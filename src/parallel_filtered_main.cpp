@@ -4,6 +4,7 @@
 #include "../include/graph_binary_io.hpp"
 #include "../include/filteredVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
+#include "../include/filteredVamanaParallelDistances.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
@@ -283,9 +284,9 @@ int main(int argc, char* argv[]) {
     map<int, Node *> st_f;
 
     if (argc != 6) {
-        cout << "\nCalling FilteredVamana..." << endl;
+        cout << "\nCalling FilteredVamanaParallelDistances..." << endl;
         start = chrono::high_resolution_clock::now();
-        graph = filteredVamana(base, a, L, R, set_F, t, st_f);
+        graph = filteredVamanaParallelDistances(base, a, L, R, set_F, t, st_f);
         end = chrono::high_resolution_clock::now();
         filtered_vamana_duration = end - start;
         cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
