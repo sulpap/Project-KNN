@@ -1,4 +1,4 @@
-#include "../include/vamana.hpp"
+#include "../include/vamana_medoid_subset.hpp"
 #include "../include/greedysearch.hpp"
 #include "../include/robustprune.hpp"
 #include "../include/generate_graph.hpp"
@@ -32,7 +32,7 @@
 //     return medoidIndex;
 // }
 
-int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
+int Vamana_Medoid_Subset(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 {
     vector<vector<double>> actual_coords;
 
@@ -42,7 +42,7 @@ int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 
     generate_graph(graph, coords, R);
 
-    int medoidNodeId = findMedoid(actual_coords);
+    int medoidNodeId = findMedoidInSubset(actual_coords, actual_coords.size() / 8);
 
     Node *medoid = graph.getNode(coords[medoidNodeId]->getId());
 

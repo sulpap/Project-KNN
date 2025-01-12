@@ -1,4 +1,4 @@
-#include "../include/vamana.hpp"
+#include "../include/vamana_medoid_parallel_2.hpp"
 #include "../include/greedysearch.hpp"
 #include "../include/robustprune.hpp"
 #include "../include/generate_graph.hpp"
@@ -32,7 +32,7 @@
 //     return medoidIndex;
 // }
 
-int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
+int Vamana_Medoid_Parallel_2(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 {
     vector<vector<double>> actual_coords;
 
@@ -42,7 +42,7 @@ int Vamana(Graph &graph, vector<Node *> &coords, int R, double a, int int_L)
 
     generate_graph(graph, coords, R);
 
-    int medoidNodeId = findMedoid(actual_coords);
+    int medoidNodeId = parallel_2_findMedoid(actual_coords);
 
     Node *medoid = graph.getNode(coords[medoidNodeId]->getId());
 

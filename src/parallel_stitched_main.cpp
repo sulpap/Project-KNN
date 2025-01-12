@@ -2,9 +2,8 @@
 #include "../include/utility.hpp"
 #include "../include/bin_read.hpp"
 #include "../include/graph_binary_io.hpp"
-#include "../include/filteredVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
-#include "../include/stitchedVamanaParallel.hpp"
+#include "../include/stitchedVamana.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
@@ -92,6 +91,7 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> average_query_greedy_duration;
     chrono::duration<double> average_filtered_query_greedy_duration;
     chrono::duration<double> average_unfiltered_query_greedy_duration;
+    chrono::duration<double> total_query_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_filtered_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_unfiltered_query_greedy_duration = chrono::duration<double>::zero();
@@ -284,9 +284,9 @@ int main(int argc, char* argv[]) {
     map<int, Node *> st_f;
 
     if (argc != 6) {
-        cout << "\nCalling StitchedVamanaParallel..." << endl;
+        cout << "\nCalling StitchedVamana..." << endl;
         start = chrono::high_resolution_clock::now();
-        graph = stitchedVamanaParallel(base, set_F, a, L, R, R_stitched, st_f);
+        graph = stitchedVamana(base, set_F, a, L, R, R_stitched, st_f);
         end = chrono::high_resolution_clock::now();
         stitched_vamana_duration = end - start;
         cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
@@ -353,6 +353,8 @@ int main(int argc, char* argv[]) {
     double total_unfiltered_query_greedy_duration_accum = 0.0;
     double total_filtered_query_greedy_duration_accum = 0.0;
 
+    auto total_query_duration_start = chrono::high_resolution_clock::now();
+
     #pragma omp parallel for num_threads(THREADS_NUM) schedule(dynamic) \
         reduction(+:totalFound, totalK, totalPercent, \
                 totalFilteredFound, totalFilteredK, totalFilteredPercent, \
@@ -395,12 +397,6 @@ int main(int argc, char* argv[]) {
             F_q_set.insert(query_F);
         }
 
-        // Ensure only one thread writes to std::cout at a time
-        #pragma omp critical
-        {
-            std::cout << "\rCalculating Query " << (i + 1) << "/" << queries_size << std::flush;
-        }
-
         auto start = chrono::high_resolution_clock::now();
         FilteredGreedySearch(S_set, query_coords, local_k, L, L_set, V_set, F_q_set);
         auto end = chrono::high_resolution_clock::now();
@@ -439,6 +435,10 @@ int main(int argc, char* argv[]) {
             totalFilteredQueriesSize++;
         }
     }
+
+    auto total_query_duration_end = chrono::high_resolution_clock::now();
+
+    total_query_duration = total_query_duration_end - total_query_duration_start;
 
     // Convert accumulated double durations back to chrono::duration
     total_query_greedy_duration = chrono::duration<double>(total_query_greedy_duration_accum);
@@ -510,9 +510,7 @@ int main(int argc, char* argv[]) {
         cout << "\t- Graph loading time: " << load_graph_duration.count() << " seconds.\n";
         cout << "\t- Map loading time: " << load_map_duration.count() << " seconds.\n";
     }
-    cout << "\t- Total time FilteredGreadySearch calculation took for ALL queries: " << total_query_greedy_duration.count() << " seconds.\n";
-    cout << "\t- Total time FilteredGreadySearch calculation took for FILTERED queries: " << total_filtered_query_greedy_duration.count() << " seconds.\n";
-    cout << "\t- Total time FilteredGreadySearch calculation took for UNFILTERED queries (with the calculation of their starting nodes): " << total_unfiltered_query_greedy_duration.count() << " seconds.\n";
+    cout << "\t- Total time Query calculation took for ALL queries: " << total_query_duration.count() << " seconds.\n";
     cout << "\t- Average time FilteredGreadySearch took for ALL queries: " << average_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Average time FilteredGreadySearch took for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Average time FilteredGreadySearch took for UNFILTERED queries (with the calculation of their starting nodes): " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;

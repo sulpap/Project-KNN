@@ -2,8 +2,8 @@
 #include "../include/utility.hpp"
 #include "../include/bin_read.hpp"
 #include "../include/graph_binary_io.hpp"
-#include "../include/filteredVamana.hpp"
 #include "../include/filteredGreedySearch.hpp"
+#include "../include/stitchedVamanaParallel.hpp"
 #include <cassert>
 #include <algorithm>        // due to use of find()
 #include <iostream>
@@ -69,23 +69,23 @@ int main(int argc, char* argv[]) {
     auto end = chrono::high_resolution_clock::now();
 
     if (argc != 9 && argc != 6 && argc != 2) {
-        cout << "Usage_1: " << argv[0] << " <k> <L> <R> <a> <t> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
+        cout << "Usage_1: " << argv[0] << " <k> <L> <R> <a> <R_stitched> <base_file_path> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Usage_2: " << argv[0] << " <k> <graph_filename> <map_filename> <queries_file_path> <groundtruth_file_path> " << endl;
         cout << "Usage_3: " << argv[0] << " <input_file>" << endl;
         cout << "Note: k must be an int\n";
         cout << "      L must be an int\n";
         cout << "      R must be an int\n";
         cout << "      a must be a double\n";
-        cout << "      t must be an int\n";
+        cout << "      R_stitched must be an int\n";
         cout << "      graph_filename and map_filename must be the names of the files, not the paths\n";
-        cout << "      input_file must be a .txt file with a specific structure like filtered_config.txt" << endl;
+        cout << "      input_file must be a .txt file with a specific structure like stitched_config.txt" << endl;
         return 1;
     }
 
     chrono::duration<double> base_f_duration;
     chrono::duration<double> query_f_duration;
     chrono::duration<double> ground_truth_duration;
-    chrono::duration<double> filtered_vamana_duration = chrono::duration<double>::zero();
+    chrono::duration<double> stitched_vamana_duration = chrono::duration<double>::zero();
     chrono::duration<double> load_graph_duration;
     chrono::duration<double> load_map_duration;
     chrono::duration<double> average_query_greedy_duration;
@@ -95,11 +95,11 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> total_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_filtered_query_greedy_duration = chrono::duration<double>::zero();
     chrono::duration<double> total_unfiltered_query_greedy_duration = chrono::duration<double>::zero();
-
+    
     int k = 0;
     int L = 0;
     int R = 0;
-    int t = 0;
+    int R_stitched = 0;
     double a = 0.0;
     const char* base_filename = nullptr;
     const char* query_filename = nullptr;
@@ -164,7 +164,7 @@ int main(int argc, char* argv[]) {
             L = stoi(params.at("L"));
             R = stoi(params.at("R"));
             a = stod(params.at("a"));
-            t = stoi(params.at("t"));
+            R_stitched = stoi(params.at("R_stitched"));
 
             strncpy(tmp_new_base_filename, tmp_base_filename, base_filename_len + 1);
             tmp_new_base_filename[base_filename_len] = '\0';
@@ -198,7 +198,7 @@ int main(int argc, char* argv[]) {
         L = stoi(argv[2]);
         R = stoi(argv[3]);
         a = stod(argv[4]);
-        t = stoi(argv[5]);
+        R_stitched = stoi(argv[5]);
         base_filename = argv[6];
         query_filename = argv[7];
         groundtruth_filename = argv[8];
@@ -210,7 +210,7 @@ int main(int argc, char* argv[]) {
         cout << "\t- L: " << L << "\n";
         cout << "\t- R: " << R << "\n";
         cout << "\t- a: " << a << "\n";
-        cout << "\t- t: " << t << "\n";
+        cout << "\t- R_stitched: " << R_stitched << "\n";
         cout << "\t- Base file: " << base_filename << "\n";
     } else {
         cout << "\t- Graph file: " << graph_filename << "\n";
@@ -284,12 +284,12 @@ int main(int argc, char* argv[]) {
     map<int, Node *> st_f;
 
     if (argc != 6) {
-        cout << "\nCalling FilteredVamana..." << endl;
+        cout << "\nCalling StitchedVamanaParallel..." << endl;
         start = chrono::high_resolution_clock::now();
-        graph = filteredVamana(base, a, L, R, set_F, t, st_f);
+        graph = stitchedVamanaParallel(base, set_F, a, L, R, R_stitched, st_f);
         end = chrono::high_resolution_clock::now();
-        filtered_vamana_duration = end - start;
-        cout << "FilteredVamana took " << filtered_vamana_duration.count() << " seconds.\n" << endl;
+        stitched_vamana_duration = end - start;
+        cout << "StitchedVamana took " << stitched_vamana_duration.count() << " seconds.\n" << endl;
     } else {
         // find L from filename
         L = -1; // Default value in case L is not found
@@ -451,7 +451,7 @@ int main(int argc, char* argv[]) {
         cout << "\t- L: " << L << "\n";
         cout << "\t- R: " << R << "\n";
         cout << "\t- a: " << a << "\n";
-        cout << "\t- t: " << t << "\n";
+        cout << "\t- R_stitched: " << R_stitched << "\n";
         cout << "\t- Base file: " << base_filename << "\n";
     } else {
         cout << "\t- Graph file: " << graph_filename << "\n";
@@ -505,7 +505,7 @@ int main(int argc, char* argv[]) {
     cout << "\t- Query dataset load time: " << query_f_duration.count() << " seconds.\n";
     cout << "\t- Groundtruth dataset load time: " << ground_truth_duration.count() << " seconds.\n";
     if (argc != 6) {
-        cout << "\t- Index build time (FilteredVamana): " << filtered_vamana_duration.count() << " seconds or " << filtered_vamana_duration.count() / 60 << " minutes.\n";
+        cout << "\t- Index build time (StitchedVamana): " << stitched_vamana_duration.count() << " seconds or " << stitched_vamana_duration.count() / 60 << " minutes.\n";
     } else {
         cout << "\t- Graph loading time: " << load_graph_duration.count() << " seconds.\n";
         cout << "\t- Map loading time: " << load_map_duration.count() << " seconds.\n";
@@ -515,7 +515,6 @@ int main(int argc, char* argv[]) {
     cout << "\t- Average time FilteredGreadySearch took for FILTERED queries: " << average_filtered_query_greedy_duration.count() << " seconds.\n";
     cout << "\t- Average time FilteredGreadySearch took for UNFILTERED queries (with the calculation of their starting nodes): " << average_unfiltered_query_greedy_duration.count() << " seconds.\n" << endl;
     
-    
     // 7. Clean up
     cout << "Cleaning...\n" << endl;
     graph.clear();      // once done
@@ -524,7 +523,7 @@ int main(int argc, char* argv[]) {
     chrono::duration<double> total_duration = total_end - total_start;
     cout << "\nProgram ran for " << total_duration.count() << " seconds or " << total_duration.count() / 60 << " minutes.\n" << endl;
 
-    cout << "Bye from filtered_main!" << endl;
+    cout << "Bye from stitched_main!" << endl;
 
     return 0;
 }
